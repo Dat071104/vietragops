@@ -5,8 +5,9 @@ from fastapi import FastAPI
 from app.api import routes_agent, routes_documents, routes_eval, routes_health, routes_query, routes_retrieval
 from app.core.errors import AppError, app_error_handler, generic_error_handler
 from app.core.logging import setup_logging
+from dotenv import load_dotenv
 
-
+load_dotenv()
 setup_logging()
 
 app = FastAPI(title="VietRAGOps API", version="0.1.0")
