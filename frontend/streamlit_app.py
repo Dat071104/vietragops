@@ -543,7 +543,7 @@ def api_get(base_url: str, path: str) -> dict | list:
 
 
 def api_post(base_url: str, path: str, payload: dict) -> dict:
-    response = requests.post(f"{base_url.rstrip('/')}{path}", json=payload, timeout=30)
+    response = requests.post(f"{base_url.rstrip('/')}{path}", json=payload, timeout=120)
     response.raise_for_status()
     return response.json()
 
