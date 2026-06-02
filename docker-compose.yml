@@ -1,0 +1,56 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command:
+      - uvicorn
+      - app.main:app
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8000"
+    environment:
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      GROQ_MODEL: ${GROQ_MODEL:-llama-3.3-70b-versatile}
+      PYTHONPATH: /app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - qdrant
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command:
+      - streamlit
+      - run
+      - frontend/streamlit_app.py
+      - --server.address
+      - 0.0.0.0
+      - --server.port
+      - "8501"
+    environment:
+      VIETRAGOPS_API_BASE_URL: http://api:8000
+      PYTHONPATH: /app
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api
+
+  qdrant:
+    image: qdrant/qdrant:v1.11.0
+    ports:
+      - "6333:6333"
+
+  postgres:
+    image: postgres:16-alpine
+    profiles:
+      - optional
+    environment:
+      POSTGRES_DB: vietragops
+      POSTGRES_USER: vietragops
+      POSTGRES_PASSWORD: vietragops
+    ports:
+      - "5432:5432"

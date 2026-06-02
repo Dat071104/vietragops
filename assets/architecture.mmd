@@ -1,0 +1,34 @@
+flowchart TD
+    A[Public TDTU documents] --> B[Raw files and manifest]
+    B --> C[Parsing and normalization]
+    C --> D[Section-aware chunking]
+    D --> E[Chunk stores 300 / 500 / 800]
+
+    E --> F1[BM25 retriever]
+    E --> F2[Dense fallback retriever]
+    F1 --> G[Hybrid RRF retriever]
+    F2 --> G
+    G --> H[Optional advanced reranker and source-priority layer]
+    G --> I[Context builder]
+    H --> I
+
+    I --> J[Prompt builder]
+    J --> K[Answer generator]
+    K --> L[Groq client optional]
+    K --> M[Deterministic fallback]
+    K --> N[Citation verifier]
+    K --> O[Guardrails]
+
+    N --> P[Grounded answer JSON]
+    O --> P
+
+    E --> Q[Retrieval and generation evals]
+    P --> Q
+
+    P --> R[FastAPI backend]
+    Q --> R
+    R --> S[Streamlit demo]
+
+    T[Optional Qdrant] -.-> F2
+    U[Docker / Compose / CI] -.-> R
+    U -.-> S
