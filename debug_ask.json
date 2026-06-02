@@ -1,0 +1,118 @@
+{
+  "answer": "Theo ngữ cảnh đã truy xuất, Cấu trúc email: MSSV@student.tdtu.edu.vn.",
+  "citations": [
+    {
+      "doc_id": "ug_student_email_guide",
+      "chunk_id": "ug_student_email_guide_s001_c001",
+      "source_url": "https://undergrad.tdtu.edu.vn/huong-dan/email-sinh-vien-tdtu",
+      "heading_path": [
+        "Email sinh viên TDTU",
+        "Email sinh viên TDTU"
+      ],
+      "quoted_evidence": "Cấu trúc email: MSSV@student.tdtu.edu.vn"
+    }
+  ],
+  "confidence": 0.95,
+  "refusal": false,
+  "refusal_reason": null,
+  "retrieval_debug": {
+    "retriever": "advanced_hybrid",
+    "backend": "advanced(rrf(offline_bm25+sparse_semantic_fallback)+lexical_fallback+authority=False+recency=False)",
+    "top_k": 5,
+    "candidate_count": 62,
+    "chunk_ids": [
+      "ug_student_email_guide_s001_c001",
+      "ug_student_notes_s001_c003",
+      "ug_student_notes_s001_c002",
+      "ug_student_life_s001_c001",
+      "ug_student_portal_guide_s001_c001"
+    ],
+    "scores": [
+      {
+        "chunk_id": "ug_student_email_guide_s001_c001",
+        "score": 1.0,
+        "component_scores": {
+          "final_score": 1.0,
+          "rerank_score": 1.0,
+          "hybrid_score": 1.0,
+          "source_authority_score": 0.0,
+          "recency_score": 0.0,
+          "bm25_score": 18.474757,
+          "dense_score": 0.197195
+        },
+        "lexical_score": 1.0,
+        "bigram_overlap": 0.714286,
+        "quality_score": 0.943925,
+        "support_score": 0.907785
+      },
+      {
+        "chunk_id": "ug_student_notes_s001_c003",
+        "score": 0.806701,
+        "component_scores": {
+          "final_score": 0.806701,
+          "rerank_score": 0.807114,
+          "hybrid_score": 0.805048,
+          "source_authority_score": 0.0,
+          "recency_score": 0.0,
+          "bm25_score": 17.038585,
+          "dense_score": 0.127504
+        },
+        "lexical_score": 0.852034,
+        "bigram_overlap": 0.428571,
+        "quality_score": 0.968872,
+        "support_score": 0.803538
+      },
+      {
+        "chunk_id": "ug_student_notes_s001_c002",
+        "score": 0.799138,
+        "component_scores": {
+          "final_score": 0.799138,
+          "rerank_score": 0.801957,
+          "hybrid_score": 0.787858,
+          "source_authority_score": 0.0,
+          "recency_score": 0.0,
+          "bm25_score": 15.233585,
+          "dense_score": 0.107319
+        },
+        "lexical_score": 0.852034,
+        "bigram_overlap": 0.428571,
+        "quality_score": 0.973046,
+        "support_score": 0.802236
+      },
+      {
+        "chunk_id": "ug_student_life_s001_c001",
+        "score": 0.700254,
+        "component_scores": {
+          "final_score": 0.700254,
+          "rerank_score": 0.693301,
+          "hybrid_score": 0.728067,
+          "source_authority_score": 0.0,
+          "recency_score": 0.0,
+          "bm25_score": 12.560843,
+          "dense_score": 0.070754
+        },
+        "lexical_score": 0.752158,
+        "bigram_overlap": 0.285714,
+        "quality_score": 0.995485,
+        "support_score": 0.70336
+      },
+      {
+        "chunk_id": "ug_student_portal_guide_s001_c001",
+        "score": 0.691555,
+        "component_scores": {
+          "final_score": 0.691555,
+          "rerank_score": 0.673115,
+          "hybrid_score": 0.765316,
+          "source_authority_score": 0.0,
+          "recency_score": 0.0,
+          "bm25_score": 13.985294,
+          "dense_score": 0.088928
+        },
+        "lexical_score": 0.717633,
+        "bigram_overlap": 0.285714,
+        "quality_score": 0.983471,
+        "support_score": 0.695526
+      }
+    ]
+  }
+}
