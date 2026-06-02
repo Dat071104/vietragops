@@ -58,3 +58,22 @@ def get_answer_generator() -> AnswerGenerator:
         context_builder=get_context_builder(),
         provider_router=get_provider_router(),
     )
+
+
+@lru_cache
+def get_agent_provider_router() -> ProviderRouter:
+    settings = get_settings()
+    return ProviderRouter(
+        provider="ollama",
+        ollama_base_url=settings.ollama_base_url,
+        ollama_model=settings.ollama_model,
+        ollama_num_ctx=settings.ollama_num_ctx,
+    )
+
+
+@lru_cache
+def get_agent_answer_generator() -> AnswerGenerator:
+    return AnswerGenerator(
+        context_builder=get_context_builder(),
+        provider_router=get_agent_provider_router(),
+    )

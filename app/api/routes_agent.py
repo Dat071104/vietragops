@@ -7,7 +7,7 @@ from typing import Any
 
 from fastapi import APIRouter
 
-from app.core.config import get_answer_generator, get_context_builder, get_provider_router
+from app.core.config import get_agent_answer_generator, get_context_builder, get_agent_provider_router
 from app.schemas.query import AgentAskRequest, AgentAskResponse, AgentToolCall, Citation, RetrieveResult
 from rag.retrieval.base import normalize_text
 
@@ -230,8 +230,8 @@ def _derive_fallback_reason(
 def run_agent_query(payload: AgentAskRequest) -> AgentAskResponse:
     started = perf_counter()
     effective_top_k = min(payload.top_k, 5)
-    answer_generator = get_answer_generator()
-    provider_router = get_provider_router()
+    answer_generator = get_agent_answer_generator()
+    provider_router = get_agent_provider_router()
     provider_status = provider_router.status()
 
     tool_request_messages = [
