@@ -58,3 +58,37 @@ def test_answer_generator_refuses_private_data_request():
 
     assert response["refusal"] is True
     assert response["citations"] == []
+
+
+def test_answer_generator_email_evidence_trim_keeps_login_phrases():
+    generator = AnswerGenerator(
+        context_builder=ContextBuilder(make_store()),
+        groq_client=StubGroqClient(),
+    )
+    evidence = [
+        {
+            "chunk_id": "email_format_chunk",
+            "doc_id": "email_doc",
+            "source_url": "https://example.edu/email",
+            "heading_path": ["Email sinh viên"],
+            "text": "Cấu trúc email sinh viên TDTU: MSSV@student.tdtu.edu.vn.",
+        },
+        {
+            "chunk_id": "email_login_chunk",
+            "doc_id": "email_doc",
+            "source_url": "https://example.edu/email",
+            "heading_path": ["Email sinh viên"],
+            "text": "Địa chỉ đăng nhập: mail.student.tdtu.edu.vn. Tên đăng nhập là email sinh viên.",
+        },
+        {
+            "chunk_id": "other_chunk",
+            "doc_id": "other_doc",
+            "source_url": "https://example.edu/other",
+            "heading_path": ["Khác"],
+            "text": "Nội dung không liên quan đến email sinh viên.",
+        },
+    ]
+
+    trimmed = generator._trim_evidence("Cấu trúc email và địa chỉ đăng nhập email sinh viên TDTU là gì?", evidence)
+
+    assert [item["chunk_id"] for item in trimmed] == ["email_format_chunk", "email_login_chunk"]

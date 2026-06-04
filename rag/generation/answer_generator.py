@@ -311,10 +311,10 @@ class AnswerGenerator:
                 if any(
                     signal in item["text"].casefold()
                     for signal in [
-                        "cáº¥u trÃºc email",
+                        "cấu trúc email",
                         "mssv@student.tdtu.edu.vn",
-                        "Ä‘á»‹a chá»‰ Ä‘Äƒng nháº­p",
-                        "tÃªn Ä‘Äƒng nháº­p",
+                        "địa chỉ đăng nhập",
+                        "tên đăng nhập",
                     ]
                 )
             ]

@@ -52,6 +52,7 @@ services:
     environment:
       POSTGRES_DB: vietragops
       POSTGRES_USER: vietragops
-      POSTGRES_PASSWORD: vietragops
+      # Local optional profile only; override outside local development.
+      POSTGRES_PASSWORD: ${VIETRAGOPS_POSTGRES_PASSWORD:-vietragops_local_dev_only}
     ports:
       - "5432:5432"
