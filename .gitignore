@@ -24,9 +24,14 @@ dist/
 build/
 *.egg-info/
 
-# Local runtime files
-tmp_*.json
+# Local debug and scratch artifacts
+debug_*
+tmp_*
+scratch/
 *.log
+
+# Local AI-agent support workspace copied beside the project
+ai-agent-workspace-pack/
 
 # OS/editor noise
 .DS_Store

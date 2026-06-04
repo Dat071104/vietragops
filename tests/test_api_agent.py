@@ -199,8 +199,8 @@ def make_tuition_bundle() -> StubContextBundle:
 
 def test_agent_ask_endpoint_returns_tool_trace(monkeypatch):
     monkeypatch.setattr("app.api.routes_agent.get_context_builder", lambda: StubContextBuilder(make_cs_bundle()))
-    monkeypatch.setattr("app.api.routes_agent.get_answer_generator", lambda: StubAnswerGenerator())
-    monkeypatch.setattr("app.api.routes_agent.get_provider_router", lambda: StubProviderRouterWithTools())
+    monkeypatch.setattr("app.api.routes_agent.get_agent_answer_generator", lambda: StubAnswerGenerator())
+    monkeypatch.setattr("app.api.routes_agent.get_agent_provider_router", lambda: StubProviderRouterWithTools())
 
     response = client.post(
         "/agent/ask",
@@ -226,8 +226,8 @@ def test_agent_ask_endpoint_email_rebuilds_citations_from_verified_chunks(monkey
         provider_router=StubProviderRouterInvalidCitation(),
     )
     monkeypatch.setattr("app.api.routes_agent.get_context_builder", lambda: StubContextBuilder(make_email_bundle()))
-    monkeypatch.setattr("app.api.routes_agent.get_answer_generator", lambda: answer_generator)
-    monkeypatch.setattr("app.api.routes_agent.get_provider_router", lambda: StubProviderRouterFallback())
+    monkeypatch.setattr("app.api.routes_agent.get_agent_answer_generator", lambda: answer_generator)
+    monkeypatch.setattr("app.api.routes_agent.get_agent_provider_router", lambda: StubProviderRouterFallback())
 
     response = client.post(
         "/agent/ask",
@@ -256,8 +256,8 @@ def test_agent_ask_endpoint_private_question_still_refuses(monkeypatch):
         provider_router=StubProviderRouterInvalidCitation(),
     )
     monkeypatch.setattr("app.api.routes_agent.get_context_builder", lambda: StubContextBuilder(make_tuition_bundle()))
-    monkeypatch.setattr("app.api.routes_agent.get_answer_generator", lambda: answer_generator)
-    monkeypatch.setattr("app.api.routes_agent.get_provider_router", lambda: StubProviderRouterFallback())
+    monkeypatch.setattr("app.api.routes_agent.get_agent_answer_generator", lambda: answer_generator)
+    monkeypatch.setattr("app.api.routes_agent.get_agent_provider_router", lambda: StubProviderRouterFallback())
 
     response = client.post(
         "/agent/ask",
@@ -274,8 +274,8 @@ def test_agent_ask_endpoint_private_question_still_refuses(monkeypatch):
 
 def test_agent_ask_endpoint_forces_retrieval_fallback(monkeypatch):
     monkeypatch.setattr("app.api.routes_agent.get_context_builder", lambda: StubContextBuilder(make_cs_bundle()))
-    monkeypatch.setattr("app.api.routes_agent.get_answer_generator", lambda: StubAnswerGenerator())
-    monkeypatch.setattr("app.api.routes_agent.get_provider_router", lambda: StubProviderRouterFallback())
+    monkeypatch.setattr("app.api.routes_agent.get_agent_answer_generator", lambda: StubAnswerGenerator())
+    monkeypatch.setattr("app.api.routes_agent.get_agent_provider_router", lambda: StubProviderRouterFallback())
 
     response = client.post(
         "/agent/ask",
@@ -293,8 +293,8 @@ def test_agent_ask_endpoint_forces_retrieval_fallback(monkeypatch):
 
 def test_agent_ask_endpoint_mock_provider_explains_setup_hint(monkeypatch):
     monkeypatch.setattr("app.api.routes_agent.get_context_builder", lambda: StubContextBuilder(make_cs_bundle()))
-    monkeypatch.setattr("app.api.routes_agent.get_answer_generator", lambda: StubAnswerGenerator())
-    monkeypatch.setattr("app.api.routes_agent.get_provider_router", lambda: StubProviderRouterFallback())
+    monkeypatch.setattr("app.api.routes_agent.get_agent_answer_generator", lambda: StubAnswerGenerator())
+    monkeypatch.setattr("app.api.routes_agent.get_agent_provider_router", lambda: StubProviderRouterFallback())
 
     class MockStatusRouter(StubProviderRouterFallback):
         def status(self):
@@ -304,7 +304,7 @@ def test_agent_ask_endpoint_mock_provider_explains_setup_hint(monkeypatch):
                 "ollama": {"available": True, "model_available": True, "base_url": "http://localhost:11434"},
             }
 
-    monkeypatch.setattr("app.api.routes_agent.get_provider_router", lambda: MockStatusRouter())
+    monkeypatch.setattr("app.api.routes_agent.get_agent_provider_router", lambda: MockStatusRouter())
     response = client.post(
         "/agent/ask",
         json={"question": "Ngành Khoa học máy tính cần bao nhiêu tín chỉ để tốt nghiệp?", "top_k": 5, "return_debug": True},
@@ -322,8 +322,8 @@ def test_agent_ask_endpoint_out_of_scope_question_refuses(monkeypatch):
         provider_router=StubProviderRouterInvalidCitation(),
     )
     monkeypatch.setattr("app.api.routes_agent.get_context_builder", lambda: StubContextBuilder(make_tuition_bundle()))
-    monkeypatch.setattr("app.api.routes_agent.get_answer_generator", lambda: answer_generator)
-    monkeypatch.setattr("app.api.routes_agent.get_provider_router", lambda: StubProviderRouterFallback())
+    monkeypatch.setattr("app.api.routes_agent.get_agent_answer_generator", lambda: answer_generator)
+    monkeypatch.setattr("app.api.routes_agent.get_agent_provider_router", lambda: StubProviderRouterFallback())
 
     response = client.post(
         "/agent/ask",
