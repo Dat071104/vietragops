@@ -36,7 +36,7 @@ python -m compileall app rag evals frontend scripts tests
 Optional Groq setup:
 
 ```powershell
-$env:GROQ_API_KEY="PASTE_REAL_KEY_HERE"
+$env:GROQ_API_KEY="<set-real-key-in-shell-only>"
 $env:GROQ_MODEL="llama-3.3-70b-versatile"
 ```
 
@@ -87,7 +87,7 @@ python -m evals.experiments.export_report --input dist/experiments/pipelines/com
 - Published generation metrics are deterministic or mock-only because no local Groq key was used during benchmark execution.
 - The validation split is intentionally small for runtime reasons.
 - The lexical fallback reranker is useful on some procedural questions but not strong enough to replace plain hybrid retrieval as the default.
-- Docker packaging is present and Compose config validates, but a full image build was blocked locally because the Docker daemon was unavailable.
+- Docker packaging is present and Compose config was safe-scanned with blank provider keys, but a full image build was blocked locally because the Docker daemon was unavailable.
 
 ## Remaining TODOs
 
@@ -111,4 +111,4 @@ python -m evals.experiments.export_report --input dist/experiments/pipelines/com
 - Built a Vietnamese RAG system over 37 public academic-policy documents, parsing 37/37 successfully into 481 sections and 695 default runtime chunks.
 - Implemented offline-capable BM25, dense fallback, and hybrid retrieval; hybrid achieved Recall@3 `0.8333`, Recall@5 `0.8889`, and MRR `0.5972` on the dev retrieval benchmark.
 - Built a reproducible 120-question evaluation harness with citation support, refusal metrics, and failure labeling; the latest offline matrix validation reached token F1 `0.2807`, citation support `1.0000`, and refusal accuracy `1.0000`.
-- Shipped the system behind FastAPI and a Streamlit debug UI with evidence inspection, experiment browsing, and local demo fallback, backed by `38` passing pytest checks in the latest validation run.
+- Shipped the system behind FastAPI and a Streamlit debug UI with evidence inspection, experiment browsing, and local demo fallback, backed by `52` passing pytest checks in the latest validation run.

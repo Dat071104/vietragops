@@ -98,9 +98,12 @@ python scripts/check_ollama.py
 
 ## Running The Backend
 
-Start the API locally with:
+Start the API locally in mock mode with:
 
 ```powershell
+$env:LLM_PROVIDER="mock"
+$env:GROQ_API_KEY=""
+$env:PYTHON_DOTENV_DISABLED="1"
 python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
@@ -160,20 +163,46 @@ Questions that should be refused:
 Useful commands for local verification:
 
 ```powershell
+$env:LLM_PROVIDER="mock"
+$env:GROQ_API_KEY=""
+$env:VIETRAGOPS_DOCKER_GROQ_API_KEY=""
+$env:PYTHON_DOTENV_DISABLED="1"
+
 python -m compileall app rag evals frontend scripts tests
 pytest -q
-python scripts/check_ollama.py
 python scripts/validate_chunks.py --chunks-dir data/chunks
-docker compose config
+python -m evals.experiments.run_retrieval_eval --chunks data/chunks/chunks_500.jsonl --qa evals/datasets/dev_qa.jsonl --retriever hybrid --top_k 5
+python -m evals.experiments.run_generation_eval --chunks data/chunks/chunks_500.jsonl --qa evals/datasets/validation_qa.jsonl --retriever hybrid --top_k 5 --guardrails
+```
+
+Ollama checks are optional and require a local Ollama server:
+
+```powershell
+python scripts/check_ollama.py
+```
+
+For Docker Compose config validation, keep provider keys blank and redirect output before scanning it:
+
+```powershell
+$env:LLM_PROVIDER="mock"
+$env:GROQ_API_KEY=""
+$env:VIETRAGOPS_DOCKER_GROQ_API_KEY=""
+$env:PYTHON_DOTENV_DISABLED="1"
+
+docker compose config > "$env:TEMP\vietragops_compose_config_audit.txt"
+Select-String -Path "$env:TEMP\vietragops_compose_config_audit.txt" -Pattern "gsk_|sk-|GROQ_API_KEY"
+Remove-Item "$env:TEMP\vietragops_compose_config_audit.txt" -ErrorAction SilentlyContinue
 ```
 
 ## Streamlit Deployment
 
-Live demo URL:
+No hosted Streamlit demo is currently provided. The supported demo path is local:
 
-`Coming soon`
+```powershell
+streamlit run frontend/streamlit_app.py
+```
 
-When your Streamlit deployment is ready, replace that line with your public app URL.
+A hosted demo can be added later, but this README does not claim that one is live.
 
 ## Project Goals
 
@@ -194,4 +223,4 @@ This project aims to demonstrate:
 
 ## License
 
-Add your preferred license here before broad public sharing.
+This project is released under the [MIT License](LICENSE).

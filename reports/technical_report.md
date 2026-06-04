@@ -174,7 +174,7 @@ The dominant failure pattern remains regulation-heavy retrieval misses, followed
 - Generation evaluation is deterministic or mock-only at the moment.
 - The validation split is intentionally small to keep the matrix runtime practical locally.
 - The lexical fallback reranker is not strong enough to become the default on regulation-heavy prompts.
-- Docker configuration validates successfully, but a local image build was blocked at handoff time because the Docker daemon was unavailable.
+- Docker Compose configuration was safe-scanned successfully, but a local image build was blocked at handoff time because the Docker daemon was unavailable.
 
 ## Future Work
 

@@ -46,5 +46,5 @@ The default runtime path is:
 ## Packaging notes
 
 - `Dockerfile` and `docker-compose.yml` are included.
-- `docker compose config` was validated successfully during handoff.
+- `docker compose config` was safe-scanned successfully during handoff.
 - A full local image build was blocked only because the Docker daemon was unavailable at verification time.

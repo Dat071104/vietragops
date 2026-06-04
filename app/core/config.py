@@ -64,7 +64,7 @@ def get_answer_generator() -> AnswerGenerator:
 def get_agent_provider_router() -> ProviderRouter:
     settings = get_settings()
     return ProviderRouter(
-        provider="ollama",
+        provider=settings.llm_provider,
         ollama_base_url=settings.ollama_base_url,
         ollama_model=settings.ollama_model,
         ollama_num_ctx=settings.ollama_num_ctx,

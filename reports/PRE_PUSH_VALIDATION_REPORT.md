@@ -6,20 +6,20 @@
 - Security: `pass`
 - No-Docker tests: `pass`
 - API smoke: `pass`
-- Frontend smoke: `pass`
+- Frontend HTTP smoke: `pass`
 - Docker: `blocked`
 - Docs truth audit: `pass`
-- Safe to push: `no`
+- Safe to push: `yes_with_documented_risks`
 
-The codebase passed the local compile, test, retrieval, generation, API, and frontend checks after fixing six release issues. The main remaining blockers are environmental or release-process related: Docker daemon access is unavailable on this machine, the real Groq smoke test was skipped because no key is set, and the git repository has no commits yet, so the project is not actually in a pushable state today.
+The codebase passed the local compile, test, retrieval, generation, API, and Streamlit HTTP checks in mock mode. Docker daemon access is unavailable on this machine, real Groq/Ollama provider smoke tests were intentionally skipped, and the interactive browser checklist was not run.
 
 ## Environment
 
-- Workspace: `D:\Project cua Dat\VietRAGOps\vietragops_ai_workspace_pack\vietragops_ai_workspace_pack`
+- Workspace: local project checkout
 - Python: `3.13.9`
 - pip: `26.1.1`
-- Git branch: `master`
-- Git history state: `master` has no commits yet
+- Git branch: `main`
+- Git history state: Batch 1-3 hygiene commit created; public-readiness commit pending at the time of this report refresh
 - Required files: all required release files were present
 
 ## Security scan results
@@ -40,7 +40,7 @@ Notes:
 ## No-Docker test results
 
 - `python -m compileall app rag evals frontend scripts tests`: pass
-- `pytest -q`: `38 passed`
+- `pytest -q`: `52 passed`
 - `python scripts/validate_chunks.py --chunks-dir data/chunks`: pass
   - `chunks_300.jsonl`: `1036` rows, duplicate rate `0.0010`, abnormal `0`
   - `chunks_500.jsonl`: `695` rows, duplicate rate `0.0014`, abnormal `0`
@@ -88,26 +88,14 @@ Notes:
   - `retrieval_debug.top_k`: `5`
   - No raw traceback detected in the JSON response
 
-## Frontend smoke test results
+## Frontend HTTP smoke test results
 
-- Streamlit start command: `python -m streamlit run frontend/streamlit_app.py --server.headless true --server.address 127.0.0.1 --server.port 8501`
+- Streamlit start command: `streamlit run frontend/streamlit_app.py --server.headless true --server.address 127.0.0.1 --server.port 8501`
 - Root URL `http://127.0.0.1:8501`: `200`
-- `streamlit.testing.v1.AppTest` rendered the app successfully
-- Verified tab labels:
-  - `Ask`
-  - `Evidence`
-  - `Evaluation`
-  - `Documents`
-- Verified sidebar control:
-  - `API base URL` text input present
-- Verified fallback messaging:
-  - sidebar caption explains local demo mode
-  - hero copy explains live API mode vs local demo mode
 
 Notes:
 
-- The in-session browser automation runtime was not callable, so tab verification used Streamlit's testing harness instead of an interactive browser session.
-- The deprecated `use_container_width` warnings were removed during validation.
+- The current run verified HTTP reachability only. No interactive browser checklist was run in this session.
 
 ## Docker test results
 
@@ -177,35 +165,35 @@ Key documentation corrections:
 ## Remaining blockers
 
 - Docker daemon is unavailable, so image build, `docker compose up`, and container smoke tests are still manual blockers.
-- `GROQ_API_KEY` is not set, so the real LLM smoke test was skipped.
-- The git repository has no commits yet; everything is still untracked, so there is nothing pushable to GitHub until the initial add/commit happens.
+- `GROQ_API_KEY` was kept blank during validation, so the real Groq smoke test was skipped.
+- Real Ollama calls were skipped in mock mode.
+- Interactive frontend browser checks were not run.
 
 ## Safe to push?
 
-`No`
+`Yes, after the final commit and final hygiene scan, with documented risks.`
 
 Reason:
 
-- The code and docs are in good release shape locally, but the repository itself has not been committed yet and Docker verification is still blocked on the machine environment.
+- The non-Docker validation gates passed. Docker verification is still blocked on the machine environment.
 
 ## Exact commands user should run next
 
-1. `git add .`
-2. `git status --short`
-3. `git commit -m "Pre-push validation fixes and report"`
-4. Start Docker Desktop or another Docker daemon.
-5. `docker build -t vietragops .`
-6. `docker compose up -d`
-7. `python -m uvicorn app.main:app --host 127.0.0.1 --port 8000`
-8. `python -m streamlit run frontend/streamlit_app.py --server.headless true --server.address 127.0.0.1 --server.port 8501`
-9. If a real Groq key becomes available, set it only in the shell and rerun:
+1. Stage explicit files only.
+2. Commit the current public-readiness patch.
+3. Start Docker Desktop or another Docker daemon.
+4. `docker build -t vietragops .`
+5. `docker compose up -d`
+6. `python -m uvicorn app.main:app --host 127.0.0.1 --port 8000`
+7. `python -m streamlit run frontend/streamlit_app.py --server.headless true --server.address 127.0.0.1 --server.port 8501`
+8. If a real Groq key becomes available, set it only in the shell and rerun:
    `python -m evals.experiments.run_generation_eval --chunks data/chunks/chunks_500.jsonl --qa evals/datasets/validation_qa.jsonl --retriever hybrid --top_k 5 --guardrails`
-10. After Docker and git are ready:
-    `git push origin master`
+9. After final validation:
+   `git push origin main`
 
 ## Docker Validation Addendum
 
-Docker validation was rerun after Docker Desktop became available.
+Historical Docker validation was previously rerun after Docker Desktop became available, but the current 2026-06-04 run could not reproduce that because the Docker daemon is unavailable.
 
 - `docker --version`: PASS
 - `docker compose version`: PASS
@@ -219,7 +207,7 @@ Docker validation was rerun after Docker Desktop became available.
 - Frontend container `http://127.0.0.1:8501`: PASS, returned HTTP `200`
 - Qdrant container: PASS, service started on port `6333`
 
-Updated release status:
+Current release status:
 
-- Docker: `pass`
-- Safe to push: `yes_after_initial_commit_and_final_secret_scan`
+- Docker: `blocked`
+- Safe to push: `yes_with_documented_docker_risk_after_final_commit_and_secret_scan`

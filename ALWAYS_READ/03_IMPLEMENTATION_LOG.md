@@ -119,7 +119,7 @@ docker info
 ### Remaining risks / next step
 - Docker image build and container smoke tests still need a live daemon on this machine.
 - A real Groq-backed smoke test is still skipped until `GROQ_API_KEY` is available in the environment.
-- The repo has no commits yet, so the next step is an initial `git add` / `git commit` before any push can happen.
+- Git history now exists on `main`; continue using explicit staging and validation before any push.
 
 ## 2026-06-01 21:28 - [phase_07_evaluation_harness] build reproducible QA corpus and pipeline benchmarks
 

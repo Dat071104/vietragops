@@ -52,19 +52,31 @@ class ProviderRouter:
         return "deterministic-mock"
 
     def status(self) -> dict[str, Any]:
-        ollama_status = self.ollama_client.status()
-        return {
-            "provider": self.current_provider(),
-            "model": self.current_model(),
-            "groq_available": self.groq_client.available(),
-            "ollama": {
+        provider = self.current_provider()
+        if provider == "ollama":
+            ollama_status = self.ollama_client.status()
+            ollama_payload = {
                 "available": ollama_status.available,
                 "model_available": ollama_status.model_available,
                 "base_url": ollama_status.base_url,
                 "model": ollama_status.model,
                 "models": ollama_status.models,
                 "error": ollama_status.error,
-            },
+            }
+        else:
+            ollama_payload = {
+                "available": False,
+                "model_available": False,
+                "base_url": self.ollama_client.base_url,
+                "model": self.ollama_client.model,
+                "models": [],
+                "error": "Skipped because active provider is not ollama.",
+            }
+        return {
+            "provider": provider,
+            "model": self.current_model(),
+            "groq_available": self.groq_client.available(),
+            "ollama": ollama_payload,
         }
 
     def generate_json(self, prompt: str) -> ProviderInvocation:

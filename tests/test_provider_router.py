@@ -14,6 +14,7 @@ class StubGroqClient:
 
 
 class StubOllamaClient:
+    base_url = "http://localhost:11434"
     model = "qwen2.5:3b"
 
     def status(self):
@@ -49,6 +50,11 @@ class StubOllamaClient:
         return {"message": {"content": "done"}}
 
 
+class FailingStatusOllamaClient(StubOllamaClient):
+    def status(self):
+        raise AssertionError("Mock provider status must not probe Ollama")
+
+
 def test_provider_router_mock_is_safe_and_deterministic():
     router = ProviderRouter(provider="mock", groq_client=StubGroqClient(), ollama_client=StubOllamaClient())
 
@@ -57,6 +63,16 @@ def test_provider_router_mock_is_safe_and_deterministic():
     assert invocation.provider == "mock"
     assert invocation.payload is None
     assert invocation.fallback_used is True
+
+
+def test_provider_router_mock_status_does_not_probe_ollama():
+    router = ProviderRouter(provider="mock", groq_client=StubGroqClient(), ollama_client=FailingStatusOllamaClient())
+
+    status = router.status()
+
+    assert status["provider"] == "mock"
+    assert status["ollama"]["available"] is False
+    assert status["ollama"]["error"] == "Skipped because active provider is not ollama."
 
 
 def test_provider_router_ollama_returns_structured_payload():
