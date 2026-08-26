@@ -2,8 +2,11 @@
 
 ## Current gate
 
-Gate 00 is complete with status `PASS` for the reproducible offline baseline
-and safe-boundary decision. No Gate 01 or later work was performed.
+Gate 01 is complete with status `PASS` for the governed local document
+lifecycle (validated intake, durable source/version registry, candidate-only
+processing, reviewed atomic publish/retire/rollback). Gate 00 (reproducible
+offline baseline and safe-boundary decision) is also `PASS`. No Gate 02 or
+later work was performed.
 
 ## Baseline identity
 
@@ -27,26 +30,49 @@ created.
 
 The compact responsibility table and evidence are in the baseline manifest.
 
+## Gate 01 decision and evidence
+
+Governed lifecycle added under `rag/lifecycle/` (stdlib-only: `sqlite3`,
+`hashlib`, `uuid`, `csv`, `json`, `os.replace`-based atomic writes). No new
+dependency, server, or database product. The existing 37-document
+`data/manifests/documents_manifest.csv` / `data/chunks/chunks_500.jsonl`
+corpus was preserved as-is, not migrated into the registry -- the registry
+only tracks documents ingested through the new `/documents/upload` ->
+review -> publish flow from this Gate forward. Full detail, phase-by-phase
+evidence, and the acceptance checklist are in `gates/results/GATE_01_RESULT.md`.
+
 ## Authoritative records
 
-- Gate result: `gates/results/GATE_00_RESULT.md`.
-- Baseline manifest: `gates/baselines/GATE_00_BASELINE.json`.
+- Gate 00 result: `gates/results/GATE_00_RESULT.md`.
+- Gate 01 result: `gates/results/GATE_01_RESULT.md`.
+- Baseline manifests: `gates/baselines/GATE_00_BASELINE.json`,
+  `gates/baselines/GATE_01_RETRIEVAL_SMOKE.json` (post-Gate-01 regression smoke;
+  identical metrics to `GATE_00_RETRIEVAL_SMOKE.json`, proving the live corpus
+  and retrieval quality were not altered).
 - Existing decision record: `_agent_ops/DECISION_LOG.md`.
-- No duplicate `DECISIONS.md` was created; the Gate 00 boundary decision is
-  recorded in the baseline manifest and result and maps to the existing
+- No duplicate `DECISIONS.md` was created; the Gate 00 and Gate 01 decisions
+  are recorded in their respective results/manifests and map to the existing
   `_agent_ops/DECISION_LOG.md`.
 
 ## Current evidence limits
 
 - The offline BM25 smoke is reproducible against the recorded chunks and QA
   hashes, but its timestamp and measured latency are run-specific.
-- `python -m pytest -q` could not run because the available interpreter lacks
-  `pytest`; this is recorded as a known limitation, not masked or repaired in
-  Gate 00.
+- Gate 00 reported `python -m pytest -q` as unavailable because it was run
+  with `C:\Python314\python.exe`, which has no `pytest` installed. The
+  project's own `.venv\Scripts\python.exe` has pytest 9.0.3 and the full
+  suite passes there (134/134 after Gate 01). Use `.venv/Scripts/python.exe`
+  going forward; this is not a retroactive correction of the Gate 00 result.
 - No persisted vector/index artifact exists. Runtime retrieval loads
-  `data/chunks/chunks_500.jsonl` into an in-memory `ChunkIndexStore`.
+  `data/chunks/chunks_500.jsonl` into an in-memory `ChunkIndexStore`; Gate 01
+  did not change this, only how that file (and the manifest) get written.
+- The pre-existing 37-document corpus has no version history or rollback path
+  in the new registry (see Gate 01 decision above).
+- `LifecycleService.publish`/`retire`/`rollback` assume a single writer; no
+  cross-process lock exists yet.
 
 ## Next allowed action
 
-Only a new explicit session may begin Gate 01, after independently re-verifying
-the baseline identity and Gate 00 PASS result. This session stops here.
+Only a new explicit session may begin Gate 02, after independently
+re-verifying the baseline/HEAD identity and the Gate 01 PASS result. This
+session stops here.
