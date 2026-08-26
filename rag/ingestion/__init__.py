@@ -1,0 +1,1 @@
+"""Validated document ingestion adapters."""
