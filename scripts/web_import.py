@@ -18,9 +18,37 @@ page is a candidate; nothing here reviews or publishes it.
 from __future__ import annotations
 
 import argparse
+import os
 import sys
+from pathlib import Path
+
+from dotenv import load_dotenv
 
 from app.core.config import get_web_import_service
+
+
+_REPO_ROOT = Path(__file__).resolve().parents[1]
+
+
+def _should_load_dotenv() -> bool:
+    return os.environ.get("PYTHON_DOTENV_DISABLED", "").strip().casefold() not in {"1", "true", "yes", "on"}
+
+
+def _load_env_files() -> None:
+    """Load the app's non-secret .env and the Gate-03 secret handoff file.
+
+    Neither file's content is read, printed, or logged by this process --
+    `load_dotenv` only sets process environment variables. The secret file
+    is loaded with `override=False` so an operator's real shell export
+    always wins over the file.
+    """
+
+    if not _should_load_dotenv():
+        return
+    load_dotenv(dotenv_path=_REPO_ROOT / ".env")
+    firecrawl_env = _REPO_ROOT / ".env.firecrawl.local"
+    if firecrawl_env.is_file():
+        load_dotenv(dotenv_path=firecrawl_env, override=False)
 
 
 def _cmd_search(args: argparse.Namespace) -> int:
@@ -83,6 +111,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    _load_env_files()
     parser = build_parser()
     args = parser.parse_args(argv)
     return args.func(args)
