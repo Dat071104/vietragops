@@ -220,6 +220,16 @@ def test_events_are_recorded_append_only(tmp_path):
     assert event_types == ["intake", "parsed:ok", "reviewed"]
 
 
+def test_get_document_joins_source_url_and_publisher(tmp_path):
+    registry = _make_registry(tmp_path)
+    _create_document(registry)
+    doc = registry.get_document("policy-a")
+    assert doc is not None
+    assert doc.source_url == "https://example.edu/policy-a"
+    assert doc.publisher == "Example University"
+    assert registry.get_document("does-not-exist") is None
+
+
 def test_registry_survives_reopen_against_same_db_path(tmp_path):
     db_path = tmp_path / "registry.db"
     registry_a = LifecycleRegistry(db_path)

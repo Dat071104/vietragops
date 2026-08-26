@@ -6,20 +6,39 @@ import os
 from pathlib import Path
 
 from rag.generation import AnswerGenerator, ContextBuilder, ProviderRouter
+from rag.lifecycle.registry import LifecycleRegistry
+from rag.lifecycle.service import LifecycleService
 from rag.retrieval import ChunkIndexStore
 
 
 ROOT = Path(__file__).resolve().parents[2]
 
 
+def _env_path(name: str, default: Path) -> Path:
+    override = os.environ.get(name, "").strip()
+    return Path(override) if override else default
+
+
 @dataclass(frozen=True)
 class Settings:
-    chunks_path: Path = ROOT / "data" / "chunks" / "chunks_500.jsonl"
-    manifest_path: Path = ROOT / "data" / "manifests" / "documents_manifest.csv"
+    chunks_path: Path = field(
+        default_factory=lambda: _env_path("VIETRAGOPS_CHUNKS_PATH", ROOT / "data" / "chunks" / "chunks_500.jsonl")
+    )
+    manifest_path: Path = field(
+        default_factory=lambda: _env_path(
+            "VIETRAGOPS_MANIFEST_PATH", ROOT / "data" / "manifests" / "documents_manifest.csv"
+        )
+    )
     dev_qa_path: Path = ROOT / "evals" / "datasets" / "dev_qa.jsonl"
     validation_qa_path: Path = ROOT / "evals" / "datasets" / "validation_qa.jsonl"
     raw_upload_dir: Path = ROOT / "data" / "raw" / "uploads"
     experiment_dir: Path = ROOT / "dist" / "experiments"
+    lifecycle_root: Path = field(
+        default_factory=lambda: _env_path("VIETRAGOPS_LIFECYCLE_ROOT", ROOT / "data" / "lifecycle")
+    )
+    lifecycle_max_upload_bytes: int = field(
+        default_factory=lambda: int(os.environ.get("VIETRAGOPS_LIFECYCLE_MAX_UPLOAD_BYTES", str(25 * 1024 * 1024)))
+    )
     llm_provider: str = field(default_factory=lambda: os.environ.get("LLM_PROVIDER", "mock").strip().casefold())
     ollama_base_url: str = field(default_factory=lambda: os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434").strip())
     ollama_model: str = field(default_factory=lambda: os.environ.get("OLLAMA_MODEL", "qwen2.5:3b").strip())
@@ -34,6 +53,34 @@ def get_settings() -> Settings:
 @lru_cache
 def get_store() -> ChunkIndexStore:
     return ChunkIndexStore.from_jsonl(get_settings().chunks_path)
+
+
+def refresh_live_caches() -> None:
+    """Drop cached readers of the live manifest/chunks after a publish/retire/rollback.
+
+    The next call to any of these rebuilds itself from whatever is on disk, so
+    a request in flight during the swap either finishes against the old
+    in-memory store or the caller re-fetches a fresh one -- never a mix.
+    """
+    get_store.cache_clear()
+    get_context_builder.cache_clear()
+    get_answer_generator.cache_clear()
+    get_agent_answer_generator.cache_clear()
+
+
+@lru_cache
+def get_lifecycle_service() -> LifecycleService:
+    settings = get_settings()
+    registry = LifecycleRegistry(settings.lifecycle_root / "registry.db")
+    return LifecycleService(
+        registry=registry,
+        originals_dir=settings.lifecycle_root / "originals",
+        candidates_dir=settings.lifecycle_root / "candidates",
+        live_manifest_path=settings.manifest_path,
+        live_chunks_path=settings.chunks_path,
+        max_upload_bytes=settings.lifecycle_max_upload_bytes,
+        refresh_live_caches=refresh_live_caches,
+    )
 
 
 @lru_cache

@@ -115,10 +115,21 @@ class DocumentRecord:
     domain: str | None
     authority_level: str | None
     created_at: str
+    source_url: str | None = None
+    publisher: str | None = None
 
     @classmethod
     def from_row(cls, row: sqlite3.Row) -> "DocumentRecord":
         return cls(**{key: row[key] for key in row.keys()})
+
+
+_DOCUMENT_WITH_SOURCE_SQL = """
+    SELECT documents.document_id, documents.source_id, documents.title,
+           documents.domain, documents.authority_level, documents.created_at,
+           sources.source_url, sources.publisher
+    FROM documents JOIN sources ON documents.source_id = sources.source_id
+    WHERE documents.document_id = ?
+"""
 
 
 class LifecycleRegistry:
@@ -147,9 +158,7 @@ class LifecycleRegistry:
         authority_level: str | None,
     ) -> DocumentRecord:
         with self._connect() as conn:
-            row = conn.execute(
-                "SELECT * FROM documents WHERE document_id = ?", (document_id,)
-            ).fetchone()
+            row = conn.execute(_DOCUMENT_WITH_SOURCE_SQL, (document_id,)).fetchone()
             if row is not None:
                 return DocumentRecord.from_row(row)
 
@@ -166,10 +175,13 @@ class LifecycleRegistry:
                 """,
                 (document_id, source_id, title, domain, authority_level, created_at),
             )
-            row = conn.execute(
-                "SELECT * FROM documents WHERE document_id = ?", (document_id,)
-            ).fetchone()
+            row = conn.execute(_DOCUMENT_WITH_SOURCE_SQL, (document_id,)).fetchone()
             return DocumentRecord.from_row(row)
+
+    def get_document(self, document_id: str) -> DocumentRecord | None:
+        with self._connect() as conn:
+            row = conn.execute(_DOCUMENT_WITH_SOURCE_SQL, (document_id,)).fetchone()
+            return DocumentRecord.from_row(row) if row is not None else None
 
     # -- versions -------------------------------------------------------------
 
@@ -192,8 +204,9 @@ class LifecycleRegistry:
         content_type: str | None,
         size_bytes: int,
         fetched_at: str | None = None,
+        version_id: str | None = None,
     ) -> VersionRecord:
-        version_id = uuid.uuid4().hex
+        version_id = version_id or uuid.uuid4().hex
         timestamp = now_iso()
         try:
             with self._connect() as conn:
@@ -281,6 +294,10 @@ class LifecycleRegistry:
             conn.execute(f"UPDATE versions SET {', '.join(columns)} WHERE version_id = ?", values)
         self._record_event(version_id, review_status, None)
         return self.get_version(version_id)  # type: ignore[return-value]
+
+    def record_note(self, version_id: str, event_type: str, detail: str | None = None) -> None:
+        """Append a standalone audit event not tied to a review_status column update."""
+        self._record_event(version_id, event_type, detail)
 
     def _record_event(self, version_id: str, event_type: str, detail: str | None) -> None:
         with self._connect() as conn:

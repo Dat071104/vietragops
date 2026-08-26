@@ -31,6 +31,8 @@ class IntakeReceiver:
             raise LifecycleError("invalid_configuration", "max_bytes must be positive.", status_code=500)
         self.slug, self.extension = normalize_filename(filename)
         validate_content_type(content_type, self.extension)
+        self.raw_filename = filename
+        self.content_type = content_type
         self._max_bytes = max_bytes
         self._hasher = hashlib.sha256()
         self._chunks: list[bytes] = []

@@ -33,6 +33,10 @@ scratch/
 # Local AI-agent support workspace copied beside the project
 ai-agent-workspace-pack/
 
+# Document lifecycle runtime state (Gate 01): sqlite registry, immutable
+# originals, candidate artifacts. Generated locally; never committed.
+data/lifecycle/
+
 # OS/editor noise
 .DS_Store
 Thumbs.db

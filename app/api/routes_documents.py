@@ -1,16 +1,27 @@
 from __future__ import annotations
 
 import csv
-from pathlib import Path
 
-from fastapi import APIRouter, File, UploadFile
+from fastapi import APIRouter, File, Form, UploadFile
 
-from app.core.config import get_settings, get_store
+from app.core.config import get_lifecycle_service, get_settings, get_store
 from app.core.errors import AppError
-from app.schemas.document import DocumentDetail, DocumentIndexResponse, DocumentSummary, DocumentUploadResponse
+from app.schemas.document import (
+    DocumentDetail,
+    DocumentIndexResponse,
+    DocumentIntakeItem,
+    DocumentSummary,
+    DocumentUploadResponse,
+    RollbackRequest,
+    VersionSummary,
+)
+from rag.lifecycle.errors import LifecycleError
+from rag.lifecycle.registry import VersionRecord
 
 
 router = APIRouter(prefix="/documents", tags=["documents"])
+
+_UPLOAD_READ_CHUNK_BYTES = 1024 * 1024
 
 
 def _load_manifest_rows() -> list[dict]:
@@ -19,16 +30,85 @@ def _load_manifest_rows() -> list[dict]:
         return list(csv.DictReader(handle))
 
 
+def _version_summary(version: VersionRecord) -> VersionSummary:
+    return VersionSummary(
+        document_id=version.document_id,
+        version_id=version.version_id,
+        checksum=version.checksum,
+        extension=version.extension,
+        original_filename=version.original_filename,
+        size_bytes=version.size_bytes,
+        parse_status=version.parse_status,
+        review_status=version.review_status,
+        parse_warnings=version.parse_warnings,
+        supersedes=version.supersedes,
+        superseded_by=version.superseded_by,
+        created_at=version.created_at,
+        updated_at=version.updated_at,
+        published_at=version.published_at,
+    )
+
+
+def _raise_app_error(exc: LifecycleError) -> None:
+    raise AppError(exc.message, status_code=exc.status_code) from exc
+
+
 @router.post("/upload", response_model=DocumentUploadResponse)
-async def upload_documents(files: list[UploadFile] = File(...)) -> DocumentUploadResponse:
-    settings = get_settings()
-    settings.raw_upload_dir.mkdir(parents=True, exist_ok=True)
-    saved = []
+async def upload_documents(
+    files: list[UploadFile] = File(...),
+    source_url: str | None = Form(None),
+    publisher: str | None = Form(None),
+    domain: str | None = Form(None),
+    authority_level: str | None = Form(None),
+) -> DocumentUploadResponse:
+    """Governed intake: validate, checksum, store the original immutably, and
+    run candidate-only parsing/chunking. Nothing here touches the live
+    manifest or chunk index -- that only happens through an explicit
+    review -> publish transition on the returned version_id.
+    """
+    service = get_lifecycle_service()
+    results: list[DocumentIntakeItem] = []
+
     for file in files:
-        target = settings.raw_upload_dir / file.filename
-        target.write_bytes(await file.read())
-        saved.append(file.filename)
-    return DocumentUploadResponse(filenames=saved, saved_dir=str(settings.raw_upload_dir))
+        try:
+            receiver = service.begin_intake(filename=file.filename, content_type=file.content_type)
+            while True:
+                chunk = await file.read(_UPLOAD_READ_CHUNK_BYTES)
+                if not chunk:
+                    break
+                receiver.feed(chunk)
+            outcome = service.complete_intake(
+                receiver,
+                source_url=source_url,
+                publisher=publisher,
+                domain=domain,
+                authority_level=authority_level,
+            )
+            results.append(
+                DocumentIntakeItem(
+                    filename=file.filename or "",
+                    accepted=True,
+                    document_id=outcome.document_id,
+                    version_id=outcome.version_id,
+                    parse_status=outcome.parse_status,
+                    review_status=outcome.review_status,
+                    duplicate=outcome.duplicate,
+                    warnings=outcome.warnings,
+                )
+            )
+        except LifecycleError as exc:
+            results.append(
+                DocumentIntakeItem(
+                    filename=file.filename or "",
+                    accepted=False,
+                    error_code=exc.code,
+                    error_message=exc.message,
+                )
+            )
+        finally:
+            await file.close()
+
+    return DocumentUploadResponse(results=results)
 
 
 @router.post("/index", response_model=DocumentIndexResponse)
@@ -56,6 +136,48 @@ def list_documents() -> list[DocumentSummary]:
         )
         for row in _load_manifest_rows()
     ]
+
+
+@router.get("/{doc_id}/versions", response_model=list[VersionSummary])
+def list_document_versions(doc_id: str) -> list[VersionSummary]:
+    service = get_lifecycle_service()
+    return [_version_summary(version) for version in service.list_versions(doc_id)]
+
+
+@router.post("/versions/{version_id}/review", response_model=VersionSummary)
+def review_document_version(version_id: str) -> VersionSummary:
+    service = get_lifecycle_service()
+    try:
+        return _version_summary(service.review(version_id))
+    except LifecycleError as exc:
+        _raise_app_error(exc)
+
+
+@router.post("/versions/{version_id}/publish", response_model=VersionSummary)
+def publish_document_version(version_id: str) -> VersionSummary:
+    service = get_lifecycle_service()
+    try:
+        return _version_summary(service.publish(version_id))
+    except LifecycleError as exc:
+        _raise_app_error(exc)
+
+
+@router.post("/versions/{version_id}/retire", response_model=VersionSummary)
+def retire_document_version(version_id: str) -> VersionSummary:
+    service = get_lifecycle_service()
+    try:
+        return _version_summary(service.retire(version_id))
+    except LifecycleError as exc:
+        _raise_app_error(exc)
+
+
+@router.post("/{doc_id}/rollback", response_model=VersionSummary)
+def rollback_document(doc_id: str, request: RollbackRequest) -> VersionSummary:
+    service = get_lifecycle_service()
+    try:
+        return _version_summary(service.rollback(doc_id, request.to_version_id))
+    except LifecycleError as exc:
+        _raise_app_error(exc)
 
 
 @router.get("/{doc_id}", response_model=DocumentDetail)
