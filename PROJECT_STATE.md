@@ -2,13 +2,14 @@
 
 ## Current gate
 
-Gate 03 is `WAITING_FOR_USER_SECRET`: a bounded Firecrawl web
+Gate 03 is complete with status `PASS`: a bounded Firecrawl web
 search/scrape adapter, URL/domain/private-network safety layer, and
 candidate/provenance/recrawl-diff integration with the existing
-lifecycle are implemented and fully tested offline (79 new tests, mocked
-httpx transport only). No authenticated Firecrawl call has been made and
-none will be until a user, in an explicit session, confirms the local
-`.env.firecrawl.local` key is filled in. See
+lifecycle are implemented, tested offline (79 tests, mocked httpx), and
+proven live after the user's explicit in-session secret confirmation and
+their own domain-allowlist configuration: one bounded search (limit 1),
+operator approval, then one bounded scrape produced exactly one
+candidate version, never touching the live manifest/chunks. See
 `gates/results/GATE_03_RESULT.md`. Gate 00, Gate 01, and Gate 02 remain
 `PASS`.
 
@@ -135,19 +136,23 @@ changed content creates a new still-candidate version linked via
 `prior_version_id` plus a deterministic (no-LLM) section diff in the new
 `web_provenance`/`acquisition_attempts` SQLite tables.
 
-No authenticated Firecrawl call has been made. `.env.firecrawl.local` was
-never opened; only its `.gitignore` filename coverage was checked. 79 new
-tests (17 adapter, 40 safety, 14 import, 8 recrawl/diff) all mock the
-httpx transport. Full offline regression (compile, 236/236 tests,
+`.env.firecrawl.local` was never opened, read, or edited by this agent at
+any point; the user confirmed in-session that it holds a valid key and
+that they would not send its value. The user also configured the
+non-secret domain allowlist themselves
+(`FIRECRAWL_ALLOWED_DOMAINS=undergrad.tdtu.edu.vn`). 79 tests (17
+adapter, 40 safety, 14 import, 8 recrawl/diff) mock the httpx transport;
+in addition, Phase 3.5 made exactly one bounded live search (limit 1,
+plus one corrective re-run after a local console-encoding bug) and, after
+explicit per-URL operator approval, one bounded live scrape -- both
+recorded with safe metadata only, and the resulting version stayed a
+candidate. Full offline regression (compile, 236/236 tests,
 chunk/processed-doc/manifest validation, offline BM25 smoke) is
-bit-for-bit identical to Gate 02. Full detail, phase-by-phase evidence,
-two read-only-audit findings and fixes, and the acceptance checklist are
-in `gates/results/GATE_03_RESULT.md`.
+bit-for-bit identical to Gate 02, both before and after the live call.
+Full detail, phase-by-phase evidence, two read-only-audit findings and
+fixes, and the acceptance checklist are in `gates/results/GATE_03_RESULT.md`.
 
 ## Next allowed action
 
-Resume Gate 03 Phase 3.5 (the authenticated live proof) only in a new
-session where the user explicitly confirms, in that session, that
-`.env.firecrawl.local` is filled in locally and that they will not send
-its value. Gate 04 must not begin before Gate 03 reaches a final PASS.
-This session stops here.
+Gate 04, only in a new explicit session after independently re-verifying
+this Gate 03 PASS result and its evidence. This session stops here.
