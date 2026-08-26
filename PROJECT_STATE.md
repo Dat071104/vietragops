@@ -2,10 +2,15 @@
 
 ## Current gate
 
-Gate 02 is complete with status `PASS`: validated PDF candidates use the
-local MarkItDown-to-canonical-Markdown path, DOCX is enabled after its fixture
-passed, the pypdf loader remains an explicit fallback, and candidate artifacts
-stay behind review/publish guards. Gate 00 and Gate 01 remain `PASS`.
+Gate 03 is `WAITING_FOR_USER_SECRET`: a bounded Firecrawl web
+search/scrape adapter, URL/domain/private-network safety layer, and
+candidate/provenance/recrawl-diff integration with the existing
+lifecycle are implemented and fully tested offline (79 new tests, mocked
+httpx transport only). No authenticated Firecrawl call has been made and
+none will be until a user, in an explicit session, confirms the local
+`.env.firecrawl.local` key is filled in. See
+`gates/results/GATE_03_RESULT.md`. Gate 00, Gate 01, and Gate 02 remain
+`PASS`.
 
 ## Baseline identity
 
@@ -111,7 +116,38 @@ offline BM25 smoke has 695 chunks and 20 queries with recall@5 `0.8889`, MRR
 - Gate 02 fixture comparisons are extraction measures only; they do not prove
   layout fidelity, OCR quality, or production readiness.
 
+## Gate 03 decision and evidence
+
+The web import path is `admin CLI (scripts/web_import.py) -> web_safety
+(HTTPS-only, blocked hostnames, request-time private/loopback/link-local/
+metadata rejection, server-owned default-deny domain allowlist) ->
+rag/ingestion/firecrawl.py (bounded search_preview/scrape_markdown,
+typed outcome classes, capped retries) -> rag/lifecycle/web_pipeline.py
+(candidate build reusing the existing Markdown loader/section
+builder/chunker, extraction record in the same schema pipeline.py uses)
+-> existing LifecycleService review/publish/rollback -> candidate-only
+processed/chunks artifacts`. There is no FastAPI route for this: the
+application has no admin authorization to gate a public endpoint, so the
+CLI is the only interface. Document identity is
+`web-{sha256(canonical_url)[:24]}`, never the title, so recrawl lookups
+are idempotent and stable; unchanged content records a no-op event, and
+changed content creates a new still-candidate version linked via
+`prior_version_id` plus a deterministic (no-LLM) section diff in the new
+`web_provenance`/`acquisition_attempts` SQLite tables.
+
+No authenticated Firecrawl call has been made. `.env.firecrawl.local` was
+never opened; only its `.gitignore` filename coverage was checked. 79 new
+tests (17 adapter, 40 safety, 14 import, 8 recrawl/diff) all mock the
+httpx transport. Full offline regression (compile, 236/236 tests,
+chunk/processed-doc/manifest validation, offline BM25 smoke) is
+bit-for-bit identical to Gate 02. Full detail, phase-by-phase evidence,
+two read-only-audit findings and fixes, and the acceptance checklist are
+in `gates/results/GATE_03_RESULT.md`.
+
 ## Next allowed action
 
-Only a new explicit session may begin Gate 03, after independently reviewing
-this Gate 02 PASS result and its evidence. This session stops here.
+Resume Gate 03 Phase 3.5 (the authenticated live proof) only in a new
+session where the user explicitly confirms, in that session, that
+`.env.firecrawl.local` is filled in locally and that they will not send
+its value. Gate 04 must not begin before Gate 03 reaches a final PASS.
+This session stops here.
