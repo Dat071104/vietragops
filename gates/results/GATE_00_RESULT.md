@@ -71,6 +71,9 @@ Commands/tests executed:
 - Final relevant rechecks repeated compile, validations, manifest verification,
   Compose config, and offline smoke — PASS except the same pytest availability
   blocker. A temporary smoke hash was independently corrected and verified.
+- `git diff --check` — PASS exit status, with the pre-existing warning
+  `rag/generation/groq_client.py:235: new blank line at EOF`; no change was made
+  to that dirty file.
 
 Acceptance checklist:
 
@@ -113,6 +116,8 @@ Known issues:
   failures were preserved; corrected commands passed.
 - Compose validation is config-only and emitted `open
   C:\Users\ADMIN\.docker\config.json: Access is denied.` twice.
+- `git diff --check` reports the pre-existing EOF whitespace warning in
+  `rag/generation/groq_client.py`; it remains part of the recorded overlay.
 
 Next allowed Gate:
 
