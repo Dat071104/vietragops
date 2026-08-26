@@ -2,11 +2,10 @@
 
 ## Current gate
 
-Gate 01 is complete with status `PASS` for the governed local document
-lifecycle (validated intake, durable source/version registry, candidate-only
-processing, reviewed atomic publish/retire/rollback). Gate 00 (reproducible
-offline baseline and safe-boundary decision) is also `PASS`. No Gate 02 or
-later work was performed.
+Gate 02 is complete with status `PASS`: validated PDF candidates use the
+local MarkItDown-to-canonical-Markdown path, DOCX is enabled after its fixture
+passed, the pypdf loader remains an explicit fallback, and candidate artifacts
+stay behind review/publish guards. Gate 00 and Gate 01 remain `PASS`.
 
 ## Baseline identity
 
@@ -17,6 +16,10 @@ later work was performed.
   `90b7b0a60dc0680d84c49c76903b3af553971469e63e7326c0b5708f04bc9bcd`.
 - Baseline evidence commits: `bb10a0e` plus the factual snapshot-count
   correction `b76cf41`.
+- Gate 01 result commit `df5d84c` was the reachable prerequisite baseline for
+  this Gate. Gate 02 commits are `e44e012`, `c36f905`, `3c1cff0`, `bc3b96c`,
+  and `03249ce`; they contain only the pinned runtime, local adapter,
+  candidate integration/fixtures, and QA evidence described below.
 - The working tree intentionally remains dirty with the pre-existing overlay;
   Gate 00 did not reset, restore, clean, stash, or stage it.
 
@@ -53,6 +56,36 @@ evidence, and the acceptance checklist are in `gates/results/GATE_01_RESULT.md`.
 - No duplicate `DECISIONS.md` was created; the Gate 00 and Gate 01 decisions
   are recorded in their respective results/manifests and map to the existing
   `_agent_ops/DECISION_LOG.md`.
+- Gate 02 result: `gates/results/GATE_02_RESULT.md`.
+- Gate 02 evidence: `gates/baselines/GATE_02_EXTRACTION_QA.json` and
+  `gates/baselines/GATE_02_RETRIEVAL_SMOKE.json`.
+
+## Gate 02 decision and evidence
+
+The candidate path is `immutable original -> local MarkItDown -> atomic
+candidate/version_id/canonical.md -> existing Markdown loader -> existing
+section builder -> existing chunker -> candidate processed/chunks artifacts`.
+`extraction.json` records parser/provenance, status, duration, original and
+canonical SHA-256 values, character/section/table counts, and warnings. The
+registry locates `canonical.md` and `extraction.json` with the backwards-
+compatible `candidate_canonical_path` and `candidate_extraction_path` fields.
+
+PDF and DOCX are the enabled MarkItDown candidate formats. The existing HTML,
+Markdown, and text lifecycle paths remain available through their existing
+loaders. PPTX and XLSX are unsupported/rejected in this Gate. PDF defaults to
+MarkItDown; `VIETRAGOPS_CANDIDATE_PDF_PARSER=pypdf` is the explicit
+server-owned fallback policy. A failed MarkItDown conversion is recorded as
+failed and is never silently retried through pypdf.
+
+Representative local fixtures passed factual extraction QA: normal PDF and
+table-heavy PDF converted successfully; the no-text PDF, malformed PDF, and
+malformed DOCX remained failed/unusable; the DOCX fixture converted
+successfully. No layout or visual-fidelity claim is made.
+
+The committed existing corpus, processed documents, manifests, chunk files,
+and QA input hashes remain identical to the Gate 00 baseline. The Gate 02
+offline BM25 smoke has 695 chunks and 20 queries with recall@5 `0.8889`, MRR
+`0.5917`, and precision@5 `0.1889`, matching Gate 01's metrics.
 
 ## Current evidence limits
 
@@ -70,9 +103,15 @@ evidence, and the acceptance checklist are in `gates/results/GATE_01_RESULT.md`.
   in the new registry (see Gate 01 decision above).
 - `LifecycleService.publish`/`retire`/`rollback` assume a single writer; no
   cross-process lock exists yet.
+- The exact bare `pytest -q` command remains blocked by this runner's denied
+  system temp/cache directories; the equivalent project-interpreter run with
+  an exact workspace basetemp and cache plugin disabled passed 157/157.
+- The symlink test exercises the real rejection branch when the host permits
+  symlink creation and a deterministic branch simulation when it does not.
+- Gate 02 fixture comparisons are extraction measures only; they do not prove
+  layout fidelity, OCR quality, or production readiness.
 
 ## Next allowed action
 
-Only a new explicit session may begin Gate 02, after independently
-re-verifying the baseline/HEAD identity and the Gate 01 PASS result. This
-session stops here.
+Only a new explicit session may begin Gate 03, after independently reviewing
+this Gate 02 PASS result and its evidence. This session stops here.
