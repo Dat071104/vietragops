@@ -222,6 +222,12 @@ def test_500_upstream_error_retries_then_reports_upstream_error():
     assert attempts["count"] == 2  # first attempt + 1 retry
 
 
+def test_adapter_exposes_no_map_or_crawl_or_action_surface():
+    forbidden = ("crawl", "map", "actions", "action", "screenshot", "extract", "batch_scrape")
+    for name in forbidden:
+        assert not hasattr(FirecrawlAdapter, name), f"FirecrawlAdapter must not expose '{name}'"
+
+
 def test_exception_message_never_contains_api_key():
     def handler(request: httpx.Request) -> httpx.Response:
         raise httpx.ConnectError("boom", request=request)

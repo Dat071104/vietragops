@@ -42,6 +42,24 @@ class Settings:
     candidate_pdf_parser: str = field(
         default_factory=lambda: os.environ.get("VIETRAGOPS_CANDIDATE_PDF_PARSER", "markitdown").strip().casefold()
     )
+    firecrawl_allowed_domains: str = field(
+        default_factory=lambda: os.environ.get("FIRECRAWL_ALLOWED_DOMAINS", "").strip()
+    )
+    firecrawl_denied_domains: str = field(
+        default_factory=lambda: os.environ.get("FIRECRAWL_DENIED_DOMAINS", "").strip()
+    )
+    firecrawl_timeout_seconds: float = field(
+        default_factory=lambda: float(os.environ.get("FIRECRAWL_TIMEOUT_SECONDS", "20"))
+    )
+    firecrawl_max_response_bytes: int = field(
+        default_factory=lambda: int(os.environ.get("FIRECRAWL_MAX_RESPONSE_BYTES", str(2 * 1024 * 1024)))
+    )
+    firecrawl_max_search_results: int = field(
+        default_factory=lambda: int(os.environ.get("FIRECRAWL_MAX_SEARCH_RESULTS", "5"))
+    )
+    firecrawl_max_retries: int = field(
+        default_factory=lambda: int(os.environ.get("FIRECRAWL_MAX_RETRIES", "2"))
+    )
     llm_provider: str = field(default_factory=lambda: os.environ.get("LLM_PROVIDER", "mock").strip().casefold())
     ollama_base_url: str = field(default_factory=lambda: os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434").strip())
     ollama_model: str = field(default_factory=lambda: os.environ.get("OLLAMA_MODEL", "qwen2.5:3b").strip())
