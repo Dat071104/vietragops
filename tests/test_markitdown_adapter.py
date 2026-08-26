@@ -96,13 +96,16 @@ def test_path_outside_originals_is_rejected_before_converter(tmp_path):
     assert _FakeConverter.instances == []
 
 
-def test_symlink_original_is_rejected_before_converter(tmp_path):
+def test_symlink_original_is_rejected_before_converter(tmp_path, monkeypatch):
     original = _original(tmp_path)
     link = original.with_name("link.pdf")
     try:
         link.symlink_to(original)
     except OSError:
-        pytest.skip("symlink creation is unavailable in this Windows test environment")
+        # Exercise the same deterministic branch when this Windows runner does
+        # not grant symlink creation to the test process.
+        real_is_symlink = Path.is_symlink
+        monkeypatch.setattr(Path, "is_symlink", lambda path: path == link or real_is_symlink(path))
 
     adapter = _adapter(tmp_path)
     with pytest.raises(MarkItDownInputError) as excinfo:

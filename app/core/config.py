@@ -39,6 +39,9 @@ class Settings:
     lifecycle_max_upload_bytes: int = field(
         default_factory=lambda: int(os.environ.get("VIETRAGOPS_LIFECYCLE_MAX_UPLOAD_BYTES", str(25 * 1024 * 1024)))
     )
+    candidate_pdf_parser: str = field(
+        default_factory=lambda: os.environ.get("VIETRAGOPS_CANDIDATE_PDF_PARSER", "markitdown").strip().casefold()
+    )
     llm_provider: str = field(default_factory=lambda: os.environ.get("LLM_PROVIDER", "mock").strip().casefold())
     ollama_base_url: str = field(default_factory=lambda: os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434").strip())
     ollama_model: str = field(default_factory=lambda: os.environ.get("OLLAMA_MODEL", "qwen2.5:3b").strip())
@@ -80,6 +83,7 @@ def get_lifecycle_service() -> LifecycleService:
         live_chunks_path=settings.chunks_path,
         max_upload_bytes=settings.lifecycle_max_upload_bytes,
         refresh_live_caches=refresh_live_caches,
+        pdf_parser_policy=settings.candidate_pdf_parser,
     )
 
 

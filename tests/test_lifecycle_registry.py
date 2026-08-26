@@ -5,7 +5,7 @@ import sqlite3
 import pytest
 
 from rag.lifecycle.errors import LifecycleError
-from rag.lifecycle.registry import LifecycleRegistry
+from rag.lifecycle.registry import SCHEMA, LifecycleRegistry
 
 
 def _make_registry(tmp_path):
@@ -68,6 +68,8 @@ def test_create_version_persists_all_fields(tmp_path):
     assert version.checksum == "a" * 64
     assert version.supersedes is None
     assert version.superseded_by is None
+    assert version.candidate_canonical_path is None
+    assert version.candidate_extraction_path is None
 
     fetched = registry.get_version(version.version_id)
     assert fetched == version
@@ -250,3 +252,39 @@ def test_registry_survives_reopen_against_same_db_path(tmp_path):
     assert reopened is not None
     assert reopened.checksum == "8" * 64
     assert reopened.original_path == "p.html"
+
+
+def test_gate02_candidate_location_columns_migrate_gate01_registry(tmp_path):
+    db_path = tmp_path / "legacy-registry.db"
+    legacy_schema = SCHEMA.replace(
+        "    candidate_canonical_path TEXT,\n    candidate_extraction_path TEXT,\n",
+        "",
+    )
+    with sqlite3.connect(db_path) as connection:
+        connection.executescript(legacy_schema)
+
+    registry = LifecycleRegistry(db_path)
+    _create_document(registry)
+    version = registry.create_version(
+        document_id="policy-a",
+        checksum="a" * 64,
+        extension=".pdf",
+        original_path="original.pdf",
+        original_filename="original.pdf",
+        content_type="application/pdf",
+        size_bytes=10,
+    )
+
+    assert version.candidate_canonical_path is None
+    assert version.candidate_extraction_path is None
+    updated = registry.update_candidate_artifacts(
+        version.version_id,
+        parse_status="failed",
+        candidate_processed_path="processed.jsonl",
+        candidate_chunks_path="chunks_500.jsonl",
+        candidate_canonical_path="canonical.md",
+        candidate_extraction_path="extraction.json",
+        parse_warnings='["malformed_pdf"]',
+    )
+    assert updated.candidate_canonical_path == "canonical.md"
+    assert updated.candidate_extraction_path == "extraction.json"

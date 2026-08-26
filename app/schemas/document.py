@@ -52,6 +52,8 @@ class VersionSummary(BaseModel):
     parse_status: str
     review_status: str
     parse_warnings: str | None = None
+    candidate_canonical_path: str | None = None
+    candidate_extraction_path: str | None = None
     supersedes: str | None = None
     superseded_by: str | None = None
     created_at: str

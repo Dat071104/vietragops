@@ -41,6 +41,8 @@ def _version_summary(version: VersionRecord) -> VersionSummary:
         parse_status=version.parse_status,
         review_status=version.review_status,
         parse_warnings=version.parse_warnings,
+        candidate_canonical_path=version.candidate_canonical_path,
+        candidate_extraction_path=version.candidate_extraction_path,
         supersedes=version.supersedes,
         superseded_by=version.superseded_by,
         created_at=version.created_at,

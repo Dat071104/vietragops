@@ -1,0 +1,86 @@
+%PDF-1.4
+%gate02
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R 6 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 62 >>
+stream
+BT
+/F1 12 Tf
+1 0 0 1 60 760 Tm
+(Gate Two Table Fixture) Tj
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 578 >>
+stream
+BT
+/F1 12 Tf
+1 0 0 1 60 710 Tm
+(Field) Tj
+1 0 0 1 260 710 Tm
+(Value) Tj
+1 0 0 1 460 710 Tm
+(Note) Tj
+1 0 0 1 60 685 Tm
+(Policy) Tj
+1 0 0 1 260 685 Tm
+(Local) Tj
+1 0 0 1 460 685 Tm
+(Enabled) Tj
+1 0 0 1 60 660 Tm
+(Parser) Tj
+1 0 0 1 260 660 Tm
+(MarkItDown) Tj
+1 0 0 1 460 660 Tm
+(Pinned) Tj
+1 0 0 1 60 635 Tm
+(Fallback) Tj
+1 0 0 1 260 635 Tm
+(pypdf) Tj
+1 0 0 1 460 635 Tm
+(Explicit) Tj
+1 0 0 1 60 610 Tm
+(Review) Tj
+1 0 0 1 260 610 Tm
+(Required) Tj
+1 0 0 1 460 610 Tm
+(Before publish) Tj
+1 0 0 1 60 585 Tm
+(Scope) Tj
+1 0 0 1 260 585 Tm
+(PDF) Tj
+1 0 0 1 460 585 Tm
+(Gate 02) Tj
+ET
+endstream
+endobj
+xref
+0 8
+0000000000 65535 f
+0000000017 00000 n
+0000000066 00000 n
+0000000129 00000 n
+0000000199 00000 n
+0000000325 00000 n
+0000000436 00000 n
+0000000562 00000 n
+trailer
+<< /Size 8 /Root 1 0 R >>
+startxref
+1190
+%%EOF

@@ -52,6 +52,8 @@ CREATE TABLE IF NOT EXISTS versions (
         CHECK (review_status IN ('candidate', 'reviewed', 'published', 'superseded', 'retired')),
     candidate_processed_path TEXT,
     candidate_chunks_path TEXT,
+    candidate_canonical_path TEXT,
+    candidate_extraction_path TEXT,
     parse_warnings TEXT,
     supersedes TEXT REFERENCES versions(version_id),
     superseded_by TEXT REFERENCES versions(version_id),
@@ -96,6 +98,8 @@ class VersionRecord:
     review_status: str
     candidate_processed_path: str | None
     candidate_chunks_path: str | None
+    candidate_canonical_path: str | None
+    candidate_extraction_path: str | None
     parse_warnings: str | None
     supersedes: str | None
     superseded_by: str | None
@@ -138,6 +142,15 @@ class LifecycleRegistry:
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         with self._connect() as conn:
             conn.executescript(SCHEMA)
+            self._migrate_versions(conn)
+
+    @staticmethod
+    def _migrate_versions(conn: sqlite3.Connection) -> None:
+        """Add Gate 02 candidate locations to registries created by Gate 01."""
+        columns = {row[1] for row in conn.execute("PRAGMA table_info(versions)")}
+        for column in ("candidate_canonical_path", "candidate_extraction_path"):
+            if column not in columns:
+                conn.execute(f"ALTER TABLE versions ADD COLUMN {column} TEXT")
 
     def _connect(self) -> sqlite3.Connection:
         conn = sqlite3.connect(self.db_path, timeout=30)
@@ -269,16 +282,28 @@ class LifecycleRegistry:
         candidate_processed_path: str | None,
         candidate_chunks_path: str | None,
         parse_warnings: str | None,
+        candidate_canonical_path: str | None = None,
+        candidate_extraction_path: str | None = None,
     ) -> VersionRecord:
         with self._connect() as conn:
             conn.execute(
                 """
                 UPDATE versions
                 SET parse_status = ?, candidate_processed_path = ?, candidate_chunks_path = ?,
+                    candidate_canonical_path = ?, candidate_extraction_path = ?,
                     parse_warnings = ?, updated_at = ?
                 WHERE version_id = ?
                 """,
-                (parse_status, candidate_processed_path, candidate_chunks_path, parse_warnings, now_iso(), version_id),
+                (
+                    parse_status,
+                    candidate_processed_path,
+                    candidate_chunks_path,
+                    candidate_canonical_path,
+                    candidate_extraction_path,
+                    parse_warnings,
+                    now_iso(),
+                    version_id,
+                ),
             )
         self._record_event(version_id, f"parsed:{parse_status}", parse_warnings)
         return self.get_version(version_id)  # type: ignore[return-value]

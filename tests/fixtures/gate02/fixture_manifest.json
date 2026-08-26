@@ -1,0 +1,50 @@
+{
+  "schema": "vietragops.gate02.fixtures",
+  "schema_version": 1,
+  "provenance": "Locally generated small fixtures; no upstream or user documents copied.",
+  "generator_revision": "gate02-local-fixtures-v1",
+  "fixtures": [
+    {
+      "path": "normal.pdf",
+      "format": "pdf",
+      "purpose": "extractable prose and numbered sections",
+      "license": "original test fixture",
+      "sha256": "0277df8561027d4327e720f10d8823fe10081e39c5ed13aca22393ab4a9df1c6"
+    },
+    {
+      "path": "malformed.pdf",
+      "format": "pdf",
+      "purpose": "header-only malformed input",
+      "license": "original test fixture",
+      "sha256": "354cc2179748a3d5edc7c033b97e9ca3c6462a54c960f5481cea19abd3bece7c"
+    },
+    {
+      "path": "scanned_no_text.pdf",
+      "format": "pdf",
+      "purpose": "valid PDF with no text layer",
+      "license": "original test fixture",
+      "sha256": "16b37bf4359c1e5e85674975fc5ff85574689647a208e79b37deffcb409a130d"
+    },
+    {
+      "path": "table_heavy.pdf",
+      "format": "pdf",
+      "purpose": "aligned multi-column table extraction",
+      "license": "original test fixture",
+      "sha256": "60f35f2ddb077b32685dc4d2cbe364a94050ca25bf550ad484c98e1e6ef38582"
+    },
+    {
+      "path": "docx_policy.docx",
+      "format": "docx",
+      "purpose": "local DOCX prose and table extraction",
+      "license": "original test fixture",
+      "sha256": "fb7fc2d4f3298fd66fa6eeb51318c3d66c78eecb49003c1fe8f958f896a5a31e"
+    },
+    {
+      "path": "malformed.docx",
+      "format": "docx",
+      "purpose": "header-only malformed DOCX container",
+      "license": "original test fixture",
+      "sha256": "380faa0aac38de9002e2e5771dc7ed54d9983b53c267afac35208ca670abe370"
+    }
+  ]
+}

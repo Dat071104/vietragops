@@ -29,7 +29,8 @@ from pathlib import Path
 
 from rag.lifecycle.errors import LifecycleError
 from rag.lifecycle.intake import IntakeReceiver
-from rag.lifecycle.pipeline import process_candidate
+from rag.lifecycle.extraction import validate_candidate_artifacts
+from rag.lifecycle.pipeline import normalize_pdf_parser_policy, process_candidate
 from rag.lifecycle.publish import apply_live_state
 from rag.lifecycle.registry import LifecycleRegistry, VersionRecord
 from rag.lifecycle.storage import write_bytes_atomic
@@ -56,14 +57,16 @@ class LifecycleService:
         live_chunks_path: Path,
         max_upload_bytes: int,
         refresh_live_caches: Callable[[], None] = lambda: None,
+        pdf_parser_policy: str = "markitdown",
     ) -> None:
         self._registry = registry
-        self._originals_dir = Path(originals_dir)
-        self._candidates_dir = Path(candidates_dir)
-        self._live_manifest_path = Path(live_manifest_path)
-        self._live_chunks_path = Path(live_chunks_path)
+        self._originals_dir = Path(originals_dir).resolve()
+        self._candidates_dir = Path(candidates_dir).resolve()
+        self._live_manifest_path = Path(live_manifest_path).resolve()
+        self._live_chunks_path = Path(live_chunks_path).resolve()
         self._max_upload_bytes = max_upload_bytes
         self._refresh_live_caches = refresh_live_caches
+        self._pdf_parser_policy = normalize_pdf_parser_policy(pdf_parser_policy)
 
     # -- intake ----------------------------------------------------------
 
@@ -132,12 +135,18 @@ class LifecycleService:
             domain=domain,
             authority_level=authority_level,
             candidate_dir=self._candidates_dir / version.version_id,
+            originals_dir=self._originals_dir,
+            pdf_parser=self._pdf_parser_policy,
         )
         version = self._registry.update_candidate_artifacts(
             version.version_id,
             parse_status=candidate_result.parse_status,
             candidate_processed_path=str(candidate_result.processed_path),
             candidate_chunks_path=str(candidate_result.chunks_path),
+            candidate_canonical_path=(
+                str(candidate_result.canonical_path) if candidate_result.canonical_path is not None else None
+            ),
+            candidate_extraction_path=str(candidate_result.extraction_path),
             parse_warnings=json.dumps(candidate_result.warnings) if candidate_result.warnings else None,
         )
 
@@ -179,6 +188,13 @@ class LifecycleService:
                 f"Version '{version_id}' has parse_status '{version.parse_status}'; it cannot be reviewed.",
                 status_code=409,
             )
+        version, issues = self._ensure_candidate_integrity(version)
+        if issues:
+            raise LifecycleError(
+                "candidate_unusable",
+                f"Version '{version_id}' has unusable candidate artifacts; it cannot be reviewed.",
+                status_code=409,
+            )
         return self._registry.update_review_status(version_id, "reviewed")
 
     def publish(self, version_id: str) -> VersionRecord:
@@ -189,6 +205,13 @@ class LifecycleService:
             raise LifecycleError(
                 "invalid_transition",
                 f"Version '{version_id}' is '{version.review_status}', not eligible for publish.",
+                status_code=409,
+            )
+        version, issues = self._ensure_candidate_integrity(version)
+        if issues or version.parse_status != "ok":
+            raise LifecycleError(
+                "candidate_unusable",
+                f"Version '{version_id}' has unusable candidate artifacts; it cannot be published.",
                 status_code=409,
             )
         if not version.candidate_chunks_path:
@@ -265,6 +288,13 @@ class LifecycleService:
                 f"Version '{to_version_id}' has no usable candidate chunks to restore.",
                 status_code=409,
             )
+        target, issues = self._ensure_candidate_integrity(target)
+        if issues or target.parse_status != "ok":
+            raise LifecycleError(
+                "candidate_unusable",
+                f"Version '{to_version_id}' has unusable candidate artifacts; it cannot be restored.",
+                status_code=409,
+            )
 
         current = self._registry.get_published_version(document_id)
         if current is not None and current.version_id == to_version_id:
@@ -297,6 +327,30 @@ class LifecycleService:
         return updated
 
     # -- helpers --------------------------------------------------------------
+
+    def _ensure_candidate_integrity(self, version: VersionRecord) -> tuple[VersionRecord, tuple[str, ...]]:
+        issues = validate_candidate_artifacts(version)
+        if not issues:
+            return version, ()
+        warnings: list[str] = []
+        if version.parse_warnings:
+            try:
+                existing = json.loads(version.parse_warnings)
+            except json.JSONDecodeError:
+                existing = []
+            if isinstance(existing, list):
+                warnings.extend(item for item in existing if isinstance(item, str))
+        warnings.extend(issues)
+        failed = self._registry.update_candidate_artifacts(
+            version.version_id,
+            parse_status="failed",
+            candidate_processed_path=version.candidate_processed_path,
+            candidate_chunks_path=version.candidate_chunks_path,
+            candidate_canonical_path=version.candidate_canonical_path,
+            candidate_extraction_path=version.candidate_extraction_path,
+            parse_warnings=json.dumps(list(dict.fromkeys(warnings))) if warnings else None,
+        )
+        return failed, issues
 
     @staticmethod
     def _now() -> str:

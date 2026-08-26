@@ -74,11 +74,14 @@ def test_process_candidate_writes_only_under_candidate_dir(tmp_path):
 
     assert result.processed_path == candidate_dir / "processed.jsonl"
     assert result.chunks_path == candidate_dir / "chunks_500.jsonl"
+    assert result.canonical_path is None
+    assert result.extraction_path == candidate_dir / "extraction.json"
     assert result.processed_path.exists()
     assert result.chunks_path.exists()
+    assert result.extraction_path.exists()
     # Only files under candidate_dir were created by this call.
     created_files = {p for p in (tmp_path / "candidates").rglob("*") if p.is_file()}
-    assert created_files == {result.processed_path, result.chunks_path}
+    assert created_files == {result.processed_path, result.chunks_path, result.extraction_path}
     # Unknown provenance is represented as "unknown", never invented as something specific.
     assert result.processed_doc["sections"]
     manifest_row_domain = json.loads(result.chunks_path.read_text(encoding="utf-8").splitlines()[0])["domain"]
