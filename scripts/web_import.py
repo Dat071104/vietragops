@@ -22,12 +22,13 @@ import os
 import sys
 from pathlib import Path
 
+_REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
+
 from dotenv import load_dotenv
 
 from app.core.config import get_web_import_service
-
-
-_REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
 def _should_load_dotenv() -> bool:
@@ -111,6 +112,12 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    # Vietnamese-language page titles/descriptions are the normal case for
+    # this app; the default console codepage on Windows cannot encode them.
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except (AttributeError, ValueError):
+        pass
     _load_env_files()
     parser = build_parser()
     args = parser.parse_args(argv)
