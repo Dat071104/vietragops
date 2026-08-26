@@ -15,6 +15,7 @@ import os
 import time
 from collections.abc import Callable
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from typing import Any, Literal
 
 import httpx
@@ -120,6 +121,7 @@ class FirecrawlAdapter:
         api_key_reader: Callable[[], str | None] = _read_api_key,
         transport: httpx.BaseTransport | None = None,
         sleep_fn: Callable[[float], None] = time.sleep,
+        clock_fn: Callable[[], float] = time.monotonic,
         base_url: str = FIRECRAWL_BASE_URL,
     ) -> None:
         self._timeout_seconds = timeout_seconds
@@ -129,6 +131,7 @@ class FirecrawlAdapter:
         self._api_key_reader = api_key_reader
         self._transport = transport
         self._sleep_fn = sleep_fn
+        self._clock_fn = clock_fn
         self._base_url = base_url.rstrip("/")
 
     def __repr__(self) -> str:  # never expose the key via repr/logging
@@ -276,15 +279,21 @@ class FirecrawlAdapter:
                 pass
 
         buffer = bytearray()
+        deadline = self._clock_fn() + self._timeout_seconds
         for chunk in response.iter_bytes():
-            buffer.extend(chunk)
-            if len(buffer) > self._max_response_bytes:
+            if len(buffer) + len(chunk) > self._max_response_bytes:
                 return _ClassifiedFailure(
                     status="invalid_response",
                     http_status=response.status_code,
                     error_code="response_too_large",
                     truncated=True,
                 )
+            buffer.extend(chunk)
+            if self._clock_fn() > deadline:
+                # A slow-drip body can otherwise stay under the per-chunk
+                # I/O timeout indefinitely; enforce a wall-clock deadline
+                # across the whole streamed read as well.
+                return _ClassifiedFailure(status="timeout", http_status=response.status_code, error_code="stream_deadline_exceeded")
 
         credits_used = _extract_credits(response.headers)
         try:
@@ -315,10 +324,21 @@ def _classify_status(status_code: int) -> FirecrawlStatus:
 def _parse_retry_after(value: str | None) -> float | None:
     if not value:
         return None
+    stripped = value.strip()
     try:
-        return max(0.0, float(value))
+        return max(0.0, float(stripped))
     except ValueError:
+        pass
+    try:
+        from email.utils import parsedate_to_datetime
+
+        parsed = parsedate_to_datetime(stripped)
+    except (TypeError, ValueError):
         return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    delta = (parsed - datetime.now(timezone.utc)).total_seconds()
+    return max(0.0, delta)
 
 
 def _extract_credits(headers: httpx.Headers) -> int | None:

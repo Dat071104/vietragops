@@ -222,6 +222,46 @@ def test_500_upstream_error_retries_then_reports_upstream_error():
     assert attempts["count"] == 2  # first attempt + 1 retry
 
 
+def test_retry_after_http_date_format_is_parsed():
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(
+            429, headers={"Retry-After": "Wed, 21 Oct 2099 07:28:00 GMT"}, json={"error": "rate_limited"}
+        )
+
+    adapter = _adapter(handler, max_retries=0)
+    result = adapter.scrape_markdown("https://example.gov.vn/x")
+
+    assert result.status == "rate_limited"
+    assert result.retry_after_seconds is not None
+    assert result.retry_after_seconds > 0
+
+
+def test_stream_deadline_is_enforced_independent_of_chunk_count():
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, json={"data": {"markdown": "short body"}})
+
+    clock_values = iter([0.0, 1000.0, 1000.0, 1000.0])
+
+    def fake_clock() -> float:
+        try:
+            return next(clock_values)
+        except StopIteration:
+            return 1000.0
+
+    transport = httpx.MockTransport(handler)
+    adapter = FirecrawlAdapter(
+        transport=transport,
+        api_key_reader=_fake_key,
+        sleep_fn=lambda _s: None,
+        clock_fn=fake_clock,
+        timeout_seconds=5.0,
+    )
+    result = adapter.scrape_markdown("https://example.gov.vn/x")
+
+    assert result.status == "timeout"
+    assert result.error_code == "stream_deadline_exceeded"
+
+
 def test_adapter_exposes_no_map_or_crawl_or_action_surface():
     forbidden = ("crawl", "map", "actions", "action", "screenshot", "extract", "batch_scrape")
     for name in forbidden:
