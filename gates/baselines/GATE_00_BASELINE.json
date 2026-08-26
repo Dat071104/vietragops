@@ -1,0 +1,289 @@
+{
+  "schema": "vietragops.gate00.baseline",
+  "schema_version": 1,
+  "created_at": "2026-08-26T13:30:47.5232089+07:00",
+  "gate": "00",
+  "scope": "reproducible offline baseline and safe restructure decision only",
+  "baseline_identity": {
+    "kind": "HEAD_plus_safe_dirty_overlay",
+    "head_commit": "e710230a7a99c03c2d8591518ee7139f19fb89ba",
+    "historical_prompt_commit_not_used_as_baseline": "5b9045d",
+    "overlay_identity_sha256": "90b7b0a60dc0680d84c49c76903b3af553971469e63e7326c0b5708f04bc9bcd",
+    "overlay_record_count": 44
+  },
+  "repository": {
+    "canonical_git_root": "D:/Project cua Dat/VietRAGOps/ROOT/VietRagOps",
+    "branch": "main",
+    "head": "e710230a7a99c03c2d8591518ee7139f19fb89ba",
+    "upstream": "origin/main",
+    "upstream_relation": {
+      "ahead": 2,
+      "behind": 0
+    },
+    "working_tree": {
+      "state": "dirty",
+      "initial_porcelain_line_count": 37,
+      "initial_tracked_overlay_paths": 6,
+      "initial_nonignored_untracked_files": 38,
+      "gate_owned_artifacts_created_after_initial_snapshot": [
+        "gates/baselines/GATE_00_RETRIEVAL_SMOKE.json"
+      ],
+      "ignored_operational_file_not_in_git_overlay": "_agent_ops/CURRENT_TASK.md",
+      "ignored_secret_or_local_handoff_names_checked": [
+        ".env",
+        ".env.local",
+        ".env.firecrawl.local",
+        ".env.groq.local",
+        ".env.openai.local",
+        ".env.google.local"
+      ],
+      "ignored_secret_or_local_handoff_names_all_match_gitignore": true
+    },
+    "dirty_overlay": {
+      "captured_before_gate_owned_artifact_generation": true,
+      "tracked": [
+        {
+          "path": "rag/generation/groq_client.py",
+          "status": "modified",
+          "head_blob_sha1": "b1d9afb679b29f2b8a7ba6886f2013bb4d3cc318",
+          "worktree_sha256": "b48cf46c4381176b154ea99ee2157315934edb7b340bbc4a86791cc59e99f68f"
+        },
+        {
+          "path": "skills/implementation-logger/scripts/append_log.py",
+          "status": "deleted",
+          "head_blob_sha1": "71370e84105f8f787f0a3c6b70788648a63a9a6e",
+          "worktree_sha256": null
+        },
+        {
+          "path": "skills/project-context-cards/scripts/new_phase_card.py",
+          "status": "deleted",
+          "head_blob_sha1": "70a5bab1289f4b0b9be16261f0489a68b7ef42ba",
+          "worktree_sha256": null
+        },
+        {
+          "path": "skills/rag-eval-harness/scripts/compute_retrieval_metrics.py",
+          "status": "deleted",
+          "head_blob_sha1": "f9364839833cc534fdff30a8c7e9ecbe3dfbf207",
+          "worktree_sha256": null
+        },
+        {
+          "path": "skills/release-quality-gate/scripts/check_required_files.py",
+          "status": "deleted",
+          "head_blob_sha1": "a484ca9b7d0658de50db65901b95c6e47e791286",
+          "worktree_sha256": null
+        },
+        {
+          "path": "skills/zone-brain/scripts/scan_deps.py",
+          "status": "deleted",
+          "head_blob_sha1": "1009f5a0ae46afbf8472c5b41dff4c41eea6472b",
+          "worktree_sha256": null
+        }
+      ],
+      "untracked_nonignored": [
+        {"path": "AGENTS.md", "size_bytes": 4434, "sha256": "a4be11c41e75a2b1a3dfc16b9977f3cd98d3cd06701053a2a946d43a4e70f5fd"},
+        {"path": "_agent_ops/.gitignore", "size_bytes": 1057, "sha256": "3094190660ca94d1591ad2229e71f719463f44db4c7fdc8c4f70452505d34cda"},
+        {"path": "_agent_ops/DECISION_LOG.md", "size_bytes": 3857, "sha256": "4a1959e2f641769e1df9ff478f4a2d98057031f1c4bfa9fcd3317e9c381a1b8b"},
+        {"path": "_agent_ops/IMPLEMENTATION_LOG.md", "size_bytes": 9391, "sha256": "640a80f1c4addfb3aec29ece92f1ae81a9adaccfece45ded0b21b0b6be8b6952"},
+        {"path": "_agent_ops/INDEX.md", "size_bytes": 5173, "sha256": "8369ff6575f16cc5cd6c6b28d8f7385fde88ab2ec7435843ab6941ca76159b36"},
+        {"path": "_agent_ops/OPERATING_RULES.md", "size_bytes": 5529, "sha256": "cbc0474ae4859f3b65143980ec308738223212e4ba6dcda5b94097cc4bb51f7b"},
+        {"path": "_agent_ops/PHASE_ROADMAP.md", "size_bytes": 2614, "sha256": "d4cc6427e06e461f9afbff6d7539d301ed7ffe0211692ee036cad99b4e916903"},
+        {"path": "_agent_ops/PROJECT_CONTEXT_CARD.md", "size_bytes": 45137, "sha256": "e7eb08b42667b9c6ba5925cc2580f983c5f6d09f59bf8d1bc7f2862a61b3a659"},
+        {"path": "_agent_ops/REPO_MAP.md", "size_bytes": 4927, "sha256": "7d44dfdec3da4503396d42dff6e2c8b78950bfa08543fee536006ccdcd246c48"},
+        {"path": "_agent_ops/RISK_REGISTER.md", "size_bytes": 3162, "sha256": "34f107edffc960040d9c01e98e99b497d9a9807443b7f235397fd62f49772f42"},
+        {"path": "_agent_ops/SESSION_PROTOCOL.md", "size_bytes": 9331, "sha256": "0e481d7f62d4299d22a107a6316391041ff04a8373a7150b1a6d1b88f79379d5"},
+        {"path": "_agent_ops/THIRD_PARTY_TOOLING.md", "size_bytes": 2626, "sha256": "85f2cc2384ad2d3cb4f930a4eb1ef369256fc252bf74525b54b51cc6b52ec65f"},
+        {"path": "_agent_ops/archive/README.md", "size_bytes": 192, "sha256": "93d25adf38c958a5a297311257ded8d5e081ead103d8dd4ef6dbc248d558e7cf"},
+        {"path": "_agent_ops/env_templates/README.md", "size_bytes": 1536, "sha256": "285c0e950d888dd693e19a925a805893c388ed330f6d5800d64f9d19bcc8ce27"},
+        {"path": "_agent_ops/phase_context_cards/README.md", "size_bytes": 134, "sha256": "99cf6fe25aabe9e8a46d648fd45bf5c29354f843ca629325dda03e4a873e3328"},
+        {"path": "_agent_ops/phase_context_cards/evolve_2026_08_26/EVOLVE_MASTER_CONTEXT.md", "size_bytes": 3885, "sha256": "e62e8f0f428b28acdbe14e2eafaacb73f8aeba3c5206b57c7b49f273eaaa1ce8"},
+        {"path": "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_00.md", "size_bytes": 816, "sha256": "23cd0b273e9a704d568d9e8932c1b4960e603d0d035ddb6b1df21576e9a14a06"},
+        {"path": "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_01.md", "size_bytes": 801, "sha256": "89228df54542f58634e7f079bc6c292941b5017f01604742f660ebe4704dcf9f"},
+        {"path": "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_02.md", "size_bytes": 878, "sha256": "786702cd0d1ca156a6652989a97a99be5d6c53dbf185cd52293ec66222772b0e"},
+        {"path": "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_03.md", "size_bytes": 1077, "sha256": "752a660aeadc368fedc6bfc8c3b7ea46b2948837bb8d1d7fbd587efc2f8ec67e"},
+        {"path": "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_04.md", "size_bytes": 685, "sha256": "2bceab26af931d2996ca16a7464e9f86f4e8516eb02a41f007f732905859fe55"},
+        {"path": "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_05.md", "size_bytes": 688, "sha256": "27dd3a0ce9556c986a76c36c073d24a691a4c523d7544d42b65b9a1fc6bcf089"},
+        {"path": "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_06.md", "size_bytes": 764, "sha256": "f9b279db64b7cfbe57f8fc3e55bff9f2f02875cbb77fdab1c1ac91a6983fab"},
+        {"path": "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_07.md", "size_bytes": 866, "sha256": "cb964629bb46d639bf26a07fa56812ae43e14858860fd5fa1a96dc82f99df2c5"},
+        {"path": "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_08.md", "size_bytes": 595, "sha256": "cb02332036f14a5794b08f8f613a3b4e4d6fdfa8ada1cdf32615077476da8e1a"},
+        {"path": "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_09.md", "size_bytes": 632, "sha256": "27586e2af42b90b25d1a67607139c2f4344a97639f9e22fffc0692825f55a8c5"},
+        {"path": "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_10.md", "size_bytes": 548, "sha256": "0b25f1fcae4e545bad90412b73347f657509a70513032216744b8802043ceaa6"},
+        {"path": "_agent_ops/phase_context_cards/evolve_2026_08_26/README.md", "size_bytes": 2380, "sha256": "c6da5e237275b94203b787eacff7458b4c0d3372f064bd7703748bb35f037ce9"},
+        {"path": "_agent_ops/tools/README.md", "size_bytes": 372, "sha256": "21acfb2e71d96673f4a04271ce120879abc5103acc816466c1086672a3de2711"},
+        {"path": "_agent_ops/tools/build_code_index.py", "size_bytes": 18934, "sha256": "a4f77f954b8b67aef10398fe121c1077547c13ec550d1e563d58a11900496869"},
+        {"path": "_agent_ops/tools/check_repo_hygiene.py", "size_bytes": 8202, "sha256": "4fe2b6b09fff72f8d34ac4c59a4d2ca6bd8b11901bbd6e743414e1b442e1a94f"},
+        {"path": "_agent_ops/tools/explore.py", "size_bytes": 16278, "sha256": "64d2dc283eb90ad18af97e5ca8e8bc191428fc1cd08cf73d2b4248e3eea3fb44"},
+        {"path": "_agent_ops/tools/generate_context_card.py", "size_bytes": 4313, "sha256": "fc3f1a1890419e2cbb21e86cab85fe5187629c27cb0303bb68157081a1bf936a"},
+        {"path": "_agent_ops/tools/generate_repo_map.py", "size_bytes": 14540, "sha256": "5fe2ce4a943fae22c202eac12e2701ef5c8b99368f2a1706cd47edad30263675"},
+        {"path": "_agent_ops/tools/scan_deps.py", "size_bytes": 13382, "sha256": "1c9ef50efe15c3f86a2c033ec59578b4a1146f7c9ba2fdbd6cce8957e5b27a55"},
+        {"path": "_agent_ops/tools/session_start.py", "size_bytes": 20923, "sha256": "1efc95e4308f9de62bc5a17300eeec775bc6b33459da9c82151d79ce22063ebc"},
+        {"path": "_agent_ops/tools/summarize_implementation_log.py", "size_bytes": 7851, "sha256": "29217a29b8663a89a37c248c228a7e9d70dd7c5b65ca25985b233d9be84487b7"},
+        {"path": "tests/test_groq_rotation.py", "size_bytes": 3230, "sha256": "30a7ac21df261bf5e6a2e76aab71d18fd279d678778db866f03c38ec43f04349"}
+      ]
+    }
+  },
+  "configuration": {
+    "live_retrieval_config_source": "app/core/config.py",
+    "live_retrieval_artifact": "data/chunks/chunks_500.jsonl",
+    "default_provider": "mock",
+    "offline_process_environment": {
+      "PYTHON_DOTENV_DISABLED": "true",
+      "LLM_PROVIDER": "mock",
+      "provider_credentials": "absent from child process; credential values not inspected"
+    },
+    "network_features_used": false,
+    "providers_used": [],
+    "compose_validation": {
+      "mode": "config_only",
+      "env_file": ".env.example",
+      "services_started": false
+    }
+  },
+  "artifacts": {
+    "corpus": {
+      "root": "data/raw",
+      "document_count": 37,
+      "file_count_including_gitkeep": 38,
+      "total_size_bytes": 5069403,
+      "inventory_sha256": "0f72a7e7a1b4f1867169aa79121882525efed557620744779f042f11ff891e85",
+      "files": [
+        {"path": "data/raw/.gitkeep", "size_bytes": 2, "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"},
+        {"path": "data/raw/admission_handbook_2022.pdf", "size_bytes": 756111, "sha256": "da7d77440a0c57bfa82d613bedcb64e583b2791b55116e2d05ef439f34342eed"},
+        {"path": "data/raw/admission_handbook_2025.pdf", "size_bytes": 1543734, "sha256": "143b8a83e28f1063b33a06e2ea43029a2e297486a12ea7f46bafa8c84a74d68d"},
+        {"path": "data/raw/it_cs_curriculum_2015.html", "size_bytes": 103099, "sha256": "429fe0fb9f3b46d9715cf41567edcf7fa9a8e0361fc82e438523771a4b2d204b"},
+        {"path": "data/raw/it_cs_curriculum_2018.html", "size_bytes": 88082, "sha256": "0b0497b106a843413b81091717d3177c38b0e0f3c823abd3a88887837f6a53b6"},
+        {"path": "data/raw/it_cs_elo_2015.html", "size_bytes": 59774, "sha256": "9a1e2b3c79a5a481a47e1f9e2ab995714d558310f52db5366c67ca04e9fe048b"},
+        {"path": "data/raw/it_cs_elo_2018.html", "size_bytes": 54710, "sha256": "eee7ecb6d694efa3f0e2596d473155953fae99c0e92c173c0d7201421e178419"},
+        {"path": "data/raw/it_cs_program_detail.html", "size_bytes": 109710, "sha256": "03e2b1cfa530fb49cce157774a1cf49397d172340ccb3ddb709f0048cae57e81"},
+        {"path": "data/raw/it_cs_program_overview.html", "size_bytes": 80308, "sha256": "251f77cc6f30c91b07160583984fa42b627011bbdc5ea39204084c7cfdb3795d"},
+        {"path": "data/raw/tdtu_academic_guidance.html", "size_bytes": 27114, "sha256": "4f8a812e51993cb87b2dabd0b4ea63aff43ae9c5b0fc54f103bbc7aa946b4fe0"},
+        {"path": "data/raw/tdtu_major_catalog.html", "size_bytes": 34106, "sha256": "db84e6c05788b418a43eab9f1bb088465e6b7bdcf278adb0dcbd06b9c2585ea3"},
+        {"path": "data/raw/tdtu_training_regulations.html", "size_bytes": 22511, "sha256": "be9f98825450feb16c9ffbd30cfe671cd0d71296a27b572bb8b73addf8fc4e87"},
+        {"path": "data/raw/tdtu_undergraduate_hub.html", "size_bytes": 45387, "sha256": "185d5e798803f4d6b94334273361b9f052b862b1f9ece7e094b239fd8c4da09f"},
+        {"path": "data/raw/ug_academic_hub.html", "size_bytes": 44487, "sha256": "c0d6cf1ebe88e3f2fda613af6839492f23ceb1f2c9d857d8fedac21936b4e7a6"},
+        {"path": "data/raw/ug_academic_year_plan_guide.html", "size_bytes": 28672, "sha256": "d17db2a8084c8c3f4bbc926eba43cf5b0f504cf4badb204b16b8abfc9853f742"},
+        {"path": "data/raw/ug_academic_year_plan_page.html", "size_bytes": 26399, "sha256": "ac4af496bd658d3747b20e9d4b2136af064f7244354a853181c77caf6ef5387f"},
+        {"path": "data/raw/ug_campus_utilities.html", "size_bytes": 33468, "sha256": "26c970210fabc6154e7427310ee4723d245de0d153328d752332f80d776116b5"},
+        {"path": "data/raw/ug_course_registration_guide.html", "size_bytes": 36259, "sha256": "95a10d0534b02019f93a23d07d4be141446e706b3ea032814b41d89440a46851"},
+        {"path": "data/raw/ug_english_placement_score_guide_pdf.pdf", "size_bytes": 266140, "sha256": "5e390176479fa863b7ec115822722aaee077b0197c1c0b4d4663514233fa41d0"},
+        {"path": "data/raw/ug_graduation_conditions.html", "size_bytes": 29324, "sha256": "780b0427bf7bb53289c40ab6daa9656daf8e497b2385663c1e0818420ea709fc"},
+        {"path": "data/raw/ug_guidance_hub.html", "size_bytes": 33069, "sha256": "1618973e7a5e119d31d2c082f085950099205436e438011e6aeef63b9f8ae150"},
+        {"path": "data/raw/ug_moet_undergrad_regulation.html", "size_bytes": 92289, "sha256": "3036571c5da195cdb85608ef5a62be93a7cac76bd273e4250b5711eb76f693f2"},
+        {"path": "data/raw/ug_parent_info_policy.html", "size_bytes": 30208, "sha256": "1bbeef9652cae9d5a82d3d881e319ea703c80562f337bb898f8e28488d29562c"},
+        {"path": "data/raw/ug_regulations_hub.html", "size_bytes": 34547, "sha256": "9abbe49797ab5da9e45d050a6d8566db160b93e30d5a129c942066679e6e1235"},
+        {"path": "data/raw/ug_student_email_guide.html", "size_bytes": 28038, "sha256": "dc09273545d6c3bd688677000bd2c0474237716243d5c59da5c1dc6527e7a318"},
+        {"path": "data/raw/ug_student_life.html", "size_bytes": 38209, "sha256": "18a2035d2f9d3e06d6a51d4543ad56e525472a4ff67a78c6b30c34bfc3596ed2"},
+        {"path": "data/raw/ug_student_notes.html", "size_bytes": 34982, "sha256": "81ecbcaf6e0d49399a974505ea1c5d70ae4a3b92f355653818a3a8771af1044a"},
+        {"path": "data/raw/ug_student_portal_guide.html", "size_bytes": 27642, "sha256": "6aec2f3477ab6d5318c4b4dcd19112bfe167f40dc6c4eb7aad8ce2e3092650f6"},
+        {"path": "data/raw/ug_student_support.html", "size_bytes": 34445, "sha256": "6da4ad7e373142d94490b9aa4ad0323283f53b30d8a6c60c69d3094b4cdfb29b"},
+        {"path": "data/raw/ug_study_path_guide.html", "size_bytes": 27429, "sha256": "a67b1693eedf96f6501c113d565057fe3af914e2e4097dc585fcb00c5888f2f0"},
+        {"path": "data/raw/ug_study_plan_registration_guide.html", "size_bytes": 32813, "sha256": "bd05ca3a0c3d1cc3b111f1776b7183470fa089f9d433757a72336413e8b6c4d9"},
+        {"path": "data/raw/ug_teaching_learning_rules.html", "size_bytes": 32825, "sha256": "d6870427e18f756b3233ae18c1ca8a48b95178352ac719c5d89e2ef8bacc4f2a"},
+        {"path": "data/raw/ug_things_to_know.html", "size_bytes": 36966, "sha256": "3a65745de854528306a2b91eb7f5e3dea96793ede0e06a68aafa68a13243bbea"},
+        {"path": "data/raw/ug_timetable_guide.html", "size_bytes": 31583, "sha256": "b716f6286d67588db8ebcd0f71b08ed1c34f345abfe3d199ec6a5c5fb66a26e1"},
+        {"path": "data/raw/ug_training_reg_k2020_html.html", "size_bytes": 156316, "sha256": "fedce63867e9fc29a8cc5ae50b902c5654708fd5756b16efe58405f053b50690"},
+        {"path": "data/raw/ug_training_reg_k2020_pdf.pdf", "size_bytes": 579479, "sha256": "7f35b3c9152faaa485f6eafa79e6672d6070c75196c94671c7f45e6a13473d41"},
+        {"path": "data/raw/ug_training_reg_k2021_html.html", "size_bytes": 162815, "sha256": "3a0a17692b5bc5060c4c6db610a4ba5c7f6fff55ac16feff72b0a534080c0052"},
+        {"path": "data/raw/ug_training_reg_k2021_pdf.pdf", "size_bytes": 266351, "sha256": "a68db0ef88f8186c93242809425398943c856e80f36b693902ade7baf752befa"}
+      ]
+    },
+    "processed_documents": {
+      "path": "data/processed/processed_docs.jsonl",
+      "row_count": 37,
+      "size_bytes": 935369,
+      "sha256": "49c35828b554c8362a3ce65b295e1386e67ffdb2c39ac79a61087c1a4284a54f"
+    },
+    "document_manifest": {
+      "path": "data/manifests/documents_manifest.csv",
+      "row_count": 37,
+      "size_bytes": 14297,
+      "sha256": "2211b9191dcdd767bbac1b078a9a2221e93ea17d7d82fbef017e4ce0f2c11c8f"
+    },
+    "chunks": [
+      {"path": "data/chunks/chunks_300.jsonl", "row_count": 1036, "size_bytes": 2067715, "sha256": "117d2853499fd69a635049ab37d8ea9c61ca8946d996aabd223b8966dcfef951"},
+      {"path": "data/chunks/chunks_500.jsonl", "row_count": 695, "size_bytes": 1610414, "sha256": "0510c68876fc4b9295ba9ffff86bd1816432233f9b265b272e6e26613ba7e130"},
+      {"path": "data/chunks/chunks_800.jsonl", "row_count": 572, "size_bytes": 1454330, "sha256": "22b7e0aaceb6dffa9a983266a9c3837693e8717dd023f2c3958046a9a5361dc7"}
+    ],
+    "logical_index": {
+      "path": "data/chunks/chunks_500.jsonl",
+      "implementation": "rag.retrieval.index_store.ChunkIndexStore",
+      "persisted_index_exists": false,
+      "loaded_record_count": 695,
+      "source_size_bytes": 1610414,
+      "source_sha256": "0510c68876fc4b9295ba9ffff86bd1816432233f9b265b272e6e26613ba7e130"
+    },
+    "qa_inputs": [
+      {"path": "evals/datasets/dev_qa.jsonl", "row_count": 20, "size_bytes": 9618, "sha256": "3ce6dcc841b6b56b9d0ee253fe4a0000a49302e2cb655d1a368fd80615ebffaa"},
+      {"path": "evals/datasets/golden_qa.jsonl", "row_count": 120, "size_bytes": 71870, "sha256": "71f66f3fd39143f2f918d654306918fcf92424e3b51fb008446dd03fe2152ab4"},
+      {"path": "evals/datasets/test_qa.jsonl", "row_count": 20, "size_bytes": 12028, "sha256": "3e58a844ca23d08e4dd0a4fbefd3808a83bfd3d3f9f27f6a28568ae96b639062"},
+      {"path": "evals/datasets/validation_qa.jsonl", "row_count": 6, "size_bytes": 3368, "sha256": "4b3d054d300c708710fb892fa590ecad868bbb123c689997555d3f0e2257b2de"}
+    ],
+    "retrieval_smoke": {
+      "path": "gates/baselines/GATE_00_RETRIEVAL_SMOKE.json",
+      "size_bytes": 302199,
+      "sha256": "b3ec5f3bd1da7fab11f45aa0dc786dcd298c844b05ae6539a7081f29838460bb",
+      "retriever": "bm25",
+      "backend": "offline_bm25",
+      "top_k": 5,
+      "query_count": 20,
+      "answerable_query_count": 18,
+      "metrics": {
+        "recall_at_3": 0.7222,
+        "recall_at_5": 0.8889,
+        "recall_at_10": 0.8889,
+        "mrr": 0.5917,
+        "precision_at_5": 0.1889,
+        "latency_ms_reported": 1.57
+      }
+    }
+  },
+  "commands": [
+    {"command": "python _agent_ops/tools/session_start.py --root .", "provider_mode": "offline/mock", "exit_status": 0, "result_location": "session-start stdout", "warnings": ["startup reported repo map and symbol index stale since 5b9045d", "startup reported 36 file(s); independent porcelain snapshot recorded 6 tracked overlay paths and 38 nonignored untracked files"]},
+    {"command": "git rev-parse --show-toplevel; git branch --show-current; git rev-parse HEAD; git rev-parse --abbrev-ref --symbolic-full-name @{upstream}; git rev-list --left-right --count HEAD...@{upstream}; git status --porcelain=v1", "provider_mode": "not_applicable", "exit_status": 0, "result_location": "baseline_identity and repository.working_tree", "warnings": []},
+    {"command": "git check-ignore -v --no-index -- .env .env.local .env.firecrawl.local .env.groq.local .env.openai.local .env.google.local", "provider_mode": "not_applicable", "exit_status": 0, "result_location": "repository.working_tree.ignored_secret_or_local_handoff_names_checked", "warnings": []},
+    {"command": "python evals/experiments/run_retrieval_eval.py --help", "provider_mode": "offline/no provider", "exit_status": 1, "result_location": "stderr", "warnings": ["ModuleNotFoundError: No module named 'evals' when invoked as a direct script"]},
+    {"command": "python -m evals.experiments.run_retrieval_eval --help", "provider_mode": "offline/no provider", "exit_status": 0, "result_location": "stdout", "warnings": []},
+    {"command": "python -m compileall app rag evals frontend scripts tests", "provider_mode": "offline/mock", "exit_status": 0, "result_location": "stdout", "warnings": []},
+    {"command": "python -m pytest -q", "provider_mode": "offline/mock", "exit_status": 1, "result_location": "stderr", "warnings": ["C:\\Python314\\python.exe: No module named pytest"]},
+    {"command": "python scripts/validate_chunks.py --chunks-dir data/chunks", "provider_mode": "offline/mock", "exit_status": 0, "result_location": "stdout", "warnings": ["duplicate_rate reported as 0.0010, 0.0014, and 0.0017 for chunks_300, chunks_500, and chunks_800; abnormal=0 for all"]},
+    {"command": "python scripts/validate_processed_docs.py", "provider_mode": "offline/mock", "exit_status": 2, "result_location": "stderr/stdout", "warnings": ["usage failure because the existing script requires a path argument"]},
+    {"command": "python scripts/validate_processed_docs.py data/processed/processed_docs.jsonl", "provider_mode": "offline/mock", "exit_status": 0, "result_location": "stdout", "warnings": []},
+    {"command": "python scripts/verify_manifest.py", "provider_mode": "offline/mock", "exit_status": 2, "result_location": "stderr/stdout", "warnings": ["usage failure because the existing script requires a path argument"]},
+    {"command": "python scripts/verify_manifest.py data/manifests/documents_manifest.csv", "provider_mode": "offline/mock", "exit_status": 0, "result_location": "stdout", "warnings": []},
+    {"command": "docker compose --env-file .env.example config --quiet", "provider_mode": "mock config-only; no service started", "exit_status": 0, "result_location": "stdout/stderr", "warnings": ["WARNING: Error loading config file: open C:\\Users\\ADMIN\\.docker\\config.json: Access is denied. emitted twice"]},
+    {"command": "python -m evals.experiments.run_retrieval_eval --chunks data/chunks/chunks_500.jsonl --qa evals/datasets/dev_qa.jsonl --retriever bm25 --top_k 5 --output gates/baselines/GATE_00_RETRIEVAL_SMOKE.json", "provider_mode": "offline/no provider", "exit_status": 0, "result_location": "gates/baselines/GATE_00_RETRIEVAL_SMOKE.json", "warnings": ["experiment timestamp and measured latency are run-specific"]}
+  ],
+  "boundary_decision": {
+    "status": "NOT_NEEDED",
+    "evidence_basis": [
+      "Current loaders, preprocessing, and chunking modules are already separated under rag and the phase scripts orchestrate them without a demonstrated shared-state coupling.",
+      "Knowledge retrieval has a direct ChunkIndexStore owner and the current app/evaluator call paths are explicit.",
+      "Generation/provider routing is already isolated under rag/generation; the dirty groq client is pre-existing and was not altered.",
+      "No Gate 01 behavior is authorized in Gate 00, so creating empty target folders or compatibility wrappers would not enable an in-scope requirement."
+    ],
+    "decision_table": [
+      {"responsibility": "ingestion", "current_owner": "rag/loaders, rag/preprocessing, rag/chunking, scripts/run_phase2_processing.py, scripts/chunk_documents.py", "proposed_boundary": "preserve existing modules; treat them as the ingestion boundary", "evidence": "phase scripts import loader/preprocessing/chunking modules directly; no demonstrated behavior-changing coupling", "change_needed_now": false, "compatibility_test": "compileall plus validate_processed_docs and validate_chunks"},
+      {"responsibility": "knowledge", "current_owner": "rag/retrieval and app/core/config.py get_store", "proposed_boundary": "preserve ChunkIndexStore/retriever ownership", "evidence": "explore shows get_store -> ChunkIndexStore.from_jsonl and routes/evaluator consume the store", "change_needed_now": false, "compatibility_test": "offline BM25 smoke and validate_chunks"},
+      {"responsibility": "agents", "current_owner": "app/api/routes_agent.py and rag/generation", "proposed_boundary": "preserve app route plus generation/provider modules", "evidence": "ProviderRouter and AnswerGenerator already have isolated owners; no provider was invoked", "change_needed_now": false, "compatibility_test": "compileall only; full pytest unavailable"},
+      {"responsibility": "tools", "current_owner": "scripts and existing _agent_ops/tools", "proposed_boundary": "preserve script entry points; do not create a duplicate top-level tools tree", "evidence": "existing scripts are direct entry points and the repo already has tooling records", "change_needed_now": false, "compatibility_test": "script validations and compose config"},
+      {"responsibility": "evolution", "current_owner": "none in application runtime; planning cards are under _agent_ops/phase_context_cards", "proposed_boundary": "no application directory in Gate 00", "evidence": "Evolve tracker is planning context and Gate 01 is not authorized", "change_needed_now": false, "compatibility_test": "not applicable; no change"},
+      {"responsibility": "research", "current_owner": "evals/experiments and evals/metrics", "proposed_boundary": "preserve evaluator/metric modules", "evidence": "run_retrieval_eval owns retrieval evaluation and smoke passed offline", "change_needed_now": false, "compatibility_test": "retrieval smoke and compileall"},
+      {"responsibility": "ops", "current_owner": "_agent_ops and gates", "proposed_boundary": "preserve existing ops records and add only Gate 00 evidence", "evidence": "required session/gate records already exist; no duplicate decision ledger is needed", "change_needed_now": true, "compatibility_test": "manifest parse and referenced-artifact checks"}
+    ]
+  },
+  "limitations": [
+    "The baseline is dirty but reproducibly identified as current HEAD plus the recorded safe overlay; pre-existing overlay files were not staged or changed.",
+    "Full pytest did not run because pytest is unavailable in C:\\Python314; this is a blocker for a full test acceptance claim, not a reason to install packages or alter tests.",
+    "The retrieval smoke result contains evaluator output and its timestamp/latency vary; later comparisons should use the recorded source hashes and retrieval metrics/IDs rather than assume the smoke file hash is invariant.",
+    "No persisted vector/index artifact exists; the logical index is an in-memory ChunkIndexStore loaded from chunks_500.jsonl.",
+    "No provider, live retrieval, Firecrawl, MarkItDown, GCP, or network-dependent feature was used."
+  ],
+  "reproduction_procedure": [
+    "From the canonical root, do not read .env; run child processes with PYTHON_DOTENV_DISABLED=true and LLM_PROVIDER=mock, with provider credential variables absent.",
+    "Verify the repository identity and dirty overlay before running checks; compare corpus, processed, manifest, chunk, and QA paths against this manifest.",
+    "Run python -m compileall app rag evals frontend scripts tests.",
+    "Run python scripts/validate_chunks.py --chunks-dir data/chunks.",
+    "Run python scripts/validate_processed_docs.py data/processed/processed_docs.jsonl and python scripts/verify_manifest.py data/manifests/documents_manifest.csv.",
+    "Run docker compose --env-file .env.example config --quiet; do not start services.",
+    "Inspect python -m evals.experiments.run_retrieval_eval --help, then run the recorded offline BM25 smoke with its explicit output path."
+  ]
+}
