@@ -89,6 +89,7 @@ CREATE TABLE IF NOT EXISTS web_provenance (
     adapter_version TEXT NOT NULL,
     parser_policy TEXT NOT NULL,
     prior_version_id TEXT REFERENCES versions(version_id),
+    diff_path TEXT,
     created_at TEXT NOT NULL
 );
 
@@ -179,6 +180,7 @@ class LifecycleRegistry:
         with self._connect() as conn:
             conn.executescript(SCHEMA)
             self._migrate_versions(conn)
+            self._migrate_web_provenance(conn)
 
     @staticmethod
     def _migrate_versions(conn: sqlite3.Connection) -> None:
@@ -187,6 +189,13 @@ class LifecycleRegistry:
         for column in ("candidate_canonical_path", "candidate_extraction_path"):
             if column not in columns:
                 conn.execute(f"ALTER TABLE versions ADD COLUMN {column} TEXT")
+
+    @staticmethod
+    def _migrate_web_provenance(conn: sqlite3.Connection) -> None:
+        """Add the Gate 03 recrawl-diff link to registries created before it existed."""
+        columns = {row[1] for row in conn.execute("PRAGMA table_info(web_provenance)")}
+        if "diff_path" not in columns:
+            conn.execute("ALTER TABLE web_provenance ADD COLUMN diff_path TEXT")
 
     def _connect(self) -> sqlite3.Connection:
         conn = sqlite3.connect(self.db_path, timeout=30)
@@ -393,6 +402,7 @@ class LifecycleRegistry:
         adapter_version: str,
         parser_policy: str,
         prior_version_id: str | None,
+        diff_path: str | None = None,
     ) -> None:
         with self._connect() as conn:
             conn.execute(
@@ -401,8 +411,8 @@ class LifecycleRegistry:
                     version_id, canonical_url, url_hash, retrieved_at,
                     firecrawl_action_id, http_status, status_class, credits_used,
                     content_checksum, domain, adapter_version, parser_policy,
-                    prior_version_id, created_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    prior_version_id, diff_path, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     version_id,
@@ -418,6 +428,7 @@ class LifecycleRegistry:
                     adapter_version,
                     parser_policy,
                     prior_version_id,
+                    diff_path,
                     now_iso(),
                 ),
             )

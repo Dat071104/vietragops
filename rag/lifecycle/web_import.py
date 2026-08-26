@@ -19,6 +19,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from rag.ingestion.firecrawl import ADAPTER_VERSION, FirecrawlAdapter, SearchDescriptor
+from rag.lifecycle.web_diff import compute_section_diff, write_diff_artifact
 from rag.lifecycle.registry import LifecycleRegistry, now_iso
 from rag.lifecycle.web_pipeline import WEB_PARSER_POLICY, process_web_candidate
 from rag.lifecycle.web_safety import (
@@ -221,6 +222,16 @@ class WebImportService:
             candidate_extraction_path=str(candidate_result.extraction_path),
             parse_warnings=json.dumps(candidate_result.warnings) if candidate_result.warnings else None,
         )
+        diff_path: str | None = None
+        if prior_version_id is not None:
+            diff_path = self._write_recrawl_diff(
+                document_id=document_id,
+                title=display_title,
+                prior_version_id=prior_version_id,
+                new_version_id=version.version_id,
+                new_candidate_dir=self._candidates_dir / version_id,
+            )
+
         self._registry.create_web_provenance(
             version_id=version.version_id,
             canonical_url=canonical_url,
@@ -235,6 +246,7 @@ class WebImportService:
             adapter_version=ADAPTER_VERSION,
             parser_policy=WEB_PARSER_POLICY,
             prior_version_id=prior_version_id,
+            diff_path=diff_path,
         )
 
         return WebImportOutcome(
@@ -246,3 +258,42 @@ class WebImportService:
             is_new_version=True,
             prior_version_id=prior_version_id,
         )
+
+    def _write_recrawl_diff(
+        self,
+        *,
+        document_id: str,
+        title: str,
+        prior_version_id: str,
+        new_version_id: str,
+        new_candidate_dir: Path,
+    ) -> str | None:
+        """Deterministic changed-section summary against the prior version.
+
+        Never blocks the import: if the prior version's canonical Markdown is
+        unavailable for any reason, no diff artifact is written and the new
+        candidate version is still created (a missing diff is a known
+        limitation, not a reason to fail the recrawl).
+        """
+
+        prior_version = self._registry.get_version(prior_version_id)
+        if prior_version is None or not prior_version.candidate_canonical_path:
+            return None
+        prior_canonical_path = Path(prior_version.candidate_canonical_path)
+        new_canonical_path = new_candidate_dir / "canonical.md"
+
+        diff = compute_section_diff(
+            prior_canonical_path=prior_canonical_path,
+            new_canonical_path=new_canonical_path,
+            document_id=document_id,
+            title=title,
+        )
+        diff_path = new_candidate_dir / "diff.json"
+        write_diff_artifact(diff_path, diff)
+        self._registry.record_note(
+            new_version_id,
+            "recrawl_diff",
+            f"prior={prior_version_id} added={len(diff.added_sections)} "
+            f"removed={len(diff.removed_sections)} changed={len(diff.changed_sections)}",
+        )
+        return str(diff_path)
