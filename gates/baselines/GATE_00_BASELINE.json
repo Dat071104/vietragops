@@ -22,7 +22,7 @@
     },
     "working_tree": {
       "state": "dirty",
-      "initial_porcelain_line_count": 37,
+      "initial_porcelain_line_count": 36,
       "initial_tracked_overlay_paths": 6,
       "initial_nonignored_untracked_files": 38,
       "gate_owned_artifacts_created_after_initial_snapshot": [
