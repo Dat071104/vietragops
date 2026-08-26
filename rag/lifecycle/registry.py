@@ -74,6 +74,42 @@ CREATE TABLE IF NOT EXISTS events (
     detail TEXT,
     created_at TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS web_provenance (
+    version_id TEXT PRIMARY KEY REFERENCES versions(version_id),
+    canonical_url TEXT NOT NULL,
+    url_hash TEXT NOT NULL,
+    retrieved_at TEXT NOT NULL,
+    firecrawl_action_id TEXT,
+    http_status INTEGER,
+    status_class TEXT NOT NULL,
+    credits_used INTEGER,
+    content_checksum TEXT NOT NULL,
+    domain TEXT NOT NULL,
+    adapter_version TEXT NOT NULL,
+    parser_policy TEXT NOT NULL,
+    prior_version_id TEXT REFERENCES versions(version_id),
+    created_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_web_provenance_url_hash ON web_provenance(url_hash);
+
+CREATE TABLE IF NOT EXISTS acquisition_attempts (
+    attempt_id TEXT PRIMARY KEY,
+    action TEXT NOT NULL,
+    canonical_url TEXT,
+    domain TEXT,
+    status_class TEXT NOT NULL,
+    error_code TEXT,
+    http_status INTEGER,
+    retry_after_seconds REAL,
+    credits_used INTEGER,
+    document_id TEXT,
+    version_id TEXT,
+    created_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_acquisition_attempts_url ON acquisition_attempts(canonical_url);
 """
 
 
@@ -336,5 +372,118 @@ class LifecycleRegistry:
             rows = conn.execute(
                 "SELECT * FROM events WHERE version_id = ? ORDER BY event_id ASC",
                 (version_id,),
+            ).fetchall()
+            return [dict(row) for row in rows]
+
+    # -- web provenance -------------------------------------------------------
+
+    def create_web_provenance(
+        self,
+        *,
+        version_id: str,
+        canonical_url: str,
+        url_hash: str,
+        retrieved_at: str,
+        firecrawl_action_id: str | None,
+        http_status: int | None,
+        status_class: str,
+        credits_used: int | None,
+        content_checksum: str,
+        domain: str,
+        adapter_version: str,
+        parser_policy: str,
+        prior_version_id: str | None,
+    ) -> None:
+        with self._connect() as conn:
+            conn.execute(
+                """
+                INSERT INTO web_provenance (
+                    version_id, canonical_url, url_hash, retrieved_at,
+                    firecrawl_action_id, http_status, status_class, credits_used,
+                    content_checksum, domain, adapter_version, parser_policy,
+                    prior_version_id, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    version_id,
+                    canonical_url,
+                    url_hash,
+                    retrieved_at,
+                    firecrawl_action_id,
+                    http_status,
+                    status_class,
+                    credits_used,
+                    content_checksum,
+                    domain,
+                    adapter_version,
+                    parser_policy,
+                    prior_version_id,
+                    now_iso(),
+                ),
+            )
+
+    def get_web_provenance(self, version_id: str) -> dict[str, Any] | None:
+        with self._connect() as conn:
+            row = conn.execute("SELECT * FROM web_provenance WHERE version_id = ?", (version_id,)).fetchone()
+            return dict(row) if row is not None else None
+
+    # -- acquisition attempts ---------------------------------------------------
+
+    def record_acquisition_attempt(
+        self,
+        *,
+        action: str,
+        status_class: str,
+        canonical_url: str | None = None,
+        domain: str | None = None,
+        error_code: str | None = None,
+        http_status: int | None = None,
+        retry_after_seconds: float | None = None,
+        credits_used: int | None = None,
+        document_id: str | None = None,
+        version_id: str | None = None,
+    ) -> str:
+        attempt_id = uuid.uuid4().hex
+        with self._connect() as conn:
+            conn.execute(
+                """
+                INSERT INTO acquisition_attempts (
+                    attempt_id, action, canonical_url, domain, status_class,
+                    error_code, http_status, retry_after_seconds, credits_used,
+                    document_id, version_id, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    attempt_id,
+                    action,
+                    canonical_url,
+                    domain,
+                    status_class,
+                    error_code,
+                    http_status,
+                    retry_after_seconds,
+                    credits_used,
+                    document_id,
+                    version_id,
+                    now_iso(),
+                ),
+            )
+        return attempt_id
+
+    def list_acquisition_attempts(
+        self, *, canonical_url: str | None = None, document_id: str | None = None
+    ) -> list[dict[str, Any]]:
+        clauses: list[str] = []
+        params: list[Any] = []
+        if canonical_url is not None:
+            clauses.append("canonical_url = ?")
+            params.append(canonical_url)
+        if document_id is not None:
+            clauses.append("document_id = ?")
+            params.append(document_id)
+        where = f"WHERE {' AND '.join(clauses)}" if clauses else ""
+        with self._connect() as conn:
+            rows = conn.execute(
+                f"SELECT * FROM acquisition_attempts {where} ORDER BY created_at ASC", params
             ).fetchall()
             return [dict(row) for row in rows]

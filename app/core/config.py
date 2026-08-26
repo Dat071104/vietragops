@@ -6,8 +6,10 @@ import os
 from pathlib import Path
 
 from rag.generation import AnswerGenerator, ContextBuilder, ProviderRouter
+from rag.ingestion.firecrawl import FirecrawlAdapter
 from rag.lifecycle.registry import LifecycleRegistry
 from rag.lifecycle.service import LifecycleService
+from rag.lifecycle.web_import import WebImportService
 from rag.retrieval import ChunkIndexStore
 
 
@@ -102,6 +104,32 @@ def get_lifecycle_service() -> LifecycleService:
         max_upload_bytes=settings.lifecycle_max_upload_bytes,
         refresh_live_caches=refresh_live_caches,
         pdf_parser_policy=settings.candidate_pdf_parser,
+    )
+
+
+@lru_cache
+def get_web_import_service() -> WebImportService:
+    """Local-only wiring for the Gate-03 Firecrawl adapter. There is no
+    FastAPI route for this: the application has no admin authorization to
+    gate a public HTTP endpoint, so `scripts/web_import.py` is the only
+    caller, run directly by an operator on this machine."""
+
+    settings = get_settings()
+    registry = LifecycleRegistry(settings.lifecycle_root / "registry.db")
+    adapter = FirecrawlAdapter(
+        timeout_seconds=settings.firecrawl_timeout_seconds,
+        max_response_bytes=settings.firecrawl_max_response_bytes,
+        max_search_results=settings.firecrawl_max_search_results,
+        max_retries=settings.firecrawl_max_retries,
+    )
+    return WebImportService(
+        registry=registry,
+        adapter=adapter,
+        originals_dir=settings.lifecycle_root / "originals",
+        candidates_dir=settings.lifecycle_root / "candidates",
+        allowed_domains_csv=settings.firecrawl_allowed_domains,
+        denied_domains_csv=settings.firecrawl_denied_domains,
+        max_search_results=settings.firecrawl_max_search_results,
     )
 
 
