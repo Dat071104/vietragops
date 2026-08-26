@@ -1,0 +1,188 @@
+{
+  "schema": "vietragops.gate02.extraction_qa",
+  "schema_version": 1,
+  "fixture_manifest_sha256": "0a51a3f2c91e36a97820e4034e373a9fac729203ce58536cfdd67e16fb530af4",
+  "markitdown_version": "0.1.7",
+  "markitdown_source_revision": "9dc0d6579b8739c9d0671ff205e071e3053c7df1",
+  "comparison_rule": "Factual character, section, table, block, warning, and status measures only; no layout or quality score claimed.",
+  "cases": [
+    {
+      "fixture": "normal.pdf",
+      "format": "pdf",
+      "fixture_sha256": "0277df8561027d4327e720f10d8823fe10081e39c5ed13aca22393ab4a9df1c6",
+      "markitdown_candidate": {
+        "parse_status": "ok",
+        "conversion_status": "ok",
+        "parser_name": "markitdown",
+        "parser_version": "0.1.7",
+        "parser_provenance": "markitdown@9dc0d6579b8739c9d0671ff205e071e3053c7df1",
+        "parser_policy": "markitdown_default",
+        "original_sha256": "0277df8561027d4327e720f10d8823fe10081e39c5ed13aca22393ab4a9df1c6",
+        "canonical_sha256": "85e798eeee9fddc7660edca15049d7f662ac8190a38879dfb1ae3dbcff08f823",
+        "character_count": 233,
+        "section_count": 3,
+        "table_count": 0,
+        "conversion_duration_ms": 92.262,
+        "warnings": []
+      },
+      "legacy_loader_comparison": {
+        "parser_name": "pypdf",
+        "parser_version": "6.12.2",
+        "status": "ok",
+        "block_count": 2,
+        "section_count": 1,
+        "character_count": 226,
+        "warnings": ["pdf_table_extraction_limited"]
+      }
+    },
+    {
+      "fixture": "malformed.pdf",
+      "format": "pdf",
+      "fixture_sha256": "354cc2179748a3d5edc7c033b97e9ca3c6462a54c960f5481cea19abd3bece7c",
+      "markitdown_candidate": {
+        "parse_status": "failed",
+        "conversion_status": "failed",
+        "parser_name": "markitdown",
+        "parser_version": "0.1.7",
+        "parser_provenance": "markitdown@9dc0d6579b8739c9d0671ff205e071e3053c7df1",
+        "parser_policy": "markitdown_default",
+        "original_sha256": "354cc2179748a3d5edc7c033b97e9ca3c6462a54c960f5481cea19abd3bece7c",
+        "canonical_sha256": null,
+        "character_count": 0,
+        "section_count": 0,
+        "table_count": 0,
+        "conversion_duration_ms": 0.0,
+        "warnings": ["malformed_pdf"]
+      },
+      "legacy_loader_comparison": {
+        "parser_name": "pypdf",
+        "parser_version": "6.12.2",
+        "status": "failed",
+        "error_type": "PdfStreamError"
+      }
+    },
+    {
+      "fixture": "scanned_no_text.pdf",
+      "format": "pdf",
+      "fixture_sha256": "16b37bf4359c1e5e85674975fc5ff85574689647a208e79b37deffcb409a130d",
+      "markitdown_candidate": {
+        "parse_status": "failed",
+        "conversion_status": "empty",
+        "parser_name": "markitdown",
+        "parser_version": "0.1.7",
+        "parser_provenance": "markitdown@9dc0d6579b8739c9d0671ff205e071e3053c7df1",
+        "parser_policy": "markitdown_default",
+        "original_sha256": "16b37bf4359c1e5e85674975fc5ff85574689647a208e79b37deffcb409a130d",
+        "canonical_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "character_count": 0,
+        "section_count": 0,
+        "table_count": 0,
+        "conversion_duration_ms": 48.518,
+        "warnings": ["empty_markdown"]
+      },
+      "legacy_loader_comparison": {
+        "parser_name": "pypdf",
+        "parser_version": "6.12.2",
+        "status": "ok",
+        "block_count": 0,
+        "section_count": 0,
+        "character_count": 0,
+        "warnings": ["page_1_empty", "no_pdf_blocks_extracted", "pdf_table_extraction_limited"]
+      }
+    },
+    {
+      "fixture": "table_heavy.pdf",
+      "format": "pdf",
+      "fixture_sha256": "60f35f2ddb077b32685dc4d2cbe364a94050ca25bf550ad484c98e1e6ef38582",
+      "markitdown_candidate": {
+        "parse_status": "ok",
+        "conversion_status": "ok",
+        "parser_name": "markitdown",
+        "parser_version": "0.1.7",
+        "parser_provenance": "markitdown@9dc0d6579b8739c9d0671ff205e071e3053c7df1",
+        "parser_policy": "markitdown_default",
+        "original_sha256": "60f35f2ddb077b32685dc4d2cbe364a94050ca25bf550ad484c98e1e6ef38582",
+        "canonical_sha256": "b8e1190949b8c20c5df57b6ecd2420b070214cccb873f5350da6c5dff0587fe5",
+        "character_count": 325,
+        "section_count": 1,
+        "table_count": 1,
+        "conversion_duration_ms": 63.416,
+        "warnings": []
+      },
+      "legacy_loader_comparison": {
+        "parser_name": "pypdf",
+        "parser_version": "6.12.2",
+        "status": "ok",
+        "block_count": 3,
+        "section_count": 1,
+        "character_count": 156,
+        "warnings": ["pdf_table_extraction_limited"]
+      }
+    },
+    {
+      "fixture": "docx_policy.docx",
+      "format": "docx",
+      "fixture_sha256": "fb7fc2d4f3298fd66fa6eeb51318c3d66c78eecb49003c1fe8f958f896a5a31e",
+      "markitdown_candidate": {
+        "parse_status": "ok",
+        "conversion_status": "ok",
+        "parser_name": "markitdown",
+        "parser_version": "0.1.7",
+        "parser_provenance": "markitdown@9dc0d6579b8739c9d0671ff205e071e3053c7df1",
+        "parser_policy": "markitdown_docx",
+        "original_sha256": "fb7fc2d4f3298fd66fa6eeb51318c3d66c78eecb49003c1fe8f958f896a5a31e",
+        "canonical_sha256": "3b9ab3d452d33db74b900b23e8dde4e97196165cbc5aa97efa877b6adeccbe47",
+        "character_count": 237,
+        "section_count": 3,
+        "table_count": 1,
+        "conversion_duration_ms": 77.579,
+        "warnings": []
+      },
+      "legacy_loader_comparison": {
+        "parser_name": "python-docx-loader",
+        "parser_version": "1.2.0",
+        "status": "ok",
+        "block_count": 4,
+        "section_count": 2,
+        "character_count": 106,
+        "warnings": []
+      }
+    },
+    {
+      "fixture": "malformed.docx",
+      "format": "docx",
+      "fixture_sha256": "380faa0aac38de9002e2e5771dc7ed54d9983b53c267afac35208ca670abe370",
+      "markitdown_candidate": {
+        "parse_status": "failed",
+        "conversion_status": "failed",
+        "parser_name": "markitdown",
+        "parser_version": "0.1.7",
+        "parser_provenance": "markitdown@9dc0d6579b8739c9d0671ff205e071e3053c7df1",
+        "parser_policy": "markitdown_docx",
+        "original_sha256": "380faa0aac38de9002e2e5771dc7ed54d9983b53c267afac35208ca670abe370",
+        "canonical_sha256": null,
+        "character_count": 0,
+        "section_count": 0,
+        "table_count": 0,
+        "conversion_duration_ms": 0.0,
+        "warnings": ["malformed_docx"]
+      },
+      "legacy_loader_comparison": {
+        "parser_name": "python-docx-loader",
+        "parser_version": "1.2.0",
+        "status": "failed",
+        "error_type": "PackageNotFoundError"
+      }
+    }
+  ],
+  "fallback_policy_probe": {
+    "fixture": "normal.pdf",
+    "parser_name": "pypdf",
+    "parser_version": "6.12.2",
+    "parser_policy": "pypdf_explicit_fallback",
+    "parse_status": "ok",
+    "conversion_status": "legacy",
+    "canonical_sha256": null,
+    "warnings": ["explicit_pypdf_fallback", "pdf_table_extraction_limited"]
+  }
+}
