@@ -171,6 +171,19 @@ def test_whitespace_output_is_distinct_empty_result(tmp_path):
     assert result.warnings == ("empty_markdown",)
 
 
+def test_non_text_converter_output_is_a_failed_result(tmp_path):
+    original = _original(tmp_path)
+    adapter = _adapter(tmp_path)
+    _FakeConverter.response = object()
+
+    result = adapter.convert(original)
+
+    assert result.status == "failed"
+    assert result.markdown is None
+    assert result.error_code == "invalid_converter_result"
+    assert result.warnings == ("invalid_converter_result",)
+
+
 def test_parser_metadata_is_pinned_and_deterministic(tmp_path):
     adapter_a = _adapter(tmp_path)
     adapter_b = _adapter(tmp_path)

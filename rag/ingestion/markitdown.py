@@ -193,8 +193,10 @@ class LocalMarkItDownAdapter:
         try:
             converted = self._get_converter().convert_local(source)
             markdown = _canonicalize_markdown(getattr(converted, "markdown", None))
-        except Exception as exc:  # noqa: BLE001 - safe stable failure is the adapter contract
-            return self._failure(started, "converter_exception", exc)
+            if markdown is None:
+                return self._failure(started, "invalid_converter_result")
+        except Exception:  # noqa: BLE001 - safe stable failure is the adapter contract
+            return self._failure(started, "converter_exception")
         return self._result_from_markdown(started, markdown)
 
     def _convert_stream(self, source: BinaryIO, extension: str) -> MarkItDownConversion:
@@ -207,8 +209,10 @@ class LocalMarkItDownAdapter:
         try:
             converted = self._get_converter().convert_stream(source, stream_info=stream_info)
             markdown = _canonicalize_markdown(getattr(converted, "markdown", None))
-        except Exception as exc:  # noqa: BLE001 - safe stable failure is the adapter contract
-            return self._failure(started, "converter_exception", exc)
+            if markdown is None:
+                return self._failure(started, "invalid_converter_result")
+        except Exception:  # noqa: BLE001 - safe stable failure is the adapter contract
+            return self._failure(started, "converter_exception")
         return self._result_from_markdown(started, markdown)
 
     def _result_from_markdown(self, started: float, markdown: str) -> MarkItDownConversion:
@@ -233,7 +237,7 @@ class LocalMarkItDownAdapter:
             duration_ms=duration_ms,
         )
 
-    def _failure(self, started: float, error_code: str, _exc: Exception) -> MarkItDownConversion:
+    def _failure(self, started: float, error_code: str) -> MarkItDownConversion:
         # Exception text can contain paths or document-derived data. Only a
         # stable code is retained in lifecycle evidence.
         return MarkItDownConversion(
@@ -260,9 +264,9 @@ def _looks_like_uri(value: str) -> bool:
     return bool(_URI_PREFIX.match(value.strip()))
 
 
-def _canonicalize_markdown(value: object) -> str:
+def _canonicalize_markdown(value: object) -> str | None:
     if not isinstance(value, str):
-        return ""
+        return None
     normalized = value.replace("\r\n", "\n").replace("\r", "\n").strip()
     return f"{normalized}\n" if normalized else ""
 
