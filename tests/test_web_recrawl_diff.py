@@ -202,6 +202,54 @@ def test_new_recrawl_candidate_requires_review_before_publish(tmp_path):
     assert published.review_status == "published"
 
 
+# -- duplicate heading paths are disambiguated, not silently merged ---------
+
+
+def test_diff_detects_change_in_earlier_of_two_identically_titled_sections(tmp_path):
+    # Two sections share the heading "Overview". The recrawl only changes
+    # the FIRST one; a naive heading-path-keyed diff would keep only the
+    # second "Overview" hash and report zero changes.
+    original = "# Policy A\n\n## Overview\n\nFirst overview original.\n\n## Overview\n\nSecond overview text."
+    updated = "# Policy A\n\n## Overview\n\nFirst overview UPDATED.\n\n## Overview\n\nSecond overview text."
+    service, registry = _service(tmp_path, _markdown_handler([original, updated]))
+
+    first = service.import_url(ALLOWED_URL)
+    second = service.import_url(ALLOWED_URL)
+
+    assert second.status == "ok"
+    assert second.is_new_version is True
+
+    provenance = registry.get_web_provenance(second.version_id)
+    diff_record = json.loads(Path(provenance["diff_path"]).read_text(encoding="utf-8"))
+    assert diff_record["changed_count"] == 1
+    assert diff_record["added_count"] == 0
+    assert diff_record["removed_count"] == 0
+
+
+# -- a missing prior canonical file skips the diff instead of reporting a
+#    misleading "everything added" diff -------------------------------------
+
+
+def test_missing_prior_canonical_file_skips_diff_instead_of_reporting_everything_added(tmp_path):
+    original = "# Policy A\n\nOriginal content."
+    updated = "# Policy A\n\nUpdated content."
+    service, registry = _service(tmp_path, _markdown_handler([original, updated]))
+
+    first = service.import_url(ALLOWED_URL)
+    prior_version = registry.get_version(first.version_id)
+    Path(prior_version.candidate_canonical_path).unlink()  # simulate external cleanup
+
+    second = service.import_url(ALLOWED_URL)
+    assert second.status == "ok"
+    assert second.is_new_version is True
+
+    provenance = registry.get_web_provenance(second.version_id)
+    assert provenance["diff_path"] is None
+
+    events = registry.list_events(second.version_id)
+    assert any(e["event_type"] == "recrawl_diff_unavailable" for e in events)
+
+
 # -- failed recrawl (adapter error) never disturbs existing versions --------
 
 

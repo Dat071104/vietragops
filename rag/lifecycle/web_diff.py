@@ -55,14 +55,38 @@ def _section_hash(section: dict) -> str:
 
 
 def _sections_for(canonical_path: Path, document_id: str, title: str) -> dict[str, str]:
+    """Map a disambiguated section key to its content hash.
+
+    Repeated identical heading paths (e.g. two "## Overview" sections) are
+    disambiguated by their occurrence order so they never silently overwrite
+    each other in the lookup below -- otherwise only the last one's hash
+    would survive and an edit to an earlier same-titled section would be
+    missed entirely.
+    """
+
     if not canonical_path.is_file():
         return {}
     loaded = load_markdown_or_text(canonical_path)
     sections = build_sections(loaded.get("blocks", []), document_id, title)
     result: dict[str, str] = {}
+    occurrence_counts: dict[str, int] = {}
     for section in sections:
-        result[_section_key(section)] = _section_hash(section)
+        base_key = _section_key(section)
+        occurrence = occurrence_counts.get(base_key, 0)
+        occurrence_counts[base_key] = occurrence + 1
+        key = f"{base_key}‖{occurrence}"
+        result[key] = _section_hash(section)
     return result
+
+
+def _display_label(disambiguated_key: str) -> str:
+    """Strip the "‖0" first-occurrence suffix for a human-readable path;
+    keep "‖1", "‖2", ... so genuine heading-path duplicates stay distinguishable."""
+
+    base, _, occurrence = disambiguated_key.rpartition("‖")
+    if occurrence == "0":
+        return base
+    return disambiguated_key
 
 
 def compute_section_diff(
@@ -78,11 +102,13 @@ def compute_section_diff(
     prior_keys = set(prior_sections)
     new_keys = set(new_sections)
 
-    added = tuple(sorted(new_keys - prior_keys))
-    removed = tuple(sorted(prior_keys - new_keys))
     common = prior_keys & new_keys
-    changed = tuple(sorted(key for key in common if prior_sections[key] != new_sections[key]))
-    unchanged_count = len(common) - len(changed)
+    changed_keys = {key for key in common if prior_sections[key] != new_sections[key]}
+
+    added = tuple(sorted(_display_label(key) for key in new_keys - prior_keys))
+    removed = tuple(sorted(_display_label(key) for key in prior_keys - new_keys))
+    changed = tuple(sorted(_display_label(key) for key in changed_keys))
+    unchanged_count = len(common) - len(changed_keys)
 
     return SectionDiff(
         added_sections=added, removed_sections=removed, changed_sections=changed, unchanged_count=unchanged_count

@@ -280,6 +280,12 @@ class WebImportService:
         if prior_version is None or not prior_version.candidate_canonical_path:
             return None
         prior_canonical_path = Path(prior_version.candidate_canonical_path)
+        if not prior_canonical_path.is_file():
+            # The recorded path exists in the registry but the file itself is
+            # gone; a diff computed against a missing prior would report every
+            # new section as "added" instead of the documented no-diff case.
+            self._registry.record_note(new_version_id, "recrawl_diff_unavailable", f"prior={prior_version_id}")
+            return None
         new_canonical_path = new_candidate_dir / "canonical.md"
 
         diff = compute_section_diff(
