@@ -8,13 +8,13 @@ live" and "what breaks if I touch this" in one Tier-1 read.
 
 ## Last Verified Commit
 
-`f986976`
+`72e11aa`
 
 ## Snapshot
 
 - Branch: `main`
-- Generated: `2026-08-26`
-- Code files indexed: 127
+- Generated: `2026-08-27`
+- Code files indexed: 137
 - Stack: Python
 
 ## Modules
@@ -24,11 +24,11 @@ code depends on it, so changes there travel further.
 
 | Module | Files | Inbound | Entry points |
 | --- | --- | --- | --- |
-| `rag` | 46 | 73 | - |
-| `app` | 16 | 11 | `app/main.py` |
+| `rag` | 51 | 85 | - |
+| `app` | 16 | 12 | `app/main.py` |
 | `evals` | 13 | 9 | - |
-| `scripts` | 9 | 1 | - |
-| `tests` | 35 | 0 | - |
+| `scripts` | 10 | 1 | - |
+| `tests` | 39 | 0 | - |
 | `frontend` | 7 | 0 | - |
 | `tools` | 1 | 0 | - |
 
@@ -39,20 +39,20 @@ Ranked by fan-in. Treat an edit here as cross-module until proven otherwise.
 | File | Imported by | Imports |
 | --- | --- | --- |
 | `rag/retrieval/base.py` | 15 | 0 |
+| `app/core/config.py` | 9 | 6 |
 | `rag/lifecycle/errors.py` | 9 | 0 |
+| `rag/lifecycle/registry.py` | 9 | 1 |
 | `rag/retrieval/__init__.py` | 9 | 7 |
-| `app/core/config.py` | 8 | 4 |
+| `rag/chunking/metadata_builder.py` | 7 | 0 |
 | `rag/generation/context_builder.py` | 7 | 3 |
 | `app/main.py` | 6 | 3 |
-| `rag/chunking/metadata_builder.py` | 6 | 0 |
-| `rag/lifecycle/registry.py` | 6 | 1 |
+| `rag/lifecycle/storage.py` | 6 | 0 |
+| `rag/preprocessing/section_detector.py` | 6 | 1 |
 | `rag/retrieval/advanced_hybrid_retriever.py` | 6 | 5 |
 | `rag/retrieval/index_store.py` | 6 | 0 |
 | `app/core/errors.py` | 5 | 0 |
 | `rag/generation/groq_client.py` | 5 | 0 |
-| `rag/preprocessing/normalizer.py` | 5 | 0 |
-| `app/schemas/query.py` | 4 | 0 |
-| `evals/experiments/defaults.py` | 4 | 0 |
+| `rag/ingestion/firecrawl.py` | 5 | 0 |
 
 ## Symbol Graph
 
@@ -111,6 +111,7 @@ boundary before adding to one of these.
 | File | Lines |
 | --- | --- |
 | `frontend/streamlit_app.py` | 911 |
+| `rag/lifecycle/registry.py` | 500 |
 | `rag/generation/answer_generator.py` | 469 |
 
 ## Isolated Files
