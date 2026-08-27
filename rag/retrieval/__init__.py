@@ -7,6 +7,7 @@ from rag.retrieval.dense_retriever import DenseRetriever
 from rag.retrieval.hybrid_retriever import HybridRetriever
 from rag.retrieval.index_store import ChunkIndexStore, ChunkRecord
 from rag.retrieval.reranker import BaseReranker, BGEReranker, LexicalReranker
+from rag.retrieval.version_resolver import ChunkVersionInfo, VersionResolver
 
 __all__ = [
     "AdvancedHybridRetriever",
@@ -16,8 +17,10 @@ __all__ = [
     "BM25Retriever",
     "ChunkIndexStore",
     "ChunkRecord",
+    "ChunkVersionInfo",
     "DenseRetriever",
     "HybridRetriever",
     "LexicalReranker",
     "RetrievalResult",
+    "VersionResolver",
 ]

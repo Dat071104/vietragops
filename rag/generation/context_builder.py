@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from rag.retrieval import ChunkIndexStore, HybridRetriever, RetrievalResult
+from rag.retrieval import ChunkIndexStore, HybridRetriever, RetrievalResult, VersionResolver
 from rag.retrieval.base import make_word_bigrams, tokenize
 from rag.retrieval.reranker import LexicalReranker
 
@@ -19,10 +19,16 @@ class ContextBundle:
 
 
 class ContextBuilder:
-    def __init__(self, store: ChunkIndexStore, retriever: Any | None = None) -> None:
+    def __init__(
+        self,
+        store: ChunkIndexStore,
+        retriever: Any | None = None,
+        version_resolver: VersionResolver | None = None,
+    ) -> None:
         self.store = store
         self.retriever = retriever or HybridRetriever(store)
         self.reranker = LexicalReranker()
+        self.version_resolver = version_resolver
 
     def build(self, question: str, top_k: int = 5) -> ContextBundle:
         candidate_count = max(top_k * 4, 20)
@@ -80,8 +86,17 @@ class ContextBuilder:
             )
         chunks.sort(key=lambda chunk: (-chunk["support_score"], chunk["chunk_id"]))
         selected_chunks = chunks[:top_k]
+        if self.version_resolver is not None:
+            resolved_by_doc: dict[str, dict[str, Any]] = {}
+            for chunk in selected_chunks:
+                resolved = resolved_by_doc.get(chunk["doc_id"])
+                if resolved is None:
+                    resolved = self.version_resolver.resolve(chunk["doc_id"]).to_dict()
+                    resolved_by_doc[chunk["doc_id"]] = resolved
+                chunk["version"] = resolved
 
         retrieval_debug = {
+            "query": question,
             "retriever": self.retriever.name,
             "backend": getattr(self.retriever, "backend_name", "unknown"),
             "top_k": top_k,
@@ -99,6 +114,9 @@ class ContextBuilder:
                 }
                 for chunk in selected_chunks
             ],
+            "chunk_versions": {
+                chunk["chunk_id"]: chunk["version"] for chunk in selected_chunks if "version" in chunk
+            },
         }
         return ContextBundle(
             question=question,

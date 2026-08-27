@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import hashlib
 import json
 from pathlib import Path
 from typing import Any, Iterable
@@ -98,6 +99,25 @@ class ChunkIndexStore:
         self.chunks = list(records)
         self.source_path = source_path
         self._by_id = {chunk.chunk_id: chunk for chunk in self.chunks}
+        self.index_version = self._compute_index_version()
+
+    def _compute_index_version(self) -> str:
+        """Deterministic identity for this exact index state.
+
+        Hashes the backing file's bytes when one exists (so a publish/retire
+        that rewrites the live chunks file changes the version automatically);
+        falls back to hashing chunk id/checksum pairs for in-memory stores
+        (e.g. `from_records`). Never a random run id or mutable counter.
+        """
+        if self.source_path is not None:
+            try:
+                digest = hashlib.sha256(Path(self.source_path).read_bytes()).hexdigest()
+                return f"sha256:{digest[:16]}"
+            except OSError:
+                pass
+        fingerprint = "|".join(sorted(f"{chunk.chunk_id}:{chunk.checksum or ''}" for chunk in self.chunks))
+        digest = hashlib.sha256(fingerprint.encode("utf-8")).hexdigest()
+        return f"sha256:{digest[:16]}"
 
     @classmethod
     def from_jsonl(cls, path: str | Path) -> "ChunkIndexStore":

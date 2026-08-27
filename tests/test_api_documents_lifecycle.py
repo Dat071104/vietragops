@@ -73,6 +73,8 @@ def _seed_baseline(manifest_path, chunks_path) -> None:
 def _clear_caches() -> None:
     config.get_settings.cache_clear()
     config.get_store.cache_clear()
+    config.get_lifecycle_registry.cache_clear()
+    config.get_version_resolver.cache_clear()
     config.get_context_builder.cache_clear()
     config.get_answer_generator.cache_clear()
     config.get_agent_answer_generator.cache_clear()

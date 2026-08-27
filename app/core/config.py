@@ -10,7 +10,8 @@ from rag.ingestion.firecrawl import FirecrawlAdapter
 from rag.lifecycle.registry import LifecycleRegistry
 from rag.lifecycle.service import LifecycleService
 from rag.lifecycle.web_import import WebImportService
-from rag.retrieval import ChunkIndexStore
+from rag.retrieval import ChunkIndexStore, VersionResolver
+from rag.retrieval.source_priority import load_manifest_rows
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -78,6 +79,30 @@ def get_store() -> ChunkIndexStore:
     return ChunkIndexStore.from_jsonl(get_settings().chunks_path)
 
 
+@lru_cache
+def get_lifecycle_registry() -> LifecycleRegistry:
+    return LifecycleRegistry(get_settings().lifecycle_root / "registry.db")
+
+
+@lru_cache
+def get_version_resolver() -> VersionResolver:
+    """Version-aware resolution for retrieved chunks (Gate 04).
+
+    Reuses the existing manifest loader (`load_manifest_rows`, already used
+    by `AdvancedHybridRetriever` for authority/recency scoring) and the
+    existing lifecycle registry -- no new source of truth. Cache-cleared by
+    `refresh_live_caches` alongside the store it describes so a
+    publish/retire/rollback is reflected on the next call.
+    """
+    settings = get_settings()
+    manifest_rows = load_manifest_rows(settings.manifest_path) if settings.manifest_path.exists() else {}
+    return VersionResolver(
+        manifest_rows,
+        get_store().index_version,
+        registry=get_lifecycle_registry(),
+    )
+
+
 def refresh_live_caches() -> None:
     """Drop cached readers of the live manifest/chunks after a publish/retire/rollback.
 
@@ -86,6 +111,7 @@ def refresh_live_caches() -> None:
     in-memory store or the caller re-fetches a fresh one -- never a mix.
     """
     get_store.cache_clear()
+    get_version_resolver.cache_clear()
     get_context_builder.cache_clear()
     get_answer_generator.cache_clear()
     get_agent_answer_generator.cache_clear()
@@ -94,9 +120,8 @@ def refresh_live_caches() -> None:
 @lru_cache
 def get_lifecycle_service() -> LifecycleService:
     settings = get_settings()
-    registry = LifecycleRegistry(settings.lifecycle_root / "registry.db")
     return LifecycleService(
-        registry=registry,
+        registry=get_lifecycle_registry(),
         originals_dir=settings.lifecycle_root / "originals",
         candidates_dir=settings.lifecycle_root / "candidates",
         live_manifest_path=settings.manifest_path,
@@ -115,7 +140,7 @@ def get_web_import_service() -> WebImportService:
     caller, run directly by an operator on this machine."""
 
     settings = get_settings()
-    registry = LifecycleRegistry(settings.lifecycle_root / "registry.db")
+    registry = get_lifecycle_registry()
     adapter = FirecrawlAdapter(
         timeout_seconds=settings.firecrawl_timeout_seconds,
         max_response_bytes=settings.firecrawl_max_response_bytes,
@@ -135,7 +160,7 @@ def get_web_import_service() -> WebImportService:
 
 @lru_cache
 def get_context_builder() -> ContextBuilder:
-    return ContextBuilder(get_store())
+    return ContextBuilder(get_store(), version_resolver=get_version_resolver())
 
 
 @lru_cache

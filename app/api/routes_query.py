@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter
 
-from app.core.config import get_answer_generator, get_store
+from app.core.config import get_answer_generator, get_store, get_version_resolver
 from app.core.errors import AppError
 from app.schemas.query import AskRequest, AskResponse
 from rag.generation import AnswerGenerator, ContextBuilder, GuardrailEngine
@@ -22,7 +22,7 @@ def _build_answer_generator(use_reranker: bool) -> AnswerGenerator:
         config=AdvancedHybridConfig(enable_reranker=True, enable_source_priority=False, enable_recency=False),
     )
     return AnswerGenerator(
-        context_builder=ContextBuilder(store, retriever=retriever),
+        context_builder=ContextBuilder(store, retriever=retriever, version_resolver=get_version_resolver()),
         guardrails=GuardrailEngine(),
     )
 
