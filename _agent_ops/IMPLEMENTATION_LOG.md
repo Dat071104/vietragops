@@ -2263,3 +2263,42 @@ Run the final Phase 7.1 checks, commit only the explicit Gate 07 source/tests/
 manifest and task-owned ops slice with
 `feat(gate-07): extended education sandbox and Gate-0 case generator`, then
 freeze Phase 7.2. No headline baseline has run before a protocol freeze.
+
+## 2026-08-27 — Gate 07 Phase 7.2 protocol freeze
+
+### Scope
+
+Frozen the Gate 07 protocol after the Phase 7.1 commit `44be141` and before
+any Phase 7.4/7.5 headline run. The freeze records the canonical graded and
+held-out manifest digests, evaluator ground-truth digests, all offline/LLM arm
+information rights, versioned prompt templates, BGE model pins, Groq model
+IDs, decoding, typed-failure/exclusion rules, metric formulas including D9/D10
+many-to-many scoring, and pre-registered GO/REFORMULATE/STOP thresholds.
+
+### Rate-limit and provider evidence
+
+The frozen budget is 180 graded cases × 4 LLM arms × 2 models = **1,440 base
+calls**, maximum **4,320 attempts** with retry budget 2, projected
+1,915,386 input tokens plus 737,280 maximum output tokens, and a 20% safety
+reserve. Non-secret configured ceilings were recorded: per-key 24 RPM/7,000
+TPM/900 RPD/180,000 TPD; pool 480 RPM/140,000 TPM/18,000 RPD/3,600,000 TPD;
+org 450 RPM/120,000 TPM/17,000 RPD/3,400,000 TPD. The one-process ledger
+paths are frozen in the protocol. A quota-free Groq `/models` verification
+request returned HTTP 403 Forbidden; this is recorded as unverified provider
+model availability, not as an accuracy result and not retried into a pass.
+
+### Commands and results
+
+- Focused protocol tests: **3 passed**.
+- Full suite after protocol additions: **450 passed, 2 warnings**.
+- `compileall -q app rag scripts evals frontend tests research`: exit 0.
+- Protocol file: `gates/baselines/GATE_07_PROTOCOL.json`; freeze-time HEAD:
+  `44be1410af557a11557dfe339a08fb6d2af3660e`, before all headline arms.
+- AGY-1 remains `AGY_UNAVAILABLE`; no independent auditor was substituted or
+  claimed. Local deterministic checks remain the only Phase 7.1 audit.
+
+### Next step
+
+Commit the explicit protocol source/test/JSON/ops slice with
+`docs(gate-07): freeze Gate-0 protocol, dataset checksum and decision rule`.
+Only after that commit may Phase 7.3/7.4/7.5 begin.
