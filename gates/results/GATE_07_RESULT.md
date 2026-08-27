@@ -148,6 +148,15 @@ All files below are ignored, retained locally, and not committed:
 - `raw/phase74_cross_encoder_v2.jsonl`: `A604CFA2F7C59A571F1597BED4BA31C93FB7138FE105BF9B6D10AE4C79586E6E`
 - `raw/phase75_llm_v2.jsonl`: `728E5C19CA1F95213E90B8F2E67D2D3CD251BE7A875A884D0E3895DA07144E4D`
 
+## Result-consistency audit
+
+AGY-4 was unavailable as a callable worker. A local read-only consistency
+check reproduced all eight listed line counts and SHA-256 values exactly, and
+reproduced the LLM totals (1,440 unique cache keys; 1,379 success, 24 parse
+failure, 37 provider error). This validates artifact bookkeeping only; it does
+not repair the missing pre-run protocol commit or make the v2 numbers
+scientifically admissible.
+
 ## Acceptance checklist
 
 - [ ] Protocol frozen before headline run — **failed**: v2 was uncommitted.
@@ -164,6 +173,8 @@ All files below are ignored, retained locally, and not committed:
 - [x] No paper prose written.
 - [x] Claims blacklist respected — no novelty claim over ToolEVO, ContDa, or
   MCPEvol-Bench; schema similarity was not treated as behavioral equivalence.
+- [ ] AGY-4 independent result-consistency audit — unavailable; local
+  count/hash reproduction is recorded above and is not claimed independent.
 
 ## Decision and next allowed action
 
