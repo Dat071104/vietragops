@@ -996,8 +996,8 @@ source/version-aware behavior before the tool-research lane; and falsification-
 first scientific Gate-0 before a proposed method. Each gate requires an evidence
 record and STOP. `STOP`/`REFORMULATE` are valid outcomes.
 
-**Current status (updated 2026-08-27):** Gates 00, 01, 02, 03, and 04 are
-all `PASS`. Gate 02 made MarkItDown the default local PDF/DOCX candidate
+**Current status (updated 2026-08-27, Gate 05 correction session):** Gates
+00-05 are all `PASS` and committed. Gate 02 made MarkItDown the default local PDF/DOCX candidate
 parser (pinned `markitdown[pdf,docx]==0.1.7`, app dependency now). Gate 03
 added a bounded Firecrawl hosted-API adapter (`rag/ingestion/firecrawl.py`),
 a URL/domain/private-network safety layer (`rag/lifecycle/web_safety.py`),
@@ -1028,8 +1028,35 @@ real 37-doc corpus therefore stays behaviorally unchanged (proven
 byte-identical answer/citations/confidence with and without the resolver
 wired in) while fixtures exercise all four states. 39 new tests (275
 total, 0 failed); retrieval-smoke metrics and corpus validators identical
-to Gate 00-03. Full detail: `gates/results/GATE_04_RESULT.md`. Not yet
-committed -- no commit was authorized this session.
+to Gate 00-03. Full detail: `gates/results/GATE_04_RESULT.md`. Committed
+(`82d2797`).
+
+**Gate 05 (2026-08-27, committed):** provider routing gained explicit
+`development`/`demo`/`research` modes (`rag/generation/provider_router.py`)
+-- `development`/`demo` fall back from Groq to local Ollama on any typed
+Groq failure (rate limit/timeout/network/auth/config/provider error, all
+now typed exceptions off `rag/generation/groq_client.py`), `research`
+never falls back, proven with an `UntouchableOllamaClient` spy. An
+isolated DeepSeek provider was added (`rag/generation/deepseek_client.py`),
+never a rescue path in either direction. A local Streamable HTTP MCP
+surface (`app/mcp/`) was mounted at `/mcp`: localhost-only binding,
+bearer-token auth, origin/DNS-rebinding protection, server-side
+scope/role enforcement, and a bounded audit log, exposing exactly three
+read-only tools (`retrieve_context`/`document_status`/`index_status`),
+reusing Gate 04 architecture directly. 44 new tests (319 total, 0
+failed). Live proofs: MCP client smoke against the real app wiring; a
+real bounded Groq `development`-mode call (required fixing a real
+dotenv-loading import-ordering bug, DEC-0011/DEC-0012); and, added in a
+later correction session per explicit user request, a real bounded local
+`qwen3:8b` Ollama smoke exercising the actual Groq-failure-triggered
+fallback path (`latency_ms: 105656.945`, grounded/correct answer,
+citation verified -- see DEC-0013). That correction also surfaced
+RISK-0015: the production `OllamaClient` default timeout (30s) is far
+below this machine's real measured `qwen3:8b` full-RAG latency
+(~100-110s), so the fallback currently degrades safely to the
+deterministic answer builder rather than reaching a live model answer on
+this hardware, until that timeout is tuned or the separately-planned
+Qwen deployment lands. Full detail: `gates/results/GATE_05_RESULT.md`.
 
 **Provider/security correction:** current source reads only one `GROQ_API_KEY`
 and one `GROQ_MODEL`. The provided ArgScope multi-account proposal is not a

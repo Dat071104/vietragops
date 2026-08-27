@@ -2,9 +2,15 @@
 
 ## Status
 
-`Gates 00-04 PASS. Gate 04 (version-aware RAGOps) implemented and
-uncommitted as of 2026-08-27 -- no commit authorized this session. Gate 05
-not started.`
+`Gates 00-04 PASS, committed, and pushed to origin/main (Gate 04 final
+commit 82d2797; verified origin/main == local HEAD before the Gate 05
+commit below).
+Gate 05 (provider router/typed outcomes/mode policy/local MCP surface)
+PASS as of 2026-08-27 -- fully verified (offline + bounded live proofs,
+including a real local qwen3:8b Ollama smoke added in a 2026-08-27
+correction session) and committed locally to main in the same correction
+session, with explicit user authorization; not pushed. See
+gates/results/GATE_05_RESULT.md.`
 
 ## Purpose
 
@@ -30,9 +36,9 @@ execution authorization. Read this file, then the card for the active gate only.
 | 01 | `GATE_01.md` | PASS | Result before Gate 02 |
 | 02 | `GATE_02.md` | PASS | Result before Gate 03 |
 | 03 | `GATE_03.md` | PASS | User-secret handoff + result |
-| 04 | `GATE_04.md` | PASS (uncommitted) | Result before Gate 05 |
-| 05 | `GATE_05.md` | Blocked by Gate 04 | Result before Gate 06 |
-| 06 | `GATE_06.md` | Blocked by Gate 05 | Result before Gate 07 |
+| 04 | `GATE_04.md` | PASS (committed, pushed) | Result before Gate 05 |
+| 05 | `GATE_05.md` | PASS (committed, not pushed) | Result before Gate 06 |
+| 06 | `GATE_06.md` | Entry gate re-verification | Result before Gate 07 |
 | 07 | `GATE_07.md` | Blocked by Gate 06 | GO / REFORMULATE / STOP |
 | 08 | `GATE_08.md` | Allowed only after Gate 07 GO | Result before Gate 09 |
 | 09 | `GATE_09.md` | Blocked by Gates 08 and full evidence | Result before Gate 10 |

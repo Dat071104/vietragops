@@ -8,13 +8,13 @@ live" and "what breaks if I touch this" in one Tier-1 read.
 
 ## Last Verified Commit
 
-`31396a3`
+`82d2797`
 
 ## Snapshot
 
 - Branch: `main`
 - Generated: `2026-08-27`
-- Code files indexed: 145
+- Code files indexed: 156
 - Stack: Python
 
 ## Modules
@@ -24,11 +24,11 @@ code depends on it, so changes there travel further.
 
 | Module | Files | Inbound | Entry points |
 | --- | --- | --- | --- |
-| `rag` | 53 | 109 | - |
-| `app` | 16 | 13 | `app/main.py` |
+| `rag` | 54 | 125 | - |
+| `app` | 21 | 17 | `app/main.py`, `app/mcp/server.py` |
 | `evals` | 13 | 9 | - |
 | `scripts` | 10 | 1 | - |
-| `tests` | 45 | 0 | - |
+| `tests` | 50 | 0 | - |
 | `frontend` | 7 | 0 | - |
 | `tools` | 1 | 0 | - |
 
@@ -38,17 +38,17 @@ Ranked by fan-in. Treat an edit here as cross-module until proven otherwise.
 
 | File | Imported by | Imports |
 | --- | --- | --- |
+| `rag/generation/context_builder.py` | 15 | 3 |
 | `rag/retrieval/base.py` | 15 | 0 |
 | `rag/retrieval/__init__.py` | 13 | 8 |
-| `rag/generation/context_builder.py` | 11 | 3 |
-| `rag/lifecycle/registry.py` | 11 | 1 |
-| `app/core/config.py` | 9 | 7 |
-| `rag/lifecycle/errors.py` | 9 | 0 |
-| `app/main.py` | 7 | 3 |
+| `app/core/config.py` | 12 | 8 |
+| `rag/lifecycle/registry.py` | 12 | 1 |
+| `rag/retrieval/index_store.py` | 11 | 0 |
+| `rag/lifecycle/errors.py` | 10 | 0 |
+| `rag/generation/groq_client.py` | 9 | 0 |
+| `rag/lifecycle/service.py` | 9 | 8 |
+| `app/main.py` | 7 | 4 |
 | `rag/chunking/metadata_builder.py` | 7 | 0 |
-| `rag/generation/groq_client.py` | 7 | 0 |
-| `rag/retrieval/index_store.py` | 7 | 0 |
-| `rag/lifecycle/service.py` | 6 | 8 |
 | `rag/lifecycle/storage.py` | 6 | 0 |
 | `rag/preprocessing/section_detector.py` | 6 | 1 |
 | `rag/retrieval/advanced_hybrid_retriever.py` | 6 | 5 |
@@ -56,7 +56,7 @@ Ranked by fan-in. Treat an edit here as cross-module until proven otherwise.
 
 ## Symbol Graph
 
-920 symbols, 1904 edges (exact 1376, heuristic 406, ambiguous 122, weak 0).
+1049 symbols, 2185 edges (exact 1566, heuristic 448, ambiguous 171, weak 0).
 
 ### Routes
 
@@ -81,18 +81,18 @@ Ranked by fan-in. Treat an edit here as cross-module until proven otherwise.
 
 | Symbol | Called by | Where |
 | --- | --- | --- |
-| `VersionResolver.resolve` | 35 | `rag/retrieval/version_resolver.py:90` |
+| `VersionResolver.resolve` | 36 | `rag/retrieval/version_resolver.py:90` |
+| `FakeHttpxClient.post` | 31 | `tests/test_ollama_client.py:35` |
 | `FakeResponse.json` | 26 | `tests/test_ollama_client.py:18` |
-| `FakeHttpxClient.post` | 21 | `tests/test_ollama_client.py:35` |
+| `GroqClient.generate_json` | 24 | `rag/generation/groq_client.py:193` |
+| `ProviderRouter` | 21 | `rag/generation/provider_router.py:63` |
 | `LifecycleService.review` | 19 | `rag/lifecycle/service.py:175` |
 | `WebImportService.import_url` | 19 | `rag/lifecycle/web_import.py:118` |
 | `VersionResolver` | 18 | `rag/retrieval/version_resolver.py:66` |
 | `LifecycleService.publish` | 17 | `rag/lifecycle/service.py:200` |
 | `LifecycleRegistry._connect` | 16 | `rag/lifecycle/registry.py:200` |
-| `_make_service` | 16 | `tests/test_lifecycle_service.py:17` |
-| `_upload` | 16 | `tests/test_lifecycle_service.py:30` |
-| `AnswerGenerator` | 14 | `rag/generation/answer_generator.py:28` |
-| `_adapter` | 14 | `tests/test_firecrawl_adapter.py:15` |
+| `authed_session` | 16 | `tests/mcp_test_helpers.py:118` |
+| `close_session` | 16 | `tests/mcp_test_helpers.py:130` |
 
 Query it instead of grepping:
 
@@ -105,6 +105,7 @@ python _agent_ops/tools/explore.py --root . --path <a> <b>     # how a reaches b
 ## Entry Points
 
 - `app/main.py`
+- `app/mcp/server.py`
 
 ## Oversized Files
 
@@ -115,12 +116,12 @@ boundary before adding to one of these.
 | File | Lines |
 | --- | --- |
 | `frontend/streamlit_app.py` | 911 |
-| `rag/generation/answer_generator.py` | 538 |
+| `rag/generation/answer_generator.py` | 553 |
 | `rag/lifecycle/registry.py` | 500 |
 
 ## Isolated Files
 
-17 file(s) have no resolved local imports in either direction.
+18 file(s) have no resolved local imports in either direction.
 They are listed only on demand -- enumerating them here would recreate the
 context bloat this map exists to prevent.
 

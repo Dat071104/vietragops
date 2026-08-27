@@ -56,7 +56,9 @@ def test_ask_endpoint_trace_has_query_ranking_versions_generation_and_citation_s
 
     if not data["refusal"]:
         assert data["generation"] is not None
-        assert set(data["generation"]) == {"provider", "model", "fallback_used", "error", "latency_ms"}
+        # Gate 04's original fields, still present unchanged; Gate 05 added
+        # `failure_kind`/`mode`/`primary_attempt` additively (see GATE_05.md).
+        assert {"provider", "model", "fallback_used", "error", "latency_ms"} <= set(data["generation"])
         assert data["generation"]["latency_ms"] >= 0
 
 

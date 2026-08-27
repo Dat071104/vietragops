@@ -173,12 +173,18 @@ class AnswerGenerator:
                     model=invocation.model,
                     fallback_used=invocation.fallback_used,
                     error=invocation.error,
+                    failure_kind=invocation.failure_kind,
+                    mode=invocation.mode,
+                    primary_attempt=invocation.primary_attempt,
                 )
             return self._deterministic_answer(question, context_bundle), self._provider_meta(
                 provider=invocation.provider,
                 model=invocation.model,
                 fallback_used=True,
                 error=invocation.error,
+                failure_kind=invocation.failure_kind,
+                mode=invocation.mode,
+                primary_attempt=invocation.primary_attempt,
             )
         if self.groq_client.available() and self.config.use_groq_when_available:
             try:
@@ -502,12 +508,18 @@ class AnswerGenerator:
         model: str = "deterministic-mock",
         fallback_used: bool = False,
         error: str | None = None,
+        failure_kind: str | None = None,
+        mode: str | None = None,
+        primary_attempt: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         return {
             "provider": provider,
             "model": model,
             "fallback_used": fallback_used,
             "error": error,
+            "failure_kind": failure_kind,
+            "mode": mode,
+            "primary_attempt": primary_attempt,
         }
 
     def _can_retry_provider(self) -> bool:
@@ -535,4 +547,7 @@ def _generation_trace(provider_meta: dict[str, Any], latency_ms: float | None) -
         "fallback_used": provider_meta.get("fallback_used"),
         "error": provider_meta.get("error"),
         "latency_ms": latency_ms,
+        "failure_kind": provider_meta.get("failure_kind"),
+        "mode": provider_meta.get("mode"),
+        "primary_attempt": provider_meta.get("primary_attempt"),
     }

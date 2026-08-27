@@ -67,6 +67,9 @@ class GenerationTrace(BaseModel):
     fallback_used: bool | None = None
     error: str | None = None
     latency_ms: float | None = None
+    failure_kind: str | None = None
+    mode: str | None = None
+    primary_attempt: dict | None = None
 
 
 class AskResponse(BaseModel):

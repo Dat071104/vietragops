@@ -1291,3 +1291,745 @@ Regenerated (`--force`); 145 files indexed, pure refresh, no manual edits.
 
 Write `gates/results/GATE_04_RESULT.md` (Phase 4.5) and STOP before Gate
 05.
+
+## Entry — Gate 05 entry-gate verification + Phase 5.0 preflight (blocked)
+
+### Date
+
+2026-08-27
+
+### Phase / Task
+
+Gate 05 entry gate (Gate 04 re-verification) + Phase 5.0 preflight.
+
+### Files Touched
+
+- None (source/config/dependency). Ops-only:
+  `_agent_ops/CURRENT_TASK.md`, `_agent_ops/DECISION_LOG.md` (this file),
+  `_agent_ops/code_index.json`, `_agent_ops/REPO_MAP.md` (regenerated).
+
+### What Changed
+
+- Re-verified Gate 04 PASS on the committed tree (no edits).
+- Rebuilt code index + `REPO_MAP.md` (pure refresh: only "Last Verified
+  Commit" changed `31396a3` -> `82d2797`).
+- Ran Phase 5.0 preflight inspection: read `provider_router.py`,
+  `ollama_client.py`, `groq_client.py` (both `HEAD` and working-tree
+  versions), `app/core/config.py`, `app/api/routes_health.py`,
+  `tests/test_provider_router.py`; checked `mcp` package installed (no),
+  Ollama executable + `qwen3:8b` local (yes, already installed), Groq
+  configured boolean (no, checked safely via the app's real dotenv path,
+  no secret values read).
+- No Gate 05 source/config/dependency edit made -- blocked at the
+  dependency gate (see Decision DEC-0008 and `CURRENT_TASK.md`).
+
+### Why
+
+Sequential fail-closed execution contract requires Gate 04 re-verification
+and a full Phase 5.0 preflight, including explicit STOP conditions, before
+any Gate 05 edit.
+
+### Tests Run
+
+```bash
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m compileall -q app rag scripts evals frontend tests
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m pytest -q tests/test_version_resolver.py tests/test_context_builder_versioning.py tests/test_evidence_state.py tests/test_answer_generator_evidence_state.py tests/test_evidence_trace.py tests/test_gate04_fixtures.py
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m pytest -q
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe scripts/validate_chunks.py --chunks-dir data/chunks
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe scripts/validate_processed_docs.py data/processed/processed_docs.jsonl
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe scripts/verify_manifest.py data/manifests/documents_manifest.csv
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m evals.experiments.run_retrieval_eval --chunks data/chunks/chunks_500.jsonl --qa evals/datasets/dev_qa.jsonl --retriever bm25 --top_k 5 --output <tmp>
+git ls-remote origin main
+git diff --check
+git show HEAD:rag/generation/groq_client.py
+```
+
+### Results
+
+- Focused Gate 04 tests: 39 passed, 0 failed.
+- Full suite: 275 passed, 0 failed -- matches `GATE_04_RESULT.md` exactly.
+- Corpus validators identical to Gate 04 evidence (1036/695/572 rows
+  abnormal 0; 37/37 1.000; 37 rows 0 duplicate checksums).
+- Retrieval smoke: bit-for-bit identical to
+  `gates/baselines/GATE_04_RETRIEVAL_SMOKE.json` except `latency_ms`.
+- `git ls-remote origin main` == local `HEAD` == `82d2797`.
+- `git diff --check`: only the pre-existing `groq_client.py:235` warning.
+- `mcp` package: not installed. `qwen3:8b`: already installed locally.
+  Groq: not configured (boolean check only).
+
+### Bugs Found
+
+- None. One real architectural discrepancy found (not a bug): the
+  committed `groq_client.py` (41 lines, single-key) differs sharply from
+  the dirty-overlay working-tree version (235 lines, multi-key rotation) --
+  see DEC-0008.
+
+### Next Step
+
+Blocked. Waiting for the user to (a) configure `GROQ_API_KEY` and (b)
+approve the `mcp` PyPI package as a new pinned dependency. See
+`CURRENT_TASK.md` for exact resume steps.
+
+## Entry — Gate 05 Phase 5.1 + 5.2: typed provider outcomes, mode policy
+
+### Date
+
+2026-08-27
+
+### Phase / Task
+
+Gate 05 Phase 5.1 (provider router, typed outcomes) + Phase 5.2 (mode
+separation) -- built together since the mode policy is the fallback
+decision inside the same router path.
+
+### Files Touched
+
+- `rag/generation/groq_client.py` -- narrow, additive edit (authorized,
+  DEC-0008): added `GroqRequestError` + 5 typed subclasses
+  (`GroqRateLimitError`/`GroqAuthError`/`GroqTimeoutError`/
+  `GroqNetworkError`/`GroqProviderError`) and `_classify_exhausted_request_error`;
+  changed only the final `raise RuntimeError(...)` in `generate_json` to
+  raise the classified typed exception (`from last_exception`). Zero change
+  to key discovery/rotation/cooldown/retry/backoff.
+- `rag/generation/deepseek_client.py` (new) -- minimal, isolated, single-key
+  DeepSeek client; never wired as a rescue path for any other provider.
+- `rag/generation/provider_router.py` -- rewritten additively: `mode`
+  param (`development`/`demo`/`research`, invalid values normalize to
+  `development`); `ProviderInvocation` gained `failure_kind`, `mode`,
+  `primary_attempt` (all default `None`, backward compatible); Groq path
+  now classifies every failure via the new typed exceptions and, in
+  `development`/`demo` only, falls back to Ollama (trace keeps the primary
+  attempt); `research` mode returns the typed failure as a terminal
+  outcome and never touches Ollama; added an isolated `deepseek` provider
+  branch; `status()` gained `mode`/`deepseek_available`.
+- `app/core/config.py` -- `Settings.provider_mode` (env `PROVIDER_MODE`,
+  default `development`); wired into both `get_provider_router()` and
+  `get_agent_provider_router()`.
+- `app/api/routes_health.py` -- exposes `deepseek_enabled`/`provider_mode`
+  booleans/strings alongside the existing `groq_enabled`/`llm_provider`.
+- `app/schemas/query.py::GenerationTrace` -- additive optional fields
+  `failure_kind`, `mode`, `primary_attempt`.
+- `rag/generation/answer_generator.py` -- `_provider_meta`/
+  `_generation_trace` thread the new fields through additively; no
+  control-flow change.
+- `tests/test_evidence_trace.py` -- loosened one Gate 04 assertion from an
+  exact `generation` trace key-set match to a subset check (`<=`), per the
+  gate contract's explicit "extend Gate 04 trace fields additively" --
+  Gate 04's original 5 keys are still asserted present.
+- New: `tests/test_provider_policy.py` (23 tests), `tests/test_groq_typed_errors.py`
+  (7 tests).
+
+### Why
+
+Phase 5.1 requires 429/timeout/network/config-auth outcomes kept distinct,
+never collapsed into a generic error. Phase 5.2 requires Groq-primary with
+Qwen fallback in development/demo only, and a hard, provably-enforced
+no-fallback rule in research mode.
+
+### Tests Run
+
+```bash
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m compileall -q app rag scripts evals frontend tests
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m pytest -q tests/test_provider_router.py tests/test_groq_rotation.py
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m pytest -q tests/test_provider_policy.py tests/test_groq_typed_errors.py -v
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m pytest -q
+git diff --check
+```
+
+### Results
+
+- Focused pre-existing provider tests: 10 passed, 0 failed (unchanged
+  behavior for `mock`/`ollama` paths and all 6 rotation tests).
+- New Phase 5.1/5.2 tests: 23 + 7 = 30 passed, 0 failed. Cover: Groq success
+  (no `failure_kind`); each of the 5 typed Groq failures individually
+  (`rate_limited`/`timeout`/`network_failure`/`auth_failure`/
+  `provider_error`) plus `config_error` for an unconfigured key; dev/demo
+  fallback to Ollama on every typed failure with `primary_attempt`
+  preserved; demo discloses the real fallback provider/model; research
+  mode returns the typed failure with `fallback_used=False` for all 5
+  kinds AND with an `UntouchableOllamaClient` spy that raises
+  `AssertionError` if touched -- proves Ollama is never invoked; Ollama's
+  own fallback-path failures (unavailable / model not installed) correctly
+  reported as `network_failure`/`config_error` with the Groq primary
+  attempt preserved; DeepSeek isolation (never calls Ollama, never
+  triggered by Groq, its own failures never rescue via Ollama); invalid
+  mode string normalizes to `development`; `status()` reports `mode` and
+  `deepseek_available`.
+- Real `GroqClient` (not a stub) integration: monkeypatched `urlopen`
+  proves exhaustion raises the correctly typed exception for 429/401/503/
+  timeout/connection-refused, preserves the original message text, chains
+  `__cause__`, and pre-existing multi-key rotation-then-success still
+  returns normally (non-regression).
+- Full suite: **305 passed, 0 failed** (275 + 30 new).
+- `compileall -q app rag scripts evals frontend tests`: clean.
+- `git diff --check`: only the pre-existing `groq_client.py` blank-line-at-
+  EOF warning (now at a shifted line number, confirmed via `git diff` tail
+  inspection that no new trailing content was added) and routine CRLF/LF
+  conversion notices -- no real whitespace errors introduced.
+
+### Bugs Found
+
+- None. One design note: all 5 typed Groq failure kinds are treated as
+  fallback-eligible in development/demo (not a narrower enumerated
+  subset) -- matches the gate's "service continuity" framing for those
+  modes; research mode's refusal is unconditional regardless of kind.
+
+### Next Step
+
+Phase 5.3: mount `/mcp` (Streamable HTTP, `mcp==2.1.1`) on `127.0.0.1`
+only, narrow read-oriented tools reusing Gate 04's retrieval/evidence/
+version trace as the source of truth.
+
+## Entry — Gate 05 Phase 5.3 + 5.4: local MCP surface, security, audit
+
+### Date
+
+2026-08-27
+
+### Phase / Task
+
+Gate 05 Phase 5.3 (MCP surface) + Phase 5.4 (MCP security/audit) -- built
+together since auth/scope/audit are threaded through tool registration from
+the start, not bolted on after.
+
+### Files Touched
+
+- New package `app/mcp/`:
+  - `auth.py` -- `StaticBearerTokenVerifier` (single server-owned token,
+    constant-time compare via `hmac.compare_digest`, never logs the token;
+    grants `mcp:read` only -- `mcp:admin` is never granted through this
+    gate's configuration surface).
+  - `audit.py` -- `McpAuditLog`: bounded `deque` (default maxlen 500),
+    records only timestamp/request_id/tool_name/authorized/status; never
+    the token, raw arguments, or retrieved content.
+  - `tools.py` -- `guarded_tool` decorator (enforces required scope via
+    `mcp.server.auth.middleware.auth_context.get_access_token()` server-
+    side, records one audit entry per call, regardless of client-declared
+    capability) wrapping 3 approved read-only tools
+    (`retrieve_context`/`document_status`/`index_status`, reusing
+    `ContextBuilder`/`LifecycleService`/`ChunkIndexStore` directly -- no
+    parallel data path) plus 1 protected probe tool
+    (`admin_retire_document_version`, `mcp:admin`-gated, registered only
+    when `enable_protected_probe_tool=True`, disabled by default).
+  - `server.py` -- `build_mcp_server()`: rejects any non-localhost `host`
+    at construction (`McpConfigurationError`); builds the SDK's real
+    Streamable HTTP app (`mcp.server.mcpserver.MCPServer.streamable_http_app`)
+    with explicit `TransportSecuritySettings` (localhost-only host/origin
+    allowlist, DNS-rebinding protection); composes the SDK's own
+    `AuthenticationMiddleware`+`BearerAuthBackend`+`AuthContextMiddleware`+
+    `RequireAuthMiddleware` directly around it (see design note below --
+    `MCPServer`'s own `auth=`/`token_verifier=` constructor path hard-
+    requires OAuth `AuthSettings.issuer_url`, explicitly out of scope for
+    this gate, so those SDK middleware classes are composed manually
+    instead of hand-rolling auth).
+- `app/core/config.py` -- `Settings.mcp_bearer_token`/`mcp_host`/
+  `mcp_enable_protected_probe_tool` (env `MCP_BEARER_TOKEN`/`MCP_HOST`/
+  `MCP_ENABLE_PROTECTED_PROBE_TOOL`, all fail-closed defaults); new
+  `get_mcp_server()` (`lru_cache`, reuses `get_context_builder()`/
+  `get_lifecycle_service()`/`get_store()`); wired into `refresh_live_caches()`.
+- `app/main.py` -- FastAPI `lifespan` now enters
+  `get_mcp_server().mcp_server.session_manager.run()` (the SDK session
+  manager's task group must be entered from the true top-level ASGI app's
+  lifespan -- a mounted sub-app's own `lifespan=` is never triggered
+  automatically); `app.mount("/mcp", get_mcp_server().asgi_app)`.
+- `app/api/routes_health.py` -- `mcp_configured` boolean (never token
+  value/length/prefix).
+- `requirements.txt` -- `mcp==2.1.1` was already added in Phase 5.0 (no
+  further dependency change).
+- New: `tests/test_mcp_server.py` (14 tests).
+
+### Why
+
+Phase 5.3 requires a standards-compliant local Streamable HTTP MCP surface
+using a maintained SDK, narrow read-oriented tools, localhost-only binding.
+Phase 5.4 requires server-owned bearer auth, exact localhost origin
+allowlisting, server-side scope enforcement per tool call (not just client
+metadata), and a minimal bounded audit trail -- with an unauthorized
+dangerous operation proven rejected before any mutation.
+
+### Design note: composing SDK auth middleware manually
+
+`MCPServer(token_verifier=...)` raises `ValueError: Cannot specify
+auth_server_provider or token_verifier without auth settings` --
+discovered by construction, not by reading docs alone. The SDK's
+convenience `auth=`/`token_verifier=` pairing is an OAuth resource-server
+flow requiring `AuthSettings.issuer_url`, which the gate contract
+explicitly forbids ("No OAuth, cloud identity, ..., a token issuer").
+Resolved by building the plain (unauthenticated) SDK app via
+`MCPServer.streamable_http_app()`, then wrapping it in the SDK's own
+`RequireAuthMiddleware` and `AuthenticationMiddleware`/`BearerAuthBackend`/
+`AuthContextMiddleware` directly (all public SDK classes, imported and
+composed, not reimplemented) -- real SDK-verified bearer auth, zero OAuth
+surface. Verified end-to-end with a manual protocol smoke script (real
+`ClientSession.initialize()`/`list_tools()`/`call_tool()` round trip)
+before writing the committed test suite.
+
+### Tests Run
+
+```bash
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m compileall -q app rag scripts evals frontend tests
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m pytest -q tests/test_mcp_server.py -v
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m pytest -q
+git diff --check
+```
+
+### Results
+
+- `tests/test_mcp_server.py`: **14 passed, 0 failed**. Runs a real
+  Streamable HTTP server on a dynamic OS-assigned `127.0.0.1` port, in a
+  background daemon thread (no subprocess -- nothing to flash a console
+  window; reliably joined with a 10s timeout in every fixture teardown).
+  Covers: `initialize`/`tools/list` with a valid token (exactly the 3
+  approved tools, protected tool absent when disabled); each approved
+  tool's real output (`retrieve_context` against the real 37-doc corpus,
+  `index_status` reporting the real `index_version`/`chunk_count`,
+  `document_status` against an isolated `tmp_path` lifecycle registry);
+  the protected probe tool registered-but-denied when enabled (the real
+  configured token never carries `mcp:admin` -- `result.is_error is True`,
+  no lifecycle mutation reachable); unauthenticated / malformed
+  `Authorization` / wrong bearer token / no-token-configured-at-all all
+  return 401; a spoofed `Origin` header rejected (401/403/421, matching
+  the SDK's DNS-rebinding response codes); non-localhost `host` rejected
+  at construction (`McpConfigurationError`, before any server is even
+  built); audit log records the authorized `index_status` call
+  (`status="ok"`) and the denied admin call (`status="denied"`) with
+  exactly the 5 allowed fields and no token substring anywhere in any
+  record; audit log bounded (`len(...) <= 500`).
+- Full suite: **319 passed, 0 failed** (305 + 14 new).
+- `compileall -q app rag scripts evals frontend tests`: clean.
+- `git diff --check`: only the same pre-existing `groq_client.py` EOF
+  warning and routine CRLF notices -- no new whitespace errors.
+
+### Bugs Found
+
+- None in the app's own code. One real, load-bearing SDK-behavior
+  discovery (not a bug, a discovered constraint): the transport-security
+  `allowed_hosts` wildcard pattern `"127.0.0.1:*"` does NOT match a bare
+  `Host: 127.0.0.1` header with no port -- only matters for in-process
+  ASGI-transport testing without a real bound port (a real dynamic-port
+  server always sends an explicit port in its Host header, so this never
+  surfaces there); hardened the allowlist defensively to include the bare
+  hostname too, for robustness beyond just this gate's own test suite.
+
+### Next Step
+
+Phase 5.5 (bounded real smoke proofs): one bounded Groq development-mode
+call, one bounded local `qwen3:8b` Ollama smoke call, one authenticated
+localhost MCP Inspector/client smoke (already effectively proven by the
+committed `test_mcp_server.py` suite's real dynamic-port protocol round
+trip -- Phase 5.5 additionally wants this run against the real app wiring,
+not just the isolated test app). Requires the user to confirm Groq is now
+configured (the `.env` file-location issue from Phase 5.0/5.1) and that
+local runtime prerequisites are ready before any live call is made.
+
+## Entry — test file split (`tests/test_mcp_server.py` > 400 lines)
+
+### Date
+
+2026-08-27
+
+### Files Touched
+
+- New: `tests/mcp_test_helpers.py` (shared fixtures/helpers, not a test
+  module -- no `test_*` name, not collected by pytest directly).
+- `tests/test_mcp_server.py` -- trimmed to protocol tests only (init,
+  tools/list, each tool call, protected-tool registration), 6 tests.
+- New: `tests/test_mcp_security.py` -- auth/origin/host-guard/audit tests,
+  8 tests.
+- `tests/conftest.py` -- added `pytest_plugins = ["tests.mcp_test_helpers"]`
+  so the shared fixtures register repo-wide.
+
+### Why
+
+`tests/test_mcp_server.py` landed at 411 lines after Phase 5.3/5.4, just
+over the repo's ~400-line split threshold (`AGENTS.md` Coding Standard,
+flagged in the regenerated `REPO_MAP.md`'s Oversized Files table). Split
+along the protocol-vs-security responsibility boundary per that standard,
+not by line count alone.
+
+### Tests Run
+
+```bash
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m pytest -q tests/test_mcp_server.py tests/test_mcp_security.py -v
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m compileall -q app rag scripts evals frontend tests
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m pytest -q
+git diff --check
+```
+
+### Results
+
+- Split suite: 14 passed, 0 failed (6 + 8, same tests, same assertions,
+  no behavior change -- pure file reorganization).
+- Full suite: **319 passed, 0 failed** (unchanged from before the split).
+- `compileall` clean. `git diff --check`: only the same pre-existing
+  `groq_client.py` EOF warning.
+- Rebuilt `REPO_MAP.md`/code index: Oversized Files table no longer lists
+  any test file (156 files indexed, up from 154 -- the two new files).
+
+## Entry — Gate 05 Phase 5.5: bounded real smoke proofs
+
+### Date
+
+2026-08-27
+
+### What was run and why
+
+User confirmed: run the MCP live smoke and attempt Groq; explicitly
+deferred the local Qwen/Ollama bounded smoke (separate deployment planned,
+prefers the Groq API path for stability right now) -- so that specific
+proof was deliberately not run, not because Ollama was unavailable
+(confirmed available and `qwen3:8b` confirmed installed via
+`OllamaClient.status()` earlier in Phase 5.0/5.5 preflight).
+
+Groq-configured boolean was rechecked immediately before this phase (never
+reading `.env` directly -- via `import app.main` triggering the real
+`load_dotenv()` path, then only `bool(os.environ.get(...))`): still `False`.
+`VietRagOps/.env`'s mtime was also rechecked and found unchanged
+(`Aug 26 23:25`) from the very first check earlier in the session --
+i.e. whatever edit the user made did not land in the file this app
+actually loads. Per the gate contract ("If Groq returns 429/timeout/
+network failure, preserve the typed outcome. Do not repeat calls to force
+a PASS" and "STOP honestly" for an unavailable prerequisite), no live
+Groq network call was attempted -- there is nothing to call without a key,
+and fabricating one would not be a real proof.
+
+### Commands / results
+
+1. **MCP client smoke against the real app wiring** (`app.main.app`, not
+   the isolated test app), a real Streamable HTTP server on a dynamic
+   `127.0.0.1` port, in a background daemon thread:
+   - Unauthenticated `POST /mcp/` -> **401** (denied path).
+   - Authenticated `initialize()` -> succeeded, `server_info.name ==
+     "vietragops-mcp"`.
+   - `list_tools()` -> `["retrieve_context", "document_status",
+     "index_status"]` (protected tool absent -- disabled by default in
+     the real app, `MCP_ENABLE_PROTECTED_PROBE_TOOL` unset).
+   - `call_tool("index_status", {})` -> `is_error=False`, real data:
+     `index_version: sha256:0510c68876fc4b92, chunk_count: 695,
+     document_count: 37` -- matches the real corpus exactly.
+2. **Groq `config_error` typed-outcome proof, `research` mode**
+   (`PROVIDER_MODE=research`, `LLM_PROVIDER=groq`, real `/ask` endpoint):
+   `generation = {"provider": "groq", "model": "qwen/qwen3.6-27b",
+   "fallback_used": true, "error": "Groq is not configured.",
+   "latency_ms": 1.933, "failure_kind": "config_error", "mode":
+   "research", "primary_attempt": null}`. `latency_ms` 1.9ms and
+   `primary_attempt: null` together prove no network call was made and no
+   provider substitution happened -- exactly the research-mode contract.
+   `generation.fallback_used: true` here reflects the separate,
+   pre-existing Gate 04 "answer generator fell back to its own
+   deterministic answer builder" concept (unchanged since Gate 04, not
+   provider-to-provider fallback); `primary_attempt: null` is the precise
+   signal that no other provider was ever tried.
+3. **Incidental real Ollama call (not intended, documented for
+   transparency):** an earlier attempt to prove the same `config_error`
+   path in `development` mode (before switching to `research` mode for a
+   clean proof) correctly triggered this gate's own Groq->Ollama fallback
+   design, making a REAL local `qwen3:8b` call despite the user's request
+   to defer Qwen testing. Ended in `failure_kind: "provider_error"`,
+   `error: "Ollama chat request failed: timed out"` after the
+   `OllamaClient` default 30s timeout, `latency_ms: 30096.5`. The `/ask`
+   endpoint still returned `200` (deterministic-answer fallback). This
+   was not a deliberate Qwen smoke test and does not count as satisfying
+   (or violating) the user's deferral -- recorded here only because a
+   real network call did happen. Operationally relevant, out-of-scope
+   finding: `qwen3:8b` local inference on this machine can exceed
+   `OllamaClient`'s 30s default timeout for a first/cold call; not fixed
+   in this gate (no acceptance criterion requires it, and the fallback
+   degraded correctly and safely).
+
+### Outcome
+
+- MCP live client smoke: **done**, real proof, matches the committed test
+  suite's behavior against the real app wiring.
+- Qwen local smoke: **deliberately not run**, per explicit user decision
+  (not an availability blocker -- Ollama/`qwen3:8b` confirmed ready).
+- Groq live network call: **not run** -- `WAITING_FOR_USER_SECRET`
+  remains the honest status for this one specific proof; the typed
+  `config_error` degradation path was verified instead (real code path,
+  zero network calls, deterministic).
+
+### Next Step
+
+Phase 5.6: final regression, freeze verification, `git diff --check`,
+repo map/code index rebuild (done), write `gates/results/GATE_05_RESULT.md`
+from this evidence with status `WAITING_FOR_USER_SECRET` for the Groq live
+proof specifically, while the rest of the gate (Phases 5.1-5.4, MCP smoke)
+stands on real, complete evidence. STOP -- no Gate 06 work.
+
+## Entry — Gate 05: `.env` redirect fix, live Groq proof succeeds, status -> PASS
+
+### Date
+
+2026-08-27
+
+### Files Touched
+
+- `app/main.py` -- by explicit user request, dotenv now loads from
+  `Path(__file__).resolve().parents[2] / ".env"` (`D:\...\ROOT\.env`, the
+  parent of the app's own repo root) instead of the default upward search
+  from cwd (which found `VietRagOps\.env`). Moved the load to the very
+  top of the file, before any `app.*`/`rag.*` import, and added
+  `override=True`. See DEC-0011 for why the naive path-only version of
+  this change silently failed first.
+- `gates/results/GATE_05_RESULT.md` -- status updated `WAITING_FOR_USER_SECRET`
+  -> `PASS`; live Groq evidence, the dotenv bug/fix, and the acceptance
+  checklist updated accordingly.
+
+### Why
+
+User pointed out the correct `.env` location; fixing it correctly (not
+just superficially) was necessary to unblock Phase 5.5's one remaining
+required live proof.
+
+### Debugging (real root-cause work, not guessed)
+
+First attempt (just changing `dotenv_path=`) still showed
+`GROQ_API_KEY` as unconfigured after `import app.main`. Bisected by
+importing each module in the chain individually and checking
+`'GROQ_API_KEY' in os.environ` before/after:
+`app.core.config` -> yes; narrowed to `app.mcp.tools` -> yes; narrowed to
+`rag.lifecycle.service` -> yes; narrowed to `rag.lifecycle.pipeline` ->
+yes; narrowed to `rag.ingestion.markitdown` -> yes (this is where it
+first appears). Confirmed the value being set was an empty string
+matching exactly what `VietRagOps\.env`'s own `GROQ_API_KEY=` line
+resolves to (`dotenv_values()` direct parse, length 0), while
+`ROOT\.env`'s `GROQ_API_KEY` resolves to a real 56-character value
+(length only, never printed). Concluded: `markitdown` (or one of its
+dependencies) calls a bare `load_dotenv()` at import time, which finds
+`VietRagOps\.env` first because that import happens before `app/main.py`'s
+own dotenv call did (in the old import order). Fixed per DEC-0011.
+
+A second false alarm during the same debugging pass: the very first retry
+of the live Groq call after the fix again showed `GROQ_API_KEY` as unset
+-- caused by this agent reusing `PYTHON_DOTENV_DISABLED=true` (correct
+for every offline/mock test command run throughout this session) by
+mistake in a live-call command, which disables the app's own dotenv load
+entirely (but not `markitdown`'s internal one, which doesn't check that
+flag) -- explaining the exact same symptom via a different, unrelated
+cause. Caught by rerunning without that variable.
+
+### Live proof
+
+Real `/ask` request, `LLM_PROVIDER=groq`, `PROVIDER_MODE=development`,
+question "Cấu trúc email sinh viên là gì?", `top_k=3`, one bounded call:
+
+```json
+{"provider": "groq", "model": "qwen/qwen3.6-27b", "fallback_used": false,
+ "error": null, "latency_ms": 3714.383, "failure_kind": null,
+ "mode": "development", "primary_attempt": null}
+```
+
+HTTP 200, `refusal: false`, `citations: 1`, `confidence: 1.0`,
+`citation_verification: {"is_valid": true, "errors": []}`,
+`evidence_state: {"state": "supported", "reasons": []}`. No repeated
+calls -- succeeded on the first bounded attempt.
+
+### Tests Run
+
+```bash
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m compileall -q app rag scripts evals frontend tests
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m pytest -q
+git diff --check
+git status --short -- data/ gates/baselines/
+```
+
+### Results
+
+- Full suite: **319 passed, 0 failed** (unchanged -- the dotenv fix only
+  affects app startup env-loading, no test behavior changed since tests
+  already used `PYTHON_DOTENV_DISABLED=true`).
+- `compileall` clean. `git diff --check`: only the same pre-existing
+  `groq_client.py` EOF warning. `data/`/`gates/baselines/` empty (frozen
+  corpus and prior gate baselines untouched).
+
+### Bugs Found
+
+- One real, pre-existing (not introduced by Gate 05) latent bug: `app/main.py`
+  loaded dotenv *after* importing project modules, which happened to be
+  harmless before this session (both the old default search and any
+  transitive `markitdown` load would resolve to the same file,
+  `VietRagOps\.env`) but became a real, silent failure the moment the app
+  needed to load a *different* file. Fixed as part of this gate (DEC-0011)
+  since it directly blocked a required Phase 5.5 proof.
+
+### Outcome / Status change
+
+Gate 05 status changed from `WAITING_FOR_USER_SECRET` to **PASS**. All
+required acceptance items are now satisfied except the Qwen live smoke,
+which remains a documented, user-directed deferral (not a gap) covered by
+extensive mocked/spy evidence. See `gates/results/GATE_05_RESULT.md` for
+the complete, updated record.
+
+### Next Step
+
+None from this agent unless the user asks to commit Gate 05 (requires
+separate explicit authorization) or to run the deferred Qwen live smoke
+later. STOP -- no Gate 06 work.
+
+## Entry — Gate 05: consolidate `.env` to the project-local file (DEC-0012)
+
+### Date
+
+2026-08-27
+
+### Files Touched
+
+- `app/main.py` -- `ENV_FILE_PATH` changed from `parents[2] / ".env"`
+  (the parent `ROOT` folder) to `parents[1] / ".env"` (`VietRagOps\.env`,
+  the project-local file) -- now identical to `scripts/web_import.py`'s
+  existing `_REPO_ROOT / ".env"` convention. Import-order fix and
+  `override=True` from the prior entry kept unchanged.
+- `gates/results/GATE_05_RESULT.md` -- updated to describe the final,
+  consolidated `.env` location and the corrected `latency_ms` from the
+  re-run proof.
+
+### Why
+
+User pointed out (correctly) that pointing at the parent `ROOT\.env`
+created an inconsistency with `scripts/web_import.py`, which already
+loads secrets from inside the project. User manually moved the real
+values into `VietRagOps\.env`; asked this agent to redo the reasoning/
+verification and update the ops records -- explicitly not to write any
+secret values into `_agent_ops/`.
+
+### Verification (length/count only, no secret values read or recorded)
+
+```bash
+.venv/Scripts/python.exe -c "from dotenv import dotenv_values; vals = dotenv_values('.env'); print(len(vals), len(vals.get('GROQ_API_KEY') or ''))"
+```
+
+- `VietRagOps\.env`: 79 keys parsed, `GROQ_API_KEY` length 56, all 20
+  `GROQ_API_KEY_1..20` populated.
+- Re-ran the bounded live Groq proof: `provider: groq`,
+  `latency_ms: 5415.665`, `fallback_used: false`, `refusal: false`,
+  1 citation, HTTP 200 -- succeeded again from the consolidated location.
+- Full suite: **319 passed, 0 failed**. `compileall` clean.
+  `git diff --check`: only the same pre-existing `groq_client.py` EOF
+  warning.
+
+### Outcome
+
+Gate 05 remains **PASS**; the `.env` location is now consistent across
+the whole app. `D:\...\ROOT\.env` is no longer read by anything in this
+codebase.
+
+### Next Step
+
+None from this agent unless the user asks to commit Gate 05 or run the
+deferred Qwen live smoke. STOP -- no Gate 06 work.
+
+## Entry — Gate 06 entry-gate block, then Gate 05 correction (Qwen live smoke + commit)
+
+### Date
+
+2026-08-27
+
+### What happened
+
+A later session began Gate 06 by running its mandatory entry gate before
+touching any Gate 06 file, per the entry contract. It found two
+independent, disqualifying gaps against actual repository state (not the
+narrative in `GATE_05_RESULT.md`): (1) the bounded local `qwen3:8b`
+Ollama smoke required by the Gate 06 entry gate had never actually
+succeeded -- Gate 05 only had an incidental timed-out call, explicitly
+documented as not satisfying the acceptance item; (2) Gate 05 had never
+been committed at all (`git status --short` showed every Gate 05 file
+modified-but-unstaged or untracked, `git diff --cached --name-only`
+empty), confirmed by `GATE_05_RESULT.md`'s own text ("a Gate 05 commit
+requires separate explicit user authorization") and
+`_agent_ops/CURRENT_TASK.md` ("No Gate 05 commit has been made."). The
+session correctly reported `GATE_06_BLOCKED` with both exact gaps, per
+the entry contract's "do not weaken it" instruction, and performed no
+Gate 06 edits.
+
+The user replied by quoting both missing items back verbatim and writing
+"do it for me please. continue as my prompt" -- explicit authorization
+for both the live smoke and the Gate 05 commit.
+
+### Commands / results
+
+1. Confirmed Ollama running locally and `qwen3:8b` installed:
+   `.venv/Scripts/python.exe scripts/check_ollama.py` (default model) and
+   again with `OLLAMA_MODEL=qwen3:8b` -- both `available=True`, the
+   latter `model_available=True`, alongside `gemma3:4b`, `qwen2.5:3b`,
+   `qwen2.5:7b`, `qwen3.5:4b`, `qwen3:4b` also installed.
+2. Warmed the model via the real `ollama.exe run qwen3:8b` CLI once (a
+   trivial "hi" prompt) to confirm end-to-end generation worked at all
+   before attempting the real gate proof.
+3. Three real attempts through the actual fallback code path (`provider=
+   "groq"` with `GROQ_API_KEY` genuinely absent from the environment --
+   `PYTHON_DOTENV_DISABLED=true`, no key exported -- producing a real
+   `config_error`, then real `development`-mode fallback to a real
+   `OllamaClient(model="qwen3:8b")`), each at successively larger
+   explicit timeouts to find the real completion time, not to force a
+   pass:
+   - 30s (via the real `/ask` endpoint through `fastapi.testclient.
+     TestClient(app)`, immediately after a 12s CLI warm-up): timed out
+     (`latency_ms: 30208.731`, `failure_kind: provider_error`, answer
+     degraded correctly to the deterministic fallback, HTTP 200).
+   - 90s (via a directly-constructed `AnswerGenerator`/`ContextBuilder`/
+     `ProviderRouter`, real corpus, real `OllamaClient(timeout=90.0)`):
+     timed out again (`latency_ms: 90637.163`).
+   - 300s (same construction, `OllamaClient(timeout=300.0)`): **real
+     success**, first attempt at this bound, no retries needed --
+     `provider: "ollama"`, `model: "qwen3:8b"`, `fallback_used: true`,
+     `error: null`, `failure_kind: null`, `latency_ms: 105656.945`,
+     `primary_attempt.failure_kind: "config_error"` (proving the real
+     Groq path was attempted and genuinely failed first, not skipped).
+     Answer: "Cau truc email sinh vien TDTU la MSSV@student.tdtu.edu.vn,
+     ..." -- grounded, specific, and correct against the real corpus, not
+     the generic deterministic-fallback text seen in the two timeouts
+     above. `refusal: false`, `confidence: 0.95`, `citations: 1`,
+     `citation_verification: {"is_valid": true, "errors": []}`,
+     `evidence_state: {"state": "supported", "reasons": []}`.
+4. Full regression reconfirmed before committing: `compileall` clean;
+   full suite **319 passed, 0 failed** (unchanged); corpus validators --
+   1036/695/572 rows abnormal 0, 37/37 processed docs, 37 manifest rows 0
+   duplicate groups (all identical to the Gate 04/05 baseline);
+   retrieval smoke re-run to a temp path -- bit-for-bit identical metrics
+   to `GATE_04_RETRIEVAL_SMOKE.json` (recall@3 0.7222, recall@5 0.8889,
+   recall@10 0.8889, mrr 0.5917, precision@5 0.1889, answerable 18/20);
+   `git status --short -- data/ gates/` shows only the new
+   `GATE_05_RESULT.md` itself.
+5. Updated `gates/results/GATE_05_RESULT.md` in place with this evidence
+   (correction note, live-proof section, real-latency finding, updated
+   acceptance-checklist item, updated known limitations) -- the original
+   PASS status and all other previously-recorded evidence were left
+   unchanged, per the instruction not to change a PASS by wording.
+6. Recorded DEC-0013 (methodology/commit-scope decision) and RISK-0015
+   (the newly-discovered production-timeout-vs-real-latency gap).
+7. Regenerated `_agent_ops/REPO_MAP.md` (`generate_repo_map.py --force`)
+   and the code index (`build_code_index.py --force`); inspected the
+   diff before allowing it into the commit (pure refresh, no manual
+   edits).
+8. Staged, by explicit file name only (never `git add .`/`-A`), exactly
+   the Gate 05 slice: every file listed in `GATE_05_RESULT.md`'s "Exact
+   source and dependency scope" plus this gate's own ops entries
+   (`_agent_ops/DECISION_LOG.md`, `_agent_ops/IMPLEMENTATION_LOG.md`,
+   `_agent_ops/PROJECT_CONTEXT_CARD.md`, `_agent_ops/RISK_REGISTER.md`,
+   `_agent_ops/phase_context_cards/evolve_2026_08_26/README.md` and
+   `GATE_05.md`, `_agent_ops/REPO_MAP.md`, `gates/results/
+   GATE_05_RESULT.md`). Verified via `git status`/`git diff --cached
+   --name-only` that no pre-existing overlay path was included. Ran
+   `git diff --check` on the staged diff before committing.
+9. Committed the Gate 05 slice (see `git log` for the resulting hash(es)
+   -- this entry deliberately does not restate it to avoid a circular
+   self-reference).
+
+### Outcome
+
+- Gate 06 entry-gate gap #1 (real Qwen smoke) -- closed with a genuine,
+  reproducible success.
+- Gate 06 entry-gate gap #2 (Gate 05 commit) -- closed; Gate 05 is now
+  committed as its own slice, separate from the pre-existing dirty
+  overlay, which remains exactly as it was.
+- New finding, not a regression: the production `OllamaClient` default
+  timeout (30s) is far below this machine's real `qwen3:8b` full-RAG
+  latency (~100-110s) -- tracked as RISK-0015, not fixed in this session
+  (out of Gate 05's frozen scope; Gate 06 is infrastructure-only and does
+  not touch this either).
+
+### Next Step
+
+Re-run the Gate 06 mandatory entry gate against the now-committed state.
+If it passes, proceed into Gate 06 Phase 6.0 per the source pack.

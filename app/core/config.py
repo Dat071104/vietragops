@@ -5,6 +5,7 @@ from functools import lru_cache
 import os
 from pathlib import Path
 
+from app.mcp.server import BuiltMcpServer, build_mcp_server
 from rag.generation import AnswerGenerator, ContextBuilder, ProviderRouter
 from rag.ingestion.firecrawl import FirecrawlAdapter
 from rag.lifecycle.registry import LifecycleRegistry
@@ -64,9 +65,16 @@ class Settings:
         default_factory=lambda: int(os.environ.get("FIRECRAWL_MAX_RETRIES", "2"))
     )
     llm_provider: str = field(default_factory=lambda: os.environ.get("LLM_PROVIDER", "mock").strip().casefold())
+    provider_mode: str = field(default_factory=lambda: os.environ.get("PROVIDER_MODE", "development").strip().casefold())
     ollama_base_url: str = field(default_factory=lambda: os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434").strip())
     ollama_model: str = field(default_factory=lambda: os.environ.get("OLLAMA_MODEL", "qwen2.5:3b").strip())
     ollama_num_ctx: int = field(default_factory=lambda: int(os.environ.get("OLLAMA_NUM_CTX", "8192")))
+    mcp_bearer_token: str = field(default_factory=lambda: os.environ.get("MCP_BEARER_TOKEN", "").strip())
+    mcp_host: str = field(default_factory=lambda: os.environ.get("MCP_HOST", "127.0.0.1").strip())
+    mcp_enable_protected_probe_tool: bool = field(
+        default_factory=lambda: os.environ.get("MCP_ENABLE_PROTECTED_PROBE_TOOL", "").strip().casefold()
+        in {"1", "true", "yes", "on"}
+    )
 
 
 @lru_cache
@@ -115,6 +123,7 @@ def refresh_live_caches() -> None:
     get_context_builder.cache_clear()
     get_answer_generator.cache_clear()
     get_agent_answer_generator.cache_clear()
+    get_mcp_server.cache_clear()
 
 
 @lru_cache
@@ -168,6 +177,7 @@ def get_provider_router() -> ProviderRouter:
     settings = get_settings()
     return ProviderRouter(
         provider=settings.llm_provider,
+        mode=settings.provider_mode,
         ollama_base_url=settings.ollama_base_url,
         ollama_model=settings.ollama_model,
         ollama_num_ctx=settings.ollama_num_ctx,
@@ -187,6 +197,7 @@ def get_agent_provider_router() -> ProviderRouter:
     settings = get_settings()
     return ProviderRouter(
         provider=settings.llm_provider,
+        mode=settings.provider_mode,
         ollama_base_url=settings.ollama_base_url,
         ollama_model=settings.ollama_model,
         ollama_num_ctx=settings.ollama_num_ctx,
@@ -198,4 +209,17 @@ def get_agent_answer_generator() -> AnswerGenerator:
     return AnswerGenerator(
         context_builder=get_context_builder(),
         provider_router=get_agent_provider_router(),
+    )
+
+
+@lru_cache
+def get_mcp_server() -> BuiltMcpServer:
+    settings = get_settings()
+    return build_mcp_server(
+        context_builder=get_context_builder(),
+        lifecycle_service=get_lifecycle_service(),
+        store=get_store(),
+        bearer_token=settings.mcp_bearer_token or None,
+        host=settings.mcp_host,
+        enable_protected_probe_tool=settings.mcp_enable_protected_probe_tool,
     )
