@@ -2,7 +2,9 @@
 
 ## Status
 
-`PRE-GATE / SETUP COMPLETE — NO GATE EXECUTED`
+`Gates 00-04 PASS. Gate 04 (version-aware RAGOps) implemented and
+uncommitted as of 2026-08-27 -- no commit authorized this session. Gate 05
+not started.`
 
 ## Purpose
 
@@ -24,11 +26,11 @@ execution authorization. Read this file, then the card for the active gate only.
 
 | Gate | Card | Status | Hard stop |
 | --- | --- | --- | --- |
-| 00 | `GATE_00.md` | Next / not started | Result before Gate 01 |
-| 01 | `GATE_01.md` | Blocked by Gate 00 | Result before Gate 02 |
-| 02 | `GATE_02.md` | Tool prepared only | Result before Gate 03 |
-| 03 | `GATE_03.md` | Tool prepared; no key/call | User-secret handoff + result |
-| 04 | `GATE_04.md` | Blocked by Gate 03 | Result before Gate 05 |
+| 00 | `GATE_00.md` | PASS | Result before Gate 01 |
+| 01 | `GATE_01.md` | PASS | Result before Gate 02 |
+| 02 | `GATE_02.md` | PASS | Result before Gate 03 |
+| 03 | `GATE_03.md` | PASS | User-secret handoff + result |
+| 04 | `GATE_04.md` | PASS (uncommitted) | Result before Gate 05 |
 | 05 | `GATE_05.md` | Blocked by Gate 04 | Result before Gate 06 |
 | 06 | `GATE_06.md` | Blocked by Gate 05 | Result before Gate 07 |
 | 07 | `GATE_07.md` | Blocked by Gate 06 | GO / REFORMULATE / STOP |

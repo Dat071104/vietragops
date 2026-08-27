@@ -876,3 +876,418 @@ contrary to secret policy).
 
 Gate 04, only in a new explicit session after independently re-verifying
 this Gate 03 PASS result and its evidence.
+
+## Gate 04 Phase 4.1 -- Version-aware retrieval
+
+### Date
+
+`2026-08-27`
+
+### Phase / Task
+
+Gate 04 Phase 4.1: every retrieved chunk resolves deterministically to
+source, source version, index version, authority state, freshness state.
+
+### Files Touched
+
+- `rag/retrieval/version_resolver.py` (new): `VersionResolver` +
+  `ChunkVersionInfo`. Registry-aware when a `LifecycleRegistry` is passed
+  (published version -> active; all-versions-retired -> retired,
+  diagnostic-only since such a doc's chunks cannot be live); otherwise
+  falls back to the manifest's existing `checksum`/`status` columns.
+  `freshness_state`/`conflict_key` are opt-in via optional `stale_after`/
+  `conflict_key` manifest-row keys that the real corpus never sets.
+- `rag/retrieval/index_store.py`: added `ChunkIndexStore.index_version`,
+  a deterministic `sha256:<16 hex>` of the backing file's bytes (or of
+  sorted chunk id/checksum pairs for in-memory stores). Recomputed once
+  per construction; not a random run id or mutable counter.
+- `rag/retrieval/__init__.py`: exported `VersionResolver`/`ChunkVersionInfo`.
+- `rag/generation/context_builder.py`: `ContextBuilder` takes an optional
+  `version_resolver`; when present, attaches a `"version"` dict to each
+  selected chunk (resolved once per doc_id, cached per `build()` call) and
+  a `chunk_versions` map into `retrieval_debug`. No resolver -> zero
+  behavior change (key omitted entirely).
+- `app/core/config.py`: added `get_lifecycle_registry()` (shared cached
+  registry, reused by `get_lifecycle_service()` and
+  `get_web_import_service()`, replacing three separate
+  `LifecycleRegistry(...)` constructions) and `get_version_resolver()`
+  (built from `load_manifest_rows` + `get_store().index_version` +
+  the shared registry). Wired into `get_context_builder()`.
+  `refresh_live_caches()` now also clears `get_version_resolver`.
+- `app/api/routes_query.py`: the `use_reranker=True` branch's ad hoc
+  `ContextBuilder(...)` now also receives `version_resolver=get_version_resolver()`
+  so version metadata does not silently disappear under that flag.
+- `tests/test_version_resolver.py` (new, 13 tests): index_version
+  determinism/change-on-content, legacy checksum-derived resolution,
+  missing-document unknown, retired-status manifest fallback,
+  published_at -> current, stale_after past/future, conflict_key
+  passthrough, registry-tracked resolution, checksum-mismatch-falls-back-
+  to-legacy (proves a stale manifest row is never silently matched to the
+  wrong registry version), and the fully-retired diagnostic path.
+- `tests/test_context_builder_versioning.py` (new, 2 tests): no-resolver
+  -> no `"version"` key (baseline-preserving); with-resolver -> every
+  chunk and `retrieval_debug.chunk_versions` carry the resolved info.
+- `tests/test_api_documents_lifecycle.py`: its own `_clear_caches()`
+  helper (used by an `isolated_env` fixture that runs the real HTTP
+  lifecycle against a tmp_path-isolated manifest/registry) was missing the
+  two new cached functions -- this silently leaked the first test's
+  tmp-path registry/resolver into every later test in the file via the
+  process-wide `lru_cache` singletons, corrupting
+  `test_full_lifecycle_publish_retire_rollback_via_http` (a document came
+  back `published` instead of `candidate`). Fixed by adding
+  `get_lifecycle_registry.cache_clear()` / `get_version_resolver.cache_clear()`
+  to that helper. Verified: failure reproduced before the fix, gone after.
+
+### Why
+
+Gate 04 Phase 4.1 acceptance requires deterministic source/version/index/
+authority/freshness resolution without inventing semantics or touching
+the frozen 37-doc corpus/manifest schema. Reusing `load_manifest_rows`
+(already used by `AdvancedHybridRetriever`) and the existing lifecycle
+registry keeps this additive; opt-in `stale_after`/`conflict_key` keys let
+fixtures exercise stale/conflict semantics later (Phase 4.2/4.4) without
+ever writing those columns into `data/manifests/documents_manifest.csv`.
+
+### Tests Run
+
+```bash
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m compileall -q app rag scripts evals frontend tests
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m pytest -q tests/test_version_resolver.py tests/test_context_builder_versioning.py --basetemp=<tmp>
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m pytest -q --basetemp=<tmp>
+```
+
+- Focused: 15 passed (13 + 2).
+- Full suite: **251 passed, 0 failed** (236 pre-Gate-04 baseline + 15 new).
+  One regression caught and fixed mid-phase (cache-clear gap above), then
+  re-verified green.
+- `git diff --check` on all Gate 04 Phase 4.1 files: clean (the one
+  warning present, `groq_client.py:235` blank-line-at-EOF, is the
+  pre-existing dirty overlay, not a Gate 04 file).
+
+### Baseline Impact
+
+None. `get_context_builder()`/`get_version_resolver()` only add a new
+additive `"version"` dict key that did not exist before; no retriever
+ranking, scoring, or existing chunk dict key changed. Retrieval smoke
+reproduction from Phase 0 preflight remains the reference (not re-run
+mid-phase; re-run again at Phase 4.4).
+
+### Repo Map / Code Index
+
+Regenerated (`--force`); diff is a pure refresh (new
+`rag/retrieval/version_resolver.py` module, updated fan-in counts, updated
+`Last Verified Commit` placeholder to `31396a3`). No manual edits, no
+surprises.
+
+### Next Step
+
+Phase 4.2: deterministic `supported` / `insufficient_evidence` /
+`stale_source` / `source_conflict` states, kept separate from citation
+verification (including fixing the `citations_verified` heuristic found
+in `routes_agent.py` during Phase 0).
+
+## Gate 04 Phase 4.2 -- Deterministic stale/conflict/evidence states
+
+### Date
+
+`2026-08-27`
+
+### Phase / Task
+
+Gate 04 Phase 4.2: deterministic `supported`/`insufficient_evidence`/
+`stale_source`/`source_conflict` answer/evidence states, kept as a
+separate axis from citation verification.
+
+### Files Touched
+
+- `rag/generation/evidence_state.py` (new): `resolve_evidence_state()` +
+  `EvidenceStateResult`. Explicit precedence, documented in the module
+  docstring: `insufficient_evidence` (refusal / no citations / no
+  resolved version for any citation) > `source_conflict` (2+ cited chunks,
+  both `authority_state == "active"`, sharing a `conflict_key` but
+  resolving to different `source_version`) > `stale_source` (any cited
+  chunk `freshness_state == "stale"`) > `supported`. Reasons over the
+  `"version"` metadata Phase 4.1 attaches to each chunk dict only -- no
+  LLM/heuristic text-similarity conflict detection.
+- `rag/generation/answer_generator.py`: added `_finalize_response()`,
+  called from `_refusal_payload()` (covers every refusal path for free --
+  guardrail refusal, citation-failure refusal, and the three
+  `_deterministic_answer` refusal branches), the deterministic success
+  return, the curriculum-credit shortcut return, and the two "provider
+  citations verified" return branches in `answer_with_agent_fallback_from_context`/
+  `answer_with_meta_from_context` (reusing the `verification` object
+  already computed there instead of re-verifying). Every returned response
+  dict now carries `citation_verification: {is_valid, errors}` (the real
+  `CitationVerifier` result, not inferred) and `evidence_state: {state,
+  reasons}` as additive keys.
+- **Bug fixed** (found during Phase 0, in scope per the gate's explicit
+  "distinguish citation verification from answer correctness" MUST DO):
+  `app/api/routes_agent.py::run_agent_query` previously set the response's
+  `citations_verified` field from a heuristic
+  (`bool(citations) and not refusal`) that never actually consulted the
+  verifier. Now reads `answer_payload["citation_verification"]["is_valid"]`
+  when the answer generator provided one, falling back to the old
+  heuristic only if it did not (keeps the existing `StubAnswerGenerator`-
+  based test working without change).
+- `app/schemas/query.py`: added `CitationVerification`/`EvidenceState`
+  pydantic models; added optional `citation_verification`/`evidence_state`
+  fields to `AskResponse` and `AgentAskResponse` (both default `None`,
+  fully backward compatible for any caller not yet reading them).
+- `tests/test_evidence_state.py` (new, 11 tests): refusal/no-citations/
+  unresolved-version -> insufficient_evidence; normal QA (including
+  unknown freshness, never conflated with stale) -> supported; stale cited
+  source -> stale_source; two active sources sharing a conflict_key with
+  differing source_version -> source_conflict; same-version sharing a
+  conflict_key is NOT a conflict; a retired source sharing a conflict_key
+  with an active one does not trigger conflict; conflict takes precedence
+  over stale.
+- `tests/test_answer_generator_evidence_state.py` (new, 4 tests):
+  end-to-end through a real `AnswerGenerator`+`ContextBuilder`+
+  `VersionResolver` -- normal QA supported with verified citations; a
+  stale source yields `stale_source` while its citation is still verified
+  `is_valid=True` (proves the two axes are independent, not merged); two
+  conflicting active official sources yield `source_conflict`; a guardrail
+  refusal yields `insufficient_evidence` with trivially-valid citation
+  verification.
+
+### Why
+
+Gate 04's explicit MUST DO is "distinguish citation verification from
+answer correctness" and its acceptance checklist requires "citation
+verifier still enforced" as an independent item. The pre-existing
+`citations_verified` heuristic actively violated this (a heuristic
+presence check standing in for a real verification result), so fixing it
+is in scope, not a bonus refactor. `_finalize_response` centralizes both
+new fields at every return point without changing any existing control-
+flow decision (which branch executes, when a retry happens, when the
+deterministic fallback triggers) -- only which two keys get attached
+before the response leaves `AnswerGenerator`.
+
+### Tests Run
+
+```bash
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m compileall -q app rag scripts evals frontend tests
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m pytest -q tests/test_evidence_state.py tests/test_answer_generator_evidence_state.py --basetemp=<tmp>
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m pytest -q --basetemp=<tmp>
+```
+
+- Focused: 15 passed (11 + 4), all green on first run except the trivial
+  test-authoring fix in Phase 4.1 (unrelated to this phase).
+- Full suite: **266 passed, 0 failed** (251 after Phase 4.1 + 15 new).
+- `git diff --check` on all Gate 04 Phase 4.2 files: clean (only the
+  pre-existing `groq_client.py:235` overlay warning, not a Gate 04 file).
+
+### Baseline Impact
+
+None on ranking/retrieval. `AskResponse`/`AgentAskResponse` gained two
+new optional fields (default `None`); no existing field's meaning changed
+except `citations_verified`, whose value is now the genuine verification
+result instead of a heuristic -- verified against the one existing test
+that asserts it (`tests/test_api_agent.py::
+test_agent_ask_endpoint_email_rebuilds_citations_from_verified_chunks`,
+still green, since that case's deterministic fallback is genuinely
+grounded).
+
+### Repo Map / Code Index
+
+Regenerated (`--force`); diff is a pure refresh (new
+`rag/generation/evidence_state.py` module, updated fan-in/symbol counts).
+No manual edits.
+
+### Next Step
+
+Phase 4.3: extend the existing trace surface (`retrieval_debug`/
+`AgentAskResponse.debug`) so `index_version`/source version are visibly
+available end to end, then Phase 4.4 regression fixtures (active-vs-
+retired exclusion at the live-retrieval level, not just the resolver
+unit).
+
+## Gate 04 Phase 4.3 -- Evidence trace
+
+### Date
+
+`2026-08-27`
+
+### Phase / Task
+
+Gate 04 Phase 4.3: extend the existing trace/response contract so
+query/retrieval/ranking/selected chunks/source-index-version/generation-
+provider-model/citations-with-separate-verification/latency are all
+visible, without a new route or a parallel observability system.
+
+### Files Touched
+
+- `rag/generation/context_builder.py`: added `"query": question` to
+  `retrieval_debug` (it already had retriever/backend/top_k/candidate_count/
+  chunk_ids/scores from before Gate 04, and `chunk_versions` from Phase
+  4.1 -- `query` was the one missing field).
+- `rag/generation/answer_generator.py`: `answer_with_meta_from_context` and
+  `answer_with_agent_fallback_from_context` now time the generation step
+  (`perf_counter` around prompt build + provider call + optional retry,
+  excluding context retrieval) and attach a `generation` trace dict
+  (`provider`, `model`, `fallback_used`, `error`, `latency_ms`) via
+  `_finalize_response`'s new optional `provider_meta`/`latency_ms`
+  parameters, and directly on the two deterministic-fallback/citation-
+  failure-refusal branches that already had `provider_meta` in scope. A
+  refusal that never reached a provider (guardrail refusal) has no
+  `generation` block -- omitted, not invented.
+- `app/schemas/query.py`: added `GenerationTrace` model and an optional
+  `generation` field on `AskResponse` (populated automatically via
+  `AskResponse(**response)` in `routes_query.py`, unchanged).
+- `app/api/routes_agent.py`: added the internal `generation` trace dict
+  into the existing `debug` payload (additive; `AgentAskResponse` already
+  had its own top-level `provider`/`model`/`latency_ms` from the full
+  agent round-trip, which is intentionally kept as-is and not overwritten
+  -- the nested `debug.generation` is the generator-internal-only timing,
+  a different and smaller measurement than the round-trip one).
+- `tests/test_evidence_trace.py` (new, 5 tests): `/ask` debug trace has
+  `query`/retriever/backend/chunk_ids/scores/chunk_versions (each with the
+  exact 6-key `ChunkVersionInfo` shape) and a `generation` block on a
+  non-refusal answer; `chunk_ids` and `scores` share the same
+  deterministic order and `support_score` is sorted descending; a privacy
+  refusal yields `insufficient_evidence` with `generation: null` (never
+  called a provider) while `citation_verification.is_valid` stays
+  trivially true; `/agent/ask` debug carries `generation`/`provider_status`
+  alongside its existing `retrieval_debug`; a direct `ContextBuilder` test
+  confirms `retrieval_debug["query"]` matches the question verbatim.
+
+### Why
+
+Phase 4.3 requires the trace to include query/retrieval/ranking/selected
+chunks/source-index-version/generation/citations-with-separate-
+verification/provider-model/latency, reusing the existing
+`retrieval_debug`/`debug` surfaces rather than a new endpoint (explicitly
+forbidden). `query` was the only structurally missing field after Phase
+4.1; `generation` (provider/model/latency) did not exist anywhere in the
+plain `/ask` contract before this phase, so it needed a real (not
+invented) measurement threaded through from where the provider call
+actually happens.
+
+### Tests Run
+
+```bash
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m compileall -q app rag scripts evals frontend tests
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m pytest -q tests/test_evidence_trace.py --basetemp=<tmp>
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m pytest -q --basetemp=<tmp>
+```
+
+- Focused: 5 passed, first run, no fixes needed.
+- Full suite: **271 passed, 0 failed** (266 after Phase 4.2 + 5 new).
+- `git diff --check` on all Gate 04 Phase 4.3 files: clean (only the
+  pre-existing `groq_client.py:235` overlay warning).
+
+### Baseline Impact
+
+None. `retrieval_debug`/`debug` gained additive keys only; `AskResponse`
+gained one new optional field (`generation`, default `None`); no existing
+field, route, or ranking behavior changed.
+
+### Repo Map / Code Index
+
+Regenerated (`--force`); diff is a pure refresh (144 files indexed, no
+manual edits, no surprises).
+
+### Next Step
+
+Phase 4.4: controlled regression fixtures proving retired-version
+exclusion at the live-retrieval level (via `LifecycleService.publish`/
+`retire`, not just the resolver's diagnostic path), conflicting-official-
+sources and stale-source end-to-end (already covered at the
+`AnswerGenerator` level in Phase 4.2 -- Phase 4.4 adds the isolated-
+tmp_path corpus-level proof), re-run of the full suite/validators/
+retrieval smoke, then the Gate 04 result record.
+
+## Gate 04 Phase 4.4 -- Controlled regression evaluation
+
+### Date
+
+`2026-08-27`
+
+### Phase / Task
+
+Gate 04 Phase 4.4: isolated fixtures for the four required scenarios, full
+regression, corpus validators, and a new (never overwriting Gate 00-03)
+retrieval-smoke comparison.
+
+### Files Touched
+
+- `tests/test_gate04_fixtures.py` (new, 4 tests), each in its own
+  `tmp_path`, never touching the real corpus or live SQLite state:
+  - `test_retired_version_excluded_from_live_retrieval_by_removal_not_reranking`:
+    real `LifecycleService` upload -> review -> publish -> confirms the
+    document IS retrievable (hybrid + bm25) -> `retire()` -> confirms the
+    document's chunks are entirely ABSENT from a freshly reloaded
+    `ChunkIndexStore` and from a repeat retrieval call on both retrievers
+    (structural exclusion, not a score-based down-rank that could
+    resurface under a different query) -> confirms the `VersionResolver`
+    diagnostic path (direct registry access) still reports
+    `authority_state="retired"` for the now-unreachable document.
+  - `test_conflicting_official_sources_fixture_yields_source_conflict_via_manifest_csv`:
+    two active docs sharing a `conflict_key` in a real on-disk manifest CSV
+    (loaded through the real `load_manifest_rows`, not a synthetic dict)
+    -> `source_conflict`, with `citation_verification.is_valid` staying
+    `True` (grounding is independent of the conflict finding).
+  - `test_stale_source_fixture_yields_stale_source_via_manifest_csv`: same
+    real-CSV mechanism with a `stale_after` column -> `stale_source`.
+  - `test_normal_educational_qa_fixture_remains_supported_and_unchanged`: a
+    manifest CSV shaped exactly like the real 37-doc corpus (no
+    `stale_after`/`conflict_key` at all) -> `evidence_state.state ==
+    "supported"`, and the answer/citations/confidence are byte-identical
+    to the same generator with NO `version_resolver` wired at all --
+    direct proof that Gate 04 wiring is a no-op for ordinary QA.
+- `gates/baselines/GATE_04_RETRIEVAL_SMOKE.json` (new artifact, does not
+  overwrite `GATE_03_RETRIEVAL_SMOKE.json`): re-run of the exact same
+  command Gate 00-03 used.
+
+### Why
+
+The gate's acceptance checklist requires proving retired-version exclusion,
+an explicit conflict fixture, a stale-source fixture, and unchanged normal
+QA, each on isolated fixtures. The retired-exclusion fixture specifically
+exercises the real `LifecycleService`/registry/`apply_live_state` path
+(not just the Phase 4.1 resolver unit test) because the actual Gate 04
+acceptance item is about live retrieval behavior, and the manifest-CSV-based
+conflict/stale fixtures exercise the real `load_manifest_rows` reuse path
+end to end, not just the resolver's constructor contract.
+
+### Tests Run
+
+```bash
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m compileall -q app rag scripts evals frontend tests
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m pytest -q tests/test_gate04_fixtures.py --basetemp=<tmp>
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m pytest -q --basetemp=<tmp>
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe scripts/validate_chunks.py --chunks-dir data/chunks
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe scripts/validate_processed_docs.py data/processed/processed_docs.jsonl
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe scripts/verify_manifest.py data/manifests/documents_manifest.csv
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m evals.experiments.run_retrieval_eval --chunks data/chunks/chunks_500.jsonl --qa evals/datasets/dev_qa.jsonl --retriever bm25 --top_k 5 --output gates/baselines/GATE_04_RETRIEVAL_SMOKE.json
+```
+
+- Focused: 4 passed, first run, no fixes needed.
+- Full suite: **275 passed, 0 failed** (271 after Phase 4.3 + 4 new).
+- Corpus validators: identical to pre-edit baseline and Gate 00-03
+  (`validate_chunks` 1036/695/572 rows, abnormal 0; `validate_processed_docs`
+  37/37, 1.000; `verify_manifest` 37 rows, 0 duplicate checksum groups).
+- `git status --short -- data/ gates/baselines/` before writing the new
+  Gate 04 smoke artifact: empty -- the frozen corpus/manifests/chunks and
+  Gate 00-03 baseline files are untouched.
+- Retrieval smoke: `GATE_04_RETRIEVAL_SMOKE.json` metrics are bit-for-bit
+  identical to `GATE_03_RETRIEVAL_SMOKE.json` except `latency_ms` (timing,
+  never a frozen metric): recall@3 0.7222, recall@5 0.8889, recall@10
+  0.8889, mrr 0.5917, precision@5 0.1889, answerable 18/20.
+- `git diff --check` on `tests/test_gate04_fixtures.py`: clean.
+
+### Baseline Impact
+
+None -- confirmed by the retrieval smoke comparison above and by
+`test_normal_educational_qa_fixture_remains_supported_and_unchanged`
+asserting byte-identical answer/citations/confidence with and without the
+new version-resolver wiring.
+
+### Repo Map / Code Index
+
+Regenerated (`--force`); 145 files indexed, pure refresh, no manual edits.
+
+### Next Step
+
+Write `gates/results/GATE_04_RESULT.md` (Phase 4.5) and STOP before Gate
+05.

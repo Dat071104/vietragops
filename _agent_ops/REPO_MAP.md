@@ -8,13 +8,13 @@ live" and "what breaks if I touch this" in one Tier-1 read.
 
 ## Last Verified Commit
 
-`72e11aa`
+`31396a3`
 
 ## Snapshot
 
 - Branch: `main`
 - Generated: `2026-08-27`
-- Code files indexed: 137
+- Code files indexed: 145
 - Stack: Python
 
 ## Modules
@@ -24,11 +24,11 @@ code depends on it, so changes there travel further.
 
 | Module | Files | Inbound | Entry points |
 | --- | --- | --- | --- |
-| `rag` | 51 | 85 | - |
-| `app` | 16 | 12 | `app/main.py` |
+| `rag` | 53 | 109 | - |
+| `app` | 16 | 13 | `app/main.py` |
 | `evals` | 13 | 9 | - |
 | `scripts` | 10 | 1 | - |
-| `tests` | 39 | 0 | - |
+| `tests` | 45 | 0 | - |
 | `frontend` | 7 | 0 | - |
 | `tools` | 1 | 0 | - |
 
@@ -39,56 +39,60 @@ Ranked by fan-in. Treat an edit here as cross-module until proven otherwise.
 | File | Imported by | Imports |
 | --- | --- | --- |
 | `rag/retrieval/base.py` | 15 | 0 |
-| `app/core/config.py` | 9 | 6 |
+| `rag/retrieval/__init__.py` | 13 | 8 |
+| `rag/generation/context_builder.py` | 11 | 3 |
+| `rag/lifecycle/registry.py` | 11 | 1 |
+| `app/core/config.py` | 9 | 7 |
 | `rag/lifecycle/errors.py` | 9 | 0 |
-| `rag/lifecycle/registry.py` | 9 | 1 |
-| `rag/retrieval/__init__.py` | 9 | 7 |
+| `app/main.py` | 7 | 3 |
 | `rag/chunking/metadata_builder.py` | 7 | 0 |
-| `rag/generation/context_builder.py` | 7 | 3 |
-| `app/main.py` | 6 | 3 |
+| `rag/generation/groq_client.py` | 7 | 0 |
+| `rag/retrieval/index_store.py` | 7 | 0 |
+| `rag/lifecycle/service.py` | 6 | 8 |
 | `rag/lifecycle/storage.py` | 6 | 0 |
 | `rag/preprocessing/section_detector.py` | 6 | 1 |
 | `rag/retrieval/advanced_hybrid_retriever.py` | 6 | 5 |
-| `rag/retrieval/index_store.py` | 6 | 0 |
-| `app/core/errors.py` | 5 | 0 |
-| `rag/generation/groq_client.py` | 5 | 0 |
-| `rag/ingestion/firecrawl.py` | 5 | 0 |
+| `rag/retrieval/version_resolver.py` | 6 | 0 |
 
 ## Symbol Graph
 
-452 symbols, 850 edges (exact 533, heuristic 231, ambiguous 86, weak 0).
+920 symbols, 1904 edges (exact 1376, heuristic 406, ambiguous 122, weak 0).
 
 ### Routes
 
-- `GET ` -> `app/api/routes_documents.py:42` list_documents
+- `GET ` -> `app/api/routes_documents.py:124` list_documents
 - `GET /experiments` -> `app/api/routes_eval.py:40` list_experiments
 - `GET /experiments/{experiment_id}` -> `app/api/routes_eval.py:54` get_experiment
 - `GET /health` -> `app/api/routes_health.py:12` health
-- `GET /{doc_id}` -> `app/api/routes_documents.py:62` get_document
-- `POST /ask` -> `app/api/routes_agent.py:338` ask_agent
+- `GET /{doc_id}` -> `app/api/routes_documents.py:186` get_document
+- `GET /{doc_id}/versions` -> `app/api/routes_documents.py:144` list_document_versions
+- `POST /ask` -> `app/api/routes_agent.py:355` ask_agent
 - `POST /ask` -> `app/api/routes_query.py:31` ask
 - `POST /eval/generation` -> `app/api/routes_eval.py:24` eval_generation
 - `POST /eval/retrieval` -> `app/api/routes_eval.py:18` eval_retrieval
-- `POST /index` -> `app/api/routes_documents.py:35` index_documents
+- `POST /index` -> `app/api/routes_documents.py:117` index_documents
 - `POST /retrieve` -> `app/api/routes_retrieval.py:34` retrieve
-- `POST /upload` -> `app/api/routes_documents.py:23` upload_documents
+- `POST /upload` -> `app/api/routes_documents.py:59` upload_documents
+- `POST /versions/{version_id}/publish` -> `app/api/routes_documents.py:159` publish_document_version
+- `POST /versions/{version_id}/retire` -> `app/api/routes_documents.py:168` retire_document_version
+- _... 2 more_
 
 ### Most-called symbols
 
 | Symbol | Called by | Where |
 | --- | --- | --- |
-| `FakeResponse.json` | 18 | `tests/test_ollama_client.py:18` |
-| `FakeHttpxClient.post` | 13 | `tests/test_ollama_client.py:35` |
-| `tokenize` | 12 | `rag/retrieval/base.py:21` |
-| `AnswerGenerator` | 10 | `rag/generation/answer_generator.py:26` |
-| `normalize_text` | 10 | `rag/retrieval/base.py:15` |
-| `get_settings` | 9 | `app/core/config.py:30` |
-| `get_store` | 8 | `app/core/config.py:35` |
-| `normalize_text` | 8 | `rag/preprocessing/normalizer.py:18` |
-| `ProviderRouter` | 7 | `rag/generation/provider_router.py:23` |
-| `ProviderRouter.current_provider` | 7 | `rag/generation/provider_router.py:41` |
-| `RetrievalResult` | 7 | `rag/retrieval/base.py:44` |
-| `api_get` | 6 | `frontend/streamlit_app.py:539` |
+| `VersionResolver.resolve` | 35 | `rag/retrieval/version_resolver.py:90` |
+| `FakeResponse.json` | 26 | `tests/test_ollama_client.py:18` |
+| `FakeHttpxClient.post` | 21 | `tests/test_ollama_client.py:35` |
+| `LifecycleService.review` | 19 | `rag/lifecycle/service.py:175` |
+| `WebImportService.import_url` | 19 | `rag/lifecycle/web_import.py:118` |
+| `VersionResolver` | 18 | `rag/retrieval/version_resolver.py:66` |
+| `LifecycleService.publish` | 17 | `rag/lifecycle/service.py:200` |
+| `LifecycleRegistry._connect` | 16 | `rag/lifecycle/registry.py:200` |
+| `_make_service` | 16 | `tests/test_lifecycle_service.py:17` |
+| `_upload` | 16 | `tests/test_lifecycle_service.py:30` |
+| `AnswerGenerator` | 14 | `rag/generation/answer_generator.py:28` |
+| `_adapter` | 14 | `tests/test_firecrawl_adapter.py:15` |
 
 Query it instead of grepping:
 
@@ -111,8 +115,8 @@ boundary before adding to one of these.
 | File | Lines |
 | --- | --- |
 | `frontend/streamlit_app.py` | 911 |
+| `rag/generation/answer_generator.py` | 538 |
 | `rag/lifecycle/registry.py` | 500 |
-| `rag/generation/answer_generator.py` | 469 |
 
 ## Isolated Files
 

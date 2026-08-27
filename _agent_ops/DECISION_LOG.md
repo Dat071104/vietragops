@@ -133,3 +133,75 @@ route is additive if a gate ever adds real admin authorization.
 - If a later gate adds admin authorization, an HTTP route on top of the
   existing `WebImportService` is a small wrapper, not a rewrite.
 - Until then, web import requires local shell access to this machine.
+
+## DEC-0006 — Freshness/conflict resolution is opt-in via manifest-row keys, not a schema change
+
+### Date
+
+2026-08-27
+
+### Context
+
+Gate 04 requires deterministic `stale_source`/`source_conflict` states.
+The real, tracked `data/manifests/documents_manifest.csv` (37 rows) is a
+frozen baseline artifact under explicit instruction not to alter; it has
+no column expressing "this source is now stale" or "this source conflicts
+with that one".
+
+### Decision
+
+`VersionResolver` reads two additional, entirely optional keys off
+whatever manifest-row dict it is given -- `stale_after` and
+`conflict_key` -- neither of which is ever written into the real
+`documents_manifest.csv`. Fixtures inject these keys directly into
+synthetic manifest-row dicts (in-memory or via a throwaway on-disk CSV
+under `tmp_path`); the real corpus's rows simply lack the keys, so
+`freshness_state`/`conflict_key` resolve to `unknown`/`None` for it,
+exactly matching pre-Gate-04 behavior.
+
+### Consequences
+
+- Zero risk of corrupting or reinterpreting the frozen corpus/manifest.
+- The real 37-doc corpus cannot surface `stale_source`/`source_conflict`
+  on its own yet -- tracked as RISK-0014. A future gate must make an
+  explicit, reviewed call (and migration) before adding these columns to
+  the live manifest or an equivalent registry-backed mechanism.
+- `authority_state`/`source_version` reuse existing manifest columns
+  (`status`, `checksum`) and the existing lifecycle registry instead of
+  introducing any new identity concept.
+
+## DEC-0007 — Fixed `citations_verified` to use the real verifier result, in scope for Gate 04
+
+### Date
+
+2026-08-27
+
+### Context
+
+Gate 04 Phase 0 preflight found that `app/api/routes_agent.py::run_agent_query`
+set the response's `citations_verified` field from
+`bool(citations) and not refusal` -- a presence heuristic that never
+consulted `CitationVerifier`'s actual grounding-verification result, which
+was computed internally by `AnswerGenerator` and then discarded. This
+directly contradicts Gate 04's explicit MUST DO ("distinguish citation
+verification from answer correctness").
+
+### Decision
+
+Thread the real `CitationVerificationResult` out of `AnswerGenerator`
+(via a new `citation_verification` key on every response dict, attached
+by a new `_finalize_response` helper) and have `routes_agent.py` read
+`citation_verification["is_valid"]` for `citations_verified`, falling back
+to the old heuristic only when a caller's answer generator does not
+provide the new field (keeps the existing stub-based test working
+unchanged).
+
+### Consequences
+
+- `citations_verified` now means what its name says for every real
+  request; the one existing test asserting it was re-verified still
+  passing (the case it covers is genuinely grounded, so the real result
+  agrees with what the heuristic used to guess).
+- No control-flow branch (which path executes, when a retry happens) was
+  changed -- only which data is attached to the response before it
+  returns.

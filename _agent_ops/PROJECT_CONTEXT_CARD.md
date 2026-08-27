@@ -996,11 +996,11 @@ source/version-aware behavior before the tool-research lane; and falsification-
 first scientific Gate-0 before a proposed method. Each gate requires an evidence
 record and STOP. `STOP`/`REFORMULATE` are valid outcomes.
 
-**Current status (updated 2026-08-27):** Gates 00, 01, 02, and 03 are all
-`PASS`. Gate 02 made MarkItDown the default local PDF/DOCX candidate parser
-(pinned `markitdown[pdf,docx]==0.1.7`, app dependency now). Gate 03 added a
-bounded Firecrawl hosted-API adapter (`rag/ingestion/firecrawl.py`), a
-URL/domain/private-network safety layer (`rag/lifecycle/web_safety.py`),
+**Current status (updated 2026-08-27):** Gates 00, 01, 02, 03, and 04 are
+all `PASS`. Gate 02 made MarkItDown the default local PDF/DOCX candidate
+parser (pinned `markitdown[pdf,docx]==0.1.7`, app dependency now). Gate 03
+added a bounded Firecrawl hosted-API adapter (`rag/ingestion/firecrawl.py`),
+a URL/domain/private-network safety layer (`rag/lifecycle/web_safety.py`),
 and candidate/provenance/recrawl-diff integration
 (`rag/lifecycle/web_pipeline.py`, `web_import.py`, `web_diff.py`) reusing
 the existing `LifecycleService` unchanged. There is no FastAPI route for
@@ -1008,6 +1008,28 @@ web import -- the app has no admin authorization to gate a public
 endpoint -- so `scripts/web_import.py` is a local-only CLI. Firecrawl
 self-hosting (the Compose stack) was never started; the hosted API was
 used instead. Full detail: `gates/results/GATE_03_RESULT.md`.
+
+**Gate 04 (2026-08-27, uncommitted):** every retrieved chunk now resolves
+to `source_id`/`source_version`/`index_version`/`authority_state`/
+`freshness_state` via `rag/retrieval/version_resolver.py::VersionResolver`,
+additively attached inside `ContextBuilder.build()` (no ranking change).
+`rag/generation/evidence_state.py::resolve_evidence_state` computes
+`supported`/`insufficient_evidence`/`stale_source`/`source_conflict`
+deterministically, kept as an axis fully independent of the real
+`CitationVerifier` grounding result (a pre-existing bug where
+`routes_agent.py`'s `citations_verified` was a presence heuristic rather
+than the real verifier result was fixed in scope -- see DEC-0007). The
+evidence trace (`retrieval_debug`/`AgentAskResponse.debug`) gained `query`,
+`chunk_versions`, and a real measured `generation` (provider/model/
+latency) block. `freshness_state`/`conflict_key` are opt-in via
+`stale_after`/`conflict_key` manifest-row keys never written into the
+real, tracked `documents_manifest.csv` (see DEC-0006, RISK-0014) -- the
+real 37-doc corpus therefore stays behaviorally unchanged (proven
+byte-identical answer/citations/confidence with and without the resolver
+wired in) while fixtures exercise all four states. 39 new tests (275
+total, 0 failed); retrieval-smoke metrics and corpus validators identical
+to Gate 00-03. Full detail: `gates/results/GATE_04_RESULT.md`. Not yet
+committed -- no commit was authorized this session.
 
 **Provider/security correction:** current source reads only one `GROQ_API_KEY`
 and one `GROQ_MODEL`. The provided ArgScope multi-account proposal is not a
