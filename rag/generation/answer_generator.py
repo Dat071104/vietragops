@@ -4,11 +4,13 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import json
+from time import perf_counter
 import re
 from typing import Any
 
-from rag.generation.citation_verifier import CitationVerifier
+from rag.generation.citation_verifier import CitationVerificationResult, CitationVerifier
 from rag.generation.context_builder import ContextBuilder
+from rag.generation.evidence_state import resolve_evidence_state
 from rag.generation.guardrails import GuardrailEngine
 from rag.generation.groq_client import GroqClient
 from rag.generation.prompt_builder import PromptBuilder
@@ -71,6 +73,7 @@ class AnswerGenerator:
                 debug,
             ), self._provider_meta(fallback_used=True)
 
+        generation_started = perf_counter()
         prompt = self.prompt_builder.build(question, context_bundle)
         response, provider_meta = self._generate_response(question, prompt, context_bundle)
         verification = self.citation_verifier.verify(response, context_bundle.chunks)
@@ -84,33 +87,36 @@ class AnswerGenerator:
             response, provider_meta = self._generate_response(question, retry_prompt, context_bundle)
             verification = self.citation_verifier.verify(response, context_bundle.chunks)
             verification_errors = list(verification.errors)
+        generation_latency_ms = round((perf_counter() - generation_started) * 1000, 3)
 
         if not verification.is_valid:
             deterministic = self.deterministic_answer_from_context(question, context_bundle, debug=debug)
-            if not deterministic["refusal"]:
-                if debug:
-                    deterministic["retrieval_debug"] = dict(context_bundle.retrieval_debug)
-                    deterministic["retrieval_debug"]["citation_errors"] = verification_errors
-                    deterministic["retrieval_debug"]["citations_rebuilt_from_retrieved_chunks"] = True
-                return deterministic, self._provider_meta(
-                    provider=provider_meta["provider"],
-                    model=provider_meta["model"],
-                    fallback_used=True,
-                    error=provider_meta["error"] or "Provider citations were invalid; rebuilt citations from verified retrieved chunks.",
-                )
-            if debug:
-                deterministic["retrieval_debug"] = dict(context_bundle.retrieval_debug)
-                deterministic["retrieval_debug"]["citation_errors"] = verification_errors
-            return deterministic, self._provider_meta(
+            fallback_provider_meta = self._provider_meta(
                 provider=provider_meta["provider"],
                 model=provider_meta["model"],
                 fallback_used=True,
-                error=provider_meta["error"] or "Provider citations were invalid and deterministic grounding also refused the query.",
+                error=provider_meta["error"]
+                or (
+                    "Provider citations were invalid; rebuilt citations from verified retrieved chunks."
+                    if not deterministic["refusal"]
+                    else "Provider citations were invalid and deterministic grounding also refused the query."
+                ),
             )
+            deterministic["generation"] = _generation_trace(fallback_provider_meta, generation_latency_ms)
+            if debug:
+                deterministic["retrieval_debug"] = dict(context_bundle.retrieval_debug)
+                deterministic["retrieval_debug"]["citation_errors"] = verification_errors
+                deterministic["retrieval_debug"]["citations_rebuilt_from_retrieved_chunks"] = not deterministic["refusal"]
+            return deterministic, fallback_provider_meta
 
         response.setdefault("retrieval_debug", {})
         response["retrieval_debug"] = context_bundle.retrieval_debug if debug else {}
-        return response, provider_meta
+        return (
+            self._finalize_response(
+                response, context_bundle, verification=verification, provider_meta=provider_meta, latency_ms=generation_latency_ms
+            ),
+            provider_meta,
+        )
 
     def answer_with_meta_from_context(
         self,
@@ -126,6 +132,7 @@ class AnswerGenerator:
                 debug,
             ), self._provider_meta(fallback_used=True)
 
+        generation_started = perf_counter()
         prompt = self.prompt_builder.build(question, context_bundle)
         response, provider_meta = self._generate_response(question, prompt, context_bundle)
         verification = self.citation_verifier.verify(response, context_bundle.chunks)
@@ -142,11 +149,20 @@ class AnswerGenerator:
                 refusal = self.guardrails.evaluate(question, context_bundle, citation_failures=2)
                 payload = self._refusal_payload(refusal.refusal_reason, context_bundle, debug)
                 payload["retrieval_debug"]["citation_errors"] = verification.errors if debug else verification.errors
+                payload["generation"] = _generation_trace(
+                    provider_meta, round((perf_counter() - generation_started) * 1000, 3)
+                )
                 return payload, provider_meta
 
+        generation_latency_ms = round((perf_counter() - generation_started) * 1000, 3)
         response.setdefault("retrieval_debug", {})
         response["retrieval_debug"] = context_bundle.retrieval_debug if debug else {}
-        return response, provider_meta
+        return (
+            self._finalize_response(
+                response, context_bundle, verification=verification, provider_meta=provider_meta, latency_ms=generation_latency_ms
+            ),
+            provider_meta,
+        )
 
     def _generate_response(self, question: str, prompt: str, context_bundle) -> tuple[dict[str, Any], dict[str, Any]]:
         if self.provider_router is not None:
@@ -217,14 +233,17 @@ class AnswerGenerator:
             )
         answer_text = self._compose_answer(statements)
         confidence = round(min(0.95, 0.4 + (0.25 * len(citations)) + (0.35 * context_bundle.support_score)), 3)
-        return {
-            "answer": answer_text,
-            "citations": citations,
-            "confidence": confidence,
-            "refusal": False,
-            "refusal_reason": None,
-            "retrieval_debug": {},
-        }
+        return self._finalize_response(
+            {
+                "answer": answer_text,
+                "citations": citations,
+                "confidence": confidence,
+                "refusal": False,
+                "refusal_reason": None,
+                "retrieval_debug": {},
+            },
+            context_bundle,
+        )
 
     def _select_evidence(self, question: str, chunks: list[dict[str, Any]]) -> list[dict[str, Any]]:
         query_tokens = set(tokenize(question))
@@ -351,22 +370,25 @@ class AnswerGenerator:
                 continue
             match = re.search(r"136\s*(tín chỉ|tin chi)", raw_text)
             quoted_evidence = match.group(0) if match else "136"
-            return {
-                "answer": "Theo ngữ cảnh đã truy xuất, ngành Khoa học máy tính cần 136 tín chỉ để tốt nghiệp.",
-                "citations": [
-                    {
-                        "doc_id": chunk["doc_id"],
-                        "chunk_id": chunk["chunk_id"],
-                        "source_url": chunk["source_url"],
-                        "heading_path": list(chunk["heading_path"]),
-                        "quoted_evidence": quoted_evidence,
-                    }
-                ],
-                "confidence": 0.95,
-                "refusal": False,
-                "refusal_reason": None,
-                "retrieval_debug": {},
-            }
+            return self._finalize_response(
+                {
+                    "answer": "Theo ngữ cảnh đã truy xuất, ngành Khoa học máy tính cần 136 tín chỉ để tốt nghiệp.",
+                    "citations": [
+                        {
+                            "doc_id": chunk["doc_id"],
+                            "chunk_id": chunk["chunk_id"],
+                            "source_url": chunk["source_url"],
+                            "heading_path": list(chunk["heading_path"]),
+                            "quoted_evidence": quoted_evidence,
+                        }
+                    ],
+                    "confidence": 0.95,
+                    "refusal": False,
+                    "refusal_reason": None,
+                    "retrieval_debug": {},
+                },
+                context_bundle,
+            )
         return None
 
     def _split_segments(self, text: str) -> list[str]:
@@ -428,7 +450,7 @@ class AnswerGenerator:
         return False
 
     def _refusal_payload(self, reason: str | None, context_bundle, debug: bool) -> dict[str, Any]:
-        return {
+        payload = {
             "answer": "",
             "citations": [],
             "confidence": 0.0,
@@ -436,6 +458,43 @@ class AnswerGenerator:
             "refusal_reason": reason,
             "retrieval_debug": context_bundle.retrieval_debug if debug else {},
         }
+        return self._finalize_response(payload, context_bundle)
+
+    def _finalize_response(
+        self,
+        response: dict[str, Any],
+        context_bundle,
+        *,
+        verification: CitationVerificationResult | None = None,
+        provider_meta: dict[str, Any] | None = None,
+        latency_ms: float | None = None,
+    ) -> dict[str, Any]:
+        """Attach the real citation-verification result, the deterministic
+        evidence state, and (when available) the generation trace to a
+        response payload, right before it is returned.
+
+        Citation verification and evidence state are two independent axes
+        (Gate 04 Phase 4.2): a citation can be perfectly grounded while the
+        evidence state is `stale_source` or `source_conflict`, and vice
+        versa -- neither is inferred from the other here. `verification` is
+        reused when the caller already computed it (avoids re-verifying the
+        same response twice); refusal payloads recompute cheaply
+        (`CitationVerifier.verify` is O(1) on a refusal). `provider_meta`/
+        `latency_ms` are only known at a generation call site (a refusal
+        that never reached the provider has neither, and `generation` is
+        simply omitted rather than filled with an invented value).
+        """
+        if verification is None:
+            verification = self.citation_verifier.verify(response, context_bundle.chunks)
+        response["citation_verification"] = {"is_valid": verification.is_valid, "errors": list(verification.errors)}
+        response["evidence_state"] = resolve_evidence_state(
+            refusal=bool(response.get("refusal")),
+            citations=response.get("citations") or [],
+            chunks=context_bundle.chunks,
+        ).to_dict()
+        if provider_meta is not None:
+            response["generation"] = _generation_trace(provider_meta, latency_ms)
+        return response
 
     def _provider_meta(
         self,
@@ -467,3 +526,13 @@ class AnswerGenerator:
             "refusal_reason": payload.get("refusal_reason"),
             "retrieval_debug": payload.get("retrieval_debug", {}),
         }
+
+
+def _generation_trace(provider_meta: dict[str, Any], latency_ms: float | None) -> dict[str, Any]:
+    return {
+        "provider": provider_meta.get("provider"),
+        "model": provider_meta.get("model"),
+        "fallback_used": provider_meta.get("fallback_used"),
+        "error": provider_meta.get("error"),
+        "latency_ms": latency_ms,
+    }

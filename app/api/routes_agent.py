@@ -312,7 +312,22 @@ def run_agent_query(payload: AgentAskRequest) -> AgentAskResponse:
             "retrieval_debug": context_bundle.retrieval_debug,
             "tool_call_error": tool_invocation.error,
             "provider_status": provider_status,
+            "generation": answer_payload.get("generation"),
         }
+
+    # Gate 04: `citation_verification` is the real grounding-verification
+    # result computed by `CitationVerifier` inside the answer generator, kept
+    # deliberately separate from `evidence_state` (source/version-based
+    # correctness). `citations_verified` reflects that real result when the
+    # answer generator provides one; a caller that does not (e.g. a stub in
+    # tests) falls back to the previous presence-based heuristic rather than
+    # crashing.
+    citation_verification = answer_payload.get("citation_verification")
+    citations_verified = (
+        citation_verification["is_valid"]
+        if citation_verification is not None
+        else (bool(citations) and not answer_payload["refusal"])
+    )
 
     return AgentAskResponse(
         answer=answer_payload["answer"],
@@ -327,7 +342,9 @@ def run_agent_query(payload: AgentAskRequest) -> AgentAskResponse:
         latency_ms=round((perf_counter() - started) * 1000, 2),
         fallback_used=fallback_used,
         fallback_reason=fallback_reason,
-        citations_verified=bool(citations) and not answer_payload["refusal"],
+        citations_verified=citations_verified,
+        citation_verification=citation_verification,
+        evidence_state=answer_payload.get("evidence_state"),
         refusal=answer_payload["refusal"],
         refusal_reason=answer_payload["refusal_reason"],
         debug=debug_payload,

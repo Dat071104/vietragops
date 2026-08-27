@@ -51,12 +51,33 @@ class Citation(BaseModel):
     quoted_evidence: str
 
 
+class CitationVerification(BaseModel):
+    is_valid: bool
+    errors: list[str] = []
+
+
+class EvidenceState(BaseModel):
+    state: str
+    reasons: list[str] = []
+
+
+class GenerationTrace(BaseModel):
+    provider: str | None = None
+    model: str | None = None
+    fallback_used: bool | None = None
+    error: str | None = None
+    latency_ms: float | None = None
+
+
 class AskResponse(BaseModel):
     answer: str
     citations: list[Citation]
     confidence: float
     refusal: bool
     refusal_reason: str | None = None
+    citation_verification: CitationVerification | None = None
+    evidence_state: EvidenceState | None = None
+    generation: GenerationTrace | None = None
     retrieval_debug: dict = {}
 
 
@@ -87,6 +108,8 @@ class AgentAskResponse(BaseModel):
     fallback_used: bool
     fallback_reason: str | None = None
     citations_verified: bool = False
+    citation_verification: CitationVerification | None = None
+    evidence_state: EvidenceState | None = None
     refusal: bool
     refusal_reason: str | None = None
     debug: dict = {}
