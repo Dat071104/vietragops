@@ -2302,3 +2302,32 @@ model availability, not as an accuracy result and not retried into a pass.
 Commit the explicit protocol source/test/JSON/ops slice with
 `docs(gate-07): freeze Gate-0 protocol, dataset checksum and decision rule`.
 Only after that commit may Phase 7.3/7.4/7.5 begin.
+
+## 2026-08-27 — Gate 07 Phase 7.3 baseline harness and artifact boundary
+
+### Scope
+
+Added the abstract `BaselineArm` interface, mechanically restricted
+`ArmInput` rights projection, many-to-many-capable `ProposedMapping`, typed
+`RawOutputRecord`, and append-only `RawArtifactWriter`. Raw provider artifacts
+are directed under `gates/artifacts/gate07/raw/` and ignored by
+`gates/artifacts/.gitignore`; provider dumps are not staged. The harness and
+baseline modules do not import the evaluator data module. A test proves
+`ProviderRouter(mode="research")` returns a typed Groq failure without
+touching Ollama.
+
+### Commands and results
+
+- Focused Phase 7.3 tests: **7 passed**.
+- Full suite: **457 passed, 2 warnings**.
+- `compileall -q app rag scripts evals frontend tests research`: exit 0.
+- AGY-2 was unavailable as a callable worker; this is recorded as
+  `AGY_UNAVAILABLE`. The local rights/static tests are not claimed as an
+  independent external prompt-leakage audit.
+
+### Next step
+
+Commit the explicit Phase 7.3 source/tests/ignore slice with
+`feat(gate-07): baseline arm harness with enforced information rights`, then
+run Phase 7.4 offline baselines. Protocol commit `355daf0` already precedes
+all headline work.
