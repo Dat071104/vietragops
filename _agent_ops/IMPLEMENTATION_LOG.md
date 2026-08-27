@@ -2303,6 +2303,58 @@ Commit the explicit protocol source/test/JSON/ops slice with
 `docs(gate-07): freeze Gate-0 protocol, dataset checksum and decision rule`.
 Only after that commit may Phase 7.3/7.4/7.5 begin.
 
+## 2026-08-27 — Gate 07 Phase 7.4 offline baselines
+
+### Scope
+
+Added the lexical, BGE-M3 bi-encoder, and BGE reranker cross-encoder offline
+arms. All 180 graded public tasks ran; held-out cases were not exposed. The
+isolated interpreter was used for every offline arm with
+`HF_HUB_OFFLINE=1`, `TRANSFORMERS_OFFLINE=1`, and local model snapshots.
+Native parallel subagents were unavailable, so the three disjoint lanes ran
+sequentially; no parallelism is claimed.
+
+### Results and artifacts
+
+- `lexical_name` + `lexical_serialized`: 360 predictions and 360 raw records.
+- `embed_name_desc` + `embed_serialized_schema`: 360 predictions and 360 raw
+  records using `BAAI/bge-m3` revision
+  `5617a9f61b028005a4858fdac845db406aefb181`.
+- `cross_encoder`: 180 predictions and 180 raw records using
+  `BAAI/bge-reranker-v2-m3` revision
+  `953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e`.
+- Raw/output files live under ignored `gates/artifacts/gate07/`; SHA-256 and
+  counts were recorded in the working task state. The first cross run was
+  interrupted at 9/180 because the per-case implementation violated the
+  bounded compute assumption; its partial ignored files were replaced by a
+  complete batched rerun. No partial result entered metrics.
+- Actual offline wall-clock evidence: BGE-M3 embedding sweep ~14 minutes;
+  cross-encoder sweep ~19 minutes on CPU. This is a latency risk, not a
+  dataset exclusion or model substitution.
+
+### Offline metric smoke
+
+Using evaluator-only capability and 200 bootstrap samples: lexical-name
+Tool Alignment@1 0.7278 / Argument F1 0.6139; lexical-serialized 0.6833 /
+0.5537; BGE name+description 0.8167 / 0.6463; BGE serialized-schema 0.6556 /
+0.5454; cross-encoder 0.6389 / 0.5194. No arm abstained on the no-equivalent
+family, so its No-Equivalent Accuracy was 0.0 for this smoke. These are
+offline-only numbers, not the Gate 07 decision.
+
+### Commands and results
+
+- Artifact validation: all 900 predictions and 900 raw records have valid
+  JSON, 180 unique case IDs per arm file, and `backend=offline`.
+- Focused Gate 07 suite: **32 passed**.
+- Full suite: **462 passed, 2 warnings**.
+- `compileall -q app rag scripts evals frontend tests research`: exit 0.
+
+### Next step
+
+Commit the explicit offline-baseline source/test slice with
+`feat(gate-07): lexical, embedding and cross-encoder Gate-0 baselines`, then
+begin the sequential Phase 7.5 Groq LLM runner under the frozen budget.
+
 ## 2026-08-27 — Gate 07 Phase 7.3 baseline harness and artifact boundary
 
 ### Scope

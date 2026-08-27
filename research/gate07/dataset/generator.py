@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from functools import lru_cache
 from pathlib import Path
 from typing import Iterable
 
@@ -10,6 +11,7 @@ from research.gate07.dataset.models import FAMILY_NAMES, Gate07Case
 from research.gate07.dataset.operators import build_case, case_requests
 
 
+@lru_cache(maxsize=1)
 def build_all_cases() -> tuple[Gate07Case, ...]:
     cases = tuple(build_case(request) for request in case_requests())
     _validate_dataset(cases)

@@ -11,6 +11,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 import hashlib
 import json
+from functools import lru_cache
 
 from research.gate0.evaluator.capability import EvaluatorCapability
 
@@ -30,6 +31,7 @@ class Gate07GroundTruth:
     rationale: str
 
 
+@lru_cache(maxsize=1)
 def _build_ground_truth() -> dict[str, Gate07GroundTruth]:
     return {
         case.case_id: Gate07GroundTruth(
