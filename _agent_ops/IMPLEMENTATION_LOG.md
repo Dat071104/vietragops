@@ -2427,3 +2427,34 @@ Commit the explicit Phase 7.3 source/tests/ignore slice with
 `feat(gate-07): baseline arm harness with enforced information rights`, then
 run Phase 7.4 offline baselines. Protocol commit `355daf0` already precedes
 all headline work.
+
+## 2026-08-28 — Gate 07 repair R0/R1
+
+### Scope
+
+R0 re-verified the repair tree at `d9045ca0c68e90bdbbcb28c14f40d69ed094790a`.
+The normal-filesystem baseline passed 469 tests with two warnings; the first
+sandboxed attempt produced 355 passes and 114 Windows temp permission errors.
+Bug A reproduced as 20/180 graded and 4/36 held-out serialized-task leaks;
+Bug B found no git-state checks in the three headline runners; Bug C's
+attribute-only boundary test passed despite those leaks. The disqualified v2
+ledger contains 1,440 records: 1,379 success, 24 parse failures, 37 provider
+errors.
+
+R1 changed `research/gate07/dataset/operators.py` to use explicit field
+renderers, raise on unknown fields, remove seed-bearing task prose, and derive
+deterministic seeds from SHA-256. `tests/test_gate07_dataset.py` now checks
+renderer completeness and rejects arithmetic family-label seed patterns. The
+generated frozen and public manifests were regenerated from the fixed
+generator after the original manifest test correctly caught stale v2 content.
+
+### Validation
+
+- Focused dataset tests: **10 passed**.
+- Full suite: **471 passed, 2 warnings, 0 failed**.
+- `compileall -q app rag scripts evals frontend tests research`: exit 0.
+- No Gate 06 files, v2 artifacts, secrets, or remote state were changed.
+
+### Next step
+
+Implement R2 value-level leak detection, then R3 mechanical freeze preflight.

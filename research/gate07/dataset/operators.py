@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import hashlib
 import random
 from typing import Any
 
@@ -37,11 +38,15 @@ def case_requests() -> tuple[CaseRequest, ...]:
         for held_out, count in ((False, GRADED_PER_FAMILY), (True, HELD_OUT_PER_FAMILY)):
             for variant in range(count):
                 lineage = family_lineages[variant % len(family_lineages)]
-                seed = GENERATOR_SEED + family_index * 10000 + (variant + (100 if held_out else 0)) * 101 + family_lineages.index(lineage)
-                prefix = "H" if held_out else "G"
+                seed = _derive_seed(family, variant, lineage.key, held_out)
                 requests.append(CaseRequest(family_index, lineage, variant, seed, held_out, ordinal))
                 ordinal += 1
     return tuple(requests)
+
+
+def _derive_seed(family: str, variant: int, lineage_key: str, held_out: bool) -> int:
+    payload = f"{family}:{variant}:{lineage_key}:{held_out}".encode("utf-8")
+    return int.from_bytes(hashlib.sha256(payload).digest()[:6], "big")
 
 
 def _resource_index(seed: int, modulus: int, offset: int = 0) -> int:
@@ -74,6 +79,8 @@ def _field_value(name: str, seed: int) -> Any:
         return f"CRS-{course_number:03d}::TERM-{(course_number % 3) + 1:02d}"
     if name in {"session_date", "meeting_day"}:
         return f"2026-09-{(seed % 20) + 1:02d}"
+    if name == "session_day":
+        return f"2026-09-{(seed % 20) + 1:02d}"
     if name in {"response_text", "answer"}:
         return "synthetic response"
     if name in {"reason", "audit_reason", "review_note"}:
@@ -90,7 +97,7 @@ def _field_value(name: str, seed: int) -> Any:
         return "paid"
     if name in {"approval_status"}:
         return "approved"
-    return f"synthetic-{name}-{seed}"
+    raise KeyError(f"No deterministic renderer is defined for field {name!r}.")
 
 
 def _args_for_fields(fields: tuple[tuple[str, str], ...], seed: int) -> dict[str, Any]:
@@ -198,8 +205,8 @@ def _candidate_names(lineage: Lineage, seed: int, new_api: Gate07EducationApi) -
 
 def _task_description(lineage: Lineage, old_args: tuple[dict[str, Any], ...], seed: int) -> str:
     if len(lineage.old_names) > 1:
-        return f"The legacy interface exposes {', '.join(lineage.old_names)}. Preserve the learner-facing task represented by these operations for the synthetic record {seed}."
-        return f"For the supplied synthetic record, {lineage.old_description} Choose the new interface operation or operations that preserve this task."
+        return f"The legacy interface exposes {', '.join(lineage.old_names)}. Preserve the learner-facing task represented by these operations."
+    return f"{lineage.old_description} Choose the new interface operation or operations that preserve this task."
 
 
 def _run(api: Gate07EducationApi, tool_name: str, args: dict[str, Any], role: str) -> dict[str, Any]:

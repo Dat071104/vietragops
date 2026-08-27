@@ -9,6 +9,8 @@ from pathlib import Path
 from research.gate07.dataset import build_all_cases
 from research.gate07.dataset.models import FAMILY_NAMES
 from research.gate07.harness import MethodFacingTask, build_method_facing_task
+from research.gate07.sandbox.catalog import all_lineages, build_definitions
+from research.gate07.dataset.operators import _field_value, case_requests
 
 
 def test_gate07_dataset_has_180_graded_and_36_held_out_cases():
@@ -77,3 +79,20 @@ def test_gate07_frozen_manifest_matches_seed_regeneration():
     path = Path(__file__).parents[1] / "research" / "gate07" / "dataset" / "frozen_manifest.json"
     frozen = json.loads(path.read_text(encoding="utf-8"))
     assert frozen == [case.manifest_record() for case in build_all_cases()]
+
+
+def test_gate07_every_reachable_field_has_an_explicit_renderer():
+    names = {name for lineage in all_lineages() for name, _ in lineage.old_fields + lineage.new_fields}
+    names.update(name for definition in build_definitions("v3") for name in definition.input_schema["required"])
+    for name in sorted(names):
+        assert _field_value(name, 123456789) is not None
+
+
+def test_gate07_case_seeds_are_not_arithmetic_family_labels():
+    requests = case_requests()
+    first_seed_by_family = [next(request.seed for request in requests if request.family_index == index) for index in range(len(FAMILY_NAMES))]
+    assert first_seed_by_family != sorted(first_seed_by_family)
+    for family_index in range(len(FAMILY_NAMES)):
+        seeds = [request.seed for request in requests if request.family_index == family_index]
+        spacings = {right - left for left, right in zip(seeds, seeds[1:])}
+        assert len(spacings) > 1
