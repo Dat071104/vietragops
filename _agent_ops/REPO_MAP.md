@@ -8,13 +8,13 @@ live" and "what breaks if I touch this" in one Tier-1 read.
 
 ## Last Verified Commit
 
-`82d2797`
+`81589e2`
 
 ## Snapshot
 
 - Branch: `main`
 - Generated: `2026-08-27`
-- Code files indexed: 156
+- Code files indexed: 185
 - Stack: Python
 
 ## Modules
@@ -25,10 +25,11 @@ code depends on it, so changes there travel further.
 | Module | Files | Inbound | Entry points |
 | --- | --- | --- | --- |
 | `rag` | 54 | 125 | - |
+| `research` | 22 | 20 | - |
 | `app` | 21 | 17 | `app/main.py`, `app/mcp/server.py` |
 | `evals` | 13 | 9 | - |
 | `scripts` | 10 | 1 | - |
-| `tests` | 50 | 0 | - |
+| `tests` | 57 | 0 | - |
 | `frontend` | 7 | 0 | - |
 | `tools` | 1 | 0 | - |
 
@@ -47,16 +48,16 @@ Ranked by fan-in. Treat an edit here as cross-module until proven otherwise.
 | `rag/lifecycle/errors.py` | 10 | 0 |
 | `rag/generation/groq_client.py` | 9 | 0 |
 | `rag/lifecycle/service.py` | 9 | 8 |
+| `research/gate0/sandbox/__init__.py` | 8 | 4 |
 | `app/main.py` | 7 | 4 |
 | `rag/chunking/metadata_builder.py` | 7 | 0 |
 | `rag/lifecycle/storage.py` | 6 | 0 |
 | `rag/preprocessing/section_detector.py` | 6 | 1 |
 | `rag/retrieval/advanced_hybrid_retriever.py` | 6 | 5 |
-| `rag/retrieval/version_resolver.py` | 6 | 0 |
 
 ## Symbol Graph
 
-1049 symbols, 2185 edges (exact 1566, heuristic 448, ambiguous 171, weak 0).
+1200 symbols, 2532 edges (exact 1710, heuristic 600, ambiguous 222, weak 0).
 
 ### Routes
 
@@ -81,18 +82,18 @@ Ranked by fan-in. Treat an edit here as cross-module until proven otherwise.
 
 | Symbol | Called by | Where |
 | --- | --- | --- |
-| `VersionResolver.resolve` | 36 | `rag/retrieval/version_resolver.py:90` |
+| `VersionResolver.resolve` | 38 | `rag/retrieval/version_resolver.py:90` |
 | `FakeHttpxClient.post` | 31 | `tests/test_ollama_client.py:35` |
+| `build_case_manifest` | 27 | `research/gate0/drift/manifest.py:163` |
 | `FakeResponse.json` | 26 | `tests/test_ollama_client.py:18` |
 | `GroqClient.generate_json` | 24 | `rag/generation/groq_client.py:193` |
+| `EducationSandboxStore` | 23 | `research/gate0/sandbox/store.py:64` |
 | `ProviderRouter` | 21 | `rag/generation/provider_router.py:63` |
+| `build_api` | 21 | `research/gate0/sandbox/__init__.py:11` |
 | `LifecycleService.review` | 19 | `rag/lifecycle/service.py:175` |
 | `WebImportService.import_url` | 19 | `rag/lifecycle/web_import.py:118` |
 | `VersionResolver` | 18 | `rag/retrieval/version_resolver.py:66` |
-| `LifecycleService.publish` | 17 | `rag/lifecycle/service.py:200` |
-| `LifecycleRegistry._connect` | 16 | `rag/lifecycle/registry.py:200` |
-| `authed_session` | 16 | `tests/mcp_test_helpers.py:118` |
-| `close_session` | 16 | `tests/mcp_test_helpers.py:130` |
+| `ToolContract` | 18 | `research/gate0/contracts/contract.py:80` |
 
 Query it instead of grepping:
 
@@ -121,7 +122,7 @@ boundary before adding to one of these.
 
 ## Isolated Files
 
-18 file(s) have no resolved local imports in either direction.
+20 file(s) have no resolved local imports in either direction.
 They are listed only on demand -- enumerating them here would recreate the
 context bloat this map exists to prevent.
 

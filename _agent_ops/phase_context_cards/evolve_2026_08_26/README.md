@@ -8,9 +8,13 @@ commit below).
 Gate 05 (provider router/typed outcomes/mode policy/local MCP surface)
 PASS as of 2026-08-27 -- fully verified (offline + bounded live proofs,
 including a real local qwen3:8b Ollama smoke added in a 2026-08-27
-correction session) and committed locally to main in the same correction
-session, with explicit user authorization; not pushed. See
-gates/results/GATE_05_RESULT.md.`
+correction session) and committed locally to main (commit 81589e2) in
+the same correction session, with explicit user authorization; not
+pushed. See gates/results/GATE_05_RESULT.md.
+Gate 06 (versioned tool contracts + education drift sandbox) PASS as of
+2026-08-27 -- 111 new deterministic tests, entry gate independently
+re-verified against the Gate 05 commit before starting; not yet
+committed. See gates/results/GATE_06_RESULT.md.`
 
 ## Purpose
 
@@ -38,8 +42,8 @@ execution authorization. Read this file, then the card for the active gate only.
 | 03 | `GATE_03.md` | PASS | User-secret handoff + result |
 | 04 | `GATE_04.md` | PASS (committed, pushed) | Result before Gate 05 |
 | 05 | `GATE_05.md` | PASS (committed, not pushed) | Result before Gate 06 |
-| 06 | `GATE_06.md` | Entry gate re-verification | Result before Gate 07 |
-| 07 | `GATE_07.md` | Blocked by Gate 06 | GO / REFORMULATE / STOP |
+| 06 | `GATE_06.md` | PASS (not yet committed) | Result before Gate 07 |
+| 07 | `GATE_07.md` | Blocked by Gate 06 commit | GO / REFORMULATE / STOP |
 | 08 | `GATE_08.md` | Allowed only after Gate 07 GO | Result before Gate 09 |
 | 09 | `GATE_09.md` | Blocked by Gates 08 and full evidence | Result before Gate 10 |
 | 10 | `GATE_10.md` | Blocked by Gate 09 PASS | Final freeze only |

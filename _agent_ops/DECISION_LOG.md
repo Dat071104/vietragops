@@ -546,3 +546,88 @@ the commit in the same message.
   discovered by this measurement.
 - Gate 05 is now committed as its own slice, unblocking Gate 06's entry
   gate re-verification.
+
+## DEC-0014 — Gate 06 sandbox design: module boundary, public/oracle split, and "hidden" definition
+
+### Date
+
+2026-08-27
+
+### Context
+
+Gate 06 needed the smallest isolated module boundary for a deterministic
+tool-registry/education-drift sandbox, per Phase 6.0's instruction to
+prefer a research/evaluation-owned module over product routes, plus an
+honest, test-enforced public/oracle boundary per Phase 6.4.
+
+### Decision
+
+1. **Module boundary.** New top-level `research/gate0/` package (not the
+   existing top-level `tools/` -- already used for an unrelated script --
+   and not `rag/`/`app/`). Sub-packages by responsibility:
+   `contracts/` (Phase 6.1), `sandbox/` (6.2), `drift/` (6.3),
+   `oracle/` (6.4 ground truth), `traces/` (6.5), `evaluator/` (6.6),
+   `harness/` (the method-facing interface itself). `tests/
+   test_gate06_product_isolation.py` proves nothing under `research/
+   gate0/` imports `app`/`rag` or references the real corpus/lifecycle/
+   provider/MCP surface by name.
+2. **Sandbox state.** Entirely in-memory (`EducationSandboxStore`), never
+   touching a filesystem path -- the strongest form of "cannot reach a
+   product path" is not touching any path at all. `reset()` restores a
+   deep copy of a frozen fixture; `state_hash()` (canonical JSON + SHA-
+   256) makes reset-reproducibility and cross-instance isolation directly
+   testable.
+3. **Public/oracle split, concretely.** `ToolContract` (internal, has
+   `tool_id`) vs. `PublicToolContract` (`.to_public()`, no `tool_id` --
+   a Python class that structurally lacks the attribute, not a naming
+   convention). `tool_id` is the one field that would trivially leak
+   cross-version correspondence if exposed (matching tool_id across
+   versions **is** the hidden mapping for rename-lineage cases), so it
+   never appears on anything method-facing: not `PublicToolContract`, not
+   `VerifiedTrace`'s NEW-version side (traces only ever expose the OLD
+   tool's own identity, which is safe in isolation -- see the comment in
+   `research/gate0/traces/models.py` for why). `research/gate0/harness/
+   method_facing.py` is the *only* interface a method is ever given, has
+   zero import of `research.gate0.oracle` anywhere in its source, and
+   `oracle.ground_truth.get_ground_truth()` additionally requires a real
+   `EvaluatorCapability` instance -- a runtime capability check, not
+   cryptographic secrecy.
+4. **What "hidden" honestly means (documented at the top of
+   `oracle/ground_truth.py` and repeated here).** This is an execution/
+   import-access boundary enforced by `tests/test_gate06_oracle_
+   boundary.py` (static AST scan of the harness module for any oracle
+   reference, plus runtime introspection proving the harness's public API
+   never returns oracle content) -- not secrecy against a developer with
+   unrestricted repository access, who can always open the oracle file
+   directly. No file is encrypted or obfuscated.
+5. **Deterministic seed/reset contract.** Every `DriftCase` carries a
+   fixed integer `seed` field for future extensibility (the current cases
+   need no randomness -- everything is enumerated explicitly), and
+   `EducationSandboxStore.reset()` plus `state_hash()` are the actual
+   reproducibility mechanism tests rely on, not the seed field itself.
+
+### Verification
+
+- 111 new Gate 06 tests (430 total with the existing 319, 0 failures);
+  `compileall` clean including `research/`; corpus validators and
+  retrieval smoke bit-for-bit identical to the Gate 04/05 baseline;
+  `git diff --check` clean (Gate 06 added only new files, no existing
+  tracked file was touched).
+- Oracle-boundary suite (17 tests) statically proves the harness module's
+  source never imports `oracle`, and runtime-proves a harness instance's
+  public API never exposes `tool_id` or a ground-truth field.
+- All 9 drift families are represented in the frozen manifest (10 graded
+  cases) and are each derived from a real, executed sandbox contract --
+  none was authored around a planned alignment method (none exists in
+  this gate).
+
+### Consequences
+
+- A later Gate-0 method implementation gets `MethodFacingHarness` as its
+  only integration point; adding a new capability to the public side
+  later means adding it there explicitly, not by weakening the oracle
+  import boundary.
+- `research/gate0/drift/manifest.py`'s two `held_out_cases()` (advisor-
+  note lineage) are structurally separate from `build_case_manifest()`
+  and untouched by any Gate 06 test other than the disjointness check --
+  reserved for later work.

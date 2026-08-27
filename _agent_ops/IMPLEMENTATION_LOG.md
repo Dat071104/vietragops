@@ -2033,3 +2033,171 @@ for both the live smoke and the Gate 05 commit.
 
 Re-run the Gate 06 mandatory entry gate against the now-committed state.
 If it passes, proceed into Gate 06 Phase 6.0 per the source pack.
+
+## Entry — Gate 06: entry-gate re-verification PASS, then full Phase 6.0-6.6 implementation
+
+### Date
+
+2026-08-27
+
+### Entry-gate re-verification
+
+Independently re-checked every condition against the committed state
+(HEAD `81589e2`): `git merge-base --is-ancestor` confirmed both Gate 04
+(`82d2797`) and the new Gate 05 commit (`81589e2`) are ancestors of HEAD;
+`git status --short` showed only the pre-existing overlay (unambiguous,
+no overlap with the Gate 05 slice); `git diff --cached --name-only`
+empty (nothing left staged after the commit); `git diff --check` on the
+working tree exit 0 (clean); `data/`/`gates/` untouched. Context cards,
+tracker README, and `PROJECT_CONTEXT_CARD.md` were updated in the same
+session to agree with this state (Gate 04 "uncommitted" label corrected
+to reflect its actual committed-and-pushed status; Gate 05 section
+added). Result: **entry gate PASS** -- proceeded into Gate 06.
+
+### Design decision
+
+See DEC-0014 for the full sandbox design (module boundary, public/oracle
+split, what "hidden" means). Summary: new `research/gate0/` package,
+in-memory sandbox state, `ToolContract`/`PublicToolContract` split
+(`tool_id` never exposed method-facing), `MethodFacingHarness` as the
+sole method-facing interface with zero import of `research.gate0.oracle`,
+`EvaluatorCapability`-gated oracle access.
+
+### Files added (all new; no existing tracked file was modified)
+
+- `research/__init__.py`, `research/gate0/__init__.py`
+- `research/gate0/contracts/{__init__.py,contract.py}` -- Phase 6.1:
+  `ToolContract`/`PublicToolContract`/`Precondition`/`Effect`,
+  `compute_schema_hash`, `validate_contract`.
+- `research/gate0/sandbox/{__init__.py,store.py,api_v1.py,api_v2.py,
+  api_v3.py}` -- Phase 6.2: `EducationSandboxStore` (in-memory,
+  `reset()`/`state_hash()`) plus three deterministic fictional education
+  APIs (course lookup, prerequisite check, enrollment, timetable, leave
+  request, plus a held-out advisor-note lineage), each with real
+  precondition/effect-enforcing implementations and a `contracts()`
+  method.
+- `research/gate0/drift/{__init__.py,families.py,manifest.py}` -- Phase
+  6.3: the 9 required drift families; a frozen 10-case graded manifest
+  (`build_case_manifest()`) plus 2 structurally-separate held-out cases
+  (`held_out_cases()`).
+- `research/gate0/oracle/{__init__.py,ground_truth.py}` -- Phase 6.4:
+  `MigrationGroundTruth` records for all 10 graded cases, gated behind a
+  real `EvaluatorCapability` instance.
+- `research/gate0/evaluator/{__init__.py,capability.py,evaluator.py}` --
+  Phase 6.6: `EvaluatorCapability`; `evaluate_mapping()` (tool selection +
+  argument-pair precision/recall + no-equivalent handling + effect-kind
+  check, all via set arithmetic and real contract lookups, zero LLM
+  calls); `evaluate_adapted_call()` (actually executes a predicted call
+  against a fresh sandbox and scores precondition/output outcomes).
+- `research/gate0/traces/{__init__.py,models.py,capture.py}` -- Phase
+  6.5: `VerifiedTrace`; `build_verified_traces_for_version()` (4 real
+  successful calls per version, one continuous store, real before/after
+  `state_hash`); `build_failed_trace_for_version()` (one deliberately
+  failing call, `verified=False`); `replay_trace()`.
+- `research/gate0/harness/{__init__.py,method_facing.py}` -- Phase 6.4:
+  `MethodFacingHarness`/`MethodFacingTask`, the sole method-facing
+  interface; zero import of `research.gate0.oracle`.
+- `tests/test_gate06_contract_model.py` (19), `tests/
+  test_gate06_sandbox_versions.py` (19), `tests/
+  test_gate06_drift_manifest.py` (10), `tests/
+  test_gate06_oracle_boundary.py` (17), `tests/test_gate06_traces.py`
+  (9), `tests/test_gate06_evaluator.py` (33), `tests/
+  test_gate06_product_isolation.py` (4) -- **111 new tests total.**
+
+### Commands / results
+
+```bash
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m compileall -q app rag scripts evals frontend tests research
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m pytest -q
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe scripts/validate_chunks.py --chunks-dir data/chunks
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe scripts/validate_processed_docs.py data/processed/processed_docs.jsonl
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe scripts/verify_manifest.py data/manifests/documents_manifest.csv
+PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock .venv/Scripts/python.exe -m evals.experiments.run_retrieval_eval --chunks data/chunks/chunks_500.jsonl --qa evals/datasets/dev_qa.jsonl --retriever bm25 --top_k 5 --output <tmp>
+git diff --check
+git status --short -- data/ gates/
+```
+
+- `compileall`: clean, including the new `research/` tree.
+- Full suite: **430 passed, 0 failed** (319 pre-existing + 111 new Gate 06
+  tests; 0 regressions).
+- Corpus validators: 1036/695/572 rows abnormal 0; 37/37 processed docs;
+  37 manifest rows, 0 duplicate groups -- identical to the Gate 04/05
+  baseline.
+- Retrieval smoke: recall@3 0.7222, recall@5 0.8889, recall@10 0.8889,
+  mrr 0.5917, precision@5 0.1889, answerable 18/20 -- bit-for-bit
+  identical to `gates/baselines/GATE_04_RETRIEVAL_SMOKE.json` (only
+  `latency_ms` differs, as expected).
+- `git diff --check`: clean (exit 0) -- Gate 06 added only new files.
+- `git status --short -- data/ gates/`: empty -- frozen corpus and every
+  prior gate's baseline/result untouched.
+
+### Acceptance evidence, mapped to the checklist
+
+- **v1/v2/v3 reset reproducibly**: `test_reset_is_byte_for_byte_
+  reproducible` and `test_repeated_reset_plus_identical_inputs_are_
+  deterministic` (both parametrized over all 3 versions).
+- **>= 8 drift families**: all 9 represented
+  (`test_manifest_covers_all_nine_families`).
+- **Semantic near-collision**: `GATE06-CASE-009` (`find_module` vs. the
+  decoy `browse_catalog`), tested for real distinct preconditions/effects
+  and scored explicitly wrong when confused
+  (`test_semantic_near_collision_decoy_is_scored_wrong_for_the_right_reason`).
+- **No-equivalent**: `GATE06-CASE-005`/`010` (`submit_leave_request`, no
+  successor in v2 or v3); `test_no_equivalent_case_rejects_a_forced_
+  nearest_tool_answer` proves a forced nearest-tool guess is scored
+  wrong, not accepted.
+- **Ground truth hidden from the evaluated model**: 17-test oracle-
+  boundary suite -- static AST scan proves the harness module's source
+  never imports `oracle`; runtime tests prove a harness instance's public
+  API/task object never exposes `tool_id` or any ground-truth field; a
+  non-capability caller of `get_ground_truth`/`evaluate_mapping` is
+  rejected with `PermissionError`.
+- **Verified old traces available**: `build_verified_traces_for_version`
+  for v1 and v2 (4 real calls each on one continuous store); replay-
+  after-reset reproduces identical outputs and `state_hash_after`
+  (`test_replaying_traces_after_reset_reproduces_identical_results`);
+  one deliberately-failing trace stays distinguishable
+  (`verified=False`).
+- **Task evaluator deterministic**: `evaluate_mapping`/
+  `evaluate_adapted_call` use only set arithmetic and real sandbox
+  execution, zero LLM/network calls
+  (`test_no_llm_or_model_dependency_anywhere_in_the_evaluator`);
+  repeatable across 5 in-process resets per case and across two separate
+  `python -c` subprocess invocations
+  (`test_evaluation_is_repeatable_across_separate_process_invocations`).
+- **Incorrect mappings fail for the correct reason**: `failure_reasons`
+  is a structured tuple (`wrong_tool_selected`, `missed_no_equivalent`,
+  `false_no_equivalent`, `argument_pair_missed:*`, `argument_pair_
+  spurious:*`, `effect_kind_mismatch`), asserted directly in the partial-
+  mapping, spurious-mapping, and near-collision tests.
+- **No sandbox leakage to product paths**: `test_gate06_product_
+  isolation.py` (AST-scans every file under `research/gate0/` for any
+  `app`/`rag` import or reference to the real corpus/lifecycle/provider/
+  MCP surface by name); sandbox state is pure in-memory (no filesystem
+  path exists to leak through), verified by a source-scan test that
+  `store.py` never calls `open()`/`Path()`/touches a DB or network client.
+- **No final method/scientific claim**: no LLM call, semantic matcher, or
+  alignment algorithm exists anywhere in `research/gate0/`
+  (`test_no_llm_or_model_dependency_anywhere_in_the_evaluator`); this is
+  stated explicitly in `gates/results/GATE_06_RESULT.md`.
+
+### Known limitations (honest, not fixed in this gate)
+
+- `held_out_cases()` (2 cases, advisor-note lineage) exist for later
+  Gate-0 work; only their structural disjointness from the graded
+  manifest is tested here, per the entry contract's instruction not to
+  inspect held-out cases from any tested-method path.
+- The capability check (`EvaluatorCapability`) is a real runtime type
+  check, not a security boundary against a hostile importer with full
+  repository access -- documented explicitly in `oracle/ground_truth.py`
+  and DEC-0014, matching the entry contract's own instruction not to
+  overclaim secrecy.
+- `evaluate_adapted_call`'s `output_expectation_met` checks required
+  output *keys* only (structural), not exact value equality -- sufficient
+  for this gate's infrastructure purpose; a later Gate-0 method
+  evaluation may want stricter value-level checks.
+
+### Next Step
+
+None from this agent unless the user requests Gate 07 or further Gate 06
+extension. STOP -- no Gate 07 work performed.
