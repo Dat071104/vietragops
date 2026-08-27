@@ -128,23 +128,44 @@ class ProviderRouter:
             "ollama": ollama_payload,
         }
 
-    def generate_json(self, prompt: str) -> ProviderInvocation:
+    def generate_json(
+        self,
+        prompt: str,
+        *,
+        model: str | None = None,
+        temperature: float | None = None,
+        max_tokens: int | None = None,
+    ) -> ProviderInvocation:
         provider = self.current_provider()
         if provider == "groq":
-            return self._generate_json_groq(prompt)
+            return self._generate_json_groq(prompt, model=model, temperature=temperature, max_tokens=max_tokens)
         if provider == "ollama":
             return self._generate_json_ollama(prompt, primary_attempt=None)
         if provider == "deepseek":
             return self._generate_json_deepseek(prompt)
         return ProviderInvocation(provider="mock", model=self.current_model(), fallback_used=True, mode=self.mode)
 
-    def _generate_json_groq(self, prompt: str) -> ProviderInvocation:
-        model = self.groq_client.model
+    def _generate_json_groq(
+        self,
+        prompt: str,
+        *,
+        model: str | None = None,
+        temperature: float | None = None,
+        max_tokens: int | None = None,
+    ) -> ProviderInvocation:
+        model = model or self.groq_client.model
         if not self.groq_client.available():
             primary = {"provider": "groq", "model": model, "error": "Groq is not configured.", "failure_kind": "config_error"}
             return self._resolve_groq_failure(prompt, primary)
         try:
-            payload = self.groq_client.generate_json(prompt)
+            request_kwargs: dict[str, Any] = {}
+            if model != self.groq_client.model:
+                request_kwargs["model"] = model
+            if temperature is not None:
+                request_kwargs["temperature"] = temperature
+            if max_tokens is not None:
+                request_kwargs["max_tokens"] = max_tokens
+            payload = self.groq_client.generate_json(prompt, **request_kwargs)
             return ProviderInvocation(provider="groq", model=model, payload=payload, mode=self.mode)
         except GroqRequestError as exc:
             primary = {"provider": "groq", "model": model, "error": str(exc), "failure_kind": _classify_groq_exception(exc)}

@@ -75,9 +75,9 @@ def _field_value(name: str, seed: int) -> Any:
     if name in {"session_date", "meeting_day"}:
         return f"2026-09-{(seed % 20) + 1:02d}"
     if name in {"response_text", "answer"}:
-        return f"synthetic response {seed}"
+        return "synthetic response"
     if name in {"reason", "audit_reason", "review_note"}:
-        return f"routine review {seed}"
+        return "routine review"
     if name == "source_institution":
         return "SYNTH-EXT"
     if name == "query_text":
@@ -199,7 +199,7 @@ def _candidate_names(lineage: Lineage, seed: int, new_api: Gate07EducationApi) -
 def _task_description(lineage: Lineage, old_args: tuple[dict[str, Any], ...], seed: int) -> str:
     if len(lineage.old_names) > 1:
         return f"The legacy interface exposes {', '.join(lineage.old_names)}. Preserve the learner-facing task represented by these operations for the synthetic record {seed}."
-    return f"For synthetic record {seed}, {lineage.old_description} Choose the new interface operation or operations that preserve this task."
+        return f"For the supplied synthetic record, {lineage.old_description} Choose the new interface operation or operations that preserve this task."
 
 
 def _run(api: Gate07EducationApi, tool_name: str, args: dict[str, Any], role: str) -> dict[str, Any]:

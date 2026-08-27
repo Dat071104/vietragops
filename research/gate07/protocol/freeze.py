@@ -94,14 +94,15 @@ def _rate_limit_budget(cases: tuple[Gate07Case, ...], model_ids: tuple[str, ...]
     }
 
 
-def build_protocol(cases: tuple[Gate07Case, ...], git_head: str, model_ids: tuple[str, ...], *, created_at: str | None = None, model_verification: dict[str, Any] | None = None, rate_limits: dict[str, Any] | None = None) -> dict[str, Any]:
+def build_protocol(cases: tuple[Gate07Case, ...], git_head: str, model_ids: tuple[str, ...], *, created_at: str | None = None, model_verification: dict[str, Any] | None = None, rate_limits: dict[str, Any] | None = None, schema: str = "gate07.protocol.v1", amendment: dict[str, Any] | None = None) -> dict[str, Any]:
     graded = _manifest_records(cases, False)
     held_out = _manifest_records(cases, True)
     family_counts = {family: sum(record["family"] == family for record in graded) for family in FAMILY_NAMES}
     held_out_counts = {family: sum(record["family"] == family for record in held_out) for family in FAMILY_NAMES}
     capability = EvaluatorCapability()
     return {
-        "schema": "gate07.protocol.v1",
+        "schema": schema,
+        "amendment": amendment or {},
         "created_at_utc": created_at or datetime.now(timezone.utc).isoformat(),
         "git_head_at_freeze": git_head,
         "dataset": {

@@ -4,7 +4,8 @@ from __future__ import annotations
 
 from research.gate0.evaluator.capability import EvaluatorCapability
 from research.gate07.dataset import build_all_cases
-from research.gate07.metrics import aggregate_predictions, score_prediction
+from research.gate07.harness.serialization import task_record
+from research.gate07.metrics import aggregate_predictions, evaluate_first_attempt, score_prediction
 from research.gate07.oracle import Gate07GroundTruth
 
 
@@ -42,3 +43,16 @@ def test_gate07_aggregate_has_deterministic_uncertainty_shape():
     result = aggregate_predictions(predictions, EvaluatorCapability(), bootstrap_samples=50)
     assert result["case_count"] == 1
     assert result["overall"]["tool_alignment_at_1"]["mean"] in {0.0, 1.0}
+
+
+def test_gate07_first_attempt_executes_a_correct_adaptation_in_a_fresh_sandbox():
+    case = build_all_cases()[0]
+    prediction = {"case_id": case.case_id, "selected_tool_names": [case.new_tool_names[0]], "argument_pairs": [list(pair) for pair in case.argument_pairs], "abstain": False}
+    result = evaluate_first_attempt(case, task_record(case), prediction, EvaluatorCapability())
+    assert result.outcome == "succeeded"
+
+
+def test_gate07_first_attempt_treats_no_equivalent_abstention_as_safe_success():
+    case = next(case for case in build_all_cases() if case.family == "no_equivalent")
+    result = evaluate_first_attempt(case, task_record(case), {"case_id": case.case_id, "selected_tool_names": [], "abstain": True}, EvaluatorCapability())
+    assert result.outcome == "succeeded"

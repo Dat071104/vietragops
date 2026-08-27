@@ -683,9 +683,11 @@ Use **Option B**, with the following fixed setup:
 - Ollama `/api/tags` was reachable and reported the installed local models,
   including `qwen3:8b`; Groq configuration was inspected by variable names
   only. No credential value was read, printed, or recorded.
-- The isolated research venv and model revisions are not installed or pinned
-  yet. Their setup and the post-install contamination proof are prerequisites
-  for Phase 7.4.
+- The isolated research venv is installed at the chosen path with Python
+  3.13.9, CPU `torch==2.13.0+cpu`, `sentence-transformers==6.0.0`, and
+  `transformers==5.16.1`; both exact model revisions load and run offline on
+  CPU. The application import probe remains false for all three packages, and
+  the post-install retrieval smoke matches the frozen control exactly.
 
 ### Consequences
 
@@ -695,3 +697,88 @@ Use **Option B**, with the following fixed setup:
 - The application retrieval baseline remains a protected control. Any
   changed smoke metric blocks the research run until the contamination cause
   is understood and reported.
+
+## DEC-0016 — Pre-headline protocol amendment for generator-seed leakage
+
+### Date
+
+2026-08-27
+
+### Context
+
+After the Gate 07 protocol v1 freeze (`355daf0`) but before any headline arm,
+the public-task audit found that generated `task_description` text and several
+free-text old-trace values contained the deterministic generator seed. This
+violated the frozen Phase 7.1 boundary: a baseline may not see `seed`, family,
+operator, lineage key, or equivalent generation metadata. No headline result
+had run against the affected public task file.
+
+### Decision
+
+Remove the direct seed-bearing text from task descriptions and trace values,
+regenerate the 216-case manifest/public tasks, and issue a versioned protocol
+amendment rather than editing v1 in place. Use
+`gates/baselines/GATE_07_PROTOCOL_V2.json` (`schema=gate07.protocol.v2`) for
+all headline work. It records the new graded manifest digest
+`sha256:32f0d29279dbbeb28ea7c3db1d076334242c7b2c092f4ac09cc32f8fb927890e`,
+the amendment reason, and `headline_runs_before_amendment=false`.
+
+### Verification
+
+- Public task audit after regeneration reports
+  `generator_seed=False`, `lineage_key=False`, `family=False`,
+  `operator=False`, and `tool_id=False`.
+- The amended public task file has 180 graded cases; held-out cases remain
+  absent.
+- The v1 protocol remains an immutable historical record and is not used by
+  the runner. The v2 amendment file was generated before the reruns, but its
+  required Git commit was not made before the headline calls; this is a
+  protocol violation recorded in DEC-0017. The v2 offline/LLM artifacts are
+  therefore disqualified from the Gate 07 decision.
+
+### Consequences
+
+- Any numbers generated from the pre-amendment offline files are discarded;
+  only `*_v2` artifacts are eligible for metrics.
+- This is a protocol correction, not evidence for or against the alignment
+  research claim.
+
+## DEC-0017 — Gate 07 headline evidence blocked by an uncommitted protocol amendment
+
+### Date
+
+2026-08-27
+
+### Context
+
+The seed-leakage amendment was generated as `GATE_07_PROTOCOL_V2.json` and the
+public task file was regenerated before rerunning the v2 offline and LLM arms.
+However, the amendment was still only in the working tree when those runs
+started: the last committed protocol state was `355daf0` (v1), while the
+headline run started from `3b6770f` plus uncommitted v2 changes. The execution
+prompt requires the protocol freeze commit to precede every Phase 7.4/7.5
+headline run.
+
+### Decision
+
+Treat every v2 offline and LLM result as **DISQUALIFIED** for scientific
+metrics and do not claim `GO`, `REFORMULATE`, or `STOP` from them. Do not spend
+another quota budget to silently repair the sequence. Close Gate 07 with
+`BLOCKED`, preserve the raw files for audit, and require a newly approved
+protocol/re-run plan before any future Gate 07 continuation. Gate 08 is not
+allowed.
+
+### Verification
+
+- v1 protocol commit: `355daf0`; v2 amendment was not committed at the
+  headline start.
+- v2 artifact counts exist (offline and LLM), but their admissibility is
+  false because the required preceding commit proof is absent.
+- No held-out cases, alignment method, or Gate 08 work was run.
+
+### Consequences
+
+- This is a process-validity blocker, not a scientific result about whether a
+  new cross-version alignment method is needed.
+- The only allowed next action is a separately approved Gate 07 protocol
+  repair/re-run; no Gate 08 work is permitted.

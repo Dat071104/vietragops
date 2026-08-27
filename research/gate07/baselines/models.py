@@ -30,7 +30,7 @@ class RawOutputRecord:
     raw_response: str | None
     provider: str
     latency_ms: float
-    token_usage: dict[str, int] = field(default_factory=dict)
+    token_usage: dict[str, Any] = field(default_factory=dict)
     outcome: str = "success"
     failure_kind: str | None = None
     error: str | None = None

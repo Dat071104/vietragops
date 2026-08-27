@@ -2355,6 +2355,50 @@ Commit the explicit offline-baseline source/test slice with
 `feat(gate-07): lexical, embedding and cross-encoder Gate-0 baselines`, then
 begin the sequential Phase 7.5 Groq LLM runner under the frozen budget.
 
+## 2026-08-27 — Gate 07 Phase 7.5 research-mode LLM baselines
+
+### Scope
+
+Added the sequential Groq runner with prompt IDs, parser-owned parse-failure
+classification, checkpoint/cache keys `(arm_id, model, prompt_id, case_id)`,
+typed provider outcomes, and a single SQLite/JSONL request ledger. A narrow
+additive `ProviderRouter` extension passes the frozen model/temperature/
+max-token overrides while preserving research-mode no-fallback behavior.
+The runner loaded the project `.env` internally without printing values and
+used only the existing authorized Groq client/key pool; no Ollama fallback or
+new key source was introduced.
+
+### Runs and accounting
+
+- Preflight: 8/8 chat calls succeeded (one case × four arms × two models),
+  despite the separate quota-free `/models` endpoint returning HTTP 403.
+- Full sweep: 1,440 unique cache keys, 1,440 raw records, 1,440 ledger rows;
+  720 records per model and 360 per arm.
+- Terminal outcomes: **1,379 success**, **24 parse_failure**, **37
+  provider_error**. The existing client emitted 429 cooldown events and
+  recovered them internally; no terminal rate-limited row was coerced into a
+  wrong answer. Provider/parse failures are excluded from accuracy.
+- Estimated input tokens recorded: 1,867,648; output usage is unavailable
+  from the current client and is recorded as unknown, while the ledger reserves
+  the frozen max 512 output tokens per attempt.
+- Held-out cases: not run.
+
+### Amendment and validation
+
+The pre-headline seed-leak correction is recorded as DEC-0016. Protocol v1 is
+kept immutable; v2 and regenerated public tasks were used by the reruns, but
+the v2 amendment was not committed before those runs. DEC-0017 therefore
+marks every v2 offline/LLM result disqualified for scientific metrics. The
+first-attempt preview remains audit evidence only; no evaluator mapping was
+given to an arm. Focused Gate 07 tests: **39 passed**. Full suite: **469
+passed, 2 warnings**. `compileall` exit 0.
+
+### Next step
+
+Do not commit v2 as a valid freeze or execute Phase 7.6. Write and commit the
+Gate 07 `BLOCKED` result with the protocol-violation evidence, preserving raw
+artifacts and stopping before any scientific decision.
+
 ## 2026-08-27 — Gate 07 Phase 7.3 baseline harness and artifact boundary
 
 ### Scope

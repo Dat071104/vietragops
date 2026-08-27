@@ -43,3 +43,14 @@ def test_gate07_frozen_protocol_file_contains_no_credentials_and_precedes_headli
     assert "api_key" not in serialized
     assert "secret" not in serialized
     assert protocol["models"]["verification"]["http_status"] == 403
+
+
+def test_gate07_protocol_v2_records_pre_headline_seed_leakage_amendment():
+    path = Path(__file__).parents[1] / "gates" / "baselines" / "GATE_07_PROTOCOL_V2.json"
+    protocol = json.loads(path.read_text(encoding="utf-8"))
+    assert protocol["schema"] == "gate07.protocol.v2"
+    assert protocol["amendment"]["amends"] == "GATE_07_PROTOCOL.json"
+    assert protocol["amendment"]["headline_runs_before_amendment"] is False
+    assert protocol["amendment"]["amendment_commit_status_at_headline_start"] == "NOT_COMMITTED"
+    assert protocol["amendment"]["headline_start_git_head"] == "3b6770f673523f093e9e3ff54c0133a2f24c7413"
+    assert protocol["dataset"]["graded_manifest_sha256"] == "sha256:32f0d29279dbbeb28ea7c3db1d076334242c7b2c092f4ac09cc32f8fb927890e"

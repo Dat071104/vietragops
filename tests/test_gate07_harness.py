@@ -59,6 +59,27 @@ def test_gate07_research_router_never_falls_back_to_ollama():
     assert invocation.failure_kind == "rate_limited"
 
 
+def test_gate07_research_router_passes_frozen_decoding_overrides():
+    class CapturingGroq:
+        model = "model/default"
+
+        def __init__(self):
+            self.kwargs = None
+
+        def available(self):
+            return True
+
+        def generate_json(self, prompt, **kwargs):
+            self.kwargs = kwargs
+            return {"selected_tool_names": [], "argument_mapping": [], "abstain": True}
+
+    groq = CapturingGroq()
+    router = ProviderRouter(provider="groq", mode="research", groq_client=groq)
+    invocation = router.generate_json("synthetic prompt", model="model/default", temperature=0.0, max_tokens=512)
+    assert invocation.failure_kind is None
+    assert groq.kwargs == {"temperature": 0.0, "max_tokens": 512}
+
+
 def test_gate07_baseline_modules_do_not_import_evaluator_data():
     base = Path(__file__).parents[1] / "research" / "gate07" / "baselines"
     for path in (base / "base.py", base / "models.py"):
