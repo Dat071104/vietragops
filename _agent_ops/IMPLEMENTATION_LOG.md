@@ -2201,3 +2201,65 @@ git status --short -- data/ gates/
 
 None from this agent unless the user requests Gate 07 or further Gate 06
 extension. STOP -- no Gate 07 work performed.
+
+## 2026-08-27 — Gate 07 Phase 7.0 decision and Phase 7.1 dataset
+
+### Scope
+
+Started the user-authorized Gate 07 falsification gate. Phase 7.0 was
+re-verified against `main` at `0561d54d5f623c0a913f222007f86a7f08ea3d66`,
+which matched `origin/main`; `fed31c3` was an ancestor; the pre-existing
+21-entry dirty overlay remained untouched; and the Gate 06 result was `PASS`.
+The exact baseline suite completed 430 passed after rerunning outside the
+pytest temp/cache sandbox restriction; compileall was clean. Ollama `/api/tags`
+was reachable and Groq variables were inspected by names only.
+
+### Decision and isolated dependencies
+
+The user selected Option B, recorded as DEC-0015: CPU `torch` plus
+`sentence-transformers`, `BAAI/bge-m3` for bi-encoder arms, and
+`BAAI/bge-reranker-v2-m3` for the genuine cross-encoder arm. The packages are
+isolated in `external_tools/research_baselines/.venv`; the application `.venv`
+and `requirements.txt` were not modified. The first torch install exposed a
+Windows WinError 206 deep-license-path failure and left a partial install; the
+same venv was repaired via a temporary drive-letter path and then imported
+successfully. Both pinned snapshots loaded and ran with offline flags and
+`local_files_only=True`.
+
+Model pins:
+
+- `BAAI/bge-m3` — `5617a9f61b028005a4858fdac845db406aefb181`.
+- `BAAI/bge-reranker-v2-m3` — `953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e`.
+
+### Phase 7.1 implementation
+
+Added a separate `research/gate07/` package with an in-memory 39-tool
+synthetic education surface, deterministic operators, 12 drift families,
+capability-gated evaluator data, public method-facing contracts/traces, and
+real execution receipts. Generated 216 cases: 180 graded and 36 held out;
+each family has 15 graded plus 3 held out. D9 one-to-many and D10 many-to-one
+shapes are retained explicitly. The frozen and public manifests are
+`research/gate07/dataset/frozen_manifest.json` and
+`research/gate07/dataset/public_manifest.json`.
+
+### Commands and results
+
+- Targeted Gate 07 tests: **16 passed** before the final manifest-regeneration
+  test was added.
+- Full application + Gate 07 suite: **447 passed, 2 warnings**.
+- `compileall -q app rag scripts evals frontend tests research`: exit 0.
+- Pre/post application retrieval smoke with `.venv`: load-bearing metrics
+  matched the Gate 04 frozen control exactly (`recall_at_3=0.7222`,
+  `recall_at_5=0.8889`, `recall_at_10=0.8889`, `mrr=0.5917`,
+  `precision_at_5=0.1889`, answerable 18/20); only latency varied.
+- AGY-1 was unavailable as a callable worker in this session. This is recorded
+  as `AGY_UNAVAILABLE`; deterministic balance, duplicate, execution-receipt,
+  and redaction checks were run locally instead and are not claimed as an
+  independent audit.
+
+### Next step
+
+Run the final Phase 7.1 checks, commit only the explicit Gate 07 source/tests/
+manifest and task-owned ops slice with
+`feat(gate-07): extended education sandbox and Gate-0 case generator`, then
+freeze Phase 7.2. No headline baseline has run before a protocol freeze.

@@ -631,3 +631,67 @@ honest, test-enforced public/oracle boundary per Phase 6.4.
   note lineage) are structurally separate from `build_case_manifest()`
   and untouched by any Gate 06 test other than the disjointness check --
   reserved for later work.
+
+## DEC-0015 — Gate 07 baseline dependencies isolated from the application venv
+
+### Date
+
+2026-08-27
+
+### Context
+
+Gate 07 Phase 7.0 passed. The scientific gate requires both a dense embedding
+baseline and a genuine trained cross-encoder baseline. Groq provides neither;
+Ollama can provide embeddings but cannot provide the required reranker arm.
+The application venv currently lacks `torch`, `sentence_transformers`, and
+`transformers`. Installing them into `VietRagOps/.venv` would activate
+`rag/retrieval/dense_retriever.py::_SentenceTransformerBackend` and could
+contaminate the frozen Gate 00–06 retrieval evidence.
+
+### Decision
+
+Use **Option B**, with the following fixed setup:
+
+1. Install CPU `torch` and `sentence-transformers` only in
+   `external_tools/research_baselines/.venv`, outside the application Git
+   root's runtime environment. Do not modify `VietRagOps/.venv` or
+   `requirements.txt`.
+2. Use `BAAI/bge-m3` for the name/description and serialized-schema
+   bi-encoder arms, and `BAAI/bge-reranker-v2-m3` for the trained
+   cross-encoder arm. Keep both model identities and exact Hugging Face
+   revision hashes in the tooling record before the protocol freeze.
+3. Launch offline research arms through the isolated interpreter as
+   subprocesses with `local_files_only=True` after the one-time download.
+   The application venv must never import the research packages.
+4. Add a contamination guard: run the application-venv retrieval smoke before
+   and after the isolated install, and require the load-bearing metrics to
+   remain bit-for-bit identical to
+   `gates/baselines/GATE_04_RETRIEVAL_SMOKE.json` (latency may differ).
+   If they change, stop and report contamination; do not rewrite the frozen
+   baseline.
+5. In Phase 7.5, run the LLM arms sequentially through the existing authorized
+   Groq client/key pool. Freeze the case × arm × model call budget, retry
+   reserve, token budget, applicable RPM/TPM/RPD/TPD ceilings, timeout, and
+   ledger identity before live calls. Quota/provider failures remain separate
+   from accuracy, and no new key source, account, or pool may be introduced.
+
+### Verification
+
+- Phase 7.0 baseline: `430 passed`, `compileall` clean, local HEAD and
+  `origin/main` both `0561d54d5f623c0a913f222007f86a7f08ea3d66`, and
+  `fed31c3` is an ancestor.
+- Ollama `/api/tags` was reachable and reported the installed local models,
+  including `qwen3:8b`; Groq configuration was inspected by variable names
+  only. No credential value was read, printed, or recorded.
+- The isolated research venv and model revisions are not installed or pinned
+  yet. Their setup and the post-install contamination proof are prerequisites
+  for Phase 7.4.
+
+### Consequences
+
+- The cross-encoder arm is a real trained model, not an `llm_pairwise_scorer`
+  stand-in. The bi/cross comparison uses the selected BGE family to avoid the
+  training-corpus confound identified in the user's decision.
+- The application retrieval baseline remains a protected control. Any
+  changed smoke metric blocks the research run until the contamination cause
+  is understood and reported.
