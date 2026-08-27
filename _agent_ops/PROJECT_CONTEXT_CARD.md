@@ -996,8 +996,8 @@ source/version-aware behavior before the tool-research lane; and falsification-
 first scientific Gate-0 before a proposed method. Each gate requires an evidence
 record and STOP. `STOP`/`REFORMULATE` are valid outcomes.
 
-**Current status (updated 2026-08-27, Gate 06 session):** Gates 00-05 are
-`PASS` and committed; Gate 06 is `PASS`, not yet committed. Gate 02 made MarkItDown the default local PDF/DOCX candidate
+**Current status (updated 2026-08-27, Gate 06 session):** Gates 00-06 are
+`PASS`, committed, and pushed to `origin/main` (`fed31c3`). Gate 02 made MarkItDown the default local PDF/DOCX candidate
 parser (pinned `markitdown[pdf,docx]==0.1.7`, app dependency now). Gate 03
 added a bounded Firecrawl hosted-API adapter (`rag/ingestion/firecrawl.py`),
 a URL/domain/private-network safety layer (`rag/lifecycle/web_safety.py`),
@@ -1058,7 +1058,7 @@ deterministic answer builder rather than reaching a live model answer on
 this hardware, until that timeout is tuned or the separately-planned
 Qwen deployment lands. Full detail: `gates/results/GATE_05_RESULT.md`.
 
-**Gate 06 (2026-08-27, not yet committed):** deterministic infrastructure
+**Gate 06 (2026-08-27, committed `fed31c3`, pushed):** deterministic infrastructure
 for a later scientific Gate-0 -- no method, no scientific claim. New
 `research/gate0/` package: a versioned tool-contract model
 (`ToolContract`/`PublicToolContract`, deterministic schema hashing,

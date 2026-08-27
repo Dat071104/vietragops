@@ -1,7 +1,7 @@
 # Gate 06 — Versioned Tool Registry and Education Drift Sandbox
 
-**Status:** `PASS` (see `gates/results/GATE_06_RESULT.md`; not yet
-committed -- awaiting user authorization)
+**Status:** `PASS` (see `gates/results/GATE_06_RESULT.md`; committed as
+`fed31c3` and pushed to `origin/main`)
 
 **Source:** `gates/GATE_06_TOOL_REGISTRY_AND_EDUCATION_SANDBOX.md`
 

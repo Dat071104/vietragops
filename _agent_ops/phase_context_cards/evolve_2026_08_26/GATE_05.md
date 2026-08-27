@@ -1,8 +1,7 @@
 # Gate 05 — Provider Router and MCP Platform
 
-**Status:** `PASS` (see `gates/results/GATE_05_RESULT.md`; committed
-2026-08-27 correction session, with explicit user authorization; not
-pushed)
+**Status:** `PASS` (see `gates/results/GATE_05_RESULT.md`; committed as
+`81589e2` and pushed to `origin/main` alongside Gate 06)
 
 **Source:** `gates/GATE_05_PROVIDER_AND_MCP_PLATFORM.md`
 
