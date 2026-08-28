@@ -847,3 +847,28 @@ not provider failures or accuracy outcomes. The same pre-registered seven-case
 batch will be retried with dotenv loading enabled, the frozen rate variables
 still set explicitly, and the same v3 ledger identity. The invalid diagnostic
 output is retained separately and excluded from R7 accuracy.
+
+## DEC-0019 — Remove non-network setup rows from the v3 rate ledger before resume
+
+### Date
+
+2026-08-28
+
+### Context
+
+The v3 ledger path contains 112 rows: the first 56 came from a dotenv-disabled
+process that returned `Groq is not configured.` before router/provider
+construction, and the next 56 are the actual corrected batch attempts (53
+success, 3 HTTP-400 provider errors). The setup rows were not provider
+requests, but their reserved tokens would make the local frozen 20%-reserve
+guard stop the valid 173-case cache resume before completion.
+
+### Decision
+
+Preserve the complete pre-correction SQLite/JSONL ledger under explicit
+`*_setup_diagnostics` backup paths, then rebuild the frozen v3 ledger paths
+from only the 56 actual corrected attempts. Keep the corrected output/cache
+and all raw diagnostics unchanged. This is an accounting correction for
+non-network setup work, not a protocol, dataset, prompt, model, or metric
+change; the backup remains available for audit and its rows never enter
+accuracy.
