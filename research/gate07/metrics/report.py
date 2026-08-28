@@ -361,7 +361,10 @@ def build_report(
         ]
         reports.append(build_arm_report(arm_id, "deterministic_offline", rows, cases, task_records, capability, selection_contract="v4_forced", bootstrap_samples=bootstrap_samples))
     if offline_control_path:
-        control_rows = load_jsonl(offline_control_path)
+        control_rows = [
+            {**row, "outcome": row.get("outcome", "success"), "failure_kind": row.get("failure_kind")}
+            for row in load_jsonl(offline_control_path)
+        ]
         for arm_id in ("positional_prior", "random_choice"):
             rows = [row for row in control_rows if row.get("arm_id") == arm_id]
             reports.append(build_arm_report(arm_id, "deterministic_control", rows, cases, task_records, capability, selection_contract="v4_control", bootstrap_samples=bootstrap_samples))

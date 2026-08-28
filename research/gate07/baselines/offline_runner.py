@@ -79,8 +79,10 @@ def _run_controls(tasks: list[dict], output: Path, raw_writer: RawArtifactWriter
 def main() -> None:
     args = _args()
     preflight = preflight_headline_run(args.protocol)
-    protocol = json.loads(Path(args.protocol).read_text(encoding="utf-8"))
-    offline_device = protocol.get("decoding", {}).get("offline", {}).get("device", "cpu")
+    offline_device = "cpu"
+    if args.family in {"embedding", "cross_encoder"}:
+        protocol = json.loads(Path(args.protocol).read_text(encoding="utf-8"))
+        offline_device = protocol.get("decoding", {}).get("offline", {}).get("device", "cpu")
     tasks = load_public_tasks(args.tasks)
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
