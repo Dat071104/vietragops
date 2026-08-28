@@ -79,6 +79,8 @@ def _run_controls(tasks: list[dict], output: Path, raw_writer: RawArtifactWriter
 def main() -> None:
     args = _args()
     preflight = preflight_headline_run(args.protocol)
+    protocol = json.loads(Path(args.protocol).read_text(encoding="utf-8"))
+    offline_device = protocol.get("decoding", {}).get("offline", {}).get("device", "cpu")
     tasks = load_public_tasks(args.tasks)
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -93,10 +95,10 @@ def main() -> None:
         _run_streaming(tasks, runners, output, raw_writer)
         arm_ids = [arm_id for arm_id, _, _ in runners]
     elif args.family == "embedding":
-        model = _load_sentence_transformer(args.bi_model)
+        model = _load_sentence_transformer(args.bi_model, device=offline_device)
         arm_ids = _run_batched(tasks, model, args.family, output, raw_writer)
     elif args.family == "cross_encoder":
-        model = _load_cross_encoder(args.cross_model)
+        model = _load_cross_encoder(args.cross_model, device=offline_device)
         arm_ids = _run_batched(tasks, model, args.family, output, raw_writer)
     else:
         arm_ids = _run_controls(tasks, output, raw_writer)

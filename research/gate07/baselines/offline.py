@@ -99,16 +99,30 @@ def predict_lexical(task: dict[str, Any], *, names_only: bool) -> tuple[dict[str
     return _v4_prediction(task, selected, ranked, _field_pairs(task, selected)), scores
 
 
-def _load_sentence_transformer(model_path: str):
+def _load_sentence_transformer(model_path: str, *, device: str = "cpu"):
     module = importlib.import_module("sentence_transformers")
     model_cls = getattr(module, "SentenceTransformer")
-    return model_cls(model_path, device="cpu", local_files_only=True)
+    if device == "cuda":
+        torch = importlib.import_module("torch")
+        if not torch.cuda.is_available():
+            raise RuntimeError("V4 protocol requires CUDA, but torch.cuda.is_available() is false")
+    model = model_cls(model_path, device=device, local_files_only=True)
+    if device == "cuda":
+        model = model.half()
+    return model
 
 
-def _load_cross_encoder(model_path: str):
+def _load_cross_encoder(model_path: str, *, device: str = "cpu"):
     module = importlib.import_module("sentence_transformers")
     model_cls = getattr(module, "CrossEncoder")
-    return model_cls(model_path, device="cpu", local_files_only=True)
+    if device == "cuda":
+        torch = importlib.import_module("torch")
+        if not torch.cuda.is_available():
+            raise RuntimeError("V4 protocol requires CUDA, but torch.cuda.is_available() is false")
+    model = model_cls(model_path, device=device, local_files_only=True)
+    if device == "cuda":
+        model.model = model.model.half()
+    return model
 
 
 def predict_embedding(task: dict[str, Any], model: Any, *, names_and_description: bool) -> tuple[dict[str, Any], list[tuple[str, float]]]:
@@ -145,7 +159,7 @@ def predict_embedding_batch(tasks: list[dict[str, Any]], model: Any, *, names_an
         texts.append(_old_text(task, names_and_description=names_and_description))
         texts.extend(_contract_text(contract, names_and_description=names_and_description) for contract in task["new_contracts"])
         spans.append((start, len(texts), task))
-    vectors = model.encode(texts, normalize_embeddings=True, batch_size=32, show_progress_bar=False)
+    vectors = model.encode(texts, normalize_embeddings=True, batch_size=8, show_progress_bar=False)
     results = []
     for start, end, task in spans:
         scores = [(contract["name"], float(vectors[start] @ vectors[start + index + 1])) for index, contract in enumerate(task["new_contracts"]) if start + index + 1 < end]
@@ -161,7 +175,7 @@ def predict_cross_encoder_batch(tasks: list[dict[str, Any]], model: Any) -> list
         old_text = _old_text(task, names_and_description=False)
         pairs.extend((old_text, _contract_text(contract, names_and_description=False)) for contract in task["new_contracts"])
         spans.append((start, len(pairs), task))
-    values = model.predict(pairs, batch_size=32, show_progress_bar=False)
+    values = model.predict(pairs, batch_size=8, show_progress_bar=False)
     results = []
     for start, end, task in spans:
         scores = [(contract["name"], float(values[start + index])) for index, contract in enumerate(task["new_contracts"]) if start + index < end]

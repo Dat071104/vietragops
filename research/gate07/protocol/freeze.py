@@ -327,6 +327,7 @@ def build_protocol_v4(
     model_verification: dict[str, Any] | None = None,
     rate_limits: dict[str, Any] | None = None,
     ledger: dict[str, str] | None = None,
+    offline_device: str = "cuda",
 ) -> dict[str, Any]:
     graded = _manifest_records(cases, False)
     held_out = _manifest_records(cases, True)
@@ -376,7 +377,7 @@ def build_protocol_v4(
             },
         },
         "decoding": {
-            "offline": {"device": "cpu", "normalize_embeddings": True, "local_files_only": True},
+            "offline": {"device": offline_device, "dtype": "float16" if offline_device == "cuda" else "float32", "batch_size": 8, "normalize_embeddings": True, "local_files_only": True},
             "llm": {"temperature": 0.0, "seed": None, "seed_note": "Existing GroqClient does not transmit a seed; no provider determinism claim is made.", "max_tokens": 512},
         },
         "rate_limit_budget": _rate_limit_budget_v4(cases, model_ids, rate_limits or {}, ledger),
