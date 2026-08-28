@@ -285,7 +285,7 @@
     "path": "gates/baselines/GATE_07_PROTOCOL_V4_FREEZE_LEDGER.json",
     "status": "fresh_protocol_freeze_pending_headline"
   },
-  "git_head_at_freeze": "f935b94984bf1aa1ed99ef01ecad90961822e135",
+  "git_head_at_freeze": "ecd391d50e433f8dc938e619e3336fa92edbb883",
   "ground_truth": {
     "all_cases_sha256": "sha256:0652903090172890c50166d60054c913b2c57d07992bc0076e7b834c826e28f1",
     "graded_sha256": "sha256:09e33dc8090d2929abe34e489ec71ac2ba324fd7eee03c8d51b93acc84cf201b"
