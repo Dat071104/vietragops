@@ -2627,3 +2627,35 @@ ancestor `a02f2131a306c761034f79d4b5fa0cb60cbe8613`.
 
 The remaining 173 cases are not run in this window; resume from the full v3
 task file and corrected output/cache after the daily quota window resets.
+
+## 2026-08-28 — Gate 07 repair R7 complete
+
+### Scope
+
+After quota returned, the corrected output/cache was resumed from 56 completed
+keys using the full v3 public task file. The run remained one sequential
+`ProviderRouter(mode="research")` process with the same two pinned models,
+candidate-only prompts, v3 ledger identity, and frozen cache key fields. No
+held-out task ran.
+
+### Final accounting
+
+- 1,440 result rows, 1,440 raw rows, 1,440 ledger rows, and 1,440 unique
+  `(arm_id, model, case_id, prompt_id)` keys.
+- 1,207 success; 16 parse failures; 41 HTTP-400 provider errors; 176 typed
+  rate-limited outcomes from the frozen local TPM guard (165 pool TPM, 11 org
+  TPM). Provider/parse/rate failures are excluded from accuracy.
+- Input estimate: 1,907,062 tokens. Ledger-reserved output: 647,168 tokens;
+  actual provider output usage is unavailable from the existing client. The
+  176 local rate-limited rows reserve no output tokens.
+- Results SHA-256:
+  `98ba2ee4aa9d614fe20ab4f604cdb976407572f799b6f0e4d36c7e3e47dca3e3`.
+  Raw SHA-256:
+  `12e56f456984232dc81751172be6a76231652b3181ffb498adc37c65901cd07c`.
+  Request-ledger SHA-256:
+  `398c4b2e389bb18e349315dc285753ac78b13b2a80069658160cb45a48fa3b3f`.
+- Full pre-correction setup diagnostics remain in the explicit backup paths
+  recorded by DEC-0019; they are not R7 evidence.
+
+R7 is complete under the frozen exclusion rules. R8 metrics may now start;
+R9 ambiguity audit and R10 decision remain pending.

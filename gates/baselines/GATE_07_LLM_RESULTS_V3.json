@@ -1,0 +1,81 @@
+{
+  "schema": "gate07.llm_results.v3",
+  "protocol": {
+    "path": "gates/baselines/GATE_07_PROTOCOL_V3.json",
+    "freeze_commit": "a02f2131a306c761034f79d4b5fa0cb60cbe8613",
+    "run_start_commit": "48b4ee177a7697db1d04cf78ea041c3f5008e701",
+    "preflight": "passed",
+    "runner": "one sequential process; ProviderRouter(mode=research)"
+  },
+  "dataset": {
+    "public_tasks": "gates/artifacts/gate07/v3/public_tasks.json",
+    "graded_cases": 180,
+    "held_out_cases_run": 0,
+    "logical_cache_keys": 1440,
+    "unique_cache_keys": 1440,
+    "cache_key_fields": ["arm_id", "model", "case_id", "prompt_id"],
+    "candidate_subset_only": true
+  },
+  "models": ["openai/gpt-oss-120b", "openai/gpt-oss-20b"],
+  "arms": {
+    "llm_new_schema_only": {
+      "information_rights": ["new_contracts", "task_description", "candidate_list"],
+      "openai/gpt-oss-120b": {"records": 180, "success": 156, "parse_failure": 6, "provider_error": 18, "rate_limited": 0, "input_tokens_estimate": 202422},
+      "openai/gpt-oss-20b": {"records": 180, "success": 168, "parse_failure": 3, "provider_error": 9, "rate_limited": 0, "input_tokens_estimate": 202422}
+    },
+    "llm_old_new_direct": {
+      "information_rights": ["old_contract", "new_contracts", "task_description", "candidate_list"],
+      "openai/gpt-oss-120b": {"records": 180, "success": 178, "parse_failure": 1, "provider_error": 1, "rate_limited": 0, "input_tokens_estimate": 240340},
+      "openai/gpt-oss-20b": {"records": 180, "success": 176, "parse_failure": 1, "provider_error": 3, "rate_limited": 0, "input_tokens_estimate": 240340}
+    },
+    "llm_old_new_history": {
+      "information_rights": ["old_contract", "new_contracts", "verified_old_traces", "task_description", "candidate_list"],
+      "openai/gpt-oss-120b": {"records": 180, "success": 178, "parse_failure": 0, "provider_error": 2, "rate_limited": 0, "input_tokens_estimate": 263856},
+      "openai/gpt-oss-20b": {"records": 180, "success": 171, "parse_failure": 1, "provider_error": 8, "rate_limited": 0, "input_tokens_estimate": 263856}
+    },
+    "llm_reasoning": {
+      "information_rights": ["old_contract", "new_contracts", "task_description", "candidate_list"],
+      "openai/gpt-oss-120b": {"records": 180, "success": 173, "parse_failure": 4, "provider_error": 3, "rate_limited": 0, "input_tokens_estimate": 246913},
+      "openai/gpt-oss-20b": {"records": 180, "success": 7, "parse_failure": 0, "provider_error": 0, "rate_limited": 173, "input_tokens_estimate": 246913}
+    }
+  },
+  "outcomes": {
+    "records": 1440,
+    "success": 1207,
+    "parse_failure": 16,
+    "provider_error": 41,
+    "rate_limited": 176,
+    "provider_error_detail": {"HTTP 400 Bad Request": 41},
+    "rate_limited_detail": {"preflight budget stop: pool_tpm": 165, "preflight budget stop: org_tpm": 11},
+    "accuracy_policy": "Provider and parse failures are excluded from every accuracy denominator and reported separately."
+  },
+  "budget": {
+    "base_calls": 1440,
+    "retry_budget": 2,
+    "max_attempts": 4320,
+    "input_tokens_estimate": 1907062,
+    "output_tokens_reserved_by_ledger": 647168,
+    "output_usage_from_provider": "unavailable from existing client; frozen max is 512 per call",
+    "protocol_projected_output_tokens_at_max": 737280,
+    "v2_setup_and_prior_runs": "not included in v3 accuracy or v3 declared ledger; diagnostic backup is separate"
+  },
+  "artifacts": {
+    "results": "gates/artifacts/gate07/v3/llm_results_batch1_corrected.jsonl",
+    "raw": "gates/artifacts/gate07/v3/raw/llm_batch1_corrected.jsonl",
+    "request_ledger": "gates/artifacts/gate07/v3/request_ledger.jsonl",
+    "router_state_db": "gates/artifacts/gate07/v3/router_state.sqlite3",
+    "results_sha256": "sha256:98ba2ee4aa9d614fe20ab4f604cdb976407572f799b6f0e4d36c7e3e47dca3e3",
+    "raw_sha256": "sha256:12e56f456984232dc81751172be6a76231652b3181ffb498adc37c65901cd07c",
+    "request_ledger_sha256": "sha256:398c4b2e389bb18e349315dc285753ac78b13b2a80069658160cb45a48fa3b3f",
+    "setup_diagnostic_request_ledger_backup": "gates/artifacts/gate07/v3/request_ledger_setup_diagnostics.jsonl",
+    "setup_diagnostic_router_state_backup": "gates/artifacts/gate07/v3/router_state_setup_diagnostics.sqlite3"
+  },
+  "initial_setup_diagnostics": {
+    "records": 56,
+    "outcome": "provider_error/config_error",
+    "reason": "PYTHON_DOTENV_DISABLED=true prevented local dotenv loading before router construction",
+    "network_requests": 0,
+    "eligible_for_accuracy": false
+  },
+  "held_out_policy": "No held-out tasks were sent to the LLM runner."
+}
