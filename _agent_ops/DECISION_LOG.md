@@ -836,3 +836,14 @@ The first corrected-batch retry parsed the batch but stopped in
 retry will set only the values already frozen in `GATE_07_PROTOCOL_V3.json`:
 per-key 24/7,000/900/180,000; pool 480/140,000/18,000/3,600,000; org
 450/120,000/17,000/3,400,000. No key value or new key source is involved.
+
+### Dotenv-disabled setup correction
+
+The first batch process was invoked with `PYTHON_DOTENV_DISABLED=true`, which
+prevented `runner/llm.py`'s `load_dotenv()` from loading the existing local
+provider configuration. It emitted 56 `provider_error/config_error` rows with
+`Groq is not configured.` before any network call; these are setup diagnostics,
+not provider failures or accuracy outcomes. The same pre-registered seven-case
+batch will be retried with dotenv loading enabled, the frozen rate variables
+still set explicitly, and the same v3 ledger identity. The invalid diagnostic
+output is retained separately and excluded from R7 accuracy.
