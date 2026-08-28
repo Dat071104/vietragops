@@ -782,3 +782,39 @@ allowed.
   new cross-version alignment method is needed.
 - The only allowed next action is a separately approved Gate 07 protocol
   repair/re-run; no Gate 08 work is permitted.
+
+## DEC-0018 — Gate 07 v3 LLM quota must be split across daily windows
+
+### Date
+
+2026-08-28
+
+### Context
+
+The v3 protocol freezes 1,440 base calls (180 graded cases × four LLM arms ×
+two models), projected at 1,907,062 input tokens plus 737,280 reserved output
+tokens. The disqualified v2 ledger already contains 1,440 records and
+2,604,928 reserved input-plus-output tokens from 2026-08-27 22:33-23:22 local.
+With the frozen 20% reserve, the current effective org TPD ceiling is 2,720,000
+and pool TPD ceiling is 2,880,000; remaining tightest headroom is 115,072.
+The full v3 sweep reserves 2,644,342 tokens, so it cannot fit this daily
+window. No provider call or score was used to choose the batch.
+
+### Decision
+
+Split execution by quota window without changing the frozen manifest, case
+weights, candidate order, or metric denominators. The first window is the
+canonical prefix of seven graded tasks (`G07-G-0001` through `G07-G-0007`),
+four arms × two models = 56 base calls, reserved 101,364 tokens. It is stored
+as the ignored scheduling artifact
+`gates/artifacts/gate07/v3/public_tasks_batch_20260828.json` with SHA-256
+`a74f492586959522b44b2acbb265aa85644ecccbe5a7ff7387b825c232887e5f`; the
+remaining 173 cases resume from the full v3 task file using the frozen cache
+key `(arm_id, model, case_id, prompt_id)` after the daily window resets. A
+quota stop remains a typed provider outcome, never a wrong answer.
+
+### Consequences
+
+The v3 LLM sweep is not complete until the remaining cache keys are run in a
+later daily window. No model substitution, new key source, or protocol
+amendment is permitted.
