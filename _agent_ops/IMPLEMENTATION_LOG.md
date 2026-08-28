@@ -2549,3 +2549,16 @@ ledger paths. The live `/models` check remains explicitly unverified after a
 - Reserve: 20%; timeout: 120s; ledger owner: one sequential runner.
 
 The protocol is not yet committed. No R6/R7 headline run has started.
+
+### Post-commit preflight receipt
+
+Protocol freeze commit: `2721c45e783798076ce1d8c61fced15a6357f025`.
+Immediately after that commit, before any R6/R7 headline run, the exact
+`preflight_headline_run('gates/baselines/GATE_07_PROTOCOL_V3.json')` output was:
+
+```json
+{"current_head":"2721c45e783798076ce1d8c61fced15a6357f025","dataset_digests":{"graded_manifest_sha256":"sha256:2f82956b7200836fa23aaca51d04b13b2013bb543e7aac0418f6f4944bb31dbe","held_out_manifest_sha256":"sha256:e438087fb9a92c38a1028b0f7dc917ec080274c10dfd7af3543fe7bba3336378"},"protocol_git_head_at_freeze":"a02f2131a306c761034f79d4b5fa0cb60cbe8613","protocol_git_head_resolved":"a02f2131a306c761034f79d4b5fa0cb60cbe8613","protocol_path":"gates/baselines/GATE_07_PROTOCOL_V3.json","status":"passed"}
+```
+
+This proves the committed protocol was clean/tracked, its frozen commit was a
+real ancestor of current HEAD, and both live v3 dataset digests matched.
