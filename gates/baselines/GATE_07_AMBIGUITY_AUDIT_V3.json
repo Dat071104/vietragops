@@ -1,0 +1,90 @@
+{
+  "schema": "gate07.ambiguity_audit.v3",
+  "status": "completed",
+  "annotator": {
+    "kind": "AGY-3 blind annotator",
+    "model": "gemini-3.7-flash-high",
+    "turns": 2,
+    "oracle_in_context": false,
+    "local_fallback_used": false,
+    "conversation_id": "ff4071b6-07eb-4247-96e7-0f9fe7c6df9a"
+  },
+  "sample": {
+    "count": 36,
+    "per_family": 3,
+    "seed": 20260828,
+    "rule": "Within each family select the top 2 cases by 3*oracle-disagreement + pairwise strong-arm disagreement, then select 1 seeded-random remaining case using seed 20260828 + family_index.",
+    "public_path": "gates/artifacts/gate07/v3/ambiguity_public_sample.json",
+    "public_sha256": "sha256:ef89d49833ec9e90ba8c83aeb3f6bf16e4b692472066f7ebf2612ef49a77f013",
+    "evaluator_index_path": "gates/artifacts/gate07/v3/ambiguity_evaluator_index.json",
+    "evaluator_index_sha256": "sha256:b5d3803639404f95e2a3d66b94c11c9cb73da3aeeeb61f59d26d5f63e8aca0a9",
+    "public_contains_oracle_or_family_fields": false
+  },
+  "annotations": {
+    "path": "gates/artifacts/gate07/v3/ambiguity_agy_annotations.json",
+    "sha256": "sha256:8775da78be186aaef9ca459b64af8046ec39845c7a6243923417ecf9077b4ecf",
+    "labels": 36
+  },
+  "disagreement": {
+    "unit": "case-level selected tool set plus abstain label",
+    "total": 36,
+    "disagreements": 5,
+    "rate": 0.1388888888888889,
+    "by_family": {
+      "added_required_field": {"n": 3, "disagreements": 0, "rate": 0.0},
+      "argument_merge": {"n": 3, "disagreements": 0, "rate": 0.0},
+      "argument_rename": {"n": 3, "disagreements": 0, "rate": 0.0},
+      "argument_split": {"n": 3, "disagreements": 0, "rate": 0.0},
+      "multiple_old_to_one_new": {"n": 3, "disagreements": 0, "rate": 0.0},
+      "multiple_simultaneous_renames": {"n": 3, "disagreements": 0, "rate": 0.0},
+      "no_equivalent": {"n": 3, "disagreements": 0, "rate": 0.0},
+      "one_old_to_multiple_new": {"n": 3, "disagreements": 3, "rate": 1.0},
+      "output_restructure": {"n": 3, "disagreements": 2, "rate": 0.6666666666666666},
+      "semantic_near_collision": {"n": 3, "disagreements": 0, "rate": 0.0},
+      "tool_rename": {"n": 3, "disagreements": 0, "rate": 0.0},
+      "tool_replacement": {"n": 3, "disagreements": 0, "rate": 0.0}
+    }
+  },
+  "adjudications": [
+    {
+      "sample_id": "A020",
+      "case_id": "G07-G-0109",
+      "classification": "genuinely_ambiguous",
+      "oracle_correction": false,
+      "reason": "The public candidates include the frozen nested-response tool and a generalized flat course-summary tool with the same semantic fields. The frozen oracle treats output shape as load-bearing, but a blind semantic reading can reasonably choose the flat generalized candidate."
+    },
+    {
+      "sample_id": "A021",
+      "case_id": "G07-G-0112",
+      "classification": "genuinely_ambiguous",
+      "oracle_correction": false,
+      "reason": "The public candidates include the frozen nested-response tool and a generalized flat course-summary tool with the same semantic fields. The frozen oracle treats output shape as load-bearing, but a blind semantic reading can reasonably choose the flat generalized candidate."
+    },
+    {
+      "sample_id": "A025",
+      "case_id": "G07-G-0149",
+      "classification": "annotator_wrong",
+      "oracle_correction": false,
+      "reason": "The selected instructor tool exposes only course_code and title, while the public task asks for the faculty record and the frozen two-tool correspondence supplies the missing department output. The label is incomplete."
+    },
+    {
+      "sample_id": "A026",
+      "case_id": "G07-G-0154",
+      "classification": "genuinely_ambiguous",
+      "oracle_correction": false,
+      "reason": "The generalized student-summary candidate publicly returns the same identity and program fields covered by the frozen two-tool split. It is a behaviorally plausible alternative, so the case is ambiguous even though the frozen lineage oracle expects two calls."
+    },
+    {
+      "sample_id": "A027",
+      "case_id": "G07-G-0156",
+      "classification": "annotator_wrong",
+      "oracle_correction": false,
+      "reason": "The selected recorded-result tool omits the assessment definition/assessment_type supplied by the paired correspondence. The public contracts make the missing component explicit."
+    }
+  ],
+  "oracle_corrections": {
+    "count": 0,
+    "before_after_numbers": "not applicable; no oracle correction was made"
+  },
+  "interpretation": "Overall disagreement is 5/36 (13.89%). Output-restructure is 2/3 and one-old-to-multiple-new is 3/3; both exceed the frozen 0.20 ambiguity threshold and cannot support a GO on their own."
+}

@@ -2699,3 +2699,38 @@ directory with SHA-256
 - Full suite after R8 changes: **480 passed, 2 warnings, 0 failed**.
 
 R9 ambiguity audit is required before any Gate 07 decision.
+
+## 2026-08-28 — Gate 07 repair R9 ambiguity audit
+
+### Scope
+
+AGY-3 was available and completed two turns with
+`gemini-3.7-flash-high`, read-only, from a public-only sample. The public
+sample had 36 tasks, exactly three per family. Selection was frozen before
+annotation: top two per family by `3*oracle-disagreement + pairwise strong-arm
+disagreement`, plus one seeded-random remainder using seed 20260828 plus the
+family index. The public sample had no family/oracle/evaluator fields; the
+evaluator index remained separate. Local Ollama fallback was not used.
+
+### Audit result
+
+- AGY label count: 36; case-level selected-tool/abstain disagreement: **5/36
+  (13.89%)**.
+- Per-family disagreement: `output_restructure` 2/3 (66.67%),
+  `one_old_to_multiple_new` 3/3 (100%), all other 10 families 0/3.
+- A020/A021 (output restructure) and A026 (one-to-many) were adjudicated as
+  genuinely ambiguous because publicly visible generalized candidates are
+  semantically plausible alternatives, while the frozen oracle treats output
+  shape or split composition as load-bearing. A025 and A027 were adjudicated
+  annotator-wrong because the selected single tool visibly omits required
+  output components.
+- Oracle corrections: **0**; therefore no corrected-number table is
+  applicable and frozen metrics remain unchanged. Both non-zero families
+  exceed the frozen 0.20 ambiguity threshold and cannot support a GO alone.
+- Receipt: `gates/baselines/GATE_07_AMBIGUITY_AUDIT_V3.json`; labels are
+  retained under the ignored v3 artifact directory with hashes recorded there.
+
+The first generated sample/index files had literal backslash-n suffixes and
+were corrected to real newline JSON before local verification; AGY was not
+called again and content/selection stayed unchanged. Focused audit test:
+**1 passed**. R10 decision remains pending.
