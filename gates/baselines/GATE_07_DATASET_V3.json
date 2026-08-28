@@ -1,0 +1,61 @@
+{
+  "schema": "gate07.dataset.v3",
+  "lineage": "fresh v3 repair lineage; v1 and v2 are audit-only and disqualified",
+  "generator_seed": 20260827,
+  "seed_derivation": "int.from_bytes(sha256(family:variant:opaque_lineage:held_out).digest()[:6], 'big')",
+  "total_count": 216,
+  "graded_count": 180,
+  "held_out_count": 36,
+  "family_counts": {
+    "added_required_field": 15,
+    "argument_merge": 15,
+    "argument_rename": 15,
+    "argument_split": 15,
+    "multiple_old_to_one_new": 15,
+    "multiple_simultaneous_renames": 15,
+    "no_equivalent": 15,
+    "one_old_to_multiple_new": 15,
+    "output_restructure": 15,
+    "semantic_near_collision": 15,
+    "tool_rename": 15,
+    "tool_replacement": 15
+  },
+  "held_out_family_counts": {
+    "added_required_field": 3,
+    "argument_merge": 3,
+    "argument_rename": 3,
+    "argument_split": 3,
+    "multiple_old_to_one_new": 3,
+    "multiple_simultaneous_renames": 3,
+    "no_equivalent": 3,
+    "one_old_to_multiple_new": 3,
+    "output_restructure": 3,
+    "semantic_near_collision": 3,
+    "tool_rename": 3,
+    "tool_replacement": 3
+  },
+  "dataset_digests": {
+    "graded_manifest_sha256": "sha256:2f82956b7200836fa23aaca51d04b13b2013bb543e7aac0418f6f4944bb31dbe",
+    "held_out_manifest_sha256": "sha256:e438087fb9a92c38a1028b0f7dc917ec080274c10dfd7af3543fe7bba3336378"
+  },
+  "ground_truth_digests": {
+    "graded_sha256": "sha256:09e33dc8090d2929abe34e489ec71ac2ba324fd7eee03c8d51b93acc84cf201b",
+    "all_cases_sha256": "sha256:0652903090172890c50166d60054c913b2c57d07992bc0076e7b834c826e28f1"
+  },
+  "artifacts": {
+    "tracked_frozen_manifest": "research/gate07/dataset/frozen_manifest.json",
+    "tracked_public_manifest": "research/gate07/dataset/public_manifest.json",
+    "v3_public_tasks": "gates/artifacts/gate07/v3/public_tasks.json",
+    "v3_frozen_manifest_file_sha256": "sha256:a55f66811456e71435b80b897cf6927204efcc841d236a4343bd6dcb0f473e76",
+    "v3_public_manifest_file_sha256": "sha256:e15c6cdc78a3ea11505b5130ebb3fd07d3319a7fbec1cd50d28bca70bf75f7fa",
+    "v3_public_tasks_file_sha256": "sha256:18073e1b13f4c6ac0bc0c1e157e554f08016e527da84ca454ff6a099a7f86d1d",
+    "generated_manifests_match_tracked": true
+  },
+  "validation": {
+    "value_level_leak_test": "tests/test_gate07_public_leak.py",
+    "byte_stable_regeneration_test": "tests/test_gate07_dataset_v3.py",
+    "sandbox_reset_and_in_memory_tests": "tests/test_gate07_sandbox.py",
+    "focused_result": "22 passed in 25.18s",
+    "held_out_run": "not run"
+  }
+}

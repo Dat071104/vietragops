@@ -2502,3 +2502,25 @@ protocol path, run preflight before task loading, and return the pass receipt.
 ### Next step
 
 Run the full suite, then commit the R3 mechanical-freeze slice.
+
+## 2026-08-28 — Gate 07 repair R4
+
+### Scope
+
+Regenerated a fresh ignored v3 artifact set under
+`gates/artifacts/gate07/v3/` from the fixed generator; no v2 artifact was an
+input. The dataset is 216 cases: 180 graded and 36 held-out, with 15/3 in each
+of the 12 families. Tracked frozen/public manifests matched the v3 output
+byte-for-byte. Added `gates/baselines/GATE_07_DATASET_V3.json` with dataset,
+ground-truth, and artifact file digests.
+
+### Validation
+
+- Focused R4 leak/regeneration/dataset/sandbox/oracle tests: **22 passed in
+  25.18s**.
+- Byte-stable regeneration rebuilt the generator after clearing its cache.
+- Held-out cases were not sent to any offline or LLM runner.
+
+### Next step
+
+Run the full suite, then commit the R4 dataset receipt and determinism test.
