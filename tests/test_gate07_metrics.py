@@ -6,6 +6,7 @@ from research.gate0.evaluator.capability import EvaluatorCapability
 from research.gate07.dataset import build_all_cases
 from research.gate07.harness.serialization import task_record
 from research.gate07.metrics import aggregate_predictions, evaluate_first_attempt, score_prediction
+from research.gate07.metrics.report import summarize_values
 from research.gate07.oracle import Gate07GroundTruth
 
 
@@ -56,3 +57,10 @@ def test_gate07_first_attempt_treats_no_equivalent_abstention_as_safe_success():
     case = next(case for case in build_all_cases() if case.family == "no_equivalent")
     result = evaluate_first_attempt(case, task_record(case), {"case_id": case.case_id, "selected_tool_names": [], "abstain": True}, EvaluatorCapability())
     assert result.outcome == "succeeded"
+
+
+def test_gate07_bootstrap_summary_is_deterministic_and_reports_n():
+    first = summarize_values([0.0, 1.0, 1.0], seed=123, bootstrap_samples=50)
+    second = summarize_values([0.0, 1.0, 1.0], seed=123, bootstrap_samples=50)
+    assert first == second
+    assert first["n"] == 3

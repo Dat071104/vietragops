@@ -2659,3 +2659,43 @@ held-out task ran.
 
 R7 is complete under the frozen exclusion rules. R8 metrics may now start;
 R9 ambiguity audit and R10 decision remain pending.
+
+## 2026-08-28 — Gate 07 repair R8 metrics
+
+### Scope
+
+Added `research/gate07/metrics/report.py` to assemble the frozen metrics from
+v3 offline/LLM outputs, excluding provider and parse failures from accuracy.
+It records Tool Alignment@1/@3/@5, argument precision/recall/F1, false
+alignment, no-equivalent accuracy, real first-attempt sandbox outcomes,
+family-level bootstrap CIs, paired history-vs-direct deltas, and the
+family-by-arm failure-region table. The generated report is materialized as
+`gates/baselines/GATE_07_METRICS.json` and retained in the ignored v3 artifact
+directory with SHA-256
+`489af74bb048e9434236c5898e3b4ae19ef76a35ef09d9b3d9c361d9736006ca`.
+
+### Observed metrics (decision pending R9)
+
+- 13 arm/model reports × 12 families; no family currently survives all
+  baselines on the frozen load-bearing thresholds.
+- Strong direct `gpt-oss-120b`: overall Tool Alignment@1 0.5899 (CI
+  0.5169–0.6629), Argument F1 0.6124 (0.5412–0.6835), first-attempt success
+  0.5899 (0.5225–0.6629), No-Equivalent 1.0 (15/15 evaluable).
+- History minus direct paired delta for `gpt-oss-120b`: Tool Alignment@1
+  -0.0284 (CI -0.0682–0.0114), Argument F1 -0.0341 (-0.0739–0.0019),
+  first-attempt -0.0398 (-0.0795–-0.0057), paired n=176. For `gpt-oss-20b`,
+  deltas are small/mixed: Tool Alignment@1 +0.0299 (-0.0060–0.0659),
+  Argument F1 +0.0279 (-0.0180–0.0758), paired n=167.
+- Offline and LLM provider/parse failure counts remain alongside every arm;
+  they are not wrong answers.
+
+### Validation
+
+- Focused metric tests: **6 passed in 1.29s**.
+- Report generated successfully with 13 arms and 180 graded cases; held-out
+  count is 0.
+- Independent report rerun produced the identical SHA-256
+  `489af74bb048e9434236c5898e3b4ae19ef76a35ef09d9b3d9c361d9736006ca`.
+- Full suite after R8 changes: **480 passed, 2 warnings, 0 failed**.
+
+R9 ambiguity audit is required before any Gate 07 decision.
