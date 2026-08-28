@@ -48,7 +48,7 @@ v3 raw artifacts or the protected overlay.
 V4 re-earns only a narrow `argument_split` GO: observed strongest applicable
 forced-selection Arg F1 is 0.500, best-case imputation is 0.733, and the
 forced carrier beats positional/random Tool@1 controls. The high typed
-missingness and two no-success 20b arms remain explicit limitations; no claim
+missingness and three no-success 20b arms remain explicit limitations; no claim
 is made that a model cannot split arguments.
 
 ## 2026-06-02 15:01 - [unknown_phase/bugfix] Isolate Local Agent provider to Ollama

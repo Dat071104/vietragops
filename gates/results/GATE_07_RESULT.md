@@ -20,10 +20,12 @@ sample retains 0/3 ambiguity disagreements.
 
 V4 missingness is reported, not hidden: across the five LLM arms and two
 models, 1016/1800 records succeeded, 60 were parse failures, 180 were typed
-provider errors, and 544 were rate-limited. Two 20b arms had no successful
+provider errors, and 544 were rate-limited. Three 20b arms had no successful
 records and are not treated as baseline failures; their imputation ranges are
-published as `[0,1]`. The GO is therefore limited to the observed applicable
-arms and this synthetic family.
+published as `[0,1]`. In the `argument_split` slice, excluded records had mean
+input estimate 1599.0 tokens versus 1518.5 for successes (+80.5); this is an
+unadjusted screening signal, not a causal content claim. The GO is therefore
+limited to the observed applicable arms and this synthetic family.
 
 The abstention delta is measured with a fresh retained legacy collection on
 the V4 shuffled tasks, not by rescoring v3. For direct 120b / argument_split,
