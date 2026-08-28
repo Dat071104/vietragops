@@ -885,3 +885,33 @@ The declared v3 ledger paths now contain exactly 56 actual corrected attempts,
 101,364 reserved tokens, and no setup-only rows; the rebuilt request-ledger
 SHA-256 is
 `12f08828c8b6977c62b4133ccd7880b7c3b314fb84001eeb410f94bc0fefe559`.
+
+## DEC-0020 — Gate 07 v3 decision is GO only for the argument-split region
+
+### Date
+
+2026-08-28
+
+### Decision
+
+Apply the frozen thresholds literally and record `GO` for a narrowly scoped
+follow-on research plan. The `argument_split` family has 15 graded cases;
+strong direct `openai/gpt-oss-120b` and the strongest offline baseline both
+remain below the practical-failure bar on Argument F1 and first-attempt
+success, with bootstrap upper bounds below the saturation bar and 0/3 blind
+sample disagreements. The output-restructure and one-old-to-multiple-new
+regions are not GO support because their ambiguity rates exceed 0.20. History
+does not provide a stable broad signal.
+
+### Boundary
+
+This is not permission for Gate 08. The repair instruction forbids Gate 08
+regardless of outcome; only a separately approved follow-on research plan may
+be considered. No alignment method was implemented or run.
+
+### Consistency evidence
+
+AGY-4 external review was unavailable because the platform blocked transmission
+of raw v3 LLM artifacts. A local read-only recomputation independently matched
+the v3 metric report SHA, receipts, counts, digests, and ambiguity totals;
+the result makes no independent AGY-4 claim.

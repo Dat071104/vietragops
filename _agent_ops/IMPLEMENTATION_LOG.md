@@ -2734,3 +2734,40 @@ The first generated sample/index files had literal backslash-n suffixes and
 were corrected to real newline JSON before local verification; AGY was not
 called again and content/selection stayed unchanged. Focused audit test:
 **1 passed**. R10 decision remains pending.
+
+## 2026-08-28 — Gate 07 repair R10 draft and consistency closure
+
+### Decision
+
+The frozen evidence supports `GO` only for `argument_split`: strong direct
+120b and strongest offline baselines fail Argument F1 and first-attempt
+success with 0/3 ambiguity disagreements. Output-restructure and
+one-old-to-multiple-new are excluded from GO support because their blind
+ambiguity rates exceed 0.20. DEC-0020 records the narrow decision and the
+explicit Gate 08 prohibition.
+
+### Consistency
+
+AGY-4 was attempted once but the platform rejected transmission of raw v3
+LLM artifacts/result data to the external worker. It is recorded as
+`AGY_UNAVAILABLE`; no workaround or independent AGY-4 claim is made. A local
+read-only recomputation passed all receipt/hash/count/digest checks, including
+an independent metrics regeneration with SHA
+`489af74bb048e9434236c5898e3b4ae19ef76a35ef09d9b3d9c361d9736006ca`.
+
+The prescribed `build_code_index.py --force` was rejected by the helper CLI;
+the supported no-`--force` command indexed 234 files, 1,447 symbols, and 3,138
+edges into ignored v3 evidence. `generate_repo_map.py --force` indexed 234
+files into ignored v3 evidence. The protected pre-existing `_agent_ops` map,
+cards, roadmap, and risk register were not modified.
+
+R10 result draft is ready for final full-suite/Git validation and commit.
+
+### Final validation
+
+- Final full suite with `PYTHON_DOTENV_DISABLED=true LLM_PROVIDER=mock`:
+  **481 passed, 2 warnings, 0 failed**.
+- Final compileall over `app rag scripts evals frontend tests research`: exit 0.
+- Local consistency recomputation remains `LOCAL_CONSISTENCY_PASS`; AGY-4
+  remains explicitly `AGY_UNAVAILABLE` because external raw-artifact
+  transmission was blocked.
