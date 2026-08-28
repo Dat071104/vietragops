@@ -4,8 +4,8 @@
       "candidate_order_oracle_file_sha256": "sha256:9944f7be6f060e6afe869409aa2a5c9828d4cb060c8bb3525cf7dc8c6b6ff9e0",
       "candidate_order_oracle_path": "gates/artifacts/gate07/v4/candidate_order_oracle.json",
       "entry_id": "G07-V4-20260828-001",
-      "freeze_commit": "4e17771ba4c7c4d54e15545c92cb6aade83e4682",
-      "freeze_tree": "e0eded8655cb3887fb0f7dc826f278507d881c11",
+      "freeze_commit": "206b18b823c3fa581dc6cadd32073ba4ec981b05",
+      "freeze_tree": "92b4fc2266ecf53d97fd3cdf0fd871bc9e29c778",
       "headline_runs_started": false,
       "offline_runtime": {
         "batch_size": 8,
@@ -15,11 +15,11 @@
         "normalize_embeddings": true
       },
       "preflight_required_before_collection": true,
-      "previous_unstarted_freeze_superseded": "b18f0dd7df27c7c9141509e9d65875a7e0fbd415",
-      "protocol_git_head_at_freeze": "f935b94984bf1aa1ed99ef01ecad90961822e135",
+      "previous_unstarted_freeze_superseded": "4e17771ba4c7c4d54e15545c92cb6aade83e4682",
+      "protocol_git_head_at_freeze": "ecd391d50e433f8dc938e619e3336fa92edbb883",
       "protocol_path": "gates/baselines/GATE_07_PROTOCOL_V4.json",
       "protocol_schema": "gate07.protocol.v4",
-      "protocol_sha256": "sha256:3be6243c3e4ebbfad47994fd4d7b45ea6ab4f19e363fd0aeab36ae7a26fcef72",
+      "protocol_sha256": "sha256:7a35301f22c780756893470c92034eb882e06b6d48fd0e7b0447776486a94cb1",
       "status": "FROZEN_PENDING_HEADLINE"
     }
   ],
