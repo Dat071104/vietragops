@@ -808,7 +808,7 @@ canonical prefix of seven graded tasks (`G07-G-0001` through `G07-G-0007`),
 four arms × two models = 56 base calls, reserved 101,364 tokens. It is stored
 as the ignored scheduling artifact
 `gates/artifacts/gate07/v3/public_tasks_batch_20260828.json` with SHA-256
-`a74f492586959522b44b2acbb265aa85644ecccbe5a7ff7387b825c232887e5f`; the
+`e6271aadc652da9473110aa09dcd4c4437edc7abe7f1792c6315ff330742213f`; the
 remaining 173 cases resume from the full v3 task file using the frozen cache
 key `(arm_id, model, case_id, prompt_id)` after the daily window resets. A
 quota stop remains a typed provider outcome, never a wrong answer.
@@ -818,3 +818,11 @@ quota stop remains a typed provider outcome, never a wrong answer.
 The v3 LLM sweep is not complete until the remaining cache keys are run in a
 later daily window. No model substitution, new key source, or protocol
 amendment is permitted.
+
+### Correction before first request
+
+The first write of this same seven-case prefix used literal backslash-n text
+and failed JSON loading with `Extra data` before router/provider creation.
+It was rewritten from the same full v3 task prefix with a real newline; case
+IDs and order are unchanged. The corrected artifact hash above is the one
+eligible for execution.
