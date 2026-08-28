@@ -166,7 +166,12 @@ def _render_for_estimate(template: dict[str, Any], task: Any) -> str:
     )
 
 
-def _rate_limit_budget(cases: tuple[Gate07Case, ...], model_ids: tuple[str, ...], limits: dict[str, Any]) -> dict[str, Any]:
+def _rate_limit_budget(
+    cases: tuple[Gate07Case, ...],
+    model_ids: tuple[str, ...],
+    limits: dict[str, Any],
+    ledger: dict[str, str] | None = None,
+) -> dict[str, Any]:
     graded = tuple(case for case in cases if not case.held_out)
     arm_estimates: dict[str, dict[str, int]] = {}
     for arm_id, template in PROMPT_TEMPLATES.items():
@@ -186,12 +191,16 @@ def _rate_limit_budget(cases: tuple[Gate07Case, ...], model_ids: tuple[str, ...]
         "projected_input_tokens": total_input,
         "projected_output_tokens_at_max": total_output,
         "configured_limits": limits,
-        "ledger": {"router_state_db": "gates/artifacts/gate07/router_state.sqlite3", "request_ledger": "gates/artifacts/gate07/request_ledger.jsonl", "owner": "one sequential runner process"},
+        "ledger": {
+            "router_state_db": (ledger or {}).get("router_state_db", "gates/artifacts/gate07/router_state.sqlite3"),
+            "request_ledger": (ledger or {}).get("request_ledger", "gates/artifacts/gate07/request_ledger.jsonl"),
+            "owner": "one sequential runner process",
+        },
         "headroom_rule": "Do not begin or continue when projected/actual demand would exceed any applicable org, pool, or per-key ceiling; keep the declared reserve frozen in the result.",
     }
 
 
-def build_protocol(cases: tuple[Gate07Case, ...], model_ids: tuple[str, ...], *, repo_root: str | Path | None = None, created_at: str | None = None, model_verification: dict[str, Any] | None = None, rate_limits: dict[str, Any] | None = None, schema: str = "gate07.protocol.v1", amendment: dict[str, Any] | None = None) -> dict[str, Any]:
+def build_protocol(cases: tuple[Gate07Case, ...], model_ids: tuple[str, ...], *, repo_root: str | Path | None = None, created_at: str | None = None, model_verification: dict[str, Any] | None = None, rate_limits: dict[str, Any] | None = None, ledger: dict[str, str] | None = None, schema: str = "gate07.protocol.v1", amendment: dict[str, Any] | None = None) -> dict[str, Any]:
     graded = _manifest_records(cases, False)
     held_out = _manifest_records(cases, True)
     family_counts = {family: sum(record["family"] == family for record in graded) for family in FAMILY_NAMES}
@@ -230,7 +239,7 @@ def build_protocol(cases: tuple[Gate07Case, ...], model_ids: tuple[str, ...], *,
             "offline": {"device": "cpu", "normalize_embeddings": True, "local_files_only": True},
             "llm": {"temperature": 0.0, "seed": None, "seed_note": "Existing GroqClient does not transmit a seed; no provider determinism claim is made.", "max_tokens": 512},
         },
-        "rate_limit_budget": _rate_limit_budget(cases, model_ids, rate_limits or {}),
+        "rate_limit_budget": _rate_limit_budget(cases, model_ids, rate_limits or {}, ledger),
         "timeouts_retries": {
             "llm_timeout_seconds": 120,
             "max_retries": 2,

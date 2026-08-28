@@ -2524,3 +2524,28 @@ ground-truth, and artifact file digests.
 ### Next step
 
 Run the full suite, then commit the R4 dataset receipt and determinism test.
+
+## 2026-08-28 — Gate 07 repair R5 freeze preparation
+
+### Scope
+
+Prepared `gates/baselines/GATE_07_PROTOCOL_V3.json` from the committed v3
+dataset. It declares v1 and v2 superseded/disqualified, records the v3 dataset
+and ground-truth digests, versions all baseline prompts, pins the two Groq
+models and BGE revisions, freezes the 20% rate-limit reserve, and uses v3-only
+ledger paths. The live `/models` check remains explicitly unverified after a
+403; no model substitution is made. The protocol records
+`git_head_at_freeze=a02f2131a306c761034f79d4b5fa0cb60cbe8613` and the v2
+1,440-record ledger as audit-only (`feeds_v3=false`).
+
+### Budget frozen before live calls
+
+- Graded cases: 180; LLM arms: 4; models: 2; base calls: 1,440.
+- Retry budget: 2; maximum attempts: 4,320.
+- Projected input tokens: 1,907,062; maximum output tokens: 737,280.
+- Per-key ceilings: 24 RPM / 7,000 TPM / 900 RPD / 180,000 TPD.
+- Pool ceilings: 480 RPM / 140,000 TPM / 18,000 RPD / 3,600,000 TPD.
+- Org ceilings: 450 RPM / 120,000 TPM / 17,000 RPD / 3,400,000 TPD.
+- Reserve: 20%; timeout: 120s; ledger owner: one sequential runner.
+
+The protocol is not yet committed. No R6/R7 headline run has started.

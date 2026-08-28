@@ -1,0 +1,405 @@
+{
+  "amendment": {
+    "headline_runs_before_amendment": false,
+    "reason": "v1 leaked arithmetic seeds; v2 incomplete sanitization and uncommitted freeze amendment disqualified its reruns",
+    "type": "repair_freeze"
+  },
+  "baseline_arms": [
+    {
+      "arm_id": "lexical_name",
+      "description": "Normalized lexical similarity over tool names only.",
+      "headline": true,
+      "information_rights": [
+        "old_contract",
+        "new_contracts",
+        "task_description",
+        "candidate_list"
+      ],
+      "models": [
+        "deterministic_offline"
+      ]
+    },
+    {
+      "arm_id": "lexical_serialized",
+      "description": "Normalized lexical similarity over serialized contract text.",
+      "headline": true,
+      "information_rights": [
+        "old_contract",
+        "new_contracts",
+        "task_description",
+        "candidate_list"
+      ],
+      "models": [
+        "deterministic_offline"
+      ]
+    },
+    {
+      "arm_id": "embed_name_desc",
+      "description": "Nearest tool under the pinned BGE-M3 name/description embedding.",
+      "headline": true,
+      "information_rights": [
+        "old_contract",
+        "new_contracts",
+        "task_description",
+        "candidate_list"
+      ],
+      "models": [
+        "deterministic_offline"
+      ]
+    },
+    {
+      "arm_id": "embed_serialized_schema",
+      "description": "Nearest tool under the pinned BGE-M3 serialized-schema embedding.",
+      "headline": true,
+      "information_rights": [
+        "old_contract",
+        "new_contracts",
+        "task_description",
+        "candidate_list"
+      ],
+      "models": [
+        "deterministic_offline"
+      ]
+    },
+    {
+      "arm_id": "cross_encoder",
+      "description": "Pairwise scoring under the pinned BGE reranker cross-encoder.",
+      "headline": true,
+      "information_rights": [
+        "old_contract",
+        "new_contracts",
+        "task_description",
+        "candidate_list"
+      ],
+      "models": [
+        "deterministic_offline"
+      ]
+    },
+    {
+      "arm_id": "llm_new_schema_only",
+      "description": "Direct LLM mapping from new contracts only.",
+      "headline": true,
+      "information_rights": [
+        "new_contracts",
+        "task_description",
+        "candidate_list"
+      ],
+      "models": [
+        "openai/gpt-oss-120b",
+        "openai/gpt-oss-20b"
+      ]
+    },
+    {
+      "arm_id": "llm_old_new_direct",
+      "description": "Direct LLM mapping from old and new contracts.",
+      "headline": true,
+      "information_rights": [
+        "old_contract",
+        "new_contracts",
+        "task_description",
+        "candidate_list"
+      ],
+      "models": [
+        "openai/gpt-oss-120b",
+        "openai/gpt-oss-20b"
+      ]
+    },
+    {
+      "arm_id": "llm_old_new_history",
+      "description": "Direct LLM mapping with verified old traces.",
+      "headline": true,
+      "information_rights": [
+        "old_contract",
+        "new_contracts",
+        "verified_old_traces",
+        "task_description",
+        "candidate_list"
+      ],
+      "models": [
+        "openai/gpt-oss-120b",
+        "openai/gpt-oss-20b"
+      ]
+    },
+    {
+      "arm_id": "llm_reasoning",
+      "description": "Reasoning-style direct LLM mapping with direct-arm rights.",
+      "headline": true,
+      "information_rights": [
+        "old_contract",
+        "new_contracts",
+        "task_description",
+        "candidate_list"
+      ],
+      "models": [
+        "openai/gpt-oss-120b",
+        "openai/gpt-oss-20b"
+      ]
+    }
+  ],
+  "claims_boundary": "No novelty claim over ToolEVO, ContDa, or MCPEvol-Bench; schema similarity is not behavioral equivalence.",
+  "created_at_utc": "2026-08-28T02:34:55.725927+00:00",
+  "dataset": {
+    "family_counts": {
+      "added_required_field": 15,
+      "argument_merge": 15,
+      "argument_rename": 15,
+      "argument_split": 15,
+      "multiple_old_to_one_new": 15,
+      "multiple_simultaneous_renames": 15,
+      "no_equivalent": 15,
+      "one_old_to_multiple_new": 15,
+      "output_restructure": 15,
+      "semantic_near_collision": 15,
+      "tool_rename": 15,
+      "tool_replacement": 15
+    },
+    "generator_seed": 20260827,
+    "graded_count": 180,
+    "graded_manifest_sha256": "sha256:2f82956b7200836fa23aaca51d04b13b2013bb543e7aac0418f6f4944bb31dbe",
+    "held_out_count": 36,
+    "held_out_family_counts": {
+      "added_required_field": 3,
+      "argument_merge": 3,
+      "argument_rename": 3,
+      "argument_split": 3,
+      "multiple_old_to_one_new": 3,
+      "multiple_simultaneous_renames": 3,
+      "no_equivalent": 3,
+      "one_old_to_multiple_new": 3,
+      "output_restructure": 3,
+      "semantic_near_collision": 3,
+      "tool_rename": 3,
+      "tool_replacement": 3
+    },
+    "held_out_manifest_sha256": "sha256:e438087fb9a92c38a1028b0f7dc917ec080274c10dfd7af3543fe7bba3336378",
+    "v3_receipt_path": "gates/baselines/GATE_07_DATASET_V3.json",
+    "v3_receipt_sha256": "sha256:2ad3dba7306ce89ecafd1f9e1ceb6a8ba96b84e492536f7f984d9360dd2d2f6f"
+  },
+  "decision_thresholds": {
+    "family_minimum": 15,
+    "go": "Requires a stable failure region, low ambiguity, first-attempt linkage, and concrete information/mechanism unavailable to every baseline.",
+    "practically_meaningful_failure": {
+      "argument_mapping_f1_below": 0.75,
+      "first_attempt_task_success_below": 0.8,
+      "no_equivalent_accuracy_below": 0.8,
+      "tool_alignment_at_1_below": 0.8
+    },
+    "reformulate": "Use when direct alignment saturates but no-equivalent/uncertainty remains hard, only split/merge remains, or history helps only under a narrower condition.",
+    "stable_failure_region": "A family with at least 15 graded cases whose strongest direct LLM and strongest offline arms are below a practically-meaningful threshold on the same load-bearing metric, with bootstrap 95% upper bound still below the saturation bar, ambiguity rate below 0.20, and observed first-attempt consequences.",
+    "stop": "Use when strong direct LLM mapping saturates realistic cases, hard cases are artificial/ambiguous, history adds no useful signal, or errors are generic planning/state failures.",
+    "strong_llm_saturates": {
+      "argument_mapping_f1": 0.9,
+      "first_attempt_task_success": 0.9,
+      "no_equivalent_accuracy": 0.9,
+      "tool_alignment_at_1": 0.95
+    }
+  },
+  "decoding": {
+    "llm": {
+      "max_tokens": 512,
+      "seed": null,
+      "seed_note": "Existing GroqClient does not transmit a seed; no provider determinism claim is made.",
+      "temperature": 0.0
+    },
+    "offline": {
+      "device": "cpu",
+      "local_files_only": true,
+      "normalize_embeddings": true
+    }
+  },
+  "disqualified_prior_runs": {
+    "feeds_v3": false,
+    "status": "audit_only",
+    "v2_ledger_records": 1440
+  },
+  "exclusions": {
+    "case_exclusion": "A case may be excluded only when its frozen retry budget is exhausted by provider/parse failure; record the case and reason in a separate failure table.",
+    "held_out": "Held-out cases are not run in Phases 7.4 or 7.5.",
+    "manifest_changes": "No post-freeze case selection, dropping, reweighting, or candidate reordering is allowed.",
+    "parse_failure": "Exclude from accuracy denominators and report separately; never coerce an unparseable output into a wrong answer.",
+    "provider_failure": "Exclude from all accuracy denominators after the frozen retry budget; report by typed failure kind and arm/model."
+  },
+  "git_head_at_freeze": "a02f2131a306c761034f79d4b5fa0cb60cbe8613",
+  "ground_truth": {
+    "all_cases_sha256": "sha256:0652903090172890c50166d60054c913b2c57d07992bc0076e7b834c826e28f1",
+    "graded_sha256": "sha256:09e33dc8090d2929abe34e489ec71ac2ba324fd7eee03c8d51b93acc84cf201b"
+  },
+  "lineage": {
+    "v1": {
+      "reason": "public surface leaked derived arithmetic seeds into values and D10 prose",
+      "status": "superseded_disqualified"
+    },
+    "v2": {
+      "reason": "sanitization remained incomplete and the v2 protocol amendment was not committed before headline reruns; all v2 offline and LLM results are audit-only",
+      "status": "superseded_disqualified"
+    },
+    "v3": {
+      "reason": "fixed renderer, opaque non-invertible seeds, value-level leak test, and committed freeze preflight",
+      "status": "active_repair_lineage"
+    }
+  },
+  "metrics": {
+    "argument_mapping_f1": "2 * precision * recall / (precision + recall), with 1.0 when both are 1.0 and 0.0 when the denominator is zero otherwise.",
+    "argument_mapping_precision": "|P intersect E| / |P|, with 1.0 when P and E are both empty; E and P are exact quadruple sets (old_tool, old_arg, new_tool, new_arg).",
+    "argument_mapping_recall": "|P intersect E| / |E|, with 1.0 when E is empty.",
+    "false_alignment_rate": "mean over cases of |P_tool minus E_tool| / |P_tool|, where E_tool and P_tool are old-tool/new-tool pair sets; 0.0 for a correct abstention.",
+    "first_attempt_task_success": "mean over evaluated predictions of 1 only when the predicted adapted call or composed call actually succeeds in a fresh sandbox; provider and parse failures are excluded and counted separately.",
+    "many_to_many_scoring": "D9 uses the full set of one-old-to-two-new tool and argument quadruples; D10 uses two old-tool-to-one-new-tool quadruples. Partial sets receive exact precision/recall, never a forced one-to-one reduction.",
+    "no_equivalent_accuracy": "mean over cases whose expected new tool set is empty of 1 when abstain is true and 0 otherwise.",
+    "tool_alignment_at_1": "mean over graded cases of 1 when every expected new tool is in the first predicted selected_tool_names set (or abstain is correct for NO_EQUIVALENT), else 0.",
+    "tool_alignment_at_k": "mean over graded cases of 1 when every expected new tool is contained in the top-k ranked tool list; for one-to-many, all expected tools must be present."
+  },
+  "models": {
+    "llm_ids": [
+      "openai/gpt-oss-120b",
+      "openai/gpt-oss-20b"
+    ],
+    "offline": {
+      "bi_encoder": {
+        "name": "BAAI/bge-m3",
+        "revision": "5617a9f61b028005a4858fdac845db406aefb181"
+      },
+      "cross_encoder": {
+        "name": "BAAI/bge-reranker-v2-m3",
+        "revision": "953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e"
+      }
+    },
+    "verification": {
+      "endpoint": "https://api.groq.com/openai/v1/models",
+      "http_status": 403,
+      "note": "Live quota-free model-list probe returned 403; exact configured model IDs remain pinned and no substitution is permitted.",
+      "reason": "Forbidden",
+      "status": "unverified",
+      "verified_model_ids": []
+    }
+  },
+  "prompt_templates": {
+    "llm_new_schema_only": {
+      "information_rights": [
+        "new_contracts",
+        "task_description",
+        "candidate_list"
+      ],
+      "prompt_id": "gate07-llm-new-only-v1",
+      "text": "You are evaluating a synthetic API migration task. Use only the information explicitly included below. Do not assume hidden identifiers or a migration guide. You may abstain when no candidate is behaviorally equivalent. Return JSON only with this shape: {{\"selected_tool_names\": [string], \"argument_mapping\": [{{\"old_tool\": string, \"old_arg\": string, \"new_tool\": string, \"new_arg\": string}}], \"abstain\": boolean}}. The selected list may contain more than one tool only when the task requires a composed correspondence. Do not include analysis or markdown.\n\nTASK:\n{task_description}\n\nCANDIDATE TOOL CONTRACTS:\n{candidate_contracts}\n",
+      "version": "gate07-llm-v1"
+    },
+    "llm_old_new_direct": {
+      "information_rights": [
+        "old_contract",
+        "new_contracts",
+        "task_description",
+        "candidate_list"
+      ],
+      "prompt_id": "gate07-llm-direct-v1",
+      "text": "You are evaluating a synthetic API migration task. Use only the information explicitly included below. Do not assume hidden identifiers or a migration guide. You may abstain when no candidate is behaviorally equivalent. Return JSON only with this shape: {{\"selected_tool_names\": [string], \"argument_mapping\": [{{\"old_tool\": string, \"old_arg\": string, \"new_tool\": string, \"new_arg\": string}}], \"abstain\": boolean}}. The selected list may contain more than one tool only when the task requires a composed correspondence. Do not include analysis or markdown.\n\nTASK:\n{task_description}\n\nCANDIDATE TOOL CONTRACTS:\n{candidate_contracts}\n\nOLD TOOL CONTRACTS:\n{old_contracts}\n",
+      "version": "gate07-llm-v1"
+    },
+    "llm_old_new_history": {
+      "information_rights": [
+        "old_contract",
+        "new_contracts",
+        "verified_old_traces",
+        "task_description",
+        "candidate_list"
+      ],
+      "prompt_id": "gate07-llm-history-v1",
+      "text": "You are evaluating a synthetic API migration task. Use only the information explicitly included below. Do not assume hidden identifiers or a migration guide. You may abstain when no candidate is behaviorally equivalent. Return JSON only with this shape: {{\"selected_tool_names\": [string], \"argument_mapping\": [{{\"old_tool\": string, \"old_arg\": string, \"new_tool\": string, \"new_arg\": string}}], \"abstain\": boolean}}. The selected list may contain more than one tool only when the task requires a composed correspondence. Do not include analysis or markdown.\n\nTASK:\n{task_description}\n\nCANDIDATE TOOL CONTRACTS:\n{candidate_contracts}\n\nOLD TOOL CONTRACTS:\n{old_contracts}\n\nVERIFIED OLD TRACES:\n{verified_old_traces}\n",
+      "version": "gate07-llm-v1"
+    },
+    "llm_reasoning": {
+      "information_rights": [
+        "old_contract",
+        "new_contracts",
+        "task_description",
+        "candidate_list"
+      ],
+      "prompt_id": "gate07-llm-reasoning-v1",
+      "text": "You are evaluating a synthetic API migration task. Use only the information explicitly included below. Do not assume hidden identifiers or a migration guide. You may abstain when no candidate is behaviorally equivalent. Return JSON only with this shape: {{\"selected_tool_names\": [string], \"argument_mapping\": [{{\"old_tool\": string, \"old_arg\": string, \"new_tool\": string, \"new_arg\": string}}], \"abstain\": boolean}}. The selected list may contain more than one tool only when the task requires a composed correspondence. Do not include analysis or markdown.\n\nTASK:\n{task_description}\n\nCANDIDATE TOOL CONTRACTS:\n{candidate_contracts}\n\nOLD TOOL CONTRACTS:\n{old_contracts}\n\nBefore emitting the JSON, privately compare identity, inputs, outputs, preconditions, and effects. Do not expose that reasoning in the response.\n",
+      "version": "gate07-llm-v1"
+    }
+  },
+  "rate_limit_budget": {
+    "arms": 4,
+    "base_calls": 1440,
+    "cases": 180,
+    "configured_limits": {
+      "org": {
+        "rpd": 17000,
+        "rpm": 450,
+        "tpd": 3400000,
+        "tpm": 120000
+      },
+      "per_key": {
+        "rpd": 900,
+        "rpm": 24,
+        "tpd": 180000,
+        "tpm": 7000
+      },
+      "pool": {
+        "rpd": 18000,
+        "rpm": 480,
+        "tpd": 3600000,
+        "tpm": 140000
+      },
+      "router": {
+        "key_count": 20,
+        "max_retries": 2,
+        "strategy": "round_robin_cooldown",
+        "timeout_seconds": 120
+      },
+      "safety_reserve_fraction": 0.2
+    },
+    "headroom_rule": "Do not begin or continue when projected/actual demand would exceed any applicable org, pool, or per-key ceiling; keep the declared reserve frozen in the result.",
+    "ledger": {
+      "owner": "one sequential runner process",
+      "request_ledger": "gates/artifacts/gate07/v3/request_ledger.jsonl",
+      "router_state_db": "gates/artifacts/gate07/v3/router_state.sqlite3"
+    },
+    "max_attempts": 4320,
+    "models": 2,
+    "projected_input_tokens": 1907062,
+    "projected_output_tokens_at_max": 737280,
+    "prompt_token_estimates": {
+      "llm_new_schema_only": {
+        "max_input_tokens_per_call": 1278,
+        "total_input_tokens_per_model": 202422
+      },
+      "llm_old_new_direct": {
+        "max_input_tokens_per_call": 1559,
+        "total_input_tokens_per_model": 240340
+      },
+      "llm_old_new_history": {
+        "max_input_tokens_per_call": 1791,
+        "total_input_tokens_per_model": 263856
+      },
+      "llm_reasoning": {
+        "max_input_tokens_per_call": 1595,
+        "total_input_tokens_per_model": 246913
+      }
+    },
+    "retry_budget": 2
+  },
+  "raw_artifact_policy": "Retain raw outputs under gates/artifacts/gate07/raw; never commit provider dumps or credential metadata.",
+  "research_fallback": "disabled; every live LLM call must use ProviderRouter(mode='research') and never Ollama fallback",
+  "schema": "gate07.protocol.v3",
+  "timeouts_retries": {
+    "429_policy": "Use existing GroqClient Retry-After or 15-second cooldown plus configured jitter; preserve round-robin cooldown.",
+    "failure_kinds": [
+      "rate_limited",
+      "timeout",
+      "auth_failure",
+      "network_failure",
+      "provider_error",
+      "parse_failure"
+    ],
+    "llm_timeout_seconds": 120,
+    "max_attempts_per_call": 3,
+    "max_retries": 2,
+    "other_retry_cooldowns": {
+      "auth_401": 3600,
+      "network_or_timeout": 5,
+      "server_5xx": 5
+    }
+  }
+}
