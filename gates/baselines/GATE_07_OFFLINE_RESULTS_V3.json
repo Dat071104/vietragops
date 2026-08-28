@@ -1,0 +1,119 @@
+{
+  "schema": "gate07.offline_results.v3",
+  "protocol": {
+    "path": "gates/baselines/GATE_07_PROTOCOL_V3.json",
+    "freeze_commit": "a02f2131a306c761034f79d4b5fa0cb60cbe8613",
+    "headline_run_commit": "2010dd5162099d5c49be25ccf7b58af324cbec59",
+    "preflight": "passed"
+  },
+  "dataset": {
+    "public_tasks": "gates/artifacts/gate07/v3/public_tasks.json",
+    "public_tasks_sha256": "sha256:18073e1b13f4c6ac0bc0c1e157e554f08016e527da84ca454ff6a099a7f86d1d",
+    "graded_count": 180,
+    "held_out_count_run": 0,
+    "held_out_policy": "held-out cases were not run"
+  },
+  "arms": {
+    "lexical_name": {
+      "model": "deterministic_lexical_name",
+      "backend": "offline",
+      "records": 180,
+      "raw_records": 180,
+      "output": "gates/artifacts/gate07/v3/offline_lexical.jsonl",
+      "raw": "gates/artifacts/gate07/v3/raw/offline_lexical.jsonl",
+      "output_sha256": "sha256:3e0b88ecfeaeb8eba98cfc883457eee5749ed65de7b4eccb34f61c396ce88c34",
+      "raw_sha256": "sha256:2865de7eddfdc6ffc226e9098ec7c7d0787f7742bee5b6628841bd49dfe8fdb0",
+      "unique_case_ids": 180
+    },
+    "lexical_serialized": {
+      "model": "deterministic_lexical_serialized",
+      "backend": "offline",
+      "records": 180,
+      "raw_records": 180,
+      "output": "gates/artifacts/gate07/v3/offline_lexical.jsonl",
+      "raw": "gates/artifacts/gate07/v3/raw/offline_lexical.jsonl",
+      "output_sha256": "sha256:3e0b88ecfeaeb8eba98cfc883457eee5749ed65de7b4eccb34f61c396ce88c34",
+      "raw_sha256": "sha256:2865de7eddfdc6ffc226e9098ec7c7d0787f7742bee5b6628841bd49dfe8fdb0",
+      "unique_case_ids": 180
+    },
+    "embed_name_desc": {
+      "model": "BAAI/bge-m3@5617a9f61b028005a4858fdac845db406aefb181",
+      "backend": "isolated research_baselines/.venv sentence-transformers",
+      "records": 180,
+      "raw_records": 180,
+      "output": "gates/artifacts/gate07/v3/offline_embedding.jsonl",
+      "raw": "gates/artifacts/gate07/v3/raw/offline_embedding.jsonl",
+      "output_sha256": "sha256:d3cf2d5b7ab7ece3d4fee28a904e2e8397e6d00299c2f2f2b0abacb95da29adf",
+      "raw_sha256": "sha256:0751831da49003c28a5f93abcdc59a893e956b54da37fa12601f7b46cb98ac15",
+      "unique_case_ids": 180,
+      "local_files_only": true
+    },
+    "embed_serialized_schema": {
+      "model": "BAAI/bge-m3@5617a9f61b028005a4858fdac845db406aefb181",
+      "backend": "isolated research_baselines/.venv sentence-transformers",
+      "records": 180,
+      "raw_records": 180,
+      "output": "gates/artifacts/gate07/v3/offline_embedding.jsonl",
+      "raw": "gates/artifacts/gate07/v3/raw/offline_embedding.jsonl",
+      "output_sha256": "sha256:d3cf2d5b7ab7ece3d4fee28a904e2e8397e6d00299c2f2f2b0abacb95da29adf",
+      "raw_sha256": "sha256:0751831da49003c28a5f93abcdc59a893e956b54da37fa12601f7b46cb98ac15",
+      "unique_case_ids": 180,
+      "local_files_only": true
+    },
+    "cross_encoder": {
+      "model": "BAAI/bge-reranker-v2-m3@953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e",
+      "backend": "isolated research_baselines/.venv sentence-transformers",
+      "records": 180,
+      "raw_records": 180,
+      "output": "gates/artifacts/gate07/v3/offline_cross_encoder.jsonl",
+      "raw": "gates/artifacts/gate07/v3/raw/offline_cross_encoder.jsonl",
+      "output_sha256": "sha256:bc90a1a67a04184cad7a2f7e328dfc6511177c456df6e1b09b8036136fd6eff0",
+      "raw_sha256": "sha256:8baf15a3761bf09f5b6f0f0a32b5eb1c1c4e24f95095f124cb0dd659962ec855",
+      "unique_case_ids": 180,
+      "local_files_only": true
+    }
+  },
+  "reproducibility": {
+    "lexical_prediction_output_byte_equal": true,
+    "lexical_prediction_output_sha256": "sha256:3e0b88ecfeaeb8eba98cfc883457eee5749ed65de7b4eccb34f61c396ce88c34",
+    "lexical_rerun_output_sha256": "sha256:3e0b88ecfeaeb8eba98cfc883457eee5749ed65de7b4eccb34f61c396ce88c34",
+    "raw_byte_equal": false,
+    "raw_difference_reason": "raw records retain measured latency, which changes between runs",
+    "lexical_rerun_raw_sha256": "sha256:a4787fec87d6e7c8c936c27fa0667e70260610a6e889d3f0d7ffe3c171599963"
+  },
+  "contamination_check": {
+    "application_venv_imports": {
+      "torch": false,
+      "sentence_transformers": false,
+      "transformers": false
+    },
+    "retrieval_smoke": {
+      "path": "gates/artifacts/gate07/v3/retrieval_smoke_r6.json",
+      "sha256": "sha256:e41f6e089c11a56ce9d9241f938c4c5648bf8eb139f21104bbf9f4522920310b",
+      "load_bearing_metrics_equal_to_GATE_04": true,
+      "metrics": {
+        "recall_at_3": 0.7222,
+        "recall_at_5": 0.8889,
+        "recall_at_10": 0.8889,
+        "mrr": 0.5917,
+        "precision_at_5": 0.1889,
+        "answerable_query_count": 18,
+        "total_query_count": 20
+      }
+    },
+    "requirements_txt_unchanged_sha256": "sha256:69cfb7e4ca54fdf4cc7ab9ba1322f68c6fc2e747c6af32d95400e1fd6d9a0b26"
+  },
+  "metrics_artifact": {
+    "path": "gates/artifacts/gate07/v3/offline_metrics_v3.json",
+    "sha256": "sha256:30bb3d9e8b5797788e1a53a9b09bdbc29af675f1bffc3112535532df3dc6c9d8"
+  },
+  "preflight_receipt": {
+    "current_head": "2010dd5162099d5c49be25ccf7b58af324cbec59",
+    "protocol_git_head_at_freeze": "a02f2131a306c761034f79d4b5fa0cb60cbe8613",
+    "status": "passed",
+    "dataset_digests": {
+      "graded_manifest_sha256": "sha256:2f82956b7200836fa23aaca51d04b13b2013bb543e7aac0418f6f4944bb31dbe",
+      "held_out_manifest_sha256": "sha256:e438087fb9a92c38a1028b0f7dc917ec080274c10dfd7af3543fe7bba3336378"
+    }
+  }
+}

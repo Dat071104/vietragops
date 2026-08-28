@@ -2562,3 +2562,37 @@ Immediately after that commit, before any R6/R7 headline run, the exact
 
 This proves the committed protocol was clean/tracked, its frozen commit was a
 real ancestor of current HEAD, and both live v3 dataset digests matched.
+
+## 2026-08-28 — Gate 07 repair R6 offline arms
+
+### Scope
+
+Ran all five frozen offline arms on `gates/artifacts/gate07/v3/public_tasks.json`
+(180 graded cases only), with preflight immediately before each runner. The
+lexical runner produced `lexical_name` and `lexical_serialized`; the isolated
+research venv produced `embed_name_desc`, `embed_serialized_schema`, and the
+trained `cross_encoder` using the pinned local BGE snapshots. No held-out case
+was run and no v2 artifact was read.
+
+### Load-bearing checks
+
+- App venv import probe: `torch=false`, `sentence_transformers=false`,
+  `transformers=false`.
+- Exact BM25 retrieval smoke retained Gate 04 load-bearing values: recall@3
+  0.7222, recall@5 0.8889, recall@10 0.8889, MRR 0.5917, precision@5 0.1889,
+  answerable 18/20. Only latency varied.
+- Output/raw counts: lexical 360/360, embeddings 360/360, cross-encoder
+  180/180; each arm had 180 unique case IDs and `backend=offline`.
+- Lexical prediction output rerun SHA matched exactly; raw SHA differed only
+  because raw records retain measured latency.
+- Offline metrics plus real first-attempt execution are retained under the
+  ignored v3 artifact directory for R8 recomputation.
+
+### Validation
+
+- Focused R6 data/sandbox/leak/oracle tests: **22 passed** (25.18s).
+- Full suite before R6 commit: **479 passed, 2 warnings, 0 failed**.
+- Preflight passed on every offline runner invocation; receipts are captured in
+  `gates/baselines/GATE_07_OFFLINE_RESULTS_V3.json`.
+- Final integrity check filtered shared files by `arm_id`: all five arms have
+  180 output records, 180 raw records, 180 unique case IDs, and matching hashes.
