@@ -121,7 +121,7 @@ def _load_cross_encoder(model_path: str, *, device: str = "cpu"):
             raise RuntimeError("V4 protocol requires CUDA, but torch.cuda.is_available() is false")
     model = model_cls(model_path, device=device, local_files_only=True)
     if device == "cuda":
-        model.model = model.model.half()
+        model.model.half()
     return model
 
 
