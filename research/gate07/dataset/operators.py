@@ -180,12 +180,13 @@ def _argument_pairs(lineage: Lineage) -> tuple[tuple[str, str, str, str], ...]:
 
 
 def new_field_for(old_field: str, lineage: Lineage, new_name: str) -> str:
-    if lineage.key == "profile_parts":
-        return "student_id"
-    if lineage.key == "course_parts":
-        return "course_code"
-    if lineage.key == "assessment_parts":
-        return "assessment_id"
+    one_to_many_targets = {
+        "get_complete_learner_profile": "student_id",
+        "get_course_faculty_record": "course_code",
+        "get_assessment_record": "assessment_id",
+    }
+    if lineage.old_names[0] in one_to_many_targets:
+        return one_to_many_targets[lineage.old_names[0]]
     return lineage.new_fields[0][0]
 
 

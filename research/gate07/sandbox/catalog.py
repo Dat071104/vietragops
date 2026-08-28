@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 from research.gate0.contracts import Effect, Precondition
 
@@ -86,7 +86,12 @@ def _lineages() -> tuple[Lineage, ...]:
     )
 
 
-LINEAGES = _lineages()
+def _opaque_lineages(lineages: tuple[Lineage, ...]) -> tuple[Lineage, ...]:
+    """Keep internal lineage identifiers out of every public contract string."""
+    return tuple(replace(lineage, key=f"L{index:03d}") for index, lineage in enumerate(lineages, start=1))
+
+
+LINEAGES = _opaque_lineages(_lineages())
 
 
 def _schema(fields: tuple[tuple[str, str], ...]) -> dict:

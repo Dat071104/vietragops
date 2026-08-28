@@ -2458,3 +2458,25 @@ generator after the original manifest test correctly caught stale v2 content.
 ### Next step
 
 Implement R2 value-level leak detection, then R3 mechanical freeze preflight.
+
+## 2026-08-28 — Gate 07 repair R2
+
+### Scope
+
+Added `tests/test_gate07_public_leak.py` with JSON-string surface scanning for
+all 216 graded and held-out method-facing tasks, including full seed set,
+family labels, tool IDs, lineage IDs, generator operator names, and held-out
+markers. A deliberate seed injection is required to fail the detector. The
+existing attribute-level boundary test remains unchanged. Internal catalog
+lineage IDs were made opaque (`Lnnn`) so a literal lineage check cannot collide
+with legitimate public schema words; D9 field-target behavior was retained.
+
+### Validation
+
+- Focused R2/dataset/boundary tests: **16 passed in 12.59s**.
+- No Gate 06 files, v2 artifacts, secrets, or remote state were changed.
+
+### Next step
+
+Run the full suite, then commit the R2 test/support slice before implementing
+the R3 mechanical freeze preflight.
