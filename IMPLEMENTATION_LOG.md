@@ -2,6 +2,55 @@
 
 <!-- newest first -->
 
+## 2026-08-28 — Gate 07 V4 audit remediation and fresh headline run
+
+### Goal
+
+Retract the unsupported v3 mechanism claim, freeze a new measurement protocol,
+recollect the graded benchmark, and close the audit findings without mutating
+v3 raw artifacts or the protected overlay.
+
+### Files changed
+
+- `research/gate07/dataset/`: isolated V4 candidate-order permutation variant.
+- `research/gate07/protocol/`: V4 prompt contract, freeze helpers, and ledger.
+- `research/gate07/baselines/`: V4 parser, controls, offline outputs, and CUDA
+  runtime support.
+- `research/gate07/metrics/`: abstention-decoupled scoring, Wilson intervals,
+  explicit degeneracy, supplied-value execution, applicability, and report.
+- `gates/results/GATE_07_RESULT.md`, V4 tests, and this implementation log.
+- `_agent_ops/DECISION_LOG.md` could not be changed because the user-protected
+  overlay rule remained enforced.
+
+### Phase evidence
+
+- Step 0 reproduction: v3 direct 120b `argument_split` had 12/13 abstentions;
+  all 198 answerable cases had the correct tool at index 0; constant-vector
+  bootstrap CIs were zero-width.
+- Implementation commit: `6130584`; CUDA runtime fix: `ecd391d`.
+- CUDA verification: `torch 2.11.0+cu128`, `cuda_available=True`, one RTX 3050
+  Ti device; V4 offline protocol records CUDA, FP16, batch size 8.
+- Final protocol freeze: `GATE_07_PROTOCOL_V4.json`, freeze commit `206b18b`,
+  ledger commit `dda8f32`; preflight returned `status=passed` at HEAD `dda8f32`.
+- Offline V4: lexical, controls, BGE embedding, and cross-encoder each ran on
+  180 graded tasks; embedding and cross-encoder used the pinned CUDA runtime.
+- Live V4: 1,800 unique rows; 1,016 success, 60 parse failures, 180 provider
+  errors, 544 rate-limited outcomes; zero held-out rows.
+- Report: `GATE_07_METRICS_V4.json` SHA-256
+  `cda1fcc184f39c114a112a0369556ccfd251942029ee5b232529ca53d992ba5f`; an
+  independent regeneration produced the identical hash.
+- Full suite command:
+  `.venv\Scripts\python.exe -B -m pytest -p no:cacheprovider -q --basetemp D:\GRADUATION_THESIS\gate07_v4_fulltest_temp2`
+  returned **489 passed, 2 warnings, 0 failed**.
+
+### Decision and remaining risk
+
+V4 re-earns only a narrow `argument_split` GO: observed strongest applicable
+forced-selection Arg F1 is 0.500, best-case imputation is 0.733, and the
+forced carrier beats positional/random Tool@1 controls. The high typed
+missingness and two no-success 20b arms remain explicit limitations; no claim
+is made that a model cannot split arguments.
+
 ## 2026-06-02 15:01 - [unknown_phase/bugfix] Isolate Local Agent provider to Ollama
 
 ### Goal

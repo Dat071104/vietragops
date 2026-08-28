@@ -1,30 +1,89 @@
 # Gate 07 Result — Scientific Gate-0
 
-Status: **SUSPENDED — evidence does not support the stated mechanism**
+Status: **GO**
 
 ## Current decision summary
 
 The v3 `GO` is retracted and v3 is superseded for scientific interpretation.
-The committed v3 records do not support the stated argument-split failure
-mechanism: the load-bearing zero is dominated by abstention, candidate order is
-leaked, and first-attempt execution performs the argument derivation itself.
-Gate 07 remains suspended pending a separately frozen V4 protocol and a fresh
-recollection under the corrected semantics.
+The fresh V4 collection re-establishes a narrow scientific `GO` for the
+`argument_split` family under forced selection, explicit value transforms,
+shuffled candidates, corrected intervals, and supplied-value first-attempt
+execution. This is not a broad claim about all drift families.
 
-The v3 abstention baseline is numeric and retained: for
-`llm_old_new_direct` / `openai/gpt-oss-120b` / `argument_split`, 12 of 13
-evaluable responses abstained (92.31%) and 1 of 13 selected a tool. The V4
-forced-selection abstention delta is not yet observed; no v3 prediction is
-being re-scored under the new rules.
+The decisive V4 evidence is: strongest observed applicable forced-selection
+Argument F1 `0.500 [0.125,0.875]` (history / `openai/gpt-oss-120b`, n=8),
+best-case imputation `0.733`, and first-attempt success `0.500` with the same
+best-case `0.733`. The strongest complete offline Argument F1 is `0.167`.
+The forced-selection carrier beats the `positional_prior` Tool@1 `0.400` and
+the `random_choice` Tool@1 `0.200` controls on the family. The V4 argument-split
+sample retains 0/3 ambiguity disagreements.
 
-### Superseded v3 claim
+V4 missingness is reported, not hidden: across the five LLM arms and two
+models, 1016/1800 records succeeded, 60 were parse failures, 180 were typed
+provider errors, and 544 were rate-limited. Two 20b arms had no successful
+records and are not treated as baseline failures; their imputation ranges are
+published as `[0,1]`. The GO is therefore limited to the observed applicable
+arms and this synthetic family.
 
-The superseded v3 report claimed a scientific `GO` from
-`argument_split`, with Argument F1 `0.000 [0.000,0.000]` and first-attempt
-success `0.000 [0.000,0.000]` for the strong direct arm. Those numbers remain
-historical audit evidence only, not a current verdict.
+The abstention delta is measured with a fresh retained legacy collection on
+the V4 shuffled tasks, not by rescoring v3. For direct 120b / argument_split,
+v3 was 12/13 abstentions (92.31%); V4 legacy was 8/13 (61.54%), a delta of
+`-30.77` percentage points. The V4 forced direct arm supplied a best candidate
+on all four evaluable responses (0/4 explicit abstentions), while its mapping
+and execution scores remain reported with n=4.
 
-## Entry-gate verification
+No conclusion is drawn that a model cannot split arguments: V4 history contains
+successful split mappings, and the result is only that the corrected forced
+selection baseline remains below the predeclared practical threshold on this
+family.
+
+## V4 freeze and retained receipts
+
+- Protocol: `GATE_07_PROTOCOL_V4.json`, SHA-256
+  `7a35301f22c780756893470c92034eb882e06b6d48fd0e7b0447776486a94cb1`.
+- Freeze commit: `206b18b823c3fa581dc6cadd32073ba4ec981b05`; freeze-ledger
+  receipt: `GATE_07_PROTOCOL_V4_FREEZE_LEDGER.json`.
+- V4 metrics report: `GATE_07_METRICS_V4.json`, SHA-256
+  `cda1fcc184f39c114a112a0369556ccfd251942029ee5b232529ca53d992ba5f`;
+  independent regeneration produced the same SHA.
+- Fresh LLM results/raw/request-ledger SHA-256 values are respectively
+  `50b4aa776227231fafce7def344b5f4d6bec6a15b8adc81a54f622cca92ef14a`,
+  `1b726623cf00d49a6b25be03babe68f1f70115ea4f4021de5cbb0f81aa2f56e1`, and
+  `9833115bd87c23fa94e2fcacb36302e04dfad4b85f1d515708c99b9929c263a9`.
+- Full suite: **489 passed, 2 warnings, 0 failed** under Python 3.13.9
+  with `-p no:cacheprovider` and an explicit writable basetemp.
+
+## Step 0 audit reproduction and finding classification
+
+The independent v3 reproduction command produced:
+
+```text
+F1 target records=15 evaluable=13 abstain=12 select=1
+F3 answerable total=198 leading-correct=198 non-leading=0
+F3 first-correct-index={0:198}
+F5 argument_split F1 mean=0.0 ci95=[0.0,0.0] n=13
+F5 first-attempt mean=0.0 ci95=[0.0,0.0] n=13
+F5 _summary([0.0]*13) => ci95=[0.0,0.0]
+F5 _summary([1.0]*15) => ci95=[1.0,1.0]
+```
+
+| Finding | Classification | Evidence-based interpretation |
+|---|---|---|
+| F1 | Real prompt/contract bug plus measurement artifact | Literal v3 instructions made abstention compliant; 12/13 empty predictions forced Tool@1, Arg F1, and first-attempt zeros. |
+| F2 | Expected behavior under the literal prompt; invalid capability inference | History `G07-G-0075` exactly matched the split oracle, and A013/A014/A015 annotator outputs selected the correct split tools without abstaining. |
+| F3 | Real dataset/prompt ordering leak | All 198 answerable cases placed the correct tool at index 0; v3 @3/@5 therefore measured order rather than ranking quality. |
+| F4 | Real evaluator implementation bug | The v3 harness split `course_code` and joined section inputs before execution; V4 executes only supplied values/transforms. |
+| F5 | Real interval-estimator bug and measurement artifact | Resampling a constant vector necessarily produced a zero-width interval; V4 uses Wilson for proportions and flags continuous degeneracy. |
+| F6 | Real non-random missingness risk | V3 had 10 `argument_split` provider errors; V4 reports typed failures and best/worst imputation instead of treating exclusions as wrong answers. |
+
+## Historical v3 result — audited and superseded
+
+The superseded v3 report claimed a scientific `GO` from `argument_split`, with
+Argument F1 `0.000 [0.000,0.000]` and first-attempt success
+`0.000 [0.000,0.000]` for the strong direct arm. Those numbers remain
+historical audit evidence only. V3 predictions were not re-scored under V4.
+
+## Historical v3 entry-gate verification
 
 - R0 verified HEAD `d9045ca0c68e90bdbbcb28c14f40d69ed094790a` on `main`,
   `fed31c3` as an ancestor, empty index, and clean `git diff --check` apart
