@@ -16,6 +16,7 @@ from research.gate07.baselines.offline import (
     predict_lexical,
 )
 from research.gate07.harness.serialization import load_public_tasks
+from research.gate07.protocol import preflight_headline_run
 from research.gate07.runner.artifacts import RawArtifactWriter
 
 
@@ -25,6 +26,7 @@ def _args() -> argparse.Namespace:
     parser.add_argument("--tasks", required=True)
     parser.add_argument("--output", required=True)
     parser.add_argument("--raw", required=True)
+    parser.add_argument("--protocol", required=True)
     parser.add_argument("--bi-model")
     parser.add_argument("--cross-model")
     return parser.parse_args()
@@ -65,6 +67,7 @@ def _run_batched(tasks: list[dict], model, family: str, output: Path, raw_writer
 
 def main() -> None:
     args = _args()
+    preflight = preflight_headline_run(args.protocol)
     tasks = load_public_tasks(args.tasks)
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -84,7 +87,7 @@ def main() -> None:
     else:
         model = _load_cross_encoder(args.cross_model)
         arm_ids = _run_batched(tasks, model, args.family, output, raw_writer)
-    print(json.dumps({"family": args.family, "tasks": len(tasks), "arms": arm_ids, "output": str(output), "raw": str(raw_writer.path)}, ensure_ascii=True, sort_keys=True))
+    print(json.dumps({"family": args.family, "tasks": len(tasks), "arms": arm_ids, "output": str(output), "raw": str(raw_writer.path), "preflight": preflight}, ensure_ascii=True, sort_keys=True))
 
 
 if __name__ == "__main__":

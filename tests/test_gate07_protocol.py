@@ -10,7 +10,7 @@ from research.gate07.protocol import build_protocol
 
 
 def test_gate07_protocol_freezes_dataset_rights_metrics_and_exclusions():
-    protocol = build_protocol(build_all_cases(), "TEST-HEAD", ("model/strong", "model/mid"), created_at="2026-08-27T00:00:00+00:00")
+    protocol = build_protocol(build_all_cases(), ("model/strong", "model/mid"), created_at="2026-08-27T00:00:00+00:00")
     assert protocol["dataset"]["graded_count"] == 180
     assert protocol["dataset"]["held_out_count"] == 36
     assert set(protocol["dataset"]["family_counts"].values()) == {15}
@@ -26,7 +26,7 @@ def test_gate07_protocol_freezes_dataset_rights_metrics_and_exclusions():
 
 
 def test_gate07_protocol_prompt_templates_are_renderable_and_versioned():
-    protocol = build_protocol(build_all_cases(), "TEST-HEAD", ("model/strong", "model/mid"), created_at="2026-08-27T00:00:00+00:00")
+    protocol = build_protocol(build_all_cases(), ("model/strong", "model/mid"), created_at="2026-08-27T00:00:00+00:00")
     templates = protocol["prompt_templates"]
     assert {"llm_new_schema_only", "llm_old_new_direct", "llm_old_new_history", "llm_reasoning"} == set(templates)
     assert all(template["prompt_id"].startswith("gate07-") and template["version"] == "gate07-llm-v1" for template in templates.values())

@@ -14,6 +14,7 @@ from rag.generation.provider_router import ProviderRouter
 from research.gate07.baselines.llm import parse_llm_payload, render_llm_prompt
 from research.gate07.baselines.models import RawOutputRecord
 from research.gate07.harness.serialization import load_public_tasks
+from research.gate07.protocol import preflight_headline_run
 from research.gate07.runner.artifacts import RawArtifactWriter
 from research.gate07.runner.rate_ledger import RateLimitLedger, limits_from_environment
 
@@ -29,6 +30,7 @@ def _args() -> argparse.Namespace:
     parser.add_argument("--raw", required=True)
     parser.add_argument("--ledger", required=True)
     parser.add_argument("--request-ledger", required=True)
+    parser.add_argument("--protocol", required=True)
     parser.add_argument("--models", default=",".join(DEFAULT_MODELS))
     parser.add_argument("--preflight-only", action="store_true")
     return parser.parse_args()
@@ -61,6 +63,7 @@ def _append(output: Path, raw: RawArtifactWriter, arm_id: str, model: str, task:
 
 def run() -> None:
     args = _args()
+    preflight = preflight_headline_run(args.protocol)
     project_root = Path(__file__).resolve().parents[3]
     load_dotenv(project_root / ".env", override=False)
     tasks = load_public_tasks(args.tasks)
@@ -116,7 +119,7 @@ def run() -> None:
                     cache.add(key)
     finally:
         ledger.close()
-    print(json.dumps({"models": models, "arms": ARM_IDS, "tasks": len(tasks), "preflight_only": args.preflight_only, "counts": counts, "output": str(output), "raw": str(raw_path)}, ensure_ascii=True, sort_keys=True))
+    print(json.dumps({"models": models, "arms": ARM_IDS, "tasks": len(tasks), "preflight_only": args.preflight_only, "counts": counts, "output": str(output), "raw": str(raw_path), "preflight": preflight}, ensure_ascii=True, sort_keys=True))
 
 
 if __name__ == "__main__":

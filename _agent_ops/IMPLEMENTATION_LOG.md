@@ -2480,3 +2480,25 @@ with legitimate public schema words; D9 field-target behavior was retained.
 
 Run the full suite, then commit the R2 test/support slice before implementing
 the R3 mechanical freeze preflight.
+
+## 2026-08-28 — Gate 07 repair R3
+
+### Scope
+
+Added the fail-closed `preflight_headline_run` guard in
+`research/gate07/protocol/freeze.py`. It verifies protocol existence and Git
+tracking, path-local clean status, a real frozen revision ancestor of current
+HEAD, and live graded/held-out dataset digest equality. `build_protocol` now
+derives `git rev-parse HEAD` itself. Both offline and LLM runners require a
+protocol path, run preflight before task loading, and return the pass receipt.
+
+### Validation
+
+- Focused preflight/protocol tests: **9 passed in 53.44s**.
+- Covered dirty tracked, untracked, digest mismatch, clean committed, and both
+  runner call paths using temporary Git repositories.
+- No Gate 06 files, v2 artifacts, secrets, or remote state were changed.
+
+### Next step
+
+Run the full suite, then commit the R3 mechanical-freeze slice.

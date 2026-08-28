@@ -8,6 +8,7 @@ import hashlib
 import json
 import math
 from pathlib import Path
+import subprocess
 from typing import Any, Iterable
 
 from research.gate0.evaluator.capability import EvaluatorCapability
@@ -17,6 +18,10 @@ from research.gate07.protocol.prompts import PROMPT_TEMPLATES
 from research.gate07.harness.method_facing import build_method_facing_task
 
 
+class FreezePreflightError(RuntimeError):
+    """Raised when a headline run does not have a valid committed freeze."""
+
+
 def canonical_digest(value: Any) -> str:
     canonical = json.dumps(value, ensure_ascii=True, sort_keys=True, separators=(",", ":"))
     return f"sha256:{hashlib.sha256(canonical.encode('utf-8')).hexdigest()}"
@@ -24,6 +29,98 @@ def canonical_digest(value: Any) -> str:
 
 def _manifest_records(cases: Iterable[Gate07Case], held_out: bool) -> list[dict[str, Any]]:
     return [case.manifest_record() for case in cases if case.held_out is held_out]
+
+
+def dataset_manifest_digests(cases: Iterable[Gate07Case]) -> dict[str, str]:
+    materialized = tuple(cases)
+    return {
+        "graded_manifest_sha256": canonical_digest(_manifest_records(materialized, False)),
+        "held_out_manifest_sha256": canonical_digest(_manifest_records(materialized, True)),
+    }
+
+
+def _git(repo_root: Path, *args: str) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        ["git", "-C", str(repo_root), *args],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+
+def _git_output(repo_root: Path, *args: str) -> str:
+    result = _git(repo_root, *args)
+    if result.returncode != 0:
+        detail = result.stderr.strip() or result.stdout.strip() or "unknown git error"
+        raise FreezePreflightError(f"git {' '.join(args)} failed: {detail}")
+    return result.stdout.strip()
+
+
+def _resolve_protocol_path(protocol_path: str | Path, repo_root: str | Path | None) -> tuple[Path, Path]:
+    default_root = Path(__file__).resolve().parents[3]
+    root = Path(repo_root).resolve() if repo_root is not None else default_root
+    candidate = Path(protocol_path)
+    path = (root / candidate).resolve() if not candidate.is_absolute() else candidate.resolve()
+    return root, path
+
+
+def preflight_headline_run(protocol_path: str | Path, *, repo_root: str | Path | None = None) -> dict[str, Any]:
+    """Verify the committed protocol and live dataset before a headline run."""
+    root, path = _resolve_protocol_path(protocol_path, repo_root)
+    if not path.is_file():
+        raise FreezePreflightError(f"Protocol file does not exist: {path}")
+    try:
+        relative = path.relative_to(root).as_posix()
+    except ValueError as exc:
+        raise FreezePreflightError(f"Protocol is outside repository root: {path}") from exc
+
+    tracked = _git(root, "ls-files", "--error-unmatch", "--", relative)
+    if tracked.returncode != 0:
+        raise FreezePreflightError(f"Protocol is not tracked in git: {relative}")
+    status = _git(root, "status", "--porcelain", "--", relative)
+    if status.returncode != 0:
+        raise FreezePreflightError(f"Could not inspect protocol status: {status.stderr.strip()}")
+    if status.stdout.strip():
+        raise FreezePreflightError(f"Protocol is dirty or uncommitted: {status.stdout.strip()}")
+
+    try:
+        protocol = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise FreezePreflightError(f"Protocol cannot be read as JSON: {path}") from exc
+    recorded = protocol.get("git_head_at_freeze")
+    if not isinstance(recorded, str) or not recorded.strip():
+        raise FreezePreflightError("Protocol has no recorded git_head_at_freeze.")
+    resolved = _git_output(root, "rev-parse", "--verify", f"{recorded}^{{commit}}")
+    current = _git_output(root, "rev-parse", "HEAD")
+    ancestor = _git(root, "merge-base", "--is-ancestor", resolved, current)
+    if ancestor.returncode != 0:
+        raise FreezePreflightError(f"Frozen revision {recorded} is not an ancestor of current HEAD {current}.")
+
+    expected_dataset = protocol.get("dataset")
+    if not isinstance(expected_dataset, dict):
+        raise FreezePreflightError("Protocol has no dataset digest block.")
+    live_dataset = dataset_manifest_digests(_live_cases())
+    mismatches = {
+        key: {"expected": expected_dataset.get(key), "live": value}
+        for key, value in live_dataset.items()
+        if expected_dataset.get(key) != value
+    }
+    if mismatches:
+        raise FreezePreflightError(f"Live dataset digest mismatch: {mismatches}")
+    return {
+        "status": "passed",
+        "protocol_path": relative,
+        "protocol_git_head_at_freeze": recorded,
+        "protocol_git_head_resolved": resolved,
+        "current_head": current,
+        "dataset_digests": live_dataset,
+    }
+
+
+def _live_cases() -> tuple[Gate07Case, ...]:
+    from research.gate07.dataset.generator import build_all_cases
+
+    return build_all_cases()
 
 
 def _arms(model_ids: tuple[str, ...]) -> list[dict[str, Any]]:
@@ -94,12 +191,14 @@ def _rate_limit_budget(cases: tuple[Gate07Case, ...], model_ids: tuple[str, ...]
     }
 
 
-def build_protocol(cases: tuple[Gate07Case, ...], git_head: str, model_ids: tuple[str, ...], *, created_at: str | None = None, model_verification: dict[str, Any] | None = None, rate_limits: dict[str, Any] | None = None, schema: str = "gate07.protocol.v1", amendment: dict[str, Any] | None = None) -> dict[str, Any]:
+def build_protocol(cases: tuple[Gate07Case, ...], model_ids: tuple[str, ...], *, repo_root: str | Path | None = None, created_at: str | None = None, model_verification: dict[str, Any] | None = None, rate_limits: dict[str, Any] | None = None, schema: str = "gate07.protocol.v1", amendment: dict[str, Any] | None = None) -> dict[str, Any]:
     graded = _manifest_records(cases, False)
     held_out = _manifest_records(cases, True)
     family_counts = {family: sum(record["family"] == family for record in graded) for family in FAMILY_NAMES}
     held_out_counts = {family: sum(record["family"] == family for record in held_out) for family in FAMILY_NAMES}
     capability = EvaluatorCapability()
+    root = Path(repo_root).resolve() if repo_root is not None else Path(__file__).resolve().parents[3]
+    git_head = _git_output(root, "rev-parse", "HEAD")
     return {
         "schema": schema,
         "amendment": amendment or {},
@@ -111,8 +210,7 @@ def build_protocol(cases: tuple[Gate07Case, ...], git_head: str, model_ids: tupl
             "held_out_count": len(held_out),
             "family_counts": family_counts,
             "held_out_family_counts": held_out_counts,
-            "graded_manifest_sha256": canonical_digest(graded),
-            "held_out_manifest_sha256": canonical_digest(held_out),
+            **dataset_manifest_digests(cases),
         },
         "ground_truth": {
             "graded_sha256": ground_truth_digest(capability, graded_only=True),
