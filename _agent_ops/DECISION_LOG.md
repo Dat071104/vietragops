@@ -872,3 +872,16 @@ and all raw diagnostics unchanged. This is an accounting correction for
 non-network setup work, not a protocol, dataset, prompt, model, or metric
 change; the backup remains available for audit and its rows never enter
 accuracy.
+
+### Execution receipt
+
+Rebuild completed before resuming R7: the original 112-row request ledger was
+preserved as `gates/artifacts/gate07/v3/request_ledger_setup_diagnostics.jsonl`
+(`sha256:0cb6747d0752c44224aab5a6eef54d69b6958d7a2eeff271badbeed2b7d52d6d`)
+and the original SQLite state as
+`gates/artifacts/gate07/v3/router_state_setup_diagnostics.sqlite3`
+(`sha256:77e2dd09cf500a094bdc43ceab7d4a04fb81adcd7354dd90fc39f53f542f82b6`).
+The declared v3 ledger paths now contain exactly 56 actual corrected attempts,
+101,364 reserved tokens, and no setup-only rows; the rebuilt request-ledger
+SHA-256 is
+`12f08828c8b6977c62b4133ccd7880b7c3b314fb84001eeb410f94bc0fefe559`.
