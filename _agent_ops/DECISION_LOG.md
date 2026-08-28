@@ -826,3 +826,13 @@ and failed JSON loading with `Extra data` before router/provider creation.
 It was rewritten from the same full v3 task prefix with a real newline; case
 IDs and order are unchanged. The corrected artifact hash above is the one
 eligible for execution.
+
+### Non-secret environment setup finding
+
+The first corrected-batch retry parsed the batch but stopped in
+`limits_from_environment()` before router construction because the 12 frozen
+`GROQ_*_SOFT_*` variables were absent from the process environment
+(`KeyError: GROQ_RPM_SOFT_PER_KEY`). No request or quota was consumed. The
+retry will set only the values already frozen in `GATE_07_PROTOCOL_V3.json`:
+per-key 24/7,000/900/180,000; pool 480/140,000/18,000/3,600,000; org
+450/120,000/17,000/3,400,000. No key value or new key source is involved.
