@@ -190,7 +190,13 @@ def new_field_for(old_field: str, lineage: Lineage, new_name: str) -> str:
     return lineage.new_fields[0][0]
 
 
-def _candidate_names(lineage: Lineage, seed: int, new_api: Gate07EducationApi) -> tuple[str, ...]:
+def _candidate_names_with_permutation(
+    lineage: Lineage,
+    seed: int,
+    new_api: Gate07EducationApi,
+    *,
+    shuffle_correct: bool = False,
+) -> tuple[tuple[str, ...], tuple[int, ...]]:
     correct = list(lineage.new_names)
     if lineage.family == "no_equivalent":
         correct = []
@@ -201,7 +207,15 @@ def _candidate_names(lineage: Lineage, seed: int, new_api: Gate07EducationApi) -
         pool = prioritized + [name for name in pool if name not in decoys]
     rng = random.Random(seed)
     rng.shuffle(pool)
-    return tuple(correct + pool[: max(3, 5 - len(correct))])
+    base = tuple(correct + pool[: max(3, 5 - len(correct))])
+    permutation = list(range(len(base)))
+    if shuffle_correct:
+        random.Random(f"gate07-v4-candidate-order:{seed}").shuffle(permutation)
+    return tuple(base[index] for index in permutation), tuple(permutation)
+
+
+def _candidate_names(lineage: Lineage, seed: int, new_api: Gate07EducationApi) -> tuple[str, ...]:
+    return _candidate_names_with_permutation(lineage, seed, new_api)[0]
 
 
 def _task_description(lineage: Lineage, old_args: tuple[dict[str, Any], ...], seed: int) -> str:
@@ -220,13 +234,18 @@ def _run(api: Gate07EducationApi, tool_name: str, args: dict[str, Any], role: st
     return {"role": role, "version": api.version, "tool_name": tool_name, "input": dict(args), "output": output, "state_hash_before": before, "state_hash_after": after, "succeeded": True}
 
 
-def build_case(request: CaseRequest) -> Gate07Case:
+def build_case(request: CaseRequest, *, shuffle_candidates: bool = False) -> Gate07Case:
     lineage = request.lineage
     old_api = build_api("v1", Gate07SandboxStore())
     new_api = build_api("v3", Gate07SandboxStore())
     old_args = tuple(_args_for_fields(lineage.old_fields, request.seed) for _ in lineage.old_names)
     new_args = _transform_args(lineage, old_args, request.seed)
-    candidates = _candidate_names(lineage, request.seed, new_api)
+    candidates, candidate_permutation = _candidate_names_with_permutation(
+        lineage,
+        request.seed,
+        new_api,
+        shuffle_correct=shuffle_candidates,
+    )
     receipts: list[dict[str, Any]] = []
     old_probe_api = build_api("v1", Gate07SandboxStore())
     for tool_name, args in zip(lineage.old_names, old_args):
@@ -268,4 +287,5 @@ def build_case(request: CaseRequest) -> Gate07Case:
         expected_effect_kinds=effect_kinds,
         output_field_mapping=output_mapping,
         execution_receipts=tuple(receipts),
+        candidate_permutation=candidate_permutation,
     )

@@ -29,8 +29,8 @@ def test_gate07_protocol_prompt_templates_are_renderable_and_versioned():
     protocol = build_protocol(build_all_cases(), ("model/strong", "model/mid"), created_at="2026-08-27T00:00:00+00:00")
     templates = protocol["prompt_templates"]
     assert {"llm_new_schema_only", "llm_old_new_direct", "llm_old_new_history", "llm_reasoning"} == set(templates)
-    assert all(template["prompt_id"].startswith("gate07-") and template["version"] == "gate07-llm-v1" for template in templates.values())
-    assert "selected_tool_names" in templates["llm_new_schema_only"]["text"]
+    assert all(template["prompt_id"].startswith("gate07-") and template["version"] == "gate07-llm-v4" for template in templates.values())
+    assert "best_candidate_tool_names" in templates["llm_new_schema_only"]["text"]
 
 
 def test_gate07_frozen_protocol_file_contains_no_credentials_and_precedes_headline_run():

@@ -18,12 +18,28 @@ def build_all_cases() -> tuple[Gate07Case, ...]:
     return cases
 
 
+@lru_cache(maxsize=1)
+def build_v4_cases() -> tuple[Gate07Case, ...]:
+    """Build the v4 candidate-order variant without mutating v3 cases."""
+    cases = tuple(build_case(request, shuffle_candidates=True) for request in case_requests())
+    _validate_dataset(cases)
+    return cases
+
+
 def build_graded_cases() -> tuple[Gate07Case, ...]:
     return tuple(case for case in build_all_cases() if not case.held_out)
 
 
 def build_held_out_cases() -> tuple[Gate07Case, ...]:
     return tuple(case for case in build_all_cases() if case.held_out)
+
+
+def build_v4_graded_cases() -> tuple[Gate07Case, ...]:
+    return tuple(case for case in build_v4_cases() if not case.held_out)
+
+
+def build_v4_held_out_cases() -> tuple[Gate07Case, ...]:
+    return tuple(case for case in build_v4_cases() if case.held_out)
 
 
 def _validate_dataset(cases: Iterable[Gate07Case]) -> None:

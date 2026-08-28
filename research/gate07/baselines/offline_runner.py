@@ -8,6 +8,7 @@ from pathlib import Path
 import time
 
 from research.gate07.baselines.models import RawOutputRecord
+from research.gate07.baselines.controls import predict_positional_prior, predict_random_choice
 from research.gate07.baselines.offline import (
     _load_cross_encoder,
     _load_sentence_transformer,
@@ -22,7 +23,7 @@ from research.gate07.runner.artifacts import RawArtifactWriter
 
 def _args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--family", choices=("lexical", "embedding", "cross_encoder"), required=True)
+    parser.add_argument("--family", choices=("lexical", "embedding", "cross_encoder", "control"), required=True)
     parser.add_argument("--tasks", required=True)
     parser.add_argument("--output", required=True)
     parser.add_argument("--raw", required=True)
@@ -65,6 +66,16 @@ def _run_batched(tasks: list[dict], model, family: str, output: Path, raw_writer
     return [arm_id for arm_id, _, _ in results_by_arm]
 
 
+def _run_controls(tasks: list[dict], output: Path, raw_writer: RawArtifactWriter) -> list[str]:
+    controls = (("positional_prior", predict_positional_prior), ("random_choice", predict_random_choice))
+    for task in tasks:
+        for arm_id, predictor in controls:
+            started = time.perf_counter()
+            prediction = predictor(task)
+            _write(output, raw_writer, arm_id, "deterministic_control", task, prediction, [], (time.perf_counter() - started) * 1000)
+    return [arm_id for arm_id, _ in controls]
+
+
 def main() -> None:
     args = _args()
     preflight = preflight_headline_run(args.protocol)
@@ -84,9 +95,11 @@ def main() -> None:
     elif args.family == "embedding":
         model = _load_sentence_transformer(args.bi_model)
         arm_ids = _run_batched(tasks, model, args.family, output, raw_writer)
-    else:
+    elif args.family == "cross_encoder":
         model = _load_cross_encoder(args.cross_model)
         arm_ids = _run_batched(tasks, model, args.family, output, raw_writer)
+    else:
+        arm_ids = _run_controls(tasks, output, raw_writer)
     print(json.dumps({"family": args.family, "tasks": len(tasks), "arms": arm_ids, "output": str(output), "raw": str(raw_writer.path), "preflight": preflight}, ensure_ascii=True, sort_keys=True))
 
 

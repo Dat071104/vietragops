@@ -66,11 +66,37 @@ def _field_pairs(task: dict[str, Any], selected: tuple[str, ...]) -> tuple[tuple
     return tuple(pairs)
 
 
+def _v4_prediction(task: dict[str, Any], selected: tuple[str, ...], ranked: tuple[str, ...], pairs: tuple[tuple[str, str, str, str], ...]) -> dict[str, Any]:
+    mapping = [
+        {
+            "old_tool": old_tool,
+            "old_arg": old_arg,
+            "new_tool": new_tool,
+            "new_arg": new_arg,
+            "value_transform": {"kind": "identity"},
+        }
+        for old_tool, old_arg, new_tool, new_arg in pairs
+    ]
+    return {
+        "selected_tool_names": list(selected),
+        "best_candidate_tool_names": list(selected),
+        "ranked_tool_names": list(ranked),
+        "argument_pairs": [list(pair) for pair in pairs],
+        "argument_mapping": mapping,
+        "value_transforms": [entry["value_transform"] for entry in mapping],
+        "constructed_argument_values": [],
+        "equivalence_verdict": "equivalent",
+        "confidence": 1.0,
+        "abstain": False,
+        "selection_contract": "v4_forced",
+    }
+
+
 def predict_lexical(task: dict[str, Any], *, names_only: bool) -> tuple[dict[str, Any], list[tuple[str, float]]]:
     scores = _candidate_scores(task, _jaccard, names_and_description=False, names_only=names_only)
     ranked = tuple(name for name, _ in sorted(scores, key=lambda pair: (-pair[1], pair[0])))
     selected = ranked[:1]
-    return {"selected_tool_names": list(selected), "ranked_tool_names": list(ranked), "argument_pairs": [list(pair) for pair in _field_pairs(task, selected)], "abstain": False}, scores
+    return _v4_prediction(task, selected, ranked, _field_pairs(task, selected)), scores
 
 
 def _load_sentence_transformer(model_path: str):
@@ -92,7 +118,7 @@ def predict_embedding(task: dict[str, Any], model: Any, *, names_and_description
     scores = [(contract["name"], float(vectors[0] @ vectors[index + 1])) for index, contract in enumerate(task["new_contracts"])]
     ranked = tuple(name for name, _ in sorted(scores, key=lambda pair: (-pair[1], pair[0])))
     selected = ranked[:1]
-    return {"selected_tool_names": list(selected), "ranked_tool_names": list(ranked), "argument_pairs": [list(pair) for pair in _field_pairs(task, selected)], "abstain": False}, scores
+    return _v4_prediction(task, selected, ranked, _field_pairs(task, selected)), scores
 
 
 def predict_cross_encoder(task: dict[str, Any], model: Any) -> tuple[dict[str, Any], list[tuple[str, float]]]:
@@ -102,13 +128,13 @@ def predict_cross_encoder(task: dict[str, Any], model: Any) -> tuple[dict[str, A
     scores = [(contract["name"], float(values[index])) for index, contract in enumerate(task["new_contracts"])]
     ranked = tuple(name for name, _ in sorted(scores, key=lambda pair: (-pair[1], pair[0])))
     selected = ranked[:1]
-    return {"selected_tool_names": list(selected), "ranked_tool_names": list(ranked), "argument_pairs": [list(pair) for pair in _field_pairs(task, selected)], "abstain": False}, scores
+    return _v4_prediction(task, selected, ranked, _field_pairs(task, selected)), scores
 
 
 def _prediction_from_scores(task: dict[str, Any], scores: list[tuple[str, float]]) -> dict[str, Any]:
     ranked = tuple(name for name, _ in sorted(scores, key=lambda pair: (-pair[1], pair[0])))
     selected = ranked[:1]
-    return {"selected_tool_names": list(selected), "ranked_tool_names": list(ranked), "argument_pairs": [list(pair) for pair in _field_pairs(task, selected)], "abstain": False}
+    return _v4_prediction(task, selected, ranked, _field_pairs(task, selected))
 
 
 def predict_embedding_batch(tasks: list[dict[str, Any]], model: Any, *, names_and_description: bool) -> list[tuple[dict[str, Any], list[tuple[str, float]]]]:

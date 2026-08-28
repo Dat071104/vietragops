@@ -44,6 +44,7 @@ class Gate07Case:
     expected_effect_kinds: tuple[str, ...]
     output_field_mapping: tuple[tuple[str, str], ...]
     execution_receipts: tuple[dict[str, Any], ...]
+    candidate_permutation: tuple[int, ...] = ()
 
     def public_record(self) -> dict[str, Any]:
         """Return the complete method-facing case without evaluator fields."""

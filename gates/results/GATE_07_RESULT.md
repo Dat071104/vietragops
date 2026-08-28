@@ -1,24 +1,28 @@
 # Gate 07 Result — Scientific Gate-0
 
-Status: **GO**
+Status: **SUSPENDED — evidence does not support the stated mechanism**
 
-## Decision summary
+## Current decision summary
 
-The v3 repair produces a scientific `GO` for a narrowly scoped follow-on
-research plan: structured argument-split drift remains a stable, practically
-meaningful failure region after the strongest available direct LLM and offline
-baselines, and it causes real first-attempt execution failure. This is not a
-Gate 08 authorization. The repair boundary explicitly keeps Gate 08 forbidden;
-only a separately approved follow-on research plan may use this result.
+The v3 `GO` is retracted and v3 is superseded for scientific interpretation.
+The committed v3 records do not support the stated argument-split failure
+mechanism: the load-bearing zero is dominated by abstention, candidate order is
+leaked, and first-attempt execution performs the argument derivation itself.
+Gate 07 remains suspended pending a separately frozen V4 protocol and a fresh
+recollection under the corrected semantics.
 
-The decision is not based on v2. Every v2 number remains disqualified. The
-load-bearing v3 evidence is `argument_split`: strong direct
-`openai/gpt-oss-120b` Argument F1 `0.000 [0.000,0.000]` (n=13 evaluable) and
-first-attempt success `0.000 [0.000,0.000]`; the strongest offline Argument F1
-is `0.167 [0.067,0.300]` and its first-attempt success is `0.000 [0.000,0.000]`.
-The family has 0/3 blind-annotation disagreements. Its CIs remain below the
-frozen saturation bars and the failure maps to the explicit old
-`course_code` -> new `subject_area` + `catalog_number` decomposition.
+The v3 abstention baseline is numeric and retained: for
+`llm_old_new_direct` / `openai/gpt-oss-120b` / `argument_split`, 12 of 13
+evaluable responses abstained (92.31%) and 1 of 13 selected a tool. The V4
+forced-selection abstention delta is not yet observed; no v3 prediction is
+being re-scored under the new rules.
+
+### Superseded v3 claim
+
+The superseded v3 report claimed a scientific `GO` from
+`argument_split`, with Argument F1 `0.000 [0.000,0.000]` and first-attempt
+success `0.000 [0.000,0.000]` for the strong direct arm. Those numbers remain
+historical audit evidence only, not a current verdict.
 
 ## Entry-gate verification
 

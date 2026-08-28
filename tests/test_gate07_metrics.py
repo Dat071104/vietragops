@@ -35,7 +35,7 @@ def test_gate07_no_equivalent_and_many_to_many_fixture():
     d9 = Gate07GroundTruth("d9", "one_old_to_multiple_new", ("old",), ("a", "b"), (), (), (), (), "fixture")
     row = score_prediction({"case_id": "d9", "selected_tool_names": ["a"], "ranked_tool_names": ["a", "b"]}, d9)
     assert row.tool_alignment_at_1 == 0.0
-    assert row.tool_alignment_at_3 == 1.0
+    assert row.abstention_rate == 0.0
 
 
 def test_gate07_aggregate_has_deterministic_uncertainty_shape():

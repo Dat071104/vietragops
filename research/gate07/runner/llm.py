@@ -11,7 +11,7 @@ import time
 
 from rag.generation.groq_client import GroqClient
 from rag.generation.provider_router import ProviderRouter
-from research.gate07.baselines.llm import parse_llm_payload, render_llm_prompt
+from research.gate07.baselines.llm import parse_legacy_llm_payload, parse_llm_payload, render_llm_prompt
 from research.gate07.baselines.models import RawOutputRecord
 from research.gate07.harness.serialization import load_public_tasks
 from research.gate07.protocol import preflight_headline_run
@@ -19,7 +19,7 @@ from research.gate07.runner.artifacts import RawArtifactWriter
 from research.gate07.runner.rate_ledger import RateLimitLedger, limits_from_environment
 
 
-ARM_IDS = ("llm_new_schema_only", "llm_old_new_direct", "llm_old_new_history", "llm_reasoning")
+ARM_IDS = ("llm_new_schema_only", "llm_old_new_direct", "llm_old_new_history", "llm_reasoning", "llm_old_new_direct_v3_legacy")
 DEFAULT_MODELS = ("openai/gpt-oss-120b", "openai/gpt-oss-20b")
 
 
@@ -107,7 +107,8 @@ def run() -> None:
                         counts[kind] = counts.get(kind, 0) + 1
                     else:
                         try:
-                            prediction = parse_llm_payload(invocation.payload, task)
+                            parser = parse_legacy_llm_payload if arm_id == "llm_old_new_direct_v3_legacy" else parse_llm_payload
+                            prediction = parser(invocation.payload, task)
                         except ValueError as exc:
                             _append(output, raw_writer, arm_id, model, task, prompt_id, prompt, None, invocation.provider, latency_ms, "parse_failure", "parse_failure", str(exc), raw_response, {"input_tokens_estimate": input_tokens, "output_tokens_actual": None})
                             ledger.record(arm_id=arm_id, model=model, case_id=task["case_id"], input_tokens=input_tokens, output_tokens=512, outcome="parse_failure")
