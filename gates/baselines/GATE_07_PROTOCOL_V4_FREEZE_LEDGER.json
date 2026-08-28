@@ -4,14 +4,22 @@
       "candidate_order_oracle_file_sha256": "sha256:9944f7be6f060e6afe869409aa2a5c9828d4cb060c8bb3525cf7dc8c6b6ff9e0",
       "candidate_order_oracle_path": "gates/artifacts/gate07/v4/candidate_order_oracle.json",
       "entry_id": "G07-V4-20260828-001",
-      "freeze_commit": "b18f0dd7df27c7c9141509e9d65875a7e0fbd415",
-      "freeze_tree": "4a9fc712888ac654afdd1c088b3093bbe459019a",
+      "freeze_commit": "4e17771ba4c7c4d54e15545c92cb6aade83e4682",
+      "freeze_tree": "e0eded8655cb3887fb0f7dc826f278507d881c11",
       "headline_runs_started": false,
+      "offline_runtime": {
+        "batch_size": 8,
+        "device": "cuda",
+        "dtype": "float16",
+        "local_files_only": true,
+        "normalize_embeddings": true
+      },
       "preflight_required_before_collection": true,
-      "protocol_git_head_at_freeze": "6130584ada6d67555f46706c8355daca233429ca",
+      "previous_unstarted_freeze_superseded": "b18f0dd7df27c7c9141509e9d65875a7e0fbd415",
+      "protocol_git_head_at_freeze": "f935b94984bf1aa1ed99ef01ecad90961822e135",
       "protocol_path": "gates/baselines/GATE_07_PROTOCOL_V4.json",
       "protocol_schema": "gate07.protocol.v4",
-      "protocol_sha256": "sha256:70b8d60b138fc8d3fd13519fa83ba6b0034c12520f06f51999db1cc7cb7e4ca5",
+      "protocol_sha256": "sha256:3be6243c3e4ebbfad47994fd4d7b45ea6ab4f19e363fd0aeab36ae7a26fcef72",
       "status": "FROZEN_PENDING_HEADLINE"
     }
   ],
