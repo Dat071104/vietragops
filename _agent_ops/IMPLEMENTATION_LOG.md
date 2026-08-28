@@ -2596,3 +2596,34 @@ was run and no v2 artifact was read.
   `gates/baselines/GATE_07_OFFLINE_RESULTS_V3.json`.
 - Final integrity check filtered shared files by `arm_id`: all five arms have
   180 output records, 180 raw records, 180 unique case IDs, and matching hashes.
+
+## 2026-08-28 — Gate 07 repair R7 first quota-window checkpoint
+
+### Scope
+
+The frozen full LLM sweep does not fit the current daily window after the
+disqualified v2 usage, so DEC-0018 pre-registered the canonical seven-case
+prefix. The corrected dotenv-enabled run used one sequential process,
+`ProviderRouter(mode="research")`, both pinned models, the existing client/key
+discovery, candidate-only prompts, and the v3 ledger/cache. Preflight passed
+first at current HEAD `bbd1d137e7b5456e4c712edfd3754d7f8fa2bc3e` with freeze
+ancestor `a02f2131a306c761034f79d4b5fa0cb60cbe8613`.
+
+### Checkpoint evidence
+
+- 56 corrected base-call records and 56 raw records for the same seven cases.
+- 53 success; 3 typed `provider_error` outcomes, all HTTP 400, separate from
+  accuracy. No parse failures in this corrected batch.
+- Estimated input tokens: 72,692; reserved output: 28,672; total 101,364,
+  matching DEC-0018's pre-registered batch budget.
+- Corrected output SHA-256:
+  `f2b6805d9aca0499c09840271428bef6b49274a11b88639892b30db5b5ab9b66`.
+  Corrected raw SHA-256:
+  `5133e51cb2bac04cead51f26556812b2077d86a6ded06b7a977936e31713036f`.
+- The first 56 setup rows (`Groq is not configured.`) were caused by
+  `PYTHON_DOTENV_DISABLED=true`, made no network call, and are retained as
+  diagnostics only. The shared v3 ledger now contains 112 rows, but only the
+  corrected 56 are eligible R7 evidence.
+
+The remaining 173 cases are not run in this window; resume from the full v3
+task file and corrected output/cache after the daily quota window resets.
