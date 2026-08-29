@@ -1,0 +1,298 @@
+{
+  "arms": [
+    {
+      "arm_id": "gate08_method",
+      "config": {
+        "arm_id": "gate08_method",
+        "calibration_enabled": true,
+        "include_preconditions_effects": true,
+        "old_variant": "full",
+        "use_intent_abstraction": true
+      },
+      "information_rights": [
+        "old_contract",
+        "verified_old_traces",
+        "task_description",
+        "new_contracts",
+        "candidate_list"
+      ],
+      "models": [
+        "openai/gpt-oss-120b",
+        "openai/gpt-oss-20b"
+      ]
+    },
+    {
+      "arm_id": "ablate_no_history",
+      "config": {
+        "arm_id": "ablate_no_history",
+        "calibration_enabled": true,
+        "include_preconditions_effects": true,
+        "old_variant": "no_history",
+        "use_intent_abstraction": true
+      },
+      "information_rights": [
+        "old_contract",
+        "task_description",
+        "new_contracts",
+        "candidate_list"
+      ],
+      "models": [
+        "openai/gpt-oss-120b",
+        "openai/gpt-oss-20b"
+      ]
+    },
+    {
+      "arm_id": "ablate_schema_only",
+      "config": {
+        "arm_id": "ablate_schema_only",
+        "calibration_enabled": true,
+        "include_preconditions_effects": true,
+        "old_variant": "task_only",
+        "use_intent_abstraction": true
+      },
+      "information_rights": [
+        "task_description",
+        "new_contracts",
+        "candidate_list"
+      ],
+      "models": [
+        "openai/gpt-oss-120b",
+        "openai/gpt-oss-20b"
+      ]
+    },
+    {
+      "arm_id": "ablate_no_intent_abstraction",
+      "config": {
+        "arm_id": "ablate_no_intent_abstraction",
+        "calibration_enabled": true,
+        "include_preconditions_effects": true,
+        "old_variant": "full",
+        "use_intent_abstraction": false
+      },
+      "information_rights": [
+        "old_contract",
+        "verified_old_traces",
+        "task_description",
+        "new_contracts",
+        "candidate_list"
+      ],
+      "models": [
+        "openai/gpt-oss-120b",
+        "openai/gpt-oss-20b"
+      ]
+    },
+    {
+      "arm_id": "ablate_no_preconditions_effects",
+      "config": {
+        "arm_id": "ablate_no_preconditions_effects",
+        "calibration_enabled": true,
+        "include_preconditions_effects": false,
+        "old_variant": "full",
+        "use_intent_abstraction": true
+      },
+      "information_rights": [
+        "old_contract",
+        "verified_old_traces",
+        "task_description",
+        "new_contracts",
+        "candidate_list"
+      ],
+      "models": [
+        "openai/gpt-oss-120b",
+        "openai/gpt-oss-20b"
+      ]
+    },
+    {
+      "arm_id": "ablate_no_calibration",
+      "config": {
+        "arm_id": "ablate_no_calibration",
+        "calibration_enabled": false,
+        "include_preconditions_effects": true,
+        "old_variant": "full",
+        "use_intent_abstraction": true
+      },
+      "information_rights": [
+        "old_contract",
+        "verified_old_traces",
+        "task_description",
+        "new_contracts",
+        "candidate_list"
+      ],
+      "models": [
+        "openai/gpt-oss-120b",
+        "openai/gpt-oss-20b"
+      ]
+    }
+  ],
+  "authorized_by": "gates/results/GATE_07_RESULT.md narrow V4.1 GO",
+  "created_at": "2026-08-29T00:00:00Z",
+  "dataset": {
+    "candidate_order_oracle_sha256": "sha256:e1982439c563e6e45c01b20f7ea352cb1049efa64a0d8874d31d835412bff068",
+    "graded_manifest_sha256": "sha256:2f82956b7200836fa23aaca51d04b13b2013bb543e7aac0418f6f4944bb31dbe",
+    "held_out_manifest_sha256": "sha256:e438087fb9a92c38a1028b0f7dc917ec080274c10dfd7af3543fe7bba3336378",
+    "source": "research/gate07/dataset/generator.py (unchanged)"
+  },
+  "evaluation_surface": {
+    "calibration_case_count": 36,
+    "calibration_case_ids_sha256": "sha256:6370f657a7f936b80e0e52346a96cce12855f5c8930c4578f05fa2dfdd8350cf",
+    "calibration_split": "held_out",
+    "claim_families": [
+      "argument_split",
+      "tool_replacement"
+    ],
+    "control_families": [
+      "no_equivalent"
+    ],
+    "eval_case_count": 45,
+    "eval_case_ids_sha256": "sha256:a690a3b5f865dad91442eb6123bbd43bf23ae9cc050c0881ef5736a5917c9283",
+    "family_minimum": 15
+  },
+  "exclusions": {
+    "parse_failure": "Never enters an accuracy numerator or denominator.",
+    "provider_failure": "Never enters an accuracy numerator or denominator.",
+    "signature_unavailable": "A case whose signature could not be collected is reported, not scored."
+  },
+  "gate": "gate08",
+  "git_head_at_freeze": "39d386162b17a6086d82300eed16e4f2a6880be9",
+  "method": {
+    "abstain_coverage_target": 0.3,
+    "confidence_weights": {
+      "completeness": 0.2,
+      "margin": 0.3,
+      "top": 0.5
+    },
+    "correspondence_weights": {
+      "effect": 0.25,
+      "entity": 0.25,
+      "operation": 0.25,
+      "output": 0.15,
+      "precondition": 0.1
+    },
+    "interface_digest": "sha256:c4d6ae2941b76b241072e375fa50ec94f21c80e4fee9e01cd94a52284e9f8b0e",
+    "interface_version": "gate08-method-v1",
+    "prompt_version": "gate08-signature-v1",
+    "prompts": [
+      {
+        "information_rights": [
+          "new_contracts"
+        ],
+        "prompt_id": "gate08-new-signature-v1",
+        "side": "new",
+        "text_sha256": "sha256:1f7f1adf5418b566568a795fbd2f7e1941d7f163e9430d0d09f6842d14c3a944",
+        "version": "gate08-signature-v1"
+      },
+      {
+        "information_rights": [
+          "old_contract",
+          "task_description"
+        ],
+        "prompt_id": "gate08-old-signature-no-history-v1",
+        "side": "old",
+        "text_sha256": "sha256:e3bf15a807a0ce8f1c17860d244390c8a4f29ef78c5283bf05d2962f3db751db",
+        "version": "gate08-signature-v1"
+      },
+      {
+        "information_rights": [
+          "task_description"
+        ],
+        "prompt_id": "gate08-old-signature-task-only-v1",
+        "side": "old",
+        "text_sha256": "sha256:549c0338e6a44edadaa6299646f9c1c4daef514d5cb1253940b896215278ac15",
+        "version": "gate08-signature-v1"
+      },
+      {
+        "information_rights": [
+          "old_contract",
+          "verified_old_traces",
+          "task_description"
+        ],
+        "prompt_id": "gate08-old-signature-v1",
+        "side": "old",
+        "text_sha256": "sha256:50bfd0cd8be9a6159dc0b689d80bfea1e6b026c54e010b93bc5eef96cab2451b",
+        "version": "gate08-signature-v1"
+      }
+    ],
+    "retrieval_floor_grid": [
+      0.3,
+      0.35,
+      0.4,
+      0.45,
+      0.5,
+      0.55,
+      0.6,
+      0.65,
+      0.7,
+      0.75,
+      0.8,
+      0.85,
+      0.9
+    ],
+    "transform_kinds": [
+      "identity",
+      "split",
+      "join",
+      "literal",
+      "split_unresolved",
+      "join_unresolved"
+    ],
+    "unresolved_join_policy": "A merge whose separator is stated nowhere in the method-facing information is emitted as join_unresolved: the correspondence is reported and scored, and no value is constructed. Gate 07's executor therefore reports an unconstructible call rather than a value built from an invented separator."
+  },
+  "metrics": {
+    "bootstrap_samples": 2000,
+    "definitions": {
+      "abstention_rate": "Share of cases whose decision carried the abstention flag.",
+      "argument_mapping_f1": "F1 over (old_tool, old_arg, new_tool, new_arg) quadruples.",
+      "false_alignment_rate": "Share of proposed old/new tool pairs that are not correct.",
+      "first_attempt_task_success": "One adapted execution per case, scored by the frozen Gate 07 executor.",
+      "no_equivalent_accuracy": "Share of no-equivalent cases answered not_equivalent.",
+      "tool_alignment_at_1": "Exact match between the selected candidate set and the correct new tool set."
+    },
+    "interval_methods": {
+      "continuous": "bootstrap",
+      "proportion": "wilson"
+    },
+    "thresholds": {
+      "argument_mapping_f1": {
+        "practical": 0.75,
+        "saturation": 0.9
+      },
+      "first_attempt_task_success": {
+        "practical": 0.8,
+        "saturation": 0.9
+      },
+      "no_equivalent_accuracy": {
+        "practical": 0.8,
+        "saturation": 0.9
+      },
+      "tool_alignment_at_1": {
+        "practical": 0.8,
+        "saturation": 0.95
+      }
+    }
+  },
+  "provider": {
+    "cost_cap_usd": 1.2,
+    "fallback": "disabled",
+    "max_tokens": 900,
+    "mode": "research",
+    "models": [
+      "openai/gpt-oss-120b",
+      "openai/gpt-oss-20b"
+    ]
+  },
+  "reused_ablation": {
+    "ablation_id": "ablate_direct_frontier_llm_mapper",
+    "collected_by": "gate07_v4_1",
+    "information_rights": [
+      "old_contract",
+      "verified_old_traces",
+      "task_description",
+      "new_contracts",
+      "candidate_list"
+    ],
+    "re_collected": false,
+    "source": "gates/artifacts/gate07/v4/llm/llm_results.jsonl",
+    "source_arm_id": "llm_old_new_history"
+  },
+  "schema": "gate08.protocol.v1"
+}
