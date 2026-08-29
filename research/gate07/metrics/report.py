@@ -43,6 +43,15 @@ def load_jsonl(path: str | Path) -> list[dict[str, Any]]:
     return [json.loads(line) for line in Path(path).read_text(encoding="utf-8").splitlines() if line.strip()]
 
 
+def latest_attempts(rows: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Resolve append-only retries to one latest row per logical call key."""
+    latest: dict[tuple[Any, Any, Any, Any], dict[str, Any]] = {}
+    for row in rows:
+        key = (row.get("arm_id"), row.get("model"), row.get("case_id"), row.get("prompt_id"))
+        latest[key] = row
+    return list(latest.values())
+
+
 def summarize_values(values: Iterable[float], *, seed: int, bootstrap_samples: int) -> dict[str, Any]:
     """Compatibility wrapper for the V4 continuous-score estimator."""
     return _summary(list(values), seed=seed, bootstrap_samples=bootstrap_samples)
@@ -368,7 +377,7 @@ def build_report(
         for arm_id in ("positional_prior", "random_choice"):
             rows = [row for row in control_rows if row.get("arm_id") == arm_id]
             reports.append(build_arm_report(arm_id, "deterministic_control", rows, cases, task_records, capability, selection_contract="v4_control", bootstrap_samples=bootstrap_samples))
-    llm_rows = load_jsonl(llm_path)
+    llm_rows = latest_attempts(load_jsonl(llm_path))
     prompt_templates = protocol["prompt_templates"]
     for arm_id in LLM_ARM_IDS:
         for model in protocol["models"]["llm_ids"]:

@@ -12,6 +12,7 @@ import pytest
 
 from rag.generation.groq_client import GroqClient
 from rag.generation.provider_router import ProviderInvocation, ProviderRouter
+from research.gate07.metrics.report import latest_attempts
 from research.gate07.runner import llm
 from research.gate07.runner.rate_ledger import RateLimitLedger, RateLimits
 
@@ -249,3 +250,11 @@ def test_cost_budget_reserves_maximum_and_settles_actual_usage(tmp_path: Path):
     tiny_budget = llm.CostBudget(tmp_path / "other.jsonl", cap_usd=0.000001)
     allowed, _ = tiny_budget.reserve("openai/gpt-oss-120b", 1_000, 1_536)
     assert allowed is False
+
+
+def test_append_only_retries_are_rescored_from_latest_logical_attempt():
+    rows = [
+        {"arm_id": "arm", "model": "model", "case_id": "case", "prompt_id": "prompt", "outcome": "provider_failure"},
+        {"arm_id": "arm", "model": "model", "case_id": "case", "prompt_id": "prompt", "outcome": "success"},
+    ]
+    assert latest_attempts(rows) == [rows[-1]]
