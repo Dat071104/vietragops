@@ -2814,3 +2814,17 @@ does not apply. The first sandboxed provider attempt hit an artifact-write
 permission error after a response; it was retried after filesystem escalation,
 and the bounded worst-case unrecorded exposure is preserved in the result and
 closure receipt rather than reported as zero.
+
+## 2026-08-29 — Gate 07 agent-ops reconciliation
+
+After the V4.1 closure, a live scan found stale current-state references in the
+project context card, risk register, phase tracker/card, execution and repair
+prompt headers, third-party tooling record, and repository map. Those records
+were synchronized to the authoritative narrow V4.1 `GO` for `argument_split`
+and `tool_replacement`; historical v2/v3 `BLOCKED` text was retained and
+explicitly labeled historical. Gate 08 records were not edited.
+
+`REPO_MAP.md` was regenerated from HEAD `b27fcae` (237 code files, 1,410
+symbols, 3,026 edges). `CURRENT_TASK.md` and `SESSION_BRIEF.md` retain the
+final HEAD and no-push state as machine-local notes. No provider, source-code,
+protocol, freeze-ledger, or test change was made in this reconciliation.
