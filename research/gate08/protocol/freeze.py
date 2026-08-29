@@ -36,6 +36,10 @@ from research.gate08.method.prompts import ALL_PROMPTS, PROMPT_VERSION
 
 SCHEMA = "gate08.protocol.v1"
 
+# The Gate 07 V4.1 surface. Any other value would evaluate the method on a
+# different candidate list than the frozen baselines saw.
+CANDIDATE_ORDER = "v4_seeded_permutation"
+
 # Same practical/saturation bars Gate 07 V4 used, so a Gate 08 number can be
 # read against a Gate 07 number without re-deriving a threshold.
 METRIC_THRESHOLDS = {
@@ -77,7 +81,7 @@ def build_protocol(
 ) -> dict[str, Any]:
     root = Path(repo_root).resolve() if repo_root is not None else Path(__file__).resolve().parents[3]
     head = _git_output(root, "rev-parse", "HEAD")
-    cases = _live_cases()
+    cases = _live_cases(CANDIDATE_ORDER)
     return {
         "schema": SCHEMA,
         "gate": "gate08",
@@ -86,8 +90,9 @@ def build_protocol(
         "authorized_by": "gates/results/GATE_07_RESULT.md narrow V4.1 GO",
         "dataset": {
             **dataset_manifest_digests(cases),
+            "candidate_order": CANDIDATE_ORDER,
             "candidate_order_oracle_sha256": candidate_order_digest(cases),
-            "source": "research/gate07/dataset/generator.py (unchanged)",
+            "source": "research/gate07/dataset/generator.py build_v4_cases (unchanged)",
         },
         "evaluation_surface": {
             "claim_families": list(CLAIM_FAMILIES),
@@ -187,7 +192,7 @@ def preflight_gate08_run(protocol_path: str | Path, *, repo_root: str | Path | N
     if _git(root, "merge-base", "--is-ancestor", resolved, current).returncode != 0:
         raise FreezePreflightError(f"Frozen revision {recorded} is not an ancestor of current HEAD {current}.")
 
-    cases = _live_cases()
+    cases = _live_cases(CANDIDATE_ORDER)
     live_dataset = dataset_manifest_digests(cases)
     expected_dataset = protocol.get("dataset") or {}
     mismatches = {
@@ -229,6 +234,7 @@ def preflight_gate08_run(protocol_path: str | Path, *, repo_root: str | Path | N
 
 
 __all__ = [
+    "CANDIDATE_ORDER",
     "FAMILY_MINIMUM",
     "METRIC_THRESHOLDS",
     "SCHEMA",

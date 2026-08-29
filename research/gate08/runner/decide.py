@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Any
 
 from research.gate0.evaluator.capability import EvaluatorCapability
-from research.gate07.dataset.generator import build_all_cases
+from research.gate07.dataset.generator import build_v4_cases
 from research.gate07.metrics.execution import evaluate_first_attempt
 from research.gate08.ablations import ALL_CONFIGS, config_by_id
 from research.gate08.harness import load_tasks
@@ -27,7 +27,7 @@ from research.gate08.runner.store import (
 
 
 def _cases_by_id() -> dict[str, Any]:
-    return {case.case_id: case for case in build_all_cases()}
+    return {case.case_id: case for case in build_v4_cases()}
 
 
 def _signatures(store: SignatureStore, task: dict[str, Any], model: str, config: MethodConfig):

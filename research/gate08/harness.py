@@ -1,7 +1,9 @@
 """The frozen Gate 08 evaluation surface.
 
-Both splits are derived from the unchanged Gate 07 case generator, so the Gate 07
-dataset digests still describe them exactly. Nothing here re-generates a case.
+Both splits are drawn from `build_v4_cases()` -- the same seeded candidate
+permutation Gate 07 V4.1 ran on -- so a Gate 08 task and the frozen Gate 07 row
+for the same case id describe the identical candidate list. Nothing here
+re-generates a case.
 """
 
 from __future__ import annotations
@@ -9,7 +11,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from research.gate07.dataset.generator import build_all_cases
+from research.gate07.dataset.generator import build_v4_cases
 from research.gate07.harness.serialization import task_record
 
 # Frozen before any Gate 08 number exists. `argument_split` and
@@ -23,14 +25,14 @@ EVAL_FAMILIES = CLAIM_FAMILIES + CONTROL_FAMILIES
 def eval_cases() -> tuple:
     return tuple(
         case
-        for case in build_all_cases()
+        for case in build_v4_cases()
         if not case.held_out and case.family in EVAL_FAMILIES
     )
 
 
 def calibration_cases() -> tuple:
     """Every held-out case. Gate 07 scored none of them."""
-    return tuple(case for case in build_all_cases() if case.held_out)
+    return tuple(case for case in build_v4_cases() if case.held_out)
 
 
 def write_tasks(cases: tuple, path: str | Path) -> Path:

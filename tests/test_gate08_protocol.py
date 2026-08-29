@@ -34,6 +34,18 @@ def test_protocol_records_everything_a_rerun_needs():
     assert protocol["reused_ablation"]["re_collected"] is False
 
 
+def test_surface_is_byte_identical_to_the_frozen_gate07_v4_surface():
+    """The comparison is only fair if both sides saw the same candidate lists."""
+    gate07 = json.loads(
+        (Path(__file__).resolve().parents[1] / "gates" / "baselines" / "GATE_07_PROTOCOL_V4.json").read_text(encoding="utf-8")
+    )["dataset"]
+    gate08 = _protocol()["dataset"]
+    assert gate08["graded_manifest_sha256"] == gate07["graded_manifest_sha256"]
+    assert gate08["held_out_manifest_sha256"] == gate07["held_out_manifest_sha256"]
+    assert gate08["candidate_order"] == gate07["candidate_order"] == "v4_seeded_permutation"
+    assert gate08["candidate_order_oracle_sha256"] == gate07["candidate_order_oracle_sha256"]
+
+
 def test_protocol_pins_every_prompt_by_digest():
     protocol = _protocol()
     prompts = protocol["method"]["prompts"]

@@ -1,6 +1,7 @@
 """Gate 08 protocol freeze surface."""
 
 from research.gate08.protocol.freeze import (
+    CANDIDATE_ORDER,
     FAMILY_MINIMUM,
     METRIC_THRESHOLDS,
     SCHEMA,
@@ -11,6 +12,7 @@ from research.gate08.protocol.freeze import (
 )
 
 __all__ = [
+    "CANDIDATE_ORDER",
     "FAMILY_MINIMUM",
     "METRIC_THRESHOLDS",
     "SCHEMA",

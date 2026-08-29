@@ -127,10 +127,11 @@
   "authorized_by": "gates/results/GATE_07_RESULT.md narrow V4.1 GO",
   "created_at": "2026-08-29T00:00:00Z",
   "dataset": {
-    "candidate_order_oracle_sha256": "sha256:e1982439c563e6e45c01b20f7ea352cb1049efa64a0d8874d31d835412bff068",
-    "graded_manifest_sha256": "sha256:2f82956b7200836fa23aaca51d04b13b2013bb543e7aac0418f6f4944bb31dbe",
-    "held_out_manifest_sha256": "sha256:e438087fb9a92c38a1028b0f7dc917ec080274c10dfd7af3543fe7bba3336378",
-    "source": "research/gate07/dataset/generator.py (unchanged)"
+    "candidate_order": "v4_seeded_permutation",
+    "candidate_order_oracle_sha256": "sha256:bb8f18a1d8a84f3c25726bc87fa2cde863bb4cdaa57f7c4c2480b9d27a008265",
+    "graded_manifest_sha256": "sha256:435d91e1d5c97f1a484eee4f2934c7b97d328d4437a04d51970aec30b7c41983",
+    "held_out_manifest_sha256": "sha256:c8c39d23fe28b19ff73c12fe8c578554fc6b8918151fb25bfe4a2468208ed546",
+    "source": "research/gate07/dataset/generator.py build_v4_cases (unchanged)"
   },
   "evaluation_surface": {
     "calibration_case_count": 36,
@@ -153,7 +154,7 @@
     "signature_unavailable": "A case whose signature could not be collected is reported, not scored."
   },
   "gate": "gate08",
-  "git_head_at_freeze": "39d386162b17a6086d82300eed16e4f2a6880be9",
+  "git_head_at_freeze": "cd311ac6c13f4901c1c2253fe9082e10b15bee0a",
   "method": {
     "abstain_coverage_target": 0.3,
     "confidence_weights": {
