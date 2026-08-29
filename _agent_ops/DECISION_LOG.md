@@ -1019,3 +1019,76 @@ exact first-attempt cost is unavailable, but its one-request worst-case bound
 is `$0.000561525`, making recorded plus bounded unrecorded exposure
 `$0.239495775 < $1.20`. This is retained as an operational provenance risk,
 not silently treated as zero. No provider keys or secret values are recorded.
+
+## DEC-0023 — Gate 08 alignment method is not adopted
+
+**Date:** 2026-08-29
+**Status:** Decided
+**Gate:** 08 (Cross-Version Alignment Method)
+**Result:** `gates/results/GATE_08_RESULT.md`
+**Commits:** `cd311ac`, `b02fa79`, `0e2aab7`, `c419bca`, `e43c932` (local, not pushed)
+
+### Context
+
+Gate 07 closed with a narrow V4.1 `GO` for `argument_split` and
+`tool_replacement` and named a separately approved follow-on plan as the only
+allowed next step. The user approved that plan on 2026-08-29 and authorized
+execution to the end of Gate 08.
+
+### Scope decision, pre-registered before any number
+
+The evaluation surface was frozen in `gates/baselines/GATE_08_PROTOCOL.json`
+before collection: 15 graded `argument_split` and 15 graded `tool_replacement`
+cases as the claim surface, 15 graded `no_equivalent` cases as an abstention and
+false-alignment safety control that carries no claim, and the 36 held-out cases
+Gate 07 never scored as the calibration split. Gate 07's frozen baselines were
+re-scored on that surface rather than re-run, and the sixth required ablation --
+the direct frontier-LLM mapper -- is the frozen `llm_old_new_history` evidence,
+reused with its reuse declared. Evaluating all twelve families was rejected: it
+is outside the authorization Gate 07 granted and would have manufactured claims
+the gate did not earn.
+
+### Decision
+
+The Gate 08 method is **not adopted**, and Gate 09 is not authorized. The method
+loses to the frozen Gate 07 baselines on every compared metric in all three
+evaluated families. On `argument_split` the strongest Gate 08 Argument F1 is
+`0.6000` against `0.6889`, and first-attempt `0.5333` against `0.7333`. On
+`tool_replacement` Argument F1 is `0.1333` against `0.3867` and first-attempt
+`0.0000` against `0.5333`. On the `no_equivalent` control, no-equivalent accuracy
+is `0.8000` against `1.0000`. False alignment is `0.0000` on both sides, so the
+method is weaker rather than reckless.
+
+The decisive evidence is the `no_intent_abstraction` ablation: a purely
+deterministic pipeline that treats raw field names as concepts, with no LLM call
+at all, matches or beats the full method on `argument_split` (Argument F1
+`0.5333`; first-attempt `0.5333`). The two-sided independent intent abstraction
+was the mechanism's entire claim to novelty, and its own ablation says it
+subtracts value. Calibration is the one component that earns its place: disabling
+it drives no-equivalent accuracy from `0.8000` to `0.0000`.
+
+### Two dataset findings that qualify Gate 07
+
+Ten of 35 `tool_replacement` ground-truth argument pairs name a `new_arg` that is
+not a field of the new contract any method is shown, capping attainable recall
+for that family at `0.7143`. `argument_split` is clean at `0/40`. Separately, the
+`::` merge separator required by five `tool_replacement` cases appears nowhere in
+the method-facing information. The `tool_replacement` half of Gate 07's narrow GO
+should therefore be treated as weaker than the `argument_split` half until those
+oracle pairs are repaired.
+
+### Alternatives rejected
+
+Raising `max_tokens` to recover the 19 stable `json_validate_failed` signature
+requests was rejected: changing a frozen protocol parameter mid-run is the exact
+defect that blocked Gate 07 v2. Inventing a `::` separator to complete merge
+executions was rejected in favour of a pre-registered `join_unresolved` transform
+that reports the correspondence and constructs no value.
+
+### Evidence
+
+Recorded spend `$0.20574795` under the `$1.20` cap; 563 of 582 signatures
+collected; 527 of 540 decision rows scored; the metric report reproduced twice
+with SHA-256
+`7fd06b63dbc79a9bf79e7c9ed064f55af53c069ef0be1b455e76ad9637394b09`. Full suite
+`540 passed, 2 warnings`; compileall exit 0.

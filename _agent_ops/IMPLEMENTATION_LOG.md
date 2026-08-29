@@ -2828,3 +2828,77 @@ explicitly labeled historical. Gate 08 records were not edited.
 symbols, 3,026 edges). `CURRENT_TASK.md` and `SESSION_BRIEF.md` retain the
 final HEAD and no-push state as machine-local notes. No provider, source-code,
 protocol, freeze-ledger, or test change was made in this reconciliation.
+
+## 2026-08-29 — Gate 08 executed and closed NEGATIVE
+
+Authorized by the user as the separately approved follow-on plan Gate 07's
+result required. Ran sequentially through sub-phases 8.0-8.8 with per-phase
+checklists, in one session, no subagents.
+
+### What was built
+
+`research/gate08/` — a two-sided cross-version alignment method. An LLM
+abstracts the old operation (contract + verified traces + task description) and,
+in a separate call that never sees the old side, each new candidate contract,
+both into one frozen vocabulary. Correspondence, argument alignment,
+calibration, and the verdict are then deterministic. Five alignment passes:
+exact concept, declared part-of, declared components, a value the new contract
+states for itself, and a residual conservation-of-information pass that recovers
+an unannounced split or merge from what is left over.
+
+Modules: `method/{models,prompts,signature,correspondence,alignment,calibration,
+pipeline}.py`, `harness.py`, `ablations.py`, `protocol/{freeze,build}.py`,
+`runner/{signatures,store,calibrate,decide}.py`,
+`metrics/{report,diagnostics}.py`. Tests: `tests/test_gate08_method.py`,
+`tests/test_gate08_boundary.py`, `tests/test_gate08_protocol.py`,
+`tests/test_gate08_metrics.py`.
+
+### Two defects caught before any provider call
+
+1. The surface was first built from `build_all_cases()`, whose dataset digests
+   do not match Gate 07 V4's. That would have compared the method against
+   baselines that saw different candidate lists. Corrected to `build_v4_cases()`
+   in `b02fa79`; a test now asserts digest equality with
+   `GATE_07_PROTOCOL_V4.json`.
+2. The signature prompt allowed free-text sentences as output semantics, which
+   two independent abstractions can never match. Corrected in `0e2aab7`; the
+   connectivity-probe artifacts collected under the old prompt were deleted, not
+   reused.
+
+### Commands and results
+
+```
+python -m research.gate08.protocol.build --output gates/baselines/GATE_08_PROTOCOL.json --created-at 2026-08-29T00:00:00Z
+python -m research.gate08.runner.signatures --tasks .../eval_tasks.json .../calibration_tasks.json ...   # 4 passes
+python -m research.gate08.runner.calibrate  --tasks .../calibration_tasks.json ...
+python -m research.gate08.runner.decide     --tasks .../eval_tasks.json ...
+python -m research.gate08.metrics.report    ...                                                          # 2 runs
+```
+
+- Signatures: 582 units, 563 collected. The 19 stragglers are stable
+  `HTTP 400 json_validate_failed`, all on `openai/gpt-oss-20b`, 17 on the
+  schema-only variant. `max_tokens` was not raised to chase them; they are typed
+  provider failures, excluded, never wrong answers.
+- Recorded spend `$0.20574795` against the `$1.20` cap. No abort, no
+  `client_throttled` row.
+- Decisions: 540 rows, 527 scored, 13 `signature_unavailable` (all
+  `ablate_schema_only`, downstream of the 19).
+- Metrics reproduced twice, identical SHA-256
+  `7fd06b63dbc79a9bf79e7c9ed064f55af53c069ef0be1b455e76ad9637394b09`.
+- Full suite: **540 passed, 2 warnings, 0 failed**; compileall exit 0.
+
+### Result
+
+Negative. The method loses to the frozen Gate 07 baselines on every compared
+metric in all three evaluated families. The `no_intent_abstraction` ablation --
+no LLM at all -- matches or beats the full method on `argument_split`, so the
+intent abstraction is not earning its place. Calibration is the one component
+that works: disabling it takes no-equivalent accuracy from `0.8000` to `0.0000`.
+
+Two dataset findings recorded: 10 of 35 `tool_replacement` oracle argument pairs
+name a field absent from the new contract (max attainable recall `0.7143`), and
+the `::` merge separator is in no method's information rights.
+
+DEC-0023 records the decision. Gate 09 is not authorized. Gate 07 artifacts,
+`research/gate07/dataset|oracle|sandbox`, and `research/gate0/` were not
+modified; a test enforces that.
