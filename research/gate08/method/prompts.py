@@ -27,6 +27,8 @@ _VOCABULARY = (
     "order they appear. "
     "If the contract text states the exact value this field must take for this operation to "
     "apply, put that value in stated_literal; otherwise use null. "
+    "output_semantics must be one lowercase noun concept per output field, in the order the "
+    "output fields appear. Write concepts, never sentences. "
     "Return JSON only. No markdown, no analysis."
 )
 

@@ -154,7 +154,7 @@
     "signature_unavailable": "A case whose signature could not be collected is reported, not scored."
   },
   "gate": "gate08",
-  "git_head_at_freeze": "cd311ac6c13f4901c1c2253fe9082e10b15bee0a",
+  "git_head_at_freeze": "b02fa7994b56e064a45cc32ba581f2f2c35fa165",
   "method": {
     "abstain_coverage_target": 0.3,
     "confidence_weights": {
@@ -179,7 +179,7 @@
         ],
         "prompt_id": "gate08-new-signature-v1",
         "side": "new",
-        "text_sha256": "sha256:1f7f1adf5418b566568a795fbd2f7e1941d7f163e9430d0d09f6842d14c3a944",
+        "text_sha256": "sha256:6a0c3f8965efd47a8dbff6bb570384be147d5bdcdb2d25762890d13eaa05278e",
         "version": "gate08-signature-v1"
       },
       {
@@ -189,7 +189,7 @@
         ],
         "prompt_id": "gate08-old-signature-no-history-v1",
         "side": "old",
-        "text_sha256": "sha256:e3bf15a807a0ce8f1c17860d244390c8a4f29ef78c5283bf05d2962f3db751db",
+        "text_sha256": "sha256:8ebf55e86d1c96110190672c7876ee0028fba91f02a9292b2feca530b3249e6c",
         "version": "gate08-signature-v1"
       },
       {
@@ -198,7 +198,7 @@
         ],
         "prompt_id": "gate08-old-signature-task-only-v1",
         "side": "old",
-        "text_sha256": "sha256:549c0338e6a44edadaa6299646f9c1c4daef514d5cb1253940b896215278ac15",
+        "text_sha256": "sha256:88dedb554bb5cf7a9f4eed188b8dc28e31ef1d8380ad24cf4a0ce34d68db30a2",
         "version": "gate08-signature-v1"
       },
       {
@@ -209,7 +209,7 @@
         ],
         "prompt_id": "gate08-old-signature-v1",
         "side": "old",
-        "text_sha256": "sha256:50bfd0cd8be9a6159dc0b689d80bfea1e6b026c54e010b93bc5eef96cab2451b",
+        "text_sha256": "sha256:f5daca66ddee2c21c5922376b315cec9cf57a61eb90c21c408a4ddb0fbddff3a",
         "version": "gate08-signature-v1"
       }
     ],
