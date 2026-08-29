@@ -942,7 +942,10 @@ no ledger/cache entry for an unsent request, HTTP error-body retention in
 `provider_error_body`, provider usage propagation to the ledger, `max_tokens`
 1536, and deterministic arm/model shuffling with seed 20260827. Recollection
 will retry only non-success keys and will not alter cases, prompt templates,
-models, candidate order, the V4 protocol JSON, or the V4 freeze ledger.
+models, candidate order, the V4 protocol JSON, or the V4 freeze ledger. The
+runner also enforces the hard `$1.20` cap with a pre-request reservation and
+actual-usage settlement; a cost or daily-quota stop writes a separate
+checkpoint without discarding collected rows.
 
 This is not a change to the Gate 07 hypothesis. The V4 headline collection is
 operationally invalid for a headline decision under the four defects above,

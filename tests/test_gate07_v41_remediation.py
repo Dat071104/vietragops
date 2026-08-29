@@ -230,3 +230,22 @@ def test_s26_execution_order_is_fixed_but_not_nested_default_order():
     assert first == second
     assert set(first) == {(arm_id, model) for arm_id in llm.ARM_IDS for model in models}
     assert first != tuple((arm_id, model) for model in models for arm_id in llm.ARM_IDS)
+
+
+def test_cost_budget_reserves_maximum_and_settles_actual_usage(tmp_path: Path):
+    budget = llm.CostBudget(tmp_path / "results.jsonl")
+    allowed, reservation = budget.reserve("openai/gpt-oss-120b", 1_000, 1_536)
+    assert allowed is True
+    cost, usage_complete = budget.settle(
+        reservation,
+        "openai/gpt-oss-120b",
+        {"input_tokens_actual": 100, "output_tokens_actual": 20},
+        billable=True,
+    )
+    assert usage_complete is True
+    assert cost == pytest.approx((100 * 0.15 + 20 * 0.60) / 1_000_000)
+    assert budget.spent_usd == pytest.approx(cost)
+
+    tiny_budget = llm.CostBudget(tmp_path / "other.jsonl", cap_usd=0.000001)
+    allowed, _ = tiny_budget.reserve("openai/gpt-oss-120b", 1_000, 1_536)
+    assert allowed is False
