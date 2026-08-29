@@ -2,16 +2,14 @@
 
 ## Current gate
 
-Gate 03 is complete with status `PASS`: a bounded Firecrawl web
-search/scrape adapter, URL/domain/private-network safety layer, and
-candidate/provenance/recrawl-diff integration with the existing
-lifecycle are implemented, tested offline (79 tests, mocked httpx), and
-proven live after the user's explicit in-session secret confirmation and
-their own domain-allowlist configuration: one bounded search (limit 1),
-operator approval, then one bounded scrape produced exactly one
-candidate version, never touching the live manifest/chunks. See
-`gates/results/GATE_03_RESULT.md`. Gate 00, Gate 01, and Gate 02 remain
-`PASS`.
+Gate 07 is complete with status **`GO` for the narrow V4.1
+`argument_split` and `tool_replacement` regions only**. The decision is
+recorded in `gates/results/GATE_07_RESULT.md` and `DEC-0022`; V4.1's
+operational addendum was committed before the fresh provider recollection,
+and no Gate 08 work was started or authorized. Local HEAD is
+`234e852fa81a0f25abdbe47862e63f063222576e`; no push was performed.
+Gates 00-06 remain their previously recorded states, including the earlier
+Gate 03 `PASS` result.
 
 ## Baseline identity
 
@@ -154,5 +152,6 @@ fixes, and the acceptance checklist are in `gates/results/GATE_03_RESULT.md`.
 
 ## Next allowed action
 
-Gate 04, only in a new explicit session after independently re-verifying
-this Gate 03 PASS result and its evidence. This session stops here.
+Gate 07 is closed. Do not start Gate 08: it is outside the V4.1 task boundary
+and requires separate explicit authorization even though the result contains
+narrow GO regions.

@@ -964,3 +964,58 @@ strongest forced `argument_split` carrier has `n=8` versus the minimum 15.
 The broader raw file has 235 missing-verdict payloads because the retained
 legacy arm contributes additional legacy-shape rows; that distinction is
 preserved rather than collapsed.
+
+## DEC-0022 — Gate 07 V4.1 final decision is a narrow GO
+
+### Date
+
+2026-08-29
+
+### Decision
+
+Close Gate 07 with a narrow `GO` for the `argument_split` and
+`tool_replacement` failure regions under the V4 forced-selection contract.
+This is a fresh V4.1 decision, not a rescue or rescore of the disqualified v2
+or the operationally invalid V4 headline conclusion. The cases, prompt
+templates, candidate order, and pinned models remain unchanged, and no Gate 08
+work is started.
+
+### Predicate evidence
+
+For `argument_split`, the strongest applicable forced carrier is history /
+`openai/gpt-oss-120b`: Argument F1 is `0.6889 [0.4667, 0.8889]`, `n=15`, below
+the practical threshold `0.75` with upper bound below the `0.90` saturation
+bar. Supplied-value first-attempt success is `0.7333 [0.4667, 0.9333]`,
+`n=15`, and the carrier beats the positional/random Tool@1 controls (`0.7333`
+versus `0.4000`/`0.2000`). The blind ambiguity sample is `0/3`. The first
+attempt upper bound is not below `0.90`, so the claim is limited to the stable
+F1 mechanism with an observed execution consequence.
+
+For `tool_replacement`, strongest Argument F1 is history /
+`openai/gpt-oss-20b`: `0.3867 [0.2333, 0.5333]`, `n=15`; strongest first-attempt
+success is reasoning / `openai/gpt-oss-20b`: `0.5333 [0.2667, 0.8000]`, `n=15`.
+Both are below their practical bars with non-degenerate upper bounds below the
+saturation bars, the forced result beats both controls, and blind ambiguity is
+`0/3`. `one_old_to_multiple_new` is not promoted because its ambiguity is
+`3/3`, above the frozen `0.20` limit. Other families fail at least one
+load-bearing threshold or strongest-baseline condition.
+
+### Collection and reproducibility evidence
+
+The append-only V4.1 recollection added 784 rows (`759` success, `13` parse
+failure, `12` provider error), with zero `client_throttled` rows and recorded
+cost `$0.23893425` under the `$1.20` cap. It resolved to 1,800 unique logical
+keys; metrics run 1 and run 2 both produced SHA-256
+`71aa32cf654814e9492caaded8dcd9895bb1a4712a001885731be366981c9dfc`.
+Results/raw/request-ledger SHA-256 values are recorded in
+`gates/results/GATE_07_RESULT.md`. The final suite is `498 passed, 2 warnings`;
+compileall exited 0.
+
+### Boundary and residual risk
+
+The first sandboxed provider attempt returned before the ignored raw artifact
+could be written; the key was retried after filesystem-write escalation. Its
+exact first-attempt cost is unavailable, but its one-request worst-case bound
+is `$0.000561525`, making recorded plus bounded unrecorded exposure
+`$0.239495775 < $1.20`. This is retained as an operational provenance risk,
+not silently treated as zero. No provider keys or secret values are recorded.

@@ -2771,3 +2771,46 @@ R10 result draft is ready for final full-suite/Git validation and commit.
 - Local consistency recomputation remains `LOCAL_CONSISTENCY_PASS`; AGY-4
   remains explicitly `AGY_UNAVAILABLE` because external raw-artifact
   transmission was blocked.
+
+## 2026-08-29 — Gate 07 V4.1 remediation, recollection, and closure
+
+### Scope
+
+Reproduced the V4 operational defects from the live checkout before editing:
+the final three 20b arm groups collapsed to 31.00 minutes, all 180 HTTP-400
+rows had null `raw_response`, 56 forced payloads had the exact two-key missing
+verdict shape, all 1,800 rows lacked actual output usage, and the strongest
+forced `argument_split` cell had `n=8` versus `family_minimum=15`. Ran the
+required blast-radius explorer before touching `groq_client.py`.
+
+Implemented and tested bounded client throttling with read-only wait-time
+calculation, retryable non-success cache semantics, HTTP error-body and usage
+propagation, `max_tokens=1536`, deterministic arm/model shuffle, actual usage
+ledger accounting, hard `$1.20` cost protection, and latest-attempt resolution
+for append-only recollection logs. Research mode remained no-fallback.
+
+### Receipts
+
+- V4.1 addendum and DEC-0021 were committed before recollection; preflight
+  passed at HEAD `beef195d30b1980d47d9c6837a407bac5b90e23c`.
+- Full provider recollection added 784 rows: 759 success, 13 parse failures,
+  12 provider errors, and zero `client_throttled`; recorded cost was
+  `$0.23893425`, with 1,800 unique logical keys after latest-attempt
+  resolution and zero held-out cases.
+- Result/raw/request-ledger hashes are
+  `c25e760841574ffa0eac2abb5fe7717e71f91533d2ab5be146f0c0794c17f599`,
+  `b324e50a8428ff3c684226341584276470197b4cd24a725d73bd513895959200`, and
+  `fd1d53158f10e25bcd039e7546e9425ef4d12933101adbc68f6faa9deb117a52`.
+- Metrics regenerated twice with matching SHA
+  `71aa32cf654814e9492caaded8dcd9895bb1a4712a001885731be366981c9dfc`.
+- Final validation: **498 passed, 2 warnings, 0 failed**; compileall exit 0.
+
+### Decision
+
+DEC-0022 closes Gate 07 with a narrow `GO` for `argument_split` and
+`tool_replacement`; no broad GO is claimed and Gate 08 remains forbidden.
+The carrier `argument_split` has `n=15` exactly, so the `<15` stop condition
+does not apply. The first sandboxed provider attempt hit an artifact-write
+permission error after a response; it was retried after filesystem escalation,
+and the bounded worst-case unrecorded exposure is preserved in the result and
+closure receipt rather than reported as zero.

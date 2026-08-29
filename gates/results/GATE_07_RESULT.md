@@ -1,45 +1,145 @@
 # Gate 07 Result — Scientific Gate-0
 
-Status: **GO**
+Status: **GO — narrow V4.1 regions: `argument_split`, `tool_replacement`**
 
 ## Current decision summary
 
 The v3 `GO` is retracted and v3 is superseded for scientific interpretation.
-The fresh V4 collection re-establishes a narrow scientific `GO` for the
-`argument_split` family under forced selection, explicit value transforms,
-shuffled candidates, corrected intervals, and supplied-value first-attempt
-execution. This is not a broad claim about all drift families.
+The original V4 headline is not decision-admissible as reported because its
+collection had four operational defects and its strongest forced
+`argument_split` carrier had `n=8 < family_minimum=15`. V4.1 freshly recollected
+only non-success logical keys, resolved append-only retries by latest logical
+attempt, and re-established narrow stable failure regions under the unchanged
+V4 case/prompt/model surface.
 
-The decisive V4 evidence is: strongest observed applicable forced-selection
-Argument F1 `0.500 [0.125,0.875]` (history / `openai/gpt-oss-120b`, n=8),
-best-case imputation `0.733`, and first-attempt success `0.500` with the same
-best-case `0.733`. The strongest complete offline Argument F1 is `0.167`.
-The forced-selection carrier beats the `positional_prior` Tool@1 `0.400` and
-the `random_choice` Tool@1 `0.200` controls on the family. The V4 argument-split
-sample retains 0/3 ambiguity disagreements.
+The decisive V4.1 `argument_split` evidence is strongest forced
+`llm_old_new_history` / `openai/gpt-oss-120b`: Argument F1
+`0.6889 [0.4667,0.8889]`, `n=15`, below the practical bar `0.75` and with
+upper bound below the saturation bar `0.90`. Supplied-value first-attempt
+success is `0.7333 [0.4667,0.9333]`, `n=15`; it is a measured downstream
+consequence, although its upper bound is not below `0.90`. The carrier's
+Tool@1 is `0.7333`, above `positional_prior=0.4000` and
+`random_choice=0.2000`; the retained blind sample has `0/3` disagreements.
 
-V4 missingness is reported, not hidden: across the five LLM arms and two
-models, 1016/1800 records succeeded, 60 were parse failures, 180 were typed
-provider errors, and 544 were rate-limited. Three 20b arms had no successful
-records and are not treated as baseline failures; their imputation ranges are
-published as `[0,1]`. In the `argument_split` slice, excluded records had mean
-input estimate 1599.0 tokens versus 1518.5 for successes (+80.5); this is an
-unadjusted screening signal, not a causal content claim. The GO is therefore
-limited to the observed applicable arms and this synthetic family.
+The recollection also makes `tool_replacement` independently stable under the
+same frozen predicate: strongest Argument F1 is history / `openai/gpt-oss-20b`
+`0.3867 [0.2333,0.5333]`, `n=15`; strongest first-attempt success is reasoning
+/ `openai/gpt-oss-20b` `0.5333 [0.2667,0.8000]`, `n=15`; ambiguity is `0/3`, and
+the report's forced-selection result beats both controls. This second region is
+included in the narrow GO; it is not a claim about all drift families.
 
-The abstention delta is measured with a fresh retained legacy collection on
-the V4 shuffled tasks, not by rescoring v3. For direct 120b / argument_split,
-v3 was 12/13 abstentions (92.31%); V4 legacy was 8/13 (61.54%), a delta of
-`-30.77` percentage points. The V4 forced direct arm supplied a best candidate
-on all four evaluable responses (0/4 explicit abstentions), while its mapping
-and execution scores remain reported with n=4.
+The V4.1 latest-attempt collection has 1,800 logical keys: 1,775 success, 13
+parse failures, and 12 provider errors. The append-only files contain 2,584
+rows because each of the 784 previously non-success keys has one fresh attempt;
+the 544 historical rate-limit rows and 180 historical provider-error rows are
+retained as provenance, not counted twice in the metrics. There are no
+`client_throttled` rows. No conclusion is drawn that a model cannot split
+arguments: successful split mappings remain present, and the decision is only
+that the corrected forced-selection baselines expose these two bounded failure
+regions.
 
-No conclusion is drawn that a model cannot split arguments: V4 history contains
-successful split mappings, and the result is only that the corrected forced
-selection baseline remains below the predeclared practical threshold on this
-family.
+## V4.1 freeze, recollection, and deterministic rescore
 
-## V4 freeze and retained receipts
+- Addendum: `gates/baselines/GATE_07_PROTOCOL_V4_1_ADDENDUM.json`, SHA-256
+  `df13ee0791222fdf19f456bae09fc6f4d338b549a45de09ed2b4edff0f1e3d0a`.
+- Base V4 protocol was not edited: SHA-256
+  `7a35301f22c780756893470c92034eb882e06b6d48fd0e7b0447776486a94cb1`.
+  The V4 freeze ledger was not edited.
+- Freeze/remediation commits: `42de730`, `beef195`, and `234e852`; no push.
+- Preflight receipt after the final pre-provider commit:
+
+```json
+{"candidate_order_oracle_sha256":"sha256:bb8f18a1d8a84f3c25726bc87fa2cde863bb4cdaa57f7c4c2480b9d27a008265","current_head":"beef195d30b1980d47d9c6837a407bac5b90e23c","dataset_digests":{"graded_manifest_sha256":"sha256:435d91e1d5c97f1a484eee4f2934c7b97d328d4437a04d51970aec30b7c41983","held_out_manifest_sha256":"sha256:c8c39d23fe28b19ff73c12fe8c578554fc6b8918151fb25bfe4a2468208ed546"},"protocol_git_head_at_freeze":"ecd391d50e433f8dc938e619e3336fa92edbb883","protocol_git_head_resolved":"ecd391d50e433f8dc938e619e3336fa92edbb883","protocol_path":"gates/baselines/GATE_07_PROTOCOL_V4.json","status":"passed"}
+```
+
+- Recollection receipt: `models=[openai/gpt-oss-120b, openai/gpt-oss-20b]`,
+  `run_order_seed=20260827`, `max_tokens=1536`, `aborted=false`,
+  `counts={success:759, parse_failure:13, provider_error:12}`, and
+  `spent_usd=0.23893425` for the recorded fresh attempts. The hard cap was
+  `$1.20`.
+- Artifact SHA-256: `llm_results.jsonl`
+  `c25e760841574ffa0eac2abb5fe7717e71f91533d2ab5be146f0c0794c17f599`;
+  `raw/llm.jsonl`
+  `b324e50a8428ff3c684226341584276470197b4cd24a725d73bd513895959200`;
+  `request_ledger.jsonl`
+  `fd1d53158f10e25bcd039e7546e9425ef4d12933101adbc68f6faa9deb117a52`.
+- Metrics run 1 and run 2 both exited `0` and both have SHA-256
+  `71aa32cf654814e9492caaded8dcd9895bb1a4712a001885731be366981c9dfc`.
+- The first sandboxed provider attempt returned before the ignored raw file
+  could be appended and was retried after filesystem escalation. Its exact
+  cost is unavailable; the one-request worst-case bound is `$0.000561525`, so
+  recorded plus bounded unrecorded exposure is `$0.239495775`, still below the
+  `$1.20` cap. This is a residual provenance risk, not an invented zero.
+
+### Threshold audit — actual `n` per `argument_split` cell
+
+`family_minimum=15`; `argument_mapping_f1` practical threshold `<0.75`,
+`first_attempt_task_success` `<0.80`, `no_equivalent_accuracy` `<0.80`, and
+`tool_alignment_at_1` `<0.80`. Saturation bars are respectively `0.90`,
+`0.90`, `0.90`, and `0.95`. `no_equivalent_accuracy` has `n=0` here because
+`argument_split` contains no no-equivalent cases; it is not imputed into a
+claim.
+
+| Arm / model | Tool@1 n | Arg F1 n | No-equivalent n | First-attempt n |
+|---|---:|---:|---:|---:|
+| lexical_name / deterministic_offline | 15 | 15 | 0 (N/A) | 15 |
+| lexical_serialized / deterministic_offline | 15 | 15 | 0 (N/A) | 15 |
+| embed_name_desc / deterministic_offline | 15 | 15 | 0 (N/A) | 15 |
+| embed_serialized_schema / deterministic_offline | 15 | 15 | 0 (N/A) | 15 |
+| cross_encoder / deterministic_offline | 15 | 15 | 0 (N/A) | 15 |
+| positional_prior / deterministic_control | 15 | 15 | 0 (N/A) | 15 |
+| random_choice / deterministic_control | 15 | 15 | 0 (N/A) | 15 |
+| llm_new_schema_only / 120b | 15 | 0 (N/A) | 0 (N/A) | 0 (N/A) |
+| llm_new_schema_only / 20b | 13 | 0 (N/A) | 0 (N/A) | 0 (N/A) |
+| llm_old_new_direct / 120b | 12 | 12 | 0 (N/A) | 12 |
+| llm_old_new_direct / 20b | 10 | 10 | 0 (N/A) | 10 |
+| llm_old_new_history / 120b | 15 | 15 | 0 (N/A) | 15 |
+| llm_old_new_history / 20b | 14 | 14 | 0 (N/A) | 14 |
+| llm_reasoning / 120b | 14 | 14 | 0 (N/A) | 14 |
+| llm_reasoning / 20b | 13 | 13 | 0 (N/A) | 13 |
+| llm_old_new_direct_v3_legacy / 120b | 15 | 15 | 0 (N/A) | 0 (N/A) |
+| llm_old_new_direct_v3_legacy / 20b | 15 | 15 | 0 (N/A) | 0 (N/A) |
+
+The `<15` warning does not trigger for the load-bearing `argument_split`
+carrier: its actual `n` is exactly 15. The other incomplete cells remain
+visible above and are handled by the report's imputation sensitivity; they are
+not silently promoted to complete cases.
+
+### All-family strongest-cell `n` audit
+
+The metrics report contains the complete arm×model×family matrix. The following
+compact audit records the actual `n` of the strongest cell selected for each
+threshold metric; `N/A` means the metric is structurally not applicable or the
+family has no such target cases.
+
+| Family | Strongest Arg F1 (n) | Strongest First (n) | Strongest Tool@1 (n) | Strongest No-equivalent (n) |
+|---|---|---|---|---:|
+| tool_rename | lexical_name / offline (15) | lexical_name / offline (15) | lexical_name / offline (15) | N/A |
+| argument_rename | legacy / 20b (15) | direct / 120b (15) | lexical_name / offline (15) | N/A |
+| multiple_simultaneous_renames | direct / 120b (15) | direct / 120b (15) | embed_name_desc / offline (15) | N/A |
+| added_required_field | lexical_name / offline (15) | direct / 20b (15) | lexical_name / offline (15) | N/A |
+| argument_split | history / 120b (15) | history / 120b (15) | lexical_name / offline (15) | N/A |
+| argument_merge | lexical_name / offline (15) | lexical_name / offline (15) | lexical_name / offline (15) | N/A |
+| output_restructure | lexical_name / offline (15) | lexical_name / offline (15) | lexical_name / offline (15) | N/A |
+| tool_replacement | history / 20b (15) | reasoning / 20b (15) | lexical_name / offline (15) | N/A |
+| one_old_to_multiple_new | direct / 120b (15) | direct / 120b (15) | new_schema / 120b (15) | N/A |
+| multiple_old_to_one_new | direct / 120b (15) | lexical_name / offline (15) | new_schema / 120b (15) | N/A |
+| semantic_near_collision | embed_name_desc / offline (15) | embed_name_desc / offline (15) | embed_name_desc / offline (15) | N/A |
+| no_equivalent | positional_prior / control (15) | direct / 120b (15) | new_schema / 20b (15) | new_schema / 20b (15) |
+
+### Predicate decision
+
+The V4.1 report flags `argument_split` as stable on Argument F1 and
+`tool_replacement` as stable on both Argument F1 and first-attempt success.
+For `argument_split`, first-attempt upper-bound stability is explicitly weaker
+than F1 stability (`0.9333 > 0.90`), so the claim is limited to the F1 failure
+mechanism with an observed execution consequence. `one_old_to_multiple_new`
+is not promoted because its blind ambiguity is `3/3`, above `0.20`; the other
+families fail at least one practical/saturation/baseline predicate. Therefore
+the final result is **narrow GO for `argument_split` and `tool_replacement`**,
+not a broad Gate 07 GO and not permission to begin Gate 08.
+
+## Historical V4 freeze and retained receipts
 
 - Protocol: `GATE_07_PROTOCOL_V4.json`, SHA-256
   `7a35301f22c780756893470c92034eb882e06b6d48fd0e7b0447776486a94cb1`.
@@ -556,13 +656,13 @@ The disqualified preview showed Tool Alignment@1 / Argument F1:
 These numbers are not used to support any claim. History ablation is therefore
 **not reportable**, and no conclusion about the history signal is allowed.
 
-## Ambiguity audit
+## Historical v2 ambiguity audit
 
 Not run. AGY-3 was unavailable, and no stratified blind annotation or oracle
 adjudication was performed after the protocol violation. The absence of this
 audit is another reason no scientific decision is made.
 
-## Raw artifact checksums
+## Historical v2 raw artifact checksums
 
 All files below are ignored, retained locally, and not committed:
 
@@ -575,7 +675,7 @@ All files below are ignored, retained locally, and not committed:
 - `raw/phase74_cross_encoder_v2.jsonl`: `A604CFA2F7C59A571F1597BED4BA31C93FB7138FE105BF9B6D10AE4C79586E6E`
 - `raw/phase75_llm_v2.jsonl`: `728E5C19CA1F95213E90B8F2E67D2D3CD251BE7A875A884D0E3895DA07144E4D`
 
-## Result-consistency audit
+## Historical v2 result-consistency audit
 
 AGY-4 was unavailable as a callable worker. A local read-only consistency
 check reproduced all eight listed line counts and SHA-256 values exactly, and
@@ -584,7 +684,7 @@ failure, 37 provider error). This validates artifact bookkeeping only; it does
 not repair the missing pre-run protocol commit or make the v2 numbers
 scientifically admissible.
 
-## Acceptance checklist
+## Historical v2 acceptance checklist
 
 - [ ] Protocol frozen before headline run — **failed**: v2 was uncommitted.
 - [x] Dataset checksum recorded — v2 digest recorded above, but its run is
@@ -603,7 +703,7 @@ scientifically admissible.
 - [ ] AGY-4 independent result-consistency audit — unavailable; local
   count/hash reproduction is recorded above and is not claimed independent.
 
-## Decision and next allowed action
+## Historical v2 decision and next allowed action
 
 Gate 07 is **BLOCKED**, not scientifically `STOP`. The only next allowed
 action is a newly approved Gate 07 protocol repair/re-run plan that commits a
