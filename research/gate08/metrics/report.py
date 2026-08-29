@@ -25,6 +25,7 @@ from research.gate07.metrics.report import (
 from research.gate08.ablations import ALL_CONFIGS, INFORMATION_RIGHTS, REUSED_ABLATION
 from research.gate08.harness import CLAIM_FAMILIES, CONTROL_FAMILIES, EVAL_FAMILIES, eval_cases
 from research.gate08.method.pipeline import SELECTION_CONTRACT
+from research.gate08.metrics.diagnostics import oracle_reachability
 
 OFFLINE_ARMS = {
     "lexical_name": "offline_lexical",
@@ -39,6 +40,7 @@ COMPARED_METRICS = (
     "tool_alignment_at_1",
     "argument_mapping_f1",
     "false_alignment_rate",
+    "no_equivalent_accuracy",
     "first_attempt_task_success",
 )
 
@@ -204,6 +206,7 @@ def build_report(
         "comparison": comparison,
         "calibration": thresholds,
         "signature_collection": _signature_outcomes(signatures_path),
+        "oracle_reachability": oracle_reachability(),
         "exclusion_policy": protocol["exclusions"],
         "metric_thresholds": protocol["metrics"]["thresholds"],
     }
