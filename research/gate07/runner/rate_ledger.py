@@ -10,6 +10,9 @@ import time
 from typing import Any
 
 
+_WINDOW_EPSILON_SECONDS = 0.001
+
+
 @dataclass(frozen=True)
 class RateLimits:
     per_key: dict[str, int]
@@ -35,6 +38,13 @@ class RateLimitLedger:
         row = self.connection.execute("SELECT COUNT(*), COALESCE(SUM(input_tokens), 0), COALESCE(SUM(output_tokens), 0) FROM attempts WHERE at >= ?", (since,)).fetchone()
         return int(row[0]), int(row[1]), int(row[2])
 
+    def _rows_since(self, since: float) -> list[tuple[float, int, int]]:
+        rows = self.connection.execute(
+            "SELECT at, input_tokens, output_tokens FROM attempts WHERE at >= ? ORDER BY at ASC",
+            (since,),
+        ).fetchall()
+        return [(float(at), int(input_tokens), int(output_tokens)) for at, input_tokens, output_tokens in rows]
+
     def _cap(self, value: int) -> int:
         return max(1, int(value * (1 - self.limits.reserve_fraction)))
 
@@ -56,6 +66,64 @@ class RateLimitLedger:
             if used > cap:
                 return False, label
         return True, None
+
+    @staticmethod
+    def _count_wait(rows: list[tuple[float, int, int]], cap: int, window_seconds: float, now: float) -> float:
+        expired_needed = len(rows) + 1 - cap
+        if expired_needed <= 0:
+            return 0.0
+        if expired_needed > len(rows):
+            return 0.0
+        return max(0.0, rows[expired_needed - 1][0] + window_seconds - now + _WINDOW_EPSILON_SECONDS)
+
+    @staticmethod
+    def _token_wait(
+        rows: list[tuple[float, int, int]],
+        request_tokens: int,
+        cap: int,
+        token_kind: str,
+        window_seconds: float,
+        now: float,
+    ) -> float:
+        # A request larger than the configured cap can never become admissible
+        # by expiry alone. Return immediately so the caller can exhaust its
+        # bounded retry policy and classify the row as client_throttled.
+        if request_tokens > cap:
+            return 0.0
+        used = sum(row[1] if token_kind == "input" else row[1] + row[2] for row in rows)
+        excess = used + request_tokens - cap
+        if excess <= 0:
+            return 0.0
+        released = 0
+        for row in rows:
+            released += row[1] if token_kind == "input" else row[1] + row[2]
+            if released >= excess:
+                return max(0.0, row[0] + window_seconds - now + _WINDOW_EPSILON_SECONDS)
+        return 0.0
+
+    def wait_time(self, input_tokens: int, output_tokens: int) -> float:
+        """Return seconds until the currently blocking soft cap can release.
+
+        This is a read-only calculation. It deliberately does not insert a
+        reservation or an attempt: a request that has not been sent must not
+        consume the ledger budget. If the request itself exceeds a token cap,
+        the corresponding wait is zero because expiry cannot make it fit; the
+        caller's bounded retry policy then records a typed client throttle.
+        """
+        now = time.time()
+        minute_rows = self._rows_since(now - 60)
+        day_rows = self._rows_since(now - 86400)
+        waits = [
+            self._count_wait(minute_rows, self._cap(self.limits.pool["rpm"]), 60, now),
+            self._token_wait(minute_rows, input_tokens, self._cap(self.limits.pool["tpm"]), "input", 60, now),
+            self._count_wait(day_rows, self._cap(self.limits.pool["rpd"]), 86400, now),
+            self._token_wait(day_rows, input_tokens + output_tokens, self._cap(self.limits.pool["tpd"]), "total", 86400, now),
+            self._count_wait(minute_rows, self._cap(self.limits.org["rpm"]), 60, now),
+            self._token_wait(minute_rows, input_tokens, self._cap(self.limits.org["tpm"]), "input", 60, now),
+            self._count_wait(day_rows, self._cap(self.limits.org["rpd"]), 86400, now),
+            self._token_wait(day_rows, input_tokens + output_tokens, self._cap(self.limits.org["tpd"]), "total", 86400, now),
+        ]
+        return max(waits, default=0.0)
 
     def record(self, *, arm_id: str, model: str, case_id: str, input_tokens: int, output_tokens: int, outcome: str) -> None:
         now = time.time()

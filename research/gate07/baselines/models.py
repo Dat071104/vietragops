@@ -34,6 +34,7 @@ class RawOutputRecord:
     outcome: str = "success"
     failure_kind: str | None = None
     error: str | None = None
+    provider_error_body: str | None = None
 
     def to_record(self) -> dict[str, Any]:
         return {
@@ -49,4 +50,5 @@ class RawOutputRecord:
             "outcome": self.outcome,
             "failure_kind": self.failure_kind,
             "error": self.error,
+            "provider_error_body": self.provider_error_body,
         }

@@ -915,3 +915,49 @@ AGY-4 external review was unavailable because the platform blocked transmission
 of raw v3 LLM artifacts. A local read-only recomputation independently matched
 the v3 metric report SHA, receipts, counts, digests, and ambiguity totals;
 the result makes no independent AGY-4 claim.
+
+## DEC-0021 — Freeze V4.1 operational remediation before recollection
+
+### Date
+
+2026-08-29
+
+### Context
+
+The current V4 artifacts reproduce four collection/accounting defects: the
+runner recorded client-side budget rejections and cached them as permanent
+completion, HTTP 400 bodies were not retained, the live request used
+`max_tokens=512`, and the runner recorded a flat 512 output-token estimate
+instead of provider usage. The current V4 metrics also show the strongest
+applicable forced-selection `argument_split` arm at `n=8`, below the frozen
+`decision_thresholds.family_minimum=15`; therefore the existing V4 `GO`
+predicate is not satisfied.
+
+### Decision
+
+Freeze `GATE_07_PROTOCOL_V4_1_ADDENDUM.json` as a collection remediation only.
+V4.1 adds the typed `client_throttled` taxonomy, a read-only ledger
+`wait_time(input_tokens, output_tokens)`, at most five client-throttle checks,
+no ledger/cache entry for an unsent request, HTTP error-body retention in
+`provider_error_body`, provider usage propagation to the ledger, `max_tokens`
+1536, and deterministic arm/model shuffling with seed 20260827. Recollection
+will retry only non-success keys and will not alter cases, prompt templates,
+models, candidate order, the V4 protocol JSON, or the V4 freeze ledger.
+
+This is not a change to the Gate 07 hypothesis. The V4 headline collection is
+operationally invalid for a headline decision under the four defects above,
+and its prior `GO` cannot satisfy the frozen family-minimum predicate. No
+provider call is authorized until this addendum and the code remediation are
+committed and the freeze preflight passes.
+
+### Evidence
+
+Stage 1 read-only verification on 2026-08-29 found 1,800 request-ledger rows;
+the final three 20b arm groups have start and end at 31.00 minutes, 180/180
+HTTP-400 raw rows have `raw_response=null`, 56 forced payloads have exactly
+`argument_mapping` and `best_candidate_tool_names` without a verdict,
+1,800/1,800 rows have `token_usage.output_tokens_actual=null`, and the
+strongest forced `argument_split` carrier has `n=8` versus the minimum 15.
+The broader raw file has 235 missing-verdict payloads because the retained
+legacy arm contributes additional legacy-shape rows; that distinction is
+preserved rather than collapsed.

@@ -46,6 +46,8 @@ class ProviderInvocation:
     failure_kind: str | None = None
     mode: str | None = None
     primary_attempt: dict[str, Any] | None = None
+    usage: dict[str, Any] | None = None
+    provider_error_body: str | None = None
 
 
 def _classify_groq_exception(exc: Exception) -> str:
@@ -166,12 +168,33 @@ class ProviderRouter:
             if max_tokens is not None:
                 request_kwargs["max_tokens"] = max_tokens
             payload = self.groq_client.generate_json(prompt, **request_kwargs)
-            return ProviderInvocation(provider="groq", model=model, payload=payload, mode=self.mode)
+            return ProviderInvocation(
+                provider="groq",
+                model=model,
+                payload=payload,
+                mode=self.mode,
+                usage=getattr(self.groq_client, "last_usage", None),
+            )
         except GroqRequestError as exc:
-            primary = {"provider": "groq", "model": model, "error": str(exc), "failure_kind": _classify_groq_exception(exc)}
+            primary = {
+                "provider": "groq",
+                "model": model,
+                "error": str(exc),
+                "failure_kind": _classify_groq_exception(exc),
+                "provider_error_body": getattr(exc, "provider_error_body", None),
+                "usage": getattr(exc, "usage", None),
+            }
             return self._resolve_groq_failure(prompt, primary)
         except Exception as exc:  # unexpected, non-typed failure -- still surfaced, never silently swallowed
-            primary = {"provider": "groq", "model": model, "error": str(exc), "failure_kind": "provider_error"}
+            primary = {
+                "provider": "groq",
+                "model": model,
+                "error": str(exc),
+                "failure_kind": "provider_error",
+                "provider_error_body": getattr(exc, "provider_error_body", None)
+                or getattr(self.groq_client, "last_provider_error_body", None),
+                "usage": getattr(self.groq_client, "last_usage", None),
+            }
             return self._resolve_groq_failure(prompt, primary)
 
     def _resolve_groq_failure(self, prompt: str, primary: dict[str, Any]) -> ProviderInvocation:
@@ -185,6 +208,8 @@ class ProviderRouter:
                 error=primary["error"],
                 failure_kind=primary["failure_kind"],
                 mode=self.mode,
+                usage=primary.get("usage"),
+                provider_error_body=primary.get("provider_error_body"),
             )
         return self._generate_json_ollama(prompt, primary_attempt=primary)
 

@@ -1,0 +1,64 @@
+{
+  "schema": "gate07.protocol.v4.1.addendum",
+  "addendum_id": "G07-V4.1-20260829-001",
+  "status": "frozen_before_headline_recollection",
+  "base_protocol": {
+    "path": "gates/baselines/GATE_07_PROTOCOL_V4.json",
+    "schema": "gate07.protocol.v4",
+    "sha256": "sha256:7a35301f22c780756893470c92034eb882e06b6d48fd0e7b0447776486a94cb1",
+    "freeze_ledger_path": "gates/baselines/GATE_07_PROTOCOL_V4_FREEZE_LEDGER.json",
+    "freeze_ledger_unchanged": true
+  },
+  "hypothesis": {
+    "changed": false,
+    "statement": "V4.1 remediates collection and accounting defects only; it does not change the Gate 07 scientific hypothesis."
+  },
+  "invariants": {
+    "cases": "unchanged",
+    "prompt_templates": "unchanged",
+    "models": [
+      "openai/gpt-oss-120b",
+      "openai/gpt-oss-20b"
+    ],
+    "model_substitution": "forbidden",
+    "research_fallback": "disabled",
+    "held_out_cases": "not collected",
+    "gate_08": "out of scope"
+  },
+  "operational_remediations": {
+    "client_rate_limit": {
+      "failure_kind": "client_throttled",
+      "wait_function": "RateLimitLedger.wait_time(input_tokens, output_tokens)",
+      "maximum_checks": 5,
+      "rejected_request_is_recorded": false,
+      "after_exhaustion": {
+        "write_typed_failure_row": true,
+        "cache_add": false,
+        "resume_may_retry": true
+      }
+    },
+    "provider_error_body": {
+      "raw_http_body_field": "provider_error_body",
+      "body_is_read_before_classification": true,
+      "research_mode_fallback": false
+    },
+    "decoding": {
+      "temperature": 0.0,
+      "max_tokens": 1536,
+      "provider_usage_source": "Groq response body usage object",
+      "ledger_output_tokens": "actual completion tokens when supplied; never a flat 512"
+    },
+    "execution_order": {
+      "unit": "arm_model",
+      "shuffle": "deterministic random shuffle",
+      "seed": 20260827,
+      "candidate_order_and_case_order": "unchanged"
+    },
+    "recollection": {
+      "scope": "retry only non-success arm x model x case x prompt keys",
+      "success_rows_are_immutable": true,
+      "old_predictions_are_not_rescored": true,
+      "missing_rows_are_collected_fresh": true
+    }
+  }
+}
