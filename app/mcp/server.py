@@ -138,6 +138,13 @@ def build_mcp_server(
     )
     inner_app = mcp_server.streamable_http_app(
         streamable_http_path=streamable_http_path,
+        # Cloud Run's frozen concurrency=1 setting cannot keep a stateful
+        # streamable-HTTP session alive: the long-lived transport consumes the
+        # only request slot before the next JSON-RPC call arrives. Cloud mode
+        # therefore uses stateless JSON responses; local mode retains the
+        # stateful bearer-protected transport used by the existing test suite.
+        json_response=cloud_iam,
+        stateless_http=cloud_iam,
         host=host,
         transport_security=transport_security,
     )

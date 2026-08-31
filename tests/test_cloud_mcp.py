@@ -4,6 +4,8 @@ import asyncio
 
 import httpx2
 import pytest
+from mcp import ClientSession
+from mcp.client.streamable_http import streamable_http_client
 
 from app.mcp.server import McpConfigurationError, build_mcp_server
 from tests.mcp_test_helpers import make_lifecycle_service
@@ -60,3 +62,26 @@ def test_cloud_mcp_rejects_missing_and_wrong_origin_before_protocol(tmp_path, mo
     missing_status, wrong_status = asyncio.run(scenario())
     assert missing_status == 403
     assert wrong_status == 403
+
+
+def test_cloud_mcp_stateless_json_protocol_supports_sequential_calls(tmp_path, monkeypatch):
+    built = _build_cloud(tmp_path, monkeypatch)
+
+    async def scenario():
+        async with built.mcp_server.session_manager.run():
+            transport = httpx2.ASGITransport(app=built.asgi_app)
+            async with httpx2.AsyncClient(
+                transport=transport,
+                base_url="http://api.example",
+                headers={"Host": "api.example", "Origin": "https://demo.example"},
+            ) as client:
+                async with streamable_http_client("http://api.example/", http_client=client) as (read, write):
+                    async with ClientSession(read, write) as session:
+                        await session.initialize()
+                        tools = await session.list_tools()
+                        result = await session.call_tool("index_status", {})
+                        return sorted(tool.name for tool in tools.tools), result.is_error
+
+    names, is_error = asyncio.run(scenario())
+    assert names == ["document_status", "index_status", "retrieve_context"]
+    assert is_error is False
