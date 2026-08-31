@@ -27,7 +27,13 @@ class ScopeDeniedError(PermissionError):
     """Raised when the authenticated caller lacks a tool's required scope."""
 
 
-def guarded_tool(tool_name: str, required_scope: str, audit: McpAuditLog) -> Callable:
+def guarded_tool(
+    tool_name: str,
+    required_scope: str,
+    audit: McpAuditLog,
+    *,
+    platform_authenticated: bool = False,
+) -> Callable:
     """Enforce `required_scope` server-side and audit every call, regardless
     of what a client claims it is permitted to do."""
 
@@ -36,7 +42,8 @@ def guarded_tool(tool_name: str, required_scope: str, audit: McpAuditLog) -> Cal
         async def wrapper(*args: Any, **kwargs: Any) -> Any:
             request_id = uuid.uuid4().hex
             access_token = get_access_token()
-            if access_token is None or required_scope not in access_token.scopes:
+            platform_read_allowed = platform_authenticated and required_scope == READ_SCOPE and access_token is None
+            if not platform_read_allowed and (access_token is None or required_scope not in access_token.scopes):
                 audit.record(request_id=request_id, tool_name=tool_name, authorized=False, status="denied")
                 raise ScopeDeniedError(f"Missing required scope '{required_scope}' for tool '{tool_name}'.")
             try:
@@ -62,6 +69,7 @@ def register_tools(
     lifecycle_service: LifecycleService,
     store: ChunkIndexStore,
     enable_protected_probe_tool: bool,
+    platform_authenticated: bool = False,
 ) -> None:
     """Register the approved coarse tool set on `mcp_server`.
 
@@ -73,7 +81,7 @@ def register_tools(
     """
 
     @mcp_server.tool(name="retrieve_context", description="Retrieve version-aware evidence chunks for a question (read-only).")
-    @guarded_tool("retrieve_context", READ_SCOPE, audit)
+    @guarded_tool("retrieve_context", READ_SCOPE, audit, platform_authenticated=platform_authenticated)
     def retrieve_context(question: str, top_k: int = 5) -> dict:
         bundle = context_builder.build(question, top_k=top_k)
         return {
@@ -92,7 +100,7 @@ def register_tools(
         }
 
     @mcp_server.tool(name="document_status", description="Read-only lifecycle/version status for one document id.")
-    @guarded_tool("document_status", READ_SCOPE, audit)
+    @guarded_tool("document_status", READ_SCOPE, audit, platform_authenticated=platform_authenticated)
     def document_status(doc_id: str) -> dict:
         try:
             versions = lifecycle_service.list_versions(doc_id)
@@ -112,7 +120,7 @@ def register_tools(
         }
 
     @mcp_server.tool(name="index_status", description="Read-only live index identity and size (Gate 04 version trace).")
-    @guarded_tool("index_status", READ_SCOPE, audit)
+    @guarded_tool("index_status", READ_SCOPE, audit, platform_authenticated=platform_authenticated)
     def index_status() -> dict:
         doc_count = len({chunk.doc_id for chunk in store})
         return {

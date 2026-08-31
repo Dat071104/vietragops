@@ -14,11 +14,17 @@ RUN apt-get update \
 COPY requirements.txt /app/requirements.txt
 
 RUN pip install --upgrade pip \
-    && pip install -r /app/requirements.txt
+    && pip install -r /app/requirements.txt \
+    && useradd --create-home --uid 10001 appuser
 
 COPY . /app
+
+RUN mkdir -p /app/data/lifecycle /tmp/vietragops-cloud-cache \
+    && chown -R appuser:appuser /app /tmp/vietragops-cloud-cache
+
+USER appuser
 
 EXPOSE 8000
 EXPOSE 8501
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["sh", "-c", "exec uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

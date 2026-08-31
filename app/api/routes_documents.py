@@ -1,10 +1,8 @@
 from __future__ import annotations
 
-import csv
-
 from fastapi import APIRouter, File, Form, UploadFile
 
-from app.core.config import get_lifecycle_service, get_settings, get_store
+from app.core.config import get_lifecycle_service, get_live_manifest_rows, get_store
 from app.core.errors import AppError
 from app.schemas.document import (
     DocumentDetail,
@@ -16,6 +14,7 @@ from app.schemas.document import (
     VersionSummary,
 )
 from rag.lifecycle.errors import LifecycleError
+from rag.lifecycle.gcs_storage import GcsStorageError
 from rag.lifecycle.registry import VersionRecord
 
 
@@ -25,9 +24,7 @@ _UPLOAD_READ_CHUNK_BYTES = 1024 * 1024
 
 
 def _load_manifest_rows() -> list[dict]:
-    settings = get_settings()
-    with settings.manifest_path.open("r", encoding="utf-8-sig", newline="") as handle:
-        return list(csv.DictReader(handle))
+    return get_live_manifest_rows()
 
 
 def _version_summary(version: VersionRecord) -> VersionSummary:
@@ -99,6 +96,15 @@ async def upload_documents(
                 )
             )
         except LifecycleError as exc:
+            results.append(
+                DocumentIntakeItem(
+                    filename=file.filename or "",
+                    accepted=False,
+                    error_code=exc.code,
+                    error_message=exc.message,
+                )
+            )
+        except GcsStorageError as exc:
             results.append(
                 DocumentIntakeItem(
                     filename=file.filename or "",

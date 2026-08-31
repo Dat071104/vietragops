@@ -1,0 +1,40 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: vietragops-web
+  annotations:
+    run.googleapis.com/ingress: all
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "0"
+        autoscaling.knative.dev/maxScale: "2"
+        run.googleapis.com/execution-environment: gen2
+    spec:
+      containerConcurrency: 1
+      timeoutSeconds: 120
+      serviceAccountName: vietragops-web-runtime@vietragops-evolve-20260831.iam.gserviceaccount.com
+      containers:
+        - image: asia-southeast1-docker.pkg.dev/vietragops-evolve-20260831/vietragops/web@sha256:REPLACE_WITH_WEB_IMAGE_DIGEST
+          command: ["sh"]
+          args:
+            - "-c"
+            - "exec streamlit run frontend/streamlit_app.py --server.address 0.0.0.0 --server.port ${PORT:-8501}"
+          ports:
+            - containerPort: 8501
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi
+          env:
+            - name: VIETRAGOPS_API_BASE_URL
+              value: REPLACE_WITH_PRIVATE_API_URL
+            - name: VIETRAGOPS_API_AUTH_MODE
+              value: cloud_iam
+            - name: VIETRAGOPS_DEMO_MODE
+              value: api_only
+            - name: STREAMLIT_SERVER_HEADLESS
+              value: "true"
+            - name: STREAMLIT_BROWSER_GATHER_USAGE_STATS
+              value: "false"

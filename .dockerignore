@@ -17,6 +17,19 @@ __pycache__
 dist
 build
 *.egg-info
+
+# Runtime data is rebuilt or hydrated from durable storage; never copy local
+# lifecycle state, uploads, or source-processing scratch into a release image.
+data/lifecycle
+data/raw
+data/processed
+
+# Governance, tests, and reports are not runtime dependencies of the services.
+_agent_ops
+gates
+reports
+tests
+skills
 *.log
 debug_*
 tmp_*

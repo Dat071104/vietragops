@@ -1,0 +1,62 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: vietragops-api
+  annotations:
+    run.googleapis.com/ingress: all
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "0"
+        autoscaling.knative.dev/maxScale: "2"
+        run.googleapis.com/execution-environment: gen2
+    spec:
+      containerConcurrency: 1
+      timeoutSeconds: 300
+      serviceAccountName: vietragops-api-runtime@vietragops-evolve-20260831.iam.gserviceaccount.com
+      containers:
+        - image: asia-southeast1-docker.pkg.dev/vietragops-evolve-20260831/vietragops/api@sha256:REPLACE_WITH_API_IMAGE_DIGEST
+          ports:
+            - containerPort: 8000
+          resources:
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          env:
+            - name: VIETRAGOPS_STORAGE_BACKEND
+              value: gcs
+            - name: VIETRAGOPS_GCS_BUCKET
+              value: vietragops-evolve-20260831-vietragops-data
+            - name: VIETRAGOPS_GCS_BOOTSTRAP_RELEASE
+              value: REPLACE_WITH_BOOTSTRAP_RELEASE_ID
+            - name: VIETRAGOPS_GCS_REGISTRY_OBJECT
+              value: registry/pointers/state.json
+            - name: VIETRAGOPS_GCS_CACHE_ROOT
+              value: /tmp/vietragops-cloud-cache
+            - name: LLM_PROVIDER
+              value: groq
+            - name: PROVIDER_MODE
+              value: cloud
+            - name: MCP_HOST
+              value: 0.0.0.0
+            - name: MCP_ALLOWED_HOSTS
+              value: REPLACE_WITH_API_HOST
+            - name: MCP_ALLOWED_ORIGINS
+              value: REPLACE_WITH_WEB_ORIGIN
+            - name: MCP_CLOUD_IAM
+              value: "true"
+            - name: MCP_REQUIRE_ORIGIN
+              value: "true"
+            - name: MCP_ENABLE_PROTECTED_PROBE_TOOL
+              value: "false"
+            - name: GROQ_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: GROQ_API_KEY
+                  key: "1"
+            - name: FIRECRAWL_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: FIRECRAWL_API_KEY
+                  key: "1"

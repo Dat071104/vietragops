@@ -174,6 +174,12 @@ class GroqClient:
         return len(self._keys)
 
     def _discover_keys(self) -> list[str]:
+        # Cloud releases are explicitly single-key.  The legacy indexed-key
+        # path remains available only for local compatibility tests and is
+        # never activated by the Gate 09R cloud configuration.
+        if os.environ.get("PROVIDER_MODE", "").strip().casefold() == "cloud":
+            legacy_key = os.environ.get("GROQ_API_KEY", "").strip()
+            return [legacy_key] if legacy_key else []
         keys: list[str] = []
         max_count = int(os.environ.get("GROQ_KEY_COUNT", "20"))
 

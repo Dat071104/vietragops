@@ -30,7 +30,7 @@ from rag.generation.groq_client import (
 )
 from rag.generation.ollama_client import OllamaClient
 
-PROVIDER_MODES = ("development", "demo", "research")
+PROVIDER_MODES = ("development", "demo", "research", "cloud")
 FALLBACK_ELIGIBLE_MODES = ("development", "demo")
 
 
@@ -139,6 +139,24 @@ class ProviderRouter:
         max_tokens: int | None = None,
     ) -> ProviderInvocation:
         provider = self.current_provider()
+        if self.mode == "cloud" and provider == "ollama":
+            return ProviderInvocation(
+                provider="mock",
+                model="deterministic-mock",
+                fallback_used=True,
+                error="Ollama is disabled in cloud mode.",
+                failure_kind="policy_denied",
+                mode=self.mode,
+            )
+        if self.mode == "cloud" and provider == "deepseek":
+            return ProviderInvocation(
+                provider="mock",
+                model="deterministic-mock",
+                fallback_used=True,
+                error="DeepSeek is disabled in cloud mode.",
+                failure_kind="policy_denied",
+                mode=self.mode,
+            )
         if provider == "groq":
             return self._generate_json_groq(prompt, model=model, temperature=temperature, max_tokens=max_tokens)
         if provider == "ollama":
@@ -199,6 +217,18 @@ class ProviderRouter:
 
     def _resolve_groq_failure(self, prompt: str, primary: dict[str, Any]) -> ProviderInvocation:
         if self.mode not in FALLBACK_ELIGIBLE_MODES:
+            if self.mode == "cloud":
+                return ProviderInvocation(
+                    provider="mock",
+                    model="deterministic-mock",
+                    fallback_used=True,
+                    error=primary["error"],
+                    failure_kind=primary["failure_kind"],
+                    mode=self.mode,
+                    primary_attempt=primary,
+                    usage=primary.get("usage"),
+                    provider_error_body=None,
+                )
             # research mode: no fallback, no model substitution -- the typed
             # failure itself is the run outcome.
             return ProviderInvocation(
@@ -286,6 +316,15 @@ class ProviderRouter:
         messages: list[dict[str, Any]],
         tools: list[dict[str, Any]],
     ) -> ProviderInvocation:
+        if self.mode == "cloud" and self.current_provider() == "ollama":
+            return ProviderInvocation(
+                provider="mock",
+                model="deterministic-mock",
+                fallback_used=True,
+                error="Ollama is disabled in cloud mode.",
+                failure_kind="policy_denied",
+                mode=self.mode,
+            )
         if self.current_provider() != "ollama":
             return ProviderInvocation(
                 provider=self.current_provider(),
@@ -325,6 +364,15 @@ class ProviderRouter:
         )
 
     def chat(self, messages: list[dict[str, Any]]) -> ProviderInvocation:
+        if self.mode == "cloud" and self.current_provider() == "ollama":
+            return ProviderInvocation(
+                provider="mock",
+                model="deterministic-mock",
+                fallback_used=True,
+                error="Ollama is disabled in cloud mode.",
+                failure_kind="policy_denied",
+                mode=self.mode,
+            )
         if self.current_provider() != "ollama":
             return ProviderInvocation(provider=self.current_provider(), model=self.current_model(), fallback_used=True, mode=self.mode)
         ollama_status = self.ollama_client.status()

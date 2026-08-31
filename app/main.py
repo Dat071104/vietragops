@@ -30,7 +30,7 @@ from contextlib import asynccontextmanager  # noqa: E402
 
 from fastapi import FastAPI  # noqa: E402
 
-from app.api import routes_agent, routes_documents, routes_eval, routes_health, routes_query, routes_retrieval  # noqa: E402
+from app.api import routes_admin, routes_agent, routes_documents, routes_eval, routes_health, routes_query, routes_retrieval  # noqa: E402
 from app.core.config import get_mcp_server  # noqa: E402
 from app.core.errors import AppError, app_error_handler, generic_error_handler  # noqa: E402
 from app.core.logging import setup_logging  # noqa: E402
@@ -53,6 +53,7 @@ app.add_exception_handler(AppError, app_error_handler)
 app.add_exception_handler(Exception, generic_error_handler)
 
 app.include_router(routes_health.router)
+app.include_router(routes_admin.router)
 app.include_router(routes_documents.router)
 app.include_router(routes_retrieval.router)
 app.include_router(routes_query.router)

@@ -6,7 +6,6 @@ import os
 from pathlib import Path
 import sys
 
-import requests
 import streamlit as st
 
 
@@ -21,12 +20,14 @@ from frontend.components.answer_view import render_answer_view
 from frontend.components.document_table import render_document_table
 from frontend.components.eval_dashboard import render_eval_dashboard
 from frontend.components.evidence_table import render_evidence_table
+from frontend.api_client import ApiClient
 from rag.generation import ProviderRouter
 from rag.retrieval.advanced_hybrid_retriever import AdvancedHybridConfig, AdvancedHybridRetriever
 
 
 API_BASE_URL = os.environ.get("VIETRAGOPS_API_BASE_URL", "http://127.0.0.1:8000")
 DEMO_MODE = os.environ.get("VIETRAGOPS_DEMO_MODE", "auto").casefold()
+API_ONLY = DEMO_MODE in {"api_only", "cloud"}
 
 
 st.set_page_config(
@@ -537,15 +538,11 @@ def load_local_experiment_detail(experiment_id: str) -> dict:
 
 
 def api_get(base_url: str, path: str) -> dict | list:
-    response = requests.get(f"{base_url.rstrip('/')}{path}", timeout=8)
-    response.raise_for_status()
-    return response.json()
+    return ApiClient(base_url).get(path, timeout=8)
 
 
 def api_post(base_url: str, path: str, payload: dict) -> dict:
-    response = requests.post(f"{base_url.rstrip('/')}{path}", json=payload, timeout=120)
-    response.raise_for_status()
-    return response.json()
+    return ApiClient(base_url).post(path, payload, timeout=120)
 
 
 def is_api_available(base_url: str) -> bool:
@@ -585,7 +582,18 @@ def get_agent_status_payload(base_url: str, api_available: bool) -> dict:
         try:
             return api_get(base_url, "/health")
         except Exception:
-            pass
+            if API_ONLY:
+                return {
+                    "llm_provider": "unavailable",
+                    "llm_model": "unavailable",
+                    "ollama": {"available": False, "model_available": False, "error": "API unavailable."},
+                }
+    if API_ONLY:
+        return {
+            "llm_provider": "unavailable",
+            "llm_model": "unavailable",
+            "ollama": {"available": False, "model_available": False, "error": "API unavailable."},
+        }
     local_status = get_local_agent_status()
     return {
         "llm_provider": local_status["provider"],
@@ -599,7 +607,10 @@ def load_documents(base_url: str, use_api: bool) -> list[dict]:
         try:
             return api_get(base_url, "/documents")
         except Exception:
-            pass
+            if API_ONLY:
+                return []
+    if API_ONLY:
+        return []
     return load_local_documents()
 
 
@@ -608,7 +619,10 @@ def load_document_detail(base_url: str, doc_id: str, use_api: bool) -> dict:
         try:
             return api_get(base_url, f"/documents/{doc_id}")
         except Exception:
-            pass
+            if API_ONLY:
+                return {}
+    if API_ONLY:
+        return {}
     for row in load_local_documents():
         if row["doc_id"] == doc_id:
             return row
@@ -620,7 +634,10 @@ def list_experiments(base_url: str, use_api: bool) -> list[dict]:
         try:
             return api_get(base_url, "/experiments")
         except Exception:
-            pass
+            if API_ONLY:
+                return []
+    if API_ONLY:
+        return []
     return load_local_experiments()
 
 
@@ -629,12 +646,15 @@ def get_experiment_detail(base_url: str, experiment_id: str, use_api: bool) -> d
         try:
             return api_get(base_url, f"/experiments/{experiment_id}")
         except Exception:
-            pass
+            if API_ONLY:
+                return {}
+    if API_ONLY:
+        return {}
     return load_local_experiment_detail(experiment_id)
 
 
 def render_sidebar(base_url: str, api_available: bool) -> None:
-    mode_label = "Live API mode" if api_available else "Local demo mode"
+    mode_label = "Live API mode" if api_available else ("API unavailable" if API_ONLY else "Local demo mode")
     st.sidebar.markdown(
         """
         <div class="sidebar-logo">
@@ -647,7 +667,9 @@ def render_sidebar(base_url: str, api_available: bool) -> None:
     st.sidebar.text_input("API base URL", value=base_url, key="api_base_url")
     st.sidebar.markdown(f"<div class='mode-pill'>{mode_label}</div>", unsafe_allow_html=True)
     st.sidebar.caption(
-        "Demo mode reads local experiment artifacts and runs the offline pipeline directly from this workspace."
+        "Cloud API-only mode never falls back to local files; local demo mode may use the offline pipeline."
+        if API_ONLY
+        else "Demo mode reads local experiment artifacts and runs the offline pipeline directly from this workspace."
     )
     with st.sidebar.expander("Demo instructions", expanded=False):
         st.markdown(
@@ -709,9 +731,18 @@ def main() -> None:
                     try:
                         response = api_post(base_url, "/ask", {"question": question, "top_k": top_k, "debug": debug})
                         mode_label = "Live API mode"
-                    except Exception:
-                        response = ask_local(question, debug, top_k)
-                        mode_label = "Local demo mode"
+                    except Exception as exc:
+                        if API_ONLY:
+                            st.error(f"Live API request failed ({type(exc).__name__}); local fallback is disabled.")
+                            response = {}
+                            mode_label = "API unavailable"
+                        else:
+                            response = ask_local(question, debug, top_k)
+                            mode_label = "Local demo mode"
+                elif API_ONLY:
+                    st.error("The configured API is unavailable; local fallback is disabled.")
+                    response = {}
+                    mode_label = "API unavailable"
                 else:
                     response = ask_local(question, debug, top_k)
                     mode_label = "Local demo mode"
@@ -757,9 +788,18 @@ def main() -> None:
                             {"question": agent_question, "top_k": agent_top_k, "return_debug": agent_debug},
                         )
                         mode_label = "Live API mode"
-                    except Exception:
-                        response = ask_local_agent(agent_question, agent_debug, agent_top_k)
-                        mode_label = "Local demo mode"
+                    except Exception as exc:
+                        if API_ONLY:
+                            st.error(f"Live API request failed ({type(exc).__name__}); local fallback is disabled.")
+                            response = {}
+                            mode_label = "API unavailable"
+                        else:
+                            response = ask_local_agent(agent_question, agent_debug, agent_top_k)
+                            mode_label = "Local demo mode"
+                elif API_ONLY:
+                    st.error("The configured API is unavailable; local fallback is disabled.")
+                    response = {}
+                    mode_label = "API unavailable"
                 else:
                     response = ask_local_agent(agent_question, agent_debug, agent_top_k)
                     mode_label = "Local demo mode"
@@ -857,8 +897,36 @@ def main() -> None:
         if st.button("Inspect retrieval evidence"):
             st.session_state["last_question"] = evidence_question
             with st.spinner("Running advanced retrieval..."):
-                st.session_state["evidence_results"] = retrieve_local(evidence_question, evidence_top_k)
-                st.session_state["evidence_mode_label"] = "Local advanced retrieval inspector"
+                if api_available:
+                    try:
+                        retrieval_payload = api_post(
+                            base_url,
+                            "/retrieve",
+                            {
+                                "question": evidence_question,
+                                "top_k": evidence_top_k,
+                                "retriever": "advanced_hybrid",
+                                "use_reranker": True,
+                                "debug": True,
+                            },
+                        )
+                        st.session_state["evidence_results"] = retrieval_payload.get("results", [])
+                        st.session_state["evidence_mode_label"] = "Live API retrieval inspector"
+                    except Exception as exc:
+                        if API_ONLY:
+                            st.session_state["evidence_results"] = []
+                            st.session_state["evidence_mode_label"] = "API unavailable"
+                            st.error(f"Live API request failed ({type(exc).__name__}); local fallback is disabled.")
+                        else:
+                            st.session_state["evidence_results"] = retrieve_local(evidence_question, evidence_top_k)
+                            st.session_state["evidence_mode_label"] = "Local advanced retrieval inspector"
+                elif API_ONLY:
+                    st.session_state["evidence_results"] = []
+                    st.session_state["evidence_mode_label"] = "API unavailable"
+                    st.error("The configured API is unavailable; local fallback is disabled.")
+                else:
+                    st.session_state["evidence_results"] = retrieve_local(evidence_question, evidence_top_k)
+                    st.session_state["evidence_mode_label"] = "Local advanced retrieval inspector"
 
         render_evidence_table(st.session_state.get("evidence_results", []))
         if st.session_state.get("evidence_mode_label"):

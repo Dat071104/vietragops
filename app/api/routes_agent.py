@@ -272,8 +272,15 @@ def run_agent_query(payload: AgentAskRequest) -> AgentAskResponse:
         debug=payload.debug,
     )
     fallback_used = fallback_used or provider_meta["fallback_used"]
-    response_provider = provider_status.get("provider") or provider_meta["provider"]
-    response_model = provider_status.get("model") or provider_meta["model"]
+    # Keep the configured status for direct/stubbed calls, but disclose the
+    # actual provider/model whenever the answer generator explicitly used a
+    # fallback path (including cloud deterministic fallback).
+    if provider_meta.get("fallback_used"):
+        response_provider = provider_meta.get("provider") or provider_status.get("provider")
+        response_model = provider_meta.get("model") or provider_status.get("model")
+    else:
+        response_provider = provider_status.get("provider") or provider_meta.get("provider")
+        response_model = provider_status.get("model") or provider_meta.get("model")
 
     retrieved_chunks = [
         RetrieveResult(
