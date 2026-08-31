@@ -35,6 +35,7 @@
     "app/api/routes_documents.py",
     "app/api/routes_eval.py",
     "app/api/routes_health.py",
+    "app/api/routes_agent.py",
     "app/mcp/auth.py",
     "app/mcp/server.py",
     "frontend/api_client.py",
