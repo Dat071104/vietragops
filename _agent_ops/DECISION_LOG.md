@@ -1176,3 +1176,44 @@ source `dbcee18`, local image smoke passed, and remote `main` is
 verified; all GCP mutations and provider calls remained at zero. Resume only
 after the exact project is accessible and its approved billing/IAM metadata is
 readable.
+
+---
+
+## DEC-0027 — Gate 09R product release and GCP deployment closure
+
+**Date:** 2026-08-31
+**Status:** PASS
+**Gate:** 09R (Product Release and GCP Deployment)
+
+### Decision
+
+Close Gate 09R as PASS under the frozen product-only rebase. Keep Option A:
+public Streamlit web service plus private FastAPI/MCP service, with Cloud
+Storage as the durable object/registry boundary. Use Groq as the cloud product
+primary, deterministic grounded fallback only, no localhost Ollama fallback,
+and no rejected Gate 08 method.
+
+### Evidence boundary
+
+Validated runtime source is `2d775eeeeaa4958d782c664b4cb5f520427d362b`.
+The local clean-export image and container gate passed after the cloud MCP
+stateless-transport fix. Full local validation was `564 passed, 2 warnings`;
+the image was built and deployed by immutable Artifact Registry digests.
+
+The exact project `vietragops-evolve-20260831` is ACTIVE with billing enabled
+in `asia-southeast1`. The final services are private API traffic at
+`vietragops-api-00009-w5j` and public web traffic at
+`vietragops-web-00002-wp9`. API Cloud Run IAM, exact MCP Origin validation,
+read-only MCP tools, Secret Manager bindings, GCS persistence/CAS, candidate
+isolation, bounded Firecrawl, bounded Groq QA, browser/API evidence, and
+non-destructive rollback/restore all passed. Current observed target billing
+usage was `0.00 VND`.
+
+### Trade-off and residual boundary
+
+API max instances is `1` within the frozen maximum `2` to keep concurrency-one
+stateless MCP behavior deterministic. A transient web static-module `429` was
+observed only under a two-tab capacity saturation probe and the final browser
+proof was clean. Provider timeout/429 behavior is covered by typed
+adapter/router tests; no paid live fault injection was manufactured. Gate 08
+remains NEGATIVE and unadopted, and Gate 10 is not authorized.

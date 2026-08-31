@@ -3039,3 +3039,94 @@ attempted.
 Resume only after the exact approved project is accessible to the approved
 account and its approved billing/IAM state can be read without changing the
 billing account or budget.
+
+---
+
+## 2026-08-31 — Gate 09R cloud deployment and closure evidence
+
+### Source and local release identity
+
+- Reverified the protocol SHA-256 as
+  `F4C78F2E392D1BA55E030788E9255EB82944756DDB589316EC140008444C9E23`.
+- The cloud MCP transport fix was committed as
+  `2d775eeeeaa4958d782c664b4cb5f520427d362b` (`2d775ee`) and pushed. The
+  change is limited to stateless JSON transport in Cloud Run IAM mode plus
+  `tests/test_cloud_mcp.py`; local static-bearer behavior remains unchanged.
+- Full validation after the source fix: `564 passed, 2 warnings` in
+  `304.23s`. Changed-container/MCP focus: `24 passed, 2 warnings` in
+  `69.62s`. Warnings are third-party `websockets` deprecations.
+- AST parse, high-entropy secret scan, personal-email scan, and
+  `git diff --check` passed. `compileall` remains affected only by the known
+  Windows ACL error replacing `app/api/__pycache__/routes_documents.cpython-313.pyc`
+  (`WinError 5`); no cache was deleted or overwritten.
+- Clean export `D:\Research\vietragops_gate09r_export_2d775ee_20260831_141333_444`
+  built as `vietragops-gate09r-local:2d775ee`, exit `0`. Image ID is
+  `sha256:cbd3697b96d1514afd232c3930a77e0f7ab6cc020766aa38e549a80c930cf3e5`;
+  this is a local image ID, not a registry digest. Container smoke passed
+  injected `PORT=8080`, non-root, loopback, read-only-root, health, grounded
+  answer/refusal, MCP `401`/`403`, zero restart, clean stop, and image hygiene.
+
+### GCP foundation and immutable deployment
+
+- Final host-identity preflight: exact project `ACTIVE`, billing enabled,
+  approved region `asia-southeast1`, required API set present, IAM readable,
+  API service private, web service public, web-to-API invoker binding present.
+- Created only the frozen resource shape: regional immutable-tag Artifact
+  Registry repository, bounded/versioned GCS data bucket, two runtime service
+  accounts, two used approved secret containers, private API Cloud Run service,
+  public web Cloud Run service, and budget/retention controls. No Cloud SQL,
+  GPU, GKE, Qdrant, queue, worker, commitment, or subscription was created.
+- Secret Manager version metadata only: `GROQ_API_KEY` version `1` and
+  `FIRECRAWL_API_KEY` version `1` enabled and bound only to the API runtime.
+  Values were entered by the user through the secure Google UI and were never
+  read, printed, copied, or stored by the agent.
+- API Cloud Build `efff1ea6-c850-4b2c-9c11-a3d294515ab3` produced digest
+  `sha256:f037b8189c01c13f5c686079c8d3abe86381dcddc0f28950d2b99af4eb816e96`.
+  Web Cloud Build `549c3dde-896a-4f4b-b0ef-ab3faad80be6` produced digest
+  `sha256:6b7a68f20c17b47321cb94a37dcec13af01a39d9915652c9547efdb37eeb7d4f`.
+  Both tags encode the full validated source commit; `latest` was not used.
+- Active traffic: API `vietragops-api-00009-w5j` at `100%`, rollback candidate
+  `vietragops-api-rbk09r` at `0%`; web `vietragops-web-00002-wp9` at `100%`.
+  API is max `1`/concurrency `1`/timeout `300s`; web is max `2`/concurrency
+  `1`/timeout `120s`; both min `0` and generation 2.
+- Target budget controls verified in Console: `750,000 VND` with
+  `50%/80%/100%` alerts and `375,000 VND` Cloud Run control. Current target
+  usage was `0.00 VND`; no billing account identifier was recorded.
+
+### Cloud E2E, persistence, provider and rollback
+
+- Final public web browser proof had zero initial, grounded-flow, and
+  refusal-flow errors. Vietnamese grounded answer and citations rendered;
+  refusal rendered with no citations; UI displayed `Live API mode`.
+- Private API unauthenticated edge request returned `403`; authenticated
+  readiness returned `200` with GCS storage and index metadata. Groq bounded
+  grounded QA succeeded without fallback after secret binding. Cloud MCP
+  missing/wrong Origin rejected; exact Origin initialized and listed exactly
+  `document_status`, `index_status`, and `retrieve_context`, then read index
+  and retrieval context successfully.
+- GCS bootstrap release, real-bucket immutable object/CAS conflict, candidate
+  isolation, MarkItDown v1/v2 publish/retire/rollback, and new-revision
+  persistence all passed. The final registry pointer remained generation
+  `1788175456987374`; the CAS probe's second write was rejected at generation
+  `1788175895422903`.
+- Firecrawl usage was `0` searches, `1` successful scrape, and `2` blocked
+  attempts. The successful scrape was restricted to
+  `undergrad.tdtu.edu.vn` and remained candidate-only; a non-allowlisted
+  domain was typed as blocked without outbound access.
+- Provider policy tests covered typed timeout/rate-limit/error handling,
+  deterministic fallback, and cloud Ollama denial without localhost probing.
+  No paid live fault injection was manufactured. An early cloud no-secret
+  request demonstrated deterministic fallback; final Groq requests proved
+  the primary path.
+- Rollback procedure passed: no-traffic candidate, candidate traffic, healthy
+  traffic restore, final traffic verification, and invalid-revision safe
+  failure. No revision or durable object was deleted.
+
+### Closure decision
+
+Gate 09R is recorded as `PASS` in `gates/results/GATE_09R_RESULT.md` under the
+frozen product-only scope. Gate 08 remains NEGATIVE and its method remains
+unadopted; no Gate 07/08 rerun or rescore occurred, and Gate 10 is not
+authorized. The pre-existing 29-path dirty overlay remains untouched and
+unstaged. Fresh Repo Map/code-index outputs were generated externally under
+`D:\Research` because the in-place map is part of the user overlay.
