@@ -3009,3 +3009,33 @@ index remained empty. The local container gate is PASS, but Gate 09R remains
 PARTIAL until GitHub remote provenance, GCP preflight/resources, immutable
 registry deployment, cloud E2E, persistence, provider-budget evidence, and
 rollback are completed.
+
+---
+
+## 2026-08-31 — Gate 09R stopped at GCP project-access preflight
+
+### Read-only preflight evidence
+
+- GitHub remote authentication completed through the configured credential
+  manager; `origin/main` resolved exactly to local `4d6f3634da9a1bce7c9e5732bd8d048ab94b7d4b`.
+- Host `gcloud auth list` reported one active account and the approved-account
+  comparison matched. The account value was not recorded.
+- Host `gcloud` had no configured default project or run region. The exact
+  project lookup for `vietragops-evolve-20260831` exited `1` with a
+  permission-denied-or-not-found response. The billing-enabled field was not
+  readable and the read-only IAM permission test returned zero granted
+  permissions.
+
+### STOP decision
+
+This is typed as `BLOCKED_GCP_PROJECT_ACCESS`. Project existence/access,
+billing state, and required IAM cannot be verified under the approved account.
+No API was enabled; no Artifact Registry, Cloud Storage, Secret Manager,
+service account, Cloud Run, budget, or other GCP resource was created or
+changed. Groq and Firecrawl calls remain at zero and observed GCP spend remains
+`USD 0`. No project substitution, billing attachment, or limit change was
+attempted.
+
+Resume only after the exact approved project is accessible to the approved
+account and its approved billing/IAM state can be read without changing the
+billing account or budget.

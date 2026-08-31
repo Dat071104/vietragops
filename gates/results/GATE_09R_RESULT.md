@@ -1,6 +1,6 @@
 # Gate 09R Result — Product Release and GCP Deployment
 
-Status: **PARTIAL**
+Status: **BLOCKED**
 
 ## Decision
 
@@ -10,13 +10,17 @@ independently evidenced product/runtime work. It does not rerun or rescore Gate
 07/08, does not use the rejected method, and does not authorize Gate 10.
 
 The historical blocked result was recorded at commit `6402cbc` when the
-sandbox identity could not reach Docker Desktop. Execution has now resumed
-through the approved host Docker path: the exact `dbcee18` source exported
-cleanly, the local image built, and the container health/behavior smoke passed.
-The current result is still PARTIAL because GitHub remote provenance and every
-GCP, cloud-browser, durable-object, provider, and rollback check remain
-outstanding. No cloud resource or provider call is authorized by this result
-alone.
+sandbox identity could not reach Docker Desktop. That local blocker was
+resolved through the approved host Docker path: the exact `dbcee18` source
+exported cleanly, the local image built, and the container health/behavior
+smoke passed. GitHub provenance was then verified at `4d6f363`.
+
+The current execution is BLOCKED at the read-only GCP preflight. The approved
+account is active, but it cannot access the exact approved project;
+`gcloud projects describe vietragops-evolve-20260831` exited `1` with a
+permission-denied-or-not-found response. Billing state and required IAM access
+therefore cannot be verified. No cloud resource, API enablement, billing
+change, secret, provider call, or substitute project was attempted.
 
 ## Frozen identity
 
@@ -119,9 +123,13 @@ the UI displayed `Live API mode` and did not use local fallback.
 
 ## Cloud/provider execution
 
-- Google account/project/billing/IAM preflight: not run yet; it follows remote
-  Git provenance verification now that the local container gate passed.
-- Chrome Google Cloud Console: not used.
+- Host `gcloud` account preflight: approved account matched; no credential
+  value was recorded. Configured project and region were unset. The exact
+  project lookup exited `1` because the approved account could not access the
+  project (or it may not exist); billing-enabled state was blank and the
+  read-only IAM permission test returned `0` granted permissions.
+- Chrome Google Cloud Console: existing-tab connector timed out while claiming
+  the heavy console tab; no browser mutation or account switch occurred.
 - GCP resource creation/API enablement/billing changes: none.
 - Groq calls: `0`; Firecrawl searches: `0`; Firecrawl scrapes: `0`.
 - Secret values were never requested, read, printed, copied, or stored.
@@ -133,37 +141,39 @@ the UI displayed `Live API mode` and did not use local fallback.
 
 ## Residual risks and limitations
 
-1. The local image is validated but is not yet tied to an Artifact Registry
-   digest; remote Git provenance must be verified before cloud deployment.
-2. The Cloud Storage registry/release implementation is covered by deterministic
+1. The exact approved GCP project is not accessible to the approved account;
+   project existence, billing, and IAM cannot be verified.
+2. The local image is validated but is not yet tied to an Artifact Registry
+   digest; no cloud deployment can proceed until project access is restored.
+3. The Cloud Storage registry/release implementation is covered by deterministic
    in-memory contract tests only; no real bucket persistence or generation-CAS
    proof exists yet.
-3. The private Firecrawl route is implemented and locally tested, but no live
+4. The private Firecrawl route is implemented and locally tested, but no live
    Firecrawl result was collected, so no authoritative-source or cloud web-import
    claim is made.
-4. Existing pre-task dirty overlays remain user-owned and unstaged. The live
-   remote SHA is still outstanding because the earlier GitHub credential
-   acquisition returned `SEC_E_NO_CREDENTIALS`.
+5. Existing pre-task dirty overlays remain user-owned and unstaged. GitHub
+   remote `main` was verified at `4d6f3634da9a1bce7c9e5732bd8d048ab94b7d4b`.
 
 ## Exact next action
 
-Verify GitHub remote provenance for the validated history, then run the frozen
-GCP preflight for `vietragops-evolve-20260831` in `asia-southeast1`. Do not
-create another project, raise any budget, or make provider calls outside the
-frozen protocol.
+Make the exact project `vietragops-evolve-20260831` accessible to the approved
+account and ensure its approved billing/IAM state can be read without changing
+the billing account or budget. Then resume the frozen GCP preflight in
+`asia-southeast1`. Do not substitute a project, raise any budget, or make
+provider calls before that access blocker is resolved.
 
 ## Closure Receipt
 
 | Record | Resolution |
 |---|---|
-| `_agent_ops/CURRENT_TASK.md` | Updated separately with the resumed local-container PASS and remote-provenance next step. |
-| `_agent_ops/IMPLEMENTATION_LOG.md` | Appended resumed Docker build, container smoke, and focused-validation evidence. |
-| `_agent_ops/DECISION_LOG.md` | Appended the resumed local-gate decision; historical BLOCKED decision retained. |
-| `_agent_ops/SESSION_BRIEF.md` | Updated separately with the resumed PARTIAL state and exact current commit. |
+| `_agent_ops/CURRENT_TASK.md` | Updated separately with the GCP project-access blocker and resume condition. |
+| `_agent_ops/IMPLEMENTATION_LOG.md` | Appended GCP preflight account/project/IAM blocker evidence. |
+| `_agent_ops/DECISION_LOG.md` | Appended the GCP access STOP decision; prior local blocker remains historical. |
+| `_agent_ops/SESSION_BRIEF.md` | Updated separately with the current BLOCKED state and exact current commit. |
 | `_agent_ops/PROJECT_CONTEXT_CARD.md` | Not updated: pre-existing dirty overlay preserved; result records the new evidence. |
-| `_agent_ops/RISK_REGISTER.md` | Not updated: pre-existing dirty overlay preserved; Docker blocker is recorded in this result. |
+| `_agent_ops/RISK_REGISTER.md` | Not updated: pre-existing dirty overlay preserved; GCP access blocker is recorded in this result. |
 | `_agent_ops/PHASE_ROADMAP.md` | Not updated: pre-existing untracked overlay preserved; no later gate authorized. |
 | `_agent_ops/REPO_MAP.md` | Not regenerated in place: pre-existing dirty overlay preserved; refreshed copy was generated externally for analysis. |
 | `_agent_ops/THIRD_PARTY_TOOLING.md` | Not updated: pre-existing dirty overlay preserved; no third-party provider call occurred. |
 | `gates/baselines/GATE_09R_PROTOCOL.json` | Frozen and committed before implementation. |
-| `gates/results/GATE_09R_RESULT.md` | Updated to PARTIAL from new local-container evidence; `6402cbc` remains the historical BLOCKED result. |
+| `gates/results/GATE_09R_RESULT.md` | Updated to BLOCKED from new GCP preflight evidence; `6402cbc` remains the historical local-Docker blocker result. |

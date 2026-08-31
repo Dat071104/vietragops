@@ -1151,3 +1151,28 @@ MCP auth/Origin, non-root, loopback, read-only-root, no-restart, and clean-stop
 checks. Focused validation was `28 passed, 2 warnings`; no provider or GCP
 call occurred. Remote Git provenance and all cloud acceptance evidence remain
 required before release or tag decisions.
+
+---
+
+## DEC-0026 — Gate 09R blocked by approved-project access
+
+**Date:** 2026-08-31
+**Status:** Blocked
+**Gate:** 09R (Product Release and GCP Deployment)
+
+### Decision
+
+Stop at the read-only GCP preflight. The approved account matched the active
+host account, but `gcloud projects describe vietragops-evolve-20260831`
+returned exit `1` because the account could not access the project or the
+project may not exist. No alternate project, billing attachment, API
+enablement, IAM change, or resource creation is permitted under this evidence.
+
+### Evidence boundary
+
+The local container gate and GitHub remote provenance are complete: runtime
+source `dbcee18`, local image smoke passed, and remote `main` is
+`4d6f3634da9a1bce7c9e5732bd8d048ab94b7d4b`. GCP billing and IAM could not be
+verified; all GCP mutations and provider calls remained at zero. Resume only
+after the exact project is accessible and its approved billing/IAM metadata is
+readable.
