@@ -42,6 +42,7 @@
     "rag/generation/provider_router.py",
     "rag/lifecycle/gcs_registry.py",
     "rag/lifecycle/gcs_storage.py",
+    "rag/lifecycle/gcs_service.py",
     "rag/lifecycle/service.py",
     "rag/lifecycle/publish.py",
     "rag/retrieval/index_store.py",
