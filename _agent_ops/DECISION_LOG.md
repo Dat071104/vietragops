@@ -1092,3 +1092,33 @@ collected; 527 of 540 decision rows scored; the metric report reproduced twice
 with SHA-256
 `7fd06b63dbc79a9bf79e7c9ed064f55af53c069ef0be1b455e76ad9637394b09`. Full suite
 `540 passed, 2 warnings`; compileall exit 0.
+
+---
+
+## DEC-0024 — Gate 09R product deployment shape and blocked local release
+
+### Decision
+
+Rebase the deployment work to product-only Gate 09R after Gate 08 NEGATIVE. Use
+Option A: public Streamlit web plus private FastAPI/MCP API. Use Cloud Storage
+immutable release objects and a generation-CAS registry; do not create Cloud SQL
+without a new evidence and approval checkpoint.
+
+Cloud product mode uses one authorized Groq key, deterministic grounded fallback,
+no localhost Ollama, no DeepSeek, and no rejected Gate 08 method. The API/MCP
+service remains private; the web service invokes it with Cloud Run identity
+authentication, while MCP additionally requires exact Origin validation.
+
+### Evidence and decision boundary
+
+The implementation and deterministic tests pass, including `563 passed, 2
+warnings`, local API/browser/MCP E2E, and GCS contract tests. The required local
+Docker build cannot run because Docker Desktop/service access is denied and the
+Docker engine pipe is absent. Gate 09R is therefore BLOCKED before GCP resource
+creation or provider spend.
+
+### Resume rule
+
+Restore Docker service access, rerun the image build and container health smoke
+from source commit `dbcee18`, and only then resume GCP preflight within the
+confirmed project, region, budgets, and resource exclusions.

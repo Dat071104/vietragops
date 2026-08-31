@@ -2902,3 +2902,60 @@ the `::` merge separator is in no method's information rights.
 DEC-0023 records the decision. Gate 09 is not authorized. Gate 07 artifacts,
 `research/gate07/dataset|oracle|sandbox`, and `research/gate0/` were not
 modified; a test enforces that.
+
+---
+
+## 2026-08-31 — Gate 09R product-only deployment slice
+
+### Scope
+
+Gate 09R was explicitly approved after Gate 08 NEGATIVE. The original Gate 08
+method was excluded from all product code and claims. Project/region and cost
+limits were confirmed by the user; no Cloud SQL, GPU, GKE, Qdrant, queue,
+worker, commitment, subscription, or multi-key provider rotation was used.
+
+### Implementation
+
+- Frozen `gates/baselines/GATE_09R_PROTOCOL.json` before external execution;
+  later scope amendments were committed before the affected source additions.
+- Added Cloud Run `$PORT` runtime handling, non-root container execution, and a
+  narrowed Docker context excluding local lifecycle state, uploads, tests,
+  governance, and reports.
+- Added Cloud Storage immutable object/release helpers and a generation-CAS JSON
+  lifecycle registry. Local SQLite/file behavior remains the offline backend.
+- Added GCS-backed candidate upload, review, publish, retire, rollback, and a
+  private allowlisted Firecrawl candidate-import route.
+- Added cloud provider mode: Groq primary, deterministic grounded fallback,
+  no localhost Ollama, no DeepSeek, and single authorized Groq key behavior.
+- Added readiness endpoints, API-only Streamlit mode with visible failures,
+  private MCP Cloud Run/IAM mode, exact Origin validation, and read-only tool
+  enforcement.
+- Added deployment templates and bounded Artifact Registry/Cloud Storage
+  retention policies. No template was deployed.
+
+### Commands and results
+
+- Focused runtime/security tests: `61 passed, 2 warnings`.
+- Full suite: `563 passed, 2 warnings` in `298.11s`; no live provider call.
+- No-write AST syntax check: 24 changed/new Python files passed.
+- `git diff --check`: exit `0`.
+- Local API E2E: readiness, grounded answer/citation, refusal, MarkItDown PDF
+  candidate, malformed-file rejection, version publish, retire, rollback:
+  passed against a fresh external fixture.
+- Local MCP HTTP checks: unauthenticated `401`, wrong Origin `403`.
+- Chrome Streamlit E2E: live API grounded answer/citation and refusal rendered;
+  API-only mode prevented local fallback.
+- `python -B -m compileall -q app rag frontend scripts tests`: environment
+  failure at existing `app/api/__pycache__` ACL (`WinError 5`), not an
+  assertion failure; no cache was deleted or overwritten.
+- Docker build: blocked. Docker client exists, Docker Desktop/service could not
+  be opened, and the engine named pipe was absent.
+- GCP account/project/billing/IAM preflight: not run because the local
+  container gate was incomplete. Groq/Firecrawl calls: zero. GCP spend: zero.
+
+### Result
+
+Gate 09R is BLOCKED at the local container gate. Source implementation commit:
+`dbcee18`. The pre-existing dirty overlay remains untouched and unstaged.
+Resume only after Docker service access is restored; then rerun the container
+build/health smoke before any GCP resource or provider execution.
