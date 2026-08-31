@@ -1122,3 +1122,32 @@ creation or provider spend.
 Restore Docker service access, rerun the image build and container health smoke
 from source commit `dbcee18`, and only then resume GCP preflight within the
 confirmed project, region, budgets, and resource exclusions.
+
+---
+
+## DEC-0025 — Gate 09R resumed local-container decision
+
+**Date:** 2026-08-31
+**Status:** In progress
+**Gate:** 09R (Product Release and GCP Deployment)
+**Evidence:** `gates/results/GATE_09R_RESULT.md`, local image tag
+`vietragops-gate09r-local:dbcee18`
+
+### Decision
+
+The host Docker execution path is now available without changing ACLs,
+services, profiles, or processes. The exact runtime source commit `dbcee18`
+was exported separately from the dirty checkout, built successfully, and
+smoke-tested. The local container gate is therefore PASS. The historical
+`6402cbc` BLOCKED result remains preserved; the current Gate 09R status is
+PARTIAL, not PASS.
+
+### Evidence boundary
+
+The local image ID is
+`sha256:ab4cc2623d0ad127b576bc37d823f365c746c2de8fbbe01d952598db18e6c213`,
+not an Artifact Registry digest. The smoke passed health, grounded/refusal,
+MCP auth/Origin, non-root, loopback, read-only-root, no-restart, and clean-stop
+checks. Focused validation was `28 passed, 2 warnings`; no provider or GCP
+call occurred. Remote Git provenance and all cloud acceptance evidence remain
+required before release or tag decisions.

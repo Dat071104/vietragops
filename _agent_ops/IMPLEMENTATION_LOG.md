@@ -2959,3 +2959,53 @@ Gate 09R is BLOCKED at the local container gate. Source implementation commit:
 `dbcee18`. The pre-existing dirty overlay remains untouched and unstaged.
 Resume only after Docker service access is restored; then rerun the container
 build/health smoke before any GCP resource or provider execution.
+
+---
+
+## 2026-08-31 — Gate 09R resumed: local container gate passed
+
+### Scope and boundary
+
+The historical blocked result at `6402cbc` was preserved. The sandbox Docker
+permission boundary was handled through the approved, narrowly scoped host
+Docker execution path; no ACL, Windows service, Docker profile, process, or
+source change was made. The exact committed runtime source remains `dbcee18`.
+
+### R2 build evidence
+
+- Exported commit `dbcee185a4a55583459da6b3bee691907bf3218a` to a unique
+  external `D:\Research` directory; the dirty checkout was not used as build
+  context.
+- Ran `docker build --tag vietragops-gate09r-local:dbcee18 .`; exit `0`,
+  approximately `116s`, base
+  `python:3.11-slim@sha256:1042b61448fef4ba92d16a8c7eb4996d027568ce64792a7877fd88511e0af7c6`.
+  The build used fresh steps; only package-manager noninteractive/root
+  warnings were emitted.
+- Local image identity is
+  `sha256:ab4cc2623d0ad127b576bc37d823f365c746c2de8fbbe01d952598db18e6c213`
+  with size `443990990` bytes. This is a local image ID, not an Artifact
+  Registry digest.
+
+### R3 smoke evidence
+
+The uniquely named container used `PORT=8080`, mock provider mode, dotenv
+disabled, no secret values, no host bind mount, read-only root, ephemeral
+`/tmp`, and loopback-only port publishing. It ran as `appuser`, reached
+readiness with zero restarts, and stopped with exit `0`. Live and ready health
+returned `200`; grounded Vietnamese QA returned evidence/citation; unsupported
+QA refused with `insufficient_evidence`; MCP missing auth returned `401`; an
+authenticated request with an invalid Origin returned `403`. Container logs
+contained no secret, personal email, or private host path.
+
+The image audit found no `.env`, lifecycle files, governance, tests, or skills
+in the image. High-entropy tracked secret scan found `0` hits. Two textual
+`sk-` matches were confirmed harmless fragments after redaction.
+
+### Validation and next boundary
+
+Post-resume focused validation ran with the prescribed external basetemp:
+`28 passed, 2 warnings` in `97.18s`; `git diff --check` exited `0`; the Git
+index remained empty. The local container gate is PASS, but Gate 09R remains
+PARTIAL until GitHub remote provenance, GCP preflight/resources, immutable
+registry deployment, cloud E2E, persistence, provider-budget evidence, and
+rollback are completed.

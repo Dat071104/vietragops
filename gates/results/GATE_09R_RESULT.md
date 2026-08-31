@@ -1,6 +1,6 @@
 # Gate 09R Result — Product Release and GCP Deployment
 
-Status: **BLOCKED**
+Status: **PARTIAL**
 
 ## Decision
 
@@ -9,12 +9,14 @@ its cross-version alignment method was not adopted. This result covers only
 independently evidenced product/runtime work. It does not rerun or rescore Gate
 07/08, does not use the rejected method, and does not authorize Gate 10.
 
-The gate is blocked before GCP foundation because the required local container
-build and container health smoke could not run on this Windows host. The Docker
-client is installed, but Docker Desktop and its service are not running; the
-service start was denied and the Docker engine named pipe is absent. Creating
-cloud resources before this local release gate closes would violate the frozen
-protocol.
+The historical blocked result was recorded at commit `6402cbc` when the
+sandbox identity could not reach Docker Desktop. Execution has now resumed
+through the approved host Docker path: the exact `dbcee18` source exported
+cleanly, the local image built, and the container health/behavior smoke passed.
+The current result is still PARTIAL because GitHub remote provenance and every
+GCP, cloud-browser, durable-object, provider, and rollback check remain
+outstanding. No cloud resource or provider call is authorized by this result
+alone.
 
 ## Frozen identity
 
@@ -69,6 +71,33 @@ Firecrawl call occurred during these tests.
   `app/api/__pycache__/routes_documents.cpython-313.pyc` (`WinError 5`). No
   assertion failure occurred, and the cache was not deleted or overwritten.
 
+### Local container gate (R2/R3)
+
+- Exact committed export: `dbcee185a4a55583459da6b3bee691907bf3218a`
+  (`dbcee18`); build context was the exported tree, not the dirty checkout.
+- Build command: `docker build --tag vietragops-gate09r-local:dbcee18 .`.
+  Exit `0`; elapsed wall time was approximately `116s`; the base was
+  `python:3.11-slim@sha256:1042b61448fef4ba92d16a8c7eb4996d027568ce64792a7877fd88511e0af7c6`;
+  no Docker build cache step was used. The build emitted only package-manager
+  noninteractive/root warnings. Local image ID is
+  `sha256:ab4cc2623d0ad127b576bc37d823f365c746c2de8fbbe01d952598db18e6c213`
+  and size is `443990990` bytes; this is not an Artifact Registry digest.
+- Smoke container ran with `PORT=8080`, mock provider mode, dotenv disabled,
+  no secret values, no host bind mount, read-only root, an ephemeral `/tmp`,
+  and `127.0.0.1`-only host binding. It ran as `appuser`, listened on the
+  injected port, had zero restarts, and stopped with exit `0`.
+- `/health/live` and `/health/ready` returned `200`; the grounded Vietnamese
+  request returned evidence and a valid citation; the unsupported request
+  returned refusal with `insufficient_evidence`; MCP missing authentication
+  returned `401`; authenticated wrong-Origin returned `403`.
+- Image audit found no `.env`, lifecycle files, `_agent_ops`, `gates`,
+  `tests`, or `skills` in the image and no high-entropy secret/private-key
+  pattern. The only textual `sk-` matches were redacted harmless fragments in
+  a research identifier and historical log prose.
+- Post-resume focused validation: `28 passed, 2 warnings` in `97.18s`;
+  tracked high-entropy secret scan: `0` hits; task-record email scan: `0`
+  hits; `git diff --check`: exit `0`.
+
 ### Live local API and browser
 
 Against a fresh external test fixture, local Uvicorn API E2E passed:
@@ -90,23 +119,22 @@ the UI displayed `Live API mode` and did not use local fallback.
 
 ## Cloud/provider execution
 
-- Google account/project/billing/IAM preflight: not run because the local
-  container release gate is incomplete.
+- Google account/project/billing/IAM preflight: not run yet; it follows remote
+  Git provenance verification now that the local container gate passed.
 - Chrome Google Cloud Console: not used.
 - GCP resource creation/API enablement/billing changes: none.
 - Groq calls: `0`; Firecrawl searches: `0`; Firecrawl scrapes: `0`.
 - Secret values were never requested, read, printed, copied, or stored.
 - No secret name/version/binding was changed.
-- Image build, image digest, Cloud Run deployment, browser cloud E2E,
+- Artifact Registry image digest, Cloud Run deployment, browser cloud E2E,
   durable-object restart proof, cloud MCP proof, and Cloud Run rollback: not
   run.
 - Observed GCP spend: `USD 0`.
 
 ## Residual risks and limitations
 
-1. Docker Desktop/service access must be restored before the local release
-   candidate can be accepted. The Docker image is therefore not tied to a
-   digest yet.
+1. The local image is validated but is not yet tied to an Artifact Registry
+   digest; remote Git provenance must be verified before cloud deployment.
 2. The Cloud Storage registry/release implementation is covered by deterministic
    in-memory contract tests only; no real bucket persistence or generation-CAS
    proof exists yet.
@@ -114,28 +142,28 @@ the UI displayed `Live API mode` and did not use local fallback.
    Firecrawl result was collected, so no authoritative-source or cloud web-import
    claim is made.
 4. Existing pre-task dirty overlays remain user-owned and unstaged. The live
-   remote SHA could not be refreshed because GitHub credential acquisition
-   returned `SEC_E_NO_CREDENTIALS`.
+   remote SHA is still outstanding because the earlier GitHub credential
+   acquisition returned `SEC_E_NO_CREDENTIALS`.
 
 ## Exact next action
 
-Start Docker Desktop with sufficient Windows permissions, then rerun the
-container build and health smoke from source commit `dbcee18`. Do not create GCP
-resources or make provider calls until that check passes. Resume at the frozen
-Phase 3/4 boundary; do not create another project or raise any budget.
+Verify GitHub remote provenance for the validated history, then run the frozen
+GCP preflight for `vietragops-evolve-20260831` in `asia-southeast1`. Do not
+create another project, raise any budget, or make provider calls outside the
+frozen protocol.
 
 ## Closure Receipt
 
 | Record | Resolution |
 |---|---|
-| `_agent_ops/CURRENT_TASK.md` | Updated separately with the Gate 09R blocked state and next step. |
-| `_agent_ops/IMPLEMENTATION_LOG.md` | Updated separately with implementation, validation, and Docker blocker evidence. |
-| `_agent_ops/DECISION_LOG.md` | Updated separately with the Option A/GCS-only decision and blocked outcome. |
-| `_agent_ops/SESSION_BRIEF.md` | Updated separately with the current Gate 09R closure and exact source commit. |
+| `_agent_ops/CURRENT_TASK.md` | Updated separately with the resumed local-container PASS and remote-provenance next step. |
+| `_agent_ops/IMPLEMENTATION_LOG.md` | Appended resumed Docker build, container smoke, and focused-validation evidence. |
+| `_agent_ops/DECISION_LOG.md` | Appended the resumed local-gate decision; historical BLOCKED decision retained. |
+| `_agent_ops/SESSION_BRIEF.md` | Updated separately with the resumed PARTIAL state and exact current commit. |
 | `_agent_ops/PROJECT_CONTEXT_CARD.md` | Not updated: pre-existing dirty overlay preserved; result records the new evidence. |
 | `_agent_ops/RISK_REGISTER.md` | Not updated: pre-existing dirty overlay preserved; Docker blocker is recorded in this result. |
 | `_agent_ops/PHASE_ROADMAP.md` | Not updated: pre-existing untracked overlay preserved; no later gate authorized. |
 | `_agent_ops/REPO_MAP.md` | Not regenerated in place: pre-existing dirty overlay preserved; refreshed copy was generated externally for analysis. |
 | `_agent_ops/THIRD_PARTY_TOOLING.md` | Not updated: pre-existing dirty overlay preserved; no third-party provider call occurred. |
 | `gates/baselines/GATE_09R_PROTOCOL.json` | Frozen and committed before implementation. |
-| `gates/results/GATE_09R_RESULT.md` | This blocked result. |
+| `gates/results/GATE_09R_RESULT.md` | Updated to PARTIAL from new local-container evidence; `6402cbc` remains the historical BLOCKED result. |
