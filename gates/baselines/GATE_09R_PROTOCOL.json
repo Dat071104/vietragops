@@ -29,6 +29,8 @@
     "deploy/gcp/README.md",
     "deploy/gcp/api-service.yaml",
     "deploy/gcp/web-service.yaml",
+    "deploy/gcp/storage-lifecycle.json",
+    "deploy/gcp/artifact-cleanup-policy.json",
     "app/main.py",
     "app/core/config.py",
     "app/api/auth.py",
