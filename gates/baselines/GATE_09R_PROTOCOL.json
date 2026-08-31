@@ -42,6 +42,7 @@
     "frontend/streamlit_app.py",
     "scripts/gcs_bootstrap.py",
     "rag/generation/provider_router.py",
+    "rag/generation/groq_client.py",
     "rag/lifecycle/gcs_registry.py",
     "rag/lifecycle/gcs_storage.py",
     "rag/lifecycle/gcs_service.py",
