@@ -1,0 +1,244 @@
+{
+  "schema": "vietragops.gate09r.protocol",
+  "schema_version": 1,
+  "gate": "GATE_09R",
+  "title": "Product Release and GCP Deployment",
+  "status": "FROZEN_PROTOCOL",
+  "repository": {
+    "branch": "main",
+    "base_commit": "7b892eed9a368286b93b8763c5a24c4371798dac",
+    "gate08_closure_commit": "e43c932807aa2e49b0bd3df754e266ffc01446f6",
+    "dirty_overlay_policy": "exclude_all_pre_existing_modified_deleted_untracked_and_ignored_runtime_state",
+    "index_must_be_empty_at_freeze": true
+  },
+  "scientific_routing": {
+    "gate08_status": "NEGATIVE",
+    "gate08_method_adopted": false,
+    "original_gate09_premise_satisfied": false,
+    "gate07_rerun": false,
+    "gate08_rerun": false,
+    "gate07_or_gate08_rescore": false,
+    "rejected_alignment_method_in_product": false,
+    "gate10_authorized": false,
+    "scientific_claim": "Gate 08 remains negative; this gate evaluates independently evidenced product release and deployment only."
+  },
+  "task_owned_files": [
+    "Dockerfile",
+    ".dockerignore",
+    "requirements.txt",
+    "deploy/gcp/README.md",
+    "deploy/gcp/api-service.yaml",
+    "deploy/gcp/web-service.yaml",
+    "app/main.py",
+    "app/core/config.py",
+    "app/api/auth.py",
+    "app/api/routes_documents.py",
+    "app/api/routes_eval.py",
+    "app/api/routes_health.py",
+    "app/mcp/auth.py",
+    "app/mcp/server.py",
+    "frontend/api_client.py",
+    "frontend/streamlit_app.py",
+    "rag/generation/provider_router.py",
+    "rag/lifecycle/gcs_registry.py",
+    "rag/lifecycle/gcs_storage.py",
+    "rag/lifecycle/service.py",
+    "rag/lifecycle/publish.py",
+    "rag/retrieval/index_store.py",
+    "tests/test_cloud_auth.py",
+    "tests/test_cloud_storage.py",
+    "tests/test_cloud_registry.py",
+    "tests/test_cloud_mcp.py",
+    "tests/test_cloud_provider_policy.py",
+    "tests/test_container_contract.py",
+    "gates/baselines/GATE_09R_PROTOCOL.json",
+    "gates/results/GATE_09R_RESULT.md"
+  ],
+  "architecture": {
+    "choice": "A",
+    "description": "Public Streamlit web service plus private FastAPI API service that also hosts the MCP endpoint.",
+    "services": {
+      "web": {
+        "name": "vietragops-web",
+        "public_access": true,
+        "responsibility": "Public demo UI only; no admin mutation controls; calls the private API with a Cloud Run identity token."
+      },
+      "api": {
+        "name": "vietragops-api",
+        "public_access": false,
+        "responsibility": "FastAPI product API, governed document lifecycle, version-aware retrieval, and authenticated MCP."
+      }
+    },
+    "iam": {
+      "web_to_api": "Cloud Run service-to-service ID token; web runtime receives run.invoker on the API service only.",
+      "operator_to_api": "Approved operator identity may invoke the private API for controlled E2E and rollback evidence.",
+      "path_level_rule": "Do not use Cloud Run IAM as a public/private path split; every mutation and MCP capability remains application-controlled or service-private."
+    },
+    "mcp": {
+      "location": "private_api_service_only",
+      "authentication": "Cloud Run IAM authentication for the private service; local static bearer remains local-only.",
+      "origin_policy": "Exact configured HTTPS origins only; missing or wrong Origin is rejected.",
+      "tools": "Read-only approved tools only; no public admin, filesystem, URI conversion, or rejected Gate 08 method tool."
+    }
+  },
+  "gcp": {
+    "project_id": "vietragops-evolve-20260831",
+    "region": "asia-southeast1",
+    "artifact_registry": {
+      "repository": "vietragops",
+      "location": "asia-southeast1",
+      "image_names": ["api", "web"],
+      "tag_pattern": "git-<validated_full_source_commit>",
+      "latest_tag_allowed": false,
+      "deployment_identity": "sha256_digest_required"
+    },
+    "cloud_storage": {
+      "bucket_pattern": "vietragops-evolve-20260831-vietragops-data",
+      "prefixes": [
+        "sources/original/",
+        "sources/canonical/",
+        "candidates/",
+        "registry/snapshots/",
+        "registry/pointers/",
+        "releases/",
+        "experiments/"
+      ],
+      "durability": "Cloud Storage objects are the durable source of truth; local files are only ephemeral caches and conversion scratch space.",
+      "write_rule": "Immutable object names plus generation-preconditioned pointer updates; conflicts fail typed and never overwrite silently.",
+      "retention": "Bounded lifecycle rules and soft-delete/version recovery are required; no unbounded candidate or artifact retention."
+    },
+    "cloud_sql": {
+      "enabled": false,
+      "reason": "Explicitly outside the confirmed scope. GCS optimistic registry/release pointers must satisfy the persistence contract; Cloud SQL requires a new evidence and approval checkpoint."
+    },
+    "runtime_service_accounts": {
+      "web": "vietragops-web-runtime",
+      "api": "vietragops-api-runtime",
+      "minimum_api_roles": [
+        "roles/storage.objectUser on the approved bucket",
+        "roles/secretmanager.secretAccessor on approved secret resources only"
+      ],
+      "minimum_web_roles": [
+        "roles/run.invoker on vietragops-api only"
+      ],
+      "forbidden": ["owner", "editor", "service-account-private-key", "unscoped-project-wide-secret-access"]
+    }
+  },
+  "secrets": {
+    "approved_names": [
+      "GROQ_API_KEY",
+      "FIRECRAWL_API_KEY",
+      "MCP_AUTH_SECRET",
+      "VIETRAGOPS_ADMIN_AUTH_SECRET"
+    ],
+    "cloud_default_use": ["GROQ_API_KEY", "FIRECRAWL_API_KEY"],
+    "not_required_in_private_iam_mcp_mode": ["MCP_AUTH_SECRET", "VIETRAGOPS_ADMIN_AUTH_SECRET"],
+    "handling": "Names, version existence, bindings, and redacted metadata only; values are entered by the user through a secure Google Cloud interface and never read or recorded by the agent."
+  },
+  "provider_policy": {
+    "research": {
+      "provider_pinned": true,
+      "fallback": "disabled",
+      "gate07_gate08_execution": "forbidden"
+    },
+    "cloud_product": {
+      "primary": "groq",
+      "fallback": "deterministic_grounded_answer_only",
+      "ollama": "disabled; localhost fallback forbidden",
+      "deepseek": "disabled unless separately approved",
+      "multi_key_rotation": "disabled; only one GROQ_API_KEY secret is permitted",
+      "failure_visibility": "typed provider failure and fallback metadata must remain visible to API and audit clients"
+    },
+    "firecrawl": {
+      "initial_allowlist": ["undergrad.tdtu.edu.vn"],
+      "maximum_searches": 25,
+      "maximum_scrapes": 100,
+      "automatic_upgrade": false,
+      "automatic_recharge": false,
+      "candidate_only": true
+    }
+  },
+  "cloud_run_limits": {
+    "min_instances": 0,
+    "max_instances_per_service": 2,
+    "gpu": false,
+    "concurrency": 1,
+    "api_timeout_seconds": 300,
+    "web_timeout_seconds": 120,
+    "spend_cap_if_supported": 15,
+    "no_gpu_gke_qdrant_cloud_sql_queue_worker": true
+  },
+  "cost_controls": {
+    "total_gcp_ceiling_usd": 30,
+    "warning_usd": 15,
+    "mandatory_stop_usd": 24,
+    "absolute_ceiling_usd": 30,
+    "budget_alert_percentages": [50, 80, 100],
+    "artifact_registry_retention_required": true,
+    "cloud_storage_retention_required": true,
+    "commitments_or_subscriptions": false,
+    "stop_rule": "At USD 24 total observed GCP spend, stop cloud mutations and ask the user; never exceed USD 30 or silently raise limits."
+  },
+  "e2e_cases": {
+    "local": [
+      "health_and_readiness",
+      "public_vietnamese_grounded_question_with_citations",
+      "private_or_unsupported_refusal",
+      "validated_markitdown_candidate_upload",
+      "malformed_file_rejection",
+      "firecrawl_mock_allowlist_and_failure",
+      "version_aware_retrieval_before_and_after_publish",
+      "publish_retire_rollback_lifecycle",
+      "mcp_unauthorized_wrong_origin_and_authorized_read_only_request",
+      "typed_provider_failure_and_visible_fallback"
+    ],
+    "cloud": [
+      "public_web_loads",
+      "private_api_invocation_is_authenticated",
+      "health_and_readiness",
+      "grounded_vietnamese_question_and_refusal",
+      "markitdown_candidate_upload_and_malformed_rejection",
+      "firecrawl_allowlisted_candidate_import_or_typed_not_executed",
+      "review_publish_and_version_aware_retrieval",
+      "mcp_unauthorized_wrong_origin_and_authorized_read_only_request",
+      "durable_objects_survive_new_revision_or_instance",
+      "provider_timeout_429_and_cloud_ollama_unavailable_policy",
+      "storage_failure_stale_version_and_bad_revision_failure_types",
+      "cloud_run_revision_rollback_and_restore"
+    ]
+  },
+  "failure_matrix": [
+    "cold_start",
+    "provider_timeout",
+    "provider_429",
+    "cloud_ollama_unavailable",
+    "firecrawl_failure",
+    "malformed_document",
+    "invalid_schema",
+    "invalid_mcp_auth",
+    "invalid_origin",
+    "storage_failure",
+    "stale_or_missing_version",
+    "bad_deployment_revision"
+  ],
+  "rollback": {
+    "procedure": "Capture healthy revision and image digest; deploy candidate with no traffic; smoke test; move traffic to candidate; move 100 percent back to healthy revision; verify; restore intended final revision; record revision names, digests, and traffic states.",
+    "destructive_cleanup": false,
+    "in_flight_requests": "must be allowed to complete and recorded"
+  },
+  "acceptance": {
+    "PASS": "Every mandatory local, image, security, persistence, browser/API/MCP, failure, and rollback criterion passes with source commit, image digest, revision, and cost evidence.",
+    "PARTIAL": "A release is deployed but one or more mandatory criteria are not executed or remain incomplete; no production-readiness claim is allowed.",
+    "BLOCKED": "Approved project, billing, account, IAM, secret entry, budget, or environment precondition is unavailable without new approval.",
+    "FAIL": "A mandatory behavior, security boundary, persistence contract, immutable identity, or rollback test fails."
+  },
+  "explicit_exclusions": [
+    "Gate 07 rerun",
+    "Gate 08 rerun or tuning",
+    "rescoring old Gate 07 or Gate 08 predictions under changed semantics",
+    "production use or public claim of the rejected Gate 08 alignment method",
+    "Gate 10 authorization",
+    "unbounded provider calls",
+    "automatic billing changes, plan upgrades, recharge, commitments, or subscriptions"
+  ]
+}
