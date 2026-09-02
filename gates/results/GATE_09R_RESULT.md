@@ -421,3 +421,23 @@ work requires a separate approval and protocol.
 | `_agent_ops/THIRD_PARTY_TOOLING.md` | Not needed: no tooling policy changed; bounded provider use is recorded in the result/log. |
 | `gates/baselines/GATE_09R_PROTOCOL.json` | Not changed: frozen protocol and SHA-256 remain unchanged. |
 | `gates/results/GATE_09R_RESULT.md` | Updated from BLOCKED to PASS using the new local, cloud, security, persistence, cost, and rollback evidence. |
+
+## Post-release addendum — Gate 09R-V (2026-09-02)
+
+Gate 09R-V classified the public web dynamic-module observation as
+`CAPACITY`. Three sequential single-client root GETs returned `200`; the
+referenced static JavaScript and CSS assets returned `200` with the expected
+content types and no `429`, `404`, `503`, or HTML substitution. A fresh,
+single-tab Codex In-app Browser load rendered the question widget. Separately,
+the last 24 hours of Cloud Run request logs contained 31 static-asset `429`
+entries across 26 paths on `vietragops-web-00002-wp9`, while the service was
+configured with `minScale=0`, `maxScale=2`, and `containerConcurrency=1`.
+This is an intermittent capacity observation, not a permanent service-defect
+finding. No repair, scaling change, deployment, or mitigation was made.
+
+The Gate 09R statement that the "browser grounded/refusal flows passed with
+zero errors" is time-scoped to **2026-08-31 on a warmed instance**. It is not a
+continuing availability guarantee.
+
+Gate 09R remains `PASS`; this addendum does not retroactively change its status
+or reopen Gate 09R.

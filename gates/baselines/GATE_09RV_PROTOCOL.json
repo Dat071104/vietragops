@@ -1,0 +1,116 @@
+{
+  "schema": "vietragops.gate09rv.protocol",
+  "schema_version": 1,
+  "gate": "GATE_09R-V",
+  "title": "Verification Gap Closure and Web Availability Triage",
+  "status": "FROZEN_PROTOCOL",
+  "date": "2026-09-02",
+  "authorization": {
+    "source": "User-authorized Gate 09R-V execution prompt",
+    "mandate": "Close the bounded budget, Cloud Run behavior, public web availability, and identity-token observation gaps; classify findings and stop at the result artifact.",
+    "gate09r_status_must_remain": "PASS",
+    "gate08_status": "NEGATIVE",
+    "gate10_authorized": false,
+    "no_repair_or_mitigation": true,
+    "no_deployment_or_rebuild": true,
+    "no_gcp_mutation": true,
+    "no_source_change": true,
+    "no_push": true
+  },
+  "repository_entry": {
+    "root": "D:\\Project cua Dat\\VietRAGOps\\ROOT\\VietRagOps",
+    "branch": "main",
+    "head": "55bb73ab4ff7553988c9b9d9aa14b5a95d6052f1",
+    "required_head": "55bb73ab4ff7553988c9b9d9aa14b5a95d6052f1",
+    "overlay_status_path_count": 30,
+    "index_must_be_empty": true,
+    "overlay_policy": "Preserve the exact pre-existing 30-path overlay; do not stage, restore, delete, stash, clean, reset, amend, rebase, or force-push it.",
+    "remote_main_observation": {
+      "default_client": "SEC_E_NO_CREDENTIALS",
+      "bounded_openssl_retry": "3ceba474fc0c80fe88b44a2c4157b60ce37291be refs/heads/main"
+    },
+    "required_interpreter": ".venv\\Scripts\\python.exe",
+    "frozen_protocol_sha256": {
+      "GATE_09RM_PROTOCOL.json": "8212F0AC4C0895D1D281DF30B46D51B378C0DBF401B5A691455157E3498D4685",
+      "GATE_09R_PROTOCOL.json": "F4C78F2E392D1BA55E030788E9255EB82944756DDB589316EC140008444C9E23"
+    }
+  },
+  "cloud_scope": {
+    "project_id": "vietragops-evolve-20260831",
+    "region": "asia-southeast1",
+    "services": ["vietragops-web", "vietragops-api"],
+    "web_url": "https://vietragops-web-ohtmo6zgoq-as.a.run.app",
+    "allowed_operations": [
+      "HTTP GET",
+      "Cloud Run describe/list",
+      "Cloud Logging read",
+      "Cloud Billing Budgets list",
+      "gcloud auth list",
+      "gcloud auth print-identity-token"
+    ],
+    "prohibited_operations": [
+      "deploy",
+      "services update",
+      "update-traffic",
+      "min-instance or concurrency change",
+      "image rebuild",
+      "rollback",
+      "enable API",
+      "create",
+      "delete",
+      "IAM policy mutation",
+      "budget edit",
+      "BigQuery billing export",
+      "secret-value access"
+    ]
+  },
+  "cost_controls": {
+    "new_gcp_spend_vnd": 0,
+    "groq_calls": 0,
+    "firecrawl_calls": 0,
+    "target_budget_vnd": 750000,
+    "cloud_run_control_vnd": 375000,
+    "budget_alert_percentages": [50, 80, 100],
+    "warning_stop_policy_usd": 15,
+    "ceiling_raise_forbidden": true,
+    "billing_identifier_rule": "A billing account identifier may exist only in an in-session shell variable for a read-only budget query; it must not be printed, written, logged, screenshotted, or committed.",
+    "secret_rule": "Secret values, keys, tokens, passwords, MFA codes, and payment data are never read."
+  },
+  "observations": {
+    "v1_classification": ["SERVICE_DEFECT", "CAPACITY", "HOST_OR_BROWSER", "INCONCLUSIVE"],
+    "cold_path_root_gets": 3,
+    "cold_path_spacing_seconds_minimum": 60,
+    "chunk_checks": "Enumerate every referenced /static/js/*.js and /static/css/*.css URL and record status, content-type, and byte size.",
+    "warm_repeat": true,
+    "cloud_run_config_fields": [
+      "minScale",
+      "maxScale",
+      "containerConcurrency",
+      "cpu allocation",
+      "memory",
+      "startup probe",
+      "timeout"
+    ],
+    "log_window": "last 24h",
+    "browser_isolation": "One load in a different browser or private window with cache disabled; single tab only."
+  },
+  "identity_token": {
+    "hypothesis": "A user account may not mint an identity token for an arbitrary audiences value without service-account impersonation.",
+    "required_checks": [
+      "Record redacted exact stderr of the failing audiences command.",
+      "Record account type only from gcloud auth list.",
+      "Run print-identity-token without audiences while discarding token stdout.",
+      "Compare with the host Schannel SEC_E_NO_CREDENTIALS observation."
+    ],
+    "remedy_boundary": "If impersonation and roles/iam.serviceAccountTokenCreator are required, present the exact least-privilege approval request and do not execute it."
+  },
+  "expected_artifacts": [
+    "gates/baselines/GATE_09RV_PROTOCOL.json",
+    "gates/results/GATE_09RV_RESULT.md",
+    "gates/results/GATE_09R_RESULT.md addendum",
+    "DEC-0029",
+    "RISK-0024 if applicable",
+    "Closure Receipt"
+  ],
+  "stop_condition": "End after the Gate 09R-V result artifact and closure receipt; no repair, mutation, push, later gate, or scientific rerun."
+}

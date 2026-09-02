@@ -1254,3 +1254,50 @@ skill scripts remain an unresolved `RESTORE?` decision, and the multi-key
 rotation test remains a `REVIEW-SECURITY` item against RISK-0009. The exact next
 action is maintenance-only monitoring of bounded GCP budget and Cloud Run
 behavior; any broader work needs a new approval and protocol.
+
+## DEC-0029 — Gate 09R-V verification gap closure
+
+**Date:** 2026-09-02
+**Status:** COMPLETE — read-only observation and classification
+**Gate:** 09R-V (Verification Gap Closure and Web Availability Triage)
+
+### Decision
+
+Close Gate 09R-V with the public web availability classification `CAPACITY`.
+Keep Gate 09R as `PASS`, append the post-release addendum, and record the
+intermittent static-module risk without repairing, scaling, deploying, changing
+IAM, changing budgets, enabling APIs, or pushing.
+
+### Evidence boundary
+
+The V0 checkout matched the authorized `55bb73a` HEAD, both frozen protocol
+digests, an empty index, and exactly 30 pre-existing status paths. The default
+Git remote read reproduced Schannel `SEC_E_NO_CREDENTIALS`; the bounded OpenSSL
+retry read `origin/main=3ceba47…`. Three sequential OpenSSL-backed HTTP root
+checks returned `200`; all 112 root-referenced JS/CSS assets returned `200` with
+the expected MIME type. Cloud Run logs showed 31 static `429` entries across 26
+paths on the active web revision, consistent with the configured `minScale=0`,
+`maxScale=2`, `containerConcurrency=1`. A new single-tab Codex In-app Browser
+load rendered the question widget, but displayed `API unavailable`; no answer
+was submitted.
+
+The target budget `VietRAGOps Gate 09R USD30 ceiling` was observed at
+`750,000 VND` with `50%/80%/100%` thresholds. The `375,000 VND` Cloud Run
+control is a derived half-budget value; no separate 375,000-VND budget object
+was observed. Budgets API configuration contained no current-spend field, so
+current cost remains unverified. The USD 15 warning/stop policy and no-ceiling-
+raise rule remain unchanged in the frozen controls.
+
+The identity-token root cause is expected gcloud behavior: the active account
+type is `user`, no-audience token minting exited `0` with token stdout
+discarded, and arbitrary-audience minting exited `1` with `Invalid account type
+for `--audiences`. Requires valid service account.` The Git Schannel failure
+and this gcloud account-type rule are independent mechanisms on the same host.
+
+### Secrecy and authorization consequence
+
+The billing account identifier was held only in an in-session shell variable
+for the read-only budget query and was not printed, written, logged,
+screenshotted, or committed. No secret value, token, key, password, MFA code,
+or payment data was read. Any future impersonation grant remains a separate
+approval and was not executed.

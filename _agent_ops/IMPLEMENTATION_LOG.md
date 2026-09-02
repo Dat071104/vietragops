@@ -3197,3 +3197,55 @@ unstaged. Fresh Repo Map/code-index outputs were generated externally under
 DEC-0028 records the maintenance-only decision. Gate 09R-M ends at the result
 artifact with the exact next action: monitor the bounded GCP budget and Cloud
 Run behavior; any new scope requires new approval and protocol.
+
+## 2026-09-02 — Gate 09R-V verification gap closure
+
+- V0 read-only freeze matched HEAD `55bb73ab4ff7553988c9b9d9aa14b5a95d6052f1`,
+  `GATE_09RM_PROTOCOL.json` SHA-256
+  `8212F0AC4C0895D1D281DF30B46D51B378C0DBF401B5A691455157E3498D4685`,
+  `GATE_09R_PROTOCOL.json` SHA-256
+  `F4C78F2E392D1BA55E030788E9255EB82944756DDB589316EC140008444C9E23`, empty
+  index, and exactly 30 status paths. Default Git remote read reproduced
+  Schannel `SEC_E_NO_CREDENTIALS`; OpenSSL retry returned remote `main`
+  `3ceba474fc0c80fe88b44a2c4157b60ce37291be`.
+- Wrote and validated `gates/baselines/GATE_09RV_PROTOCOL.json`; its SHA-256 is
+  `D9A4160201A7A47DD6D2193783CB1C01FD082290453E4A6B4DED9A9CB29FE114`.
+- V1 root GETs through the Python OpenSSL fallback were `200` at
+  `7.792729s`, `0.271133s`, and `0.352992s`, spaced by more than 60 seconds.
+  The required Windows curl client itself returned `000` with Schannel
+  `SEC_E_NO_CREDENTIALS`. All 112 root-referenced static assets returned `200`
+  with the expected JavaScript/CSS content type; the warm repeat had `BAD=0`
+  and total bytes `2,122,214`.
+- Read-only Cloud Run describe showed web `minScale=0`, `maxScale=2`,
+  `containerConcurrency=1`, CPU limit `1`, memory `512Mi`, generation `2`,
+  TCP startup probe on `8501` (`failureThreshold=1`, `periodSeconds=240`,
+  `timeoutSeconds=240`), and timeout `120s`. The response exposed no explicit
+  `cpu-throttling` annotation or `cpuIdle` field, so exact CPU allocation mode
+  is not claimed as independently observed.
+- Read-only web logs returned 986 entries: `200=918`, `429=31`, `304=2`,
+  `101=6`, and `NO_STATUS=38`. All 31 static `429` entries were on
+  `vietragops-web-00002-wp9` between `2026-09-02T09:12:15Z` and
+  `2026-09-02T09:13:29Z`, across 26 paths. A fresh single-tab Codex In-app
+  Browser load rendered the Question textbox and Generate button with no
+  console errors, but showed `API unavailable`; no question was submitted.
+  V1 classification: `CAPACITY`.
+- Read-only budget listing observed four budget display names and controls:
+  `clnf-60d-demo-budget` `3,500,000 VND` at `50/75/90%`; `VietRAGOps Gate
+  09R USD30 ceiling` `750,000 VND` at `50/80/100%`; `dat-k8s-gke-lab-budget`
+  `75,000 VND` at `50/75/90%`; and `ASKBetter G2 project alert` `250,000 VND`
+  at `50/90/100%`. No separate `375,000 VND` budget object was observed; the
+  Cloud Run control is the derived half-budget value. The Budgets API response
+  had no current-spend, usage, or forecast field, so current cost remains
+  unverified and no billing export was created.
+- V3 ran `gcloud auth list` without recording the account identifier: the active
+  account type was `user`. No-audience identity-token minting exited `0` with
+  stdout discarded. The audience command exited `1` with exact redacted stderr
+  `Invalid account type for --audiences. Requires valid service account.` This
+  is expected user-account behavior. Git Schannel and this gcloud rule are
+  independent host mechanisms. An impersonation grant remains an approval
+  request only; no IAM change occurred.
+- Added the Gate 09R post-release addendum, `RISK-0024` (Medium/Open),
+  `DEC-0029`, and the final result artifact. Gate 09R remains PASS; Gate 08
+  remains NEGATIVE; Gate 10 remains unauthorized. No source, deployment,
+  budget, IAM, secret, provider, Firecrawl, repair, staging, or push action
+  occurred.
