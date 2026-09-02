@@ -3130,3 +3130,70 @@ unadopted; no Gate 07/08 rerun or rescore occurred, and Gate 10 is not
 authorized. The pre-existing 29-path dirty overlay remains untouched and
 unstaged. Fresh Repo Map/code-index outputs were generated externally under
 `D:\Research` because the in-place map is part of the user overlay.
+
+---
+
+## 2026-09-02 — Gate 09R-M observation, reconciliation, and closure
+
+### Entry and frozen protocol
+
+- Ran `_agent_ops/tools/session_start.py --root .` with
+  `.venv\Scripts\python.exe`; the pre-freeze checkout was `main` at
+  `3ceba474fc0c80fe88b44a2c4157b60ce37291be` with exactly 29 status paths and
+  an empty index.
+- The Gate 09R tag resolved to the same commit. The default live remote query
+  hit a Windows Schannel credential-store error; a bounded read-only TLS-backend
+  retry returned the same live `origin/main` SHA.
+- Reverified the frozen Gate 09R protocol SHA-256 and wrote the Gate 09R-M
+  protocol. Its SHA-256 is
+  `8212F0AC4C0895D1D281DF30B46D51B378C0DBF401B5A691455157E3498D4685`.
+
+### Ops-memory and overlay
+
+- With per-file user approval, corrected `PHASE_ROADMAP.md`, the Evolve tracker
+  README, and `SESSION_BRIEF.md`, and added the missing `GATE_09R.md` card.
+- The pre-existing 29-path overlay was read and classified only. No overlay
+  path was staged, restored, deleted, or overwritten outside those four
+  approved M1 documents.
+- `tests/test_groq_rotation.py` directly asserts multi-key discovery,
+  round-robin, cooldown and 429 rotation behavior; it remains flagged against
+  RISK-0009 and was not modified. The five deleted skill scripts remain
+  unresolved `RESTORE?`. Repo-map regeneration remains proposed only; the
+  fresh output under `D:\Research` was not copied over the dirty map.
+
+### Read-only cloud and browser observation
+
+- Project state was `ACTIVE`; Cloud Run API/web traffic and image digests,
+  filtered API-private/web-public IAM, Artifact Registry cleanup, GCS lifecycle,
+  and Secret Manager names/version counts were consistent with Gate 09R.
+- The rollback candidate appeared as a no-percent `rollbackcandidate` traffic
+  entry; no `latest` API tag was observed. The exact zero allocation was not
+  restated as a fresh observation.
+- Budget/current billing could not be refreshed: Console required sign-in and
+  the budget CLI requires a billing identifier, which was not accessed. Compute,
+  SQL, GKE and Tasks APIs were disabled and were not enabled; no resource
+  mutation was attempted.
+- A single public-web tab reached the Streamlit shell, but dynamic widget
+  modules failed after one bounded reload; no grounded/refusal answer was
+  claimed. Missing-auth MCP was rejected with `403`. Identity-token acquisition
+  failed, so authenticated readiness and MCP Origin/tool calls were not run.
+- This phase initiated zero Groq answers and zero Firecrawl calls. No secret
+  value, billing identifier, account identifier, or key was recorded.
+
+### Regression and residual risk
+
+- Required full local suite completed with `564 passed, 2 warnings` in
+  `276.94s`; warnings were third-party `websockets` deprecations.
+- Read-only ACL metadata was collected for
+  `app/api/__pycache__/routes_documents.cpython-313.pyc`; no ACL repair,
+  compileall rerun, cache deletion, or ownership change occurred.
+- RISK-0015 remains open for local Ollama timing and is not applicable to cloud
+  because no localhost fallback is reachable there. RISK-0013 remains open;
+  no Firecrawl calls were made. Secret rotation was documented as a runbook,
+  not executed.
+
+### Closure
+
+DEC-0028 records the maintenance-only decision. Gate 09R-M ends at the result
+artifact with the exact next action: monitor the bounded GCP budget and Cloud
+Run behavior; any new scope requires new approval and protocol.

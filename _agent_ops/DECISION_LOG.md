@@ -1217,3 +1217,40 @@ observed only under a two-tab capacity saturation probe and the final browser
 proof was clean. Provider timeout/429 behavior is covered by typed
 adapter/router tests; no paid live fault injection was manufactured. Gate 08
 remains NEGATIVE and unadopted, and Gate 10 is not authorized.
+
+---
+
+## DEC-0028 — Gate 09R-M bounded observation and ops-memory reconciliation
+
+**Date:** 2026-09-02
+**Status:** COMPLETE — read-only observation receipt
+**Gate:** 09R-M (Operate, Reconcile, Observe)
+
+### Decision
+
+Close the authorized maintenance-only follow-up by reconciling the four
+approved ops-memory documents, classifying all 29 pre-existing overlay paths,
+and writing `gates/results/GATE_09RM_RESULT.md`. Preserve the overlay and stop
+at observation; do not repair, deploy, enable, rotate, stage, push, rerun a
+scientific gate, or authorize Gate 10.
+
+### Evidence boundary
+
+The entry checkout matched the required HEAD, Gate 09R tag, live remote,
+baseline protocol digest, empty index, and 29-path overlay count. Live
+read-only observations found no drift in the observable Cloud Run service
+identity, image digests, IAM public/private boundary, Artifact Registry cleanup,
+GCS lifecycle, or Secret Manager metadata. The current budget/cost could not be
+refreshed without a prohibited billing identifier or signed-in Console session.
+The approved identity token was unavailable, so authenticated readiness and
+MCP Origin/tool observations were not rerun. The single-tab web UI did not
+load its question widgets, so no answer/refusal claim was made.
+
+### Consequences
+
+Gate 08 remains NEGATIVE and unadopted. RISK-0013 remains Open. RISK-0015 is
+Open for the local Ollama path and Not applicable in cloud. The five deleted
+skill scripts remain an unresolved `RESTORE?` decision, and the multi-key
+rotation test remains a `REVIEW-SECURITY` item against RISK-0009. The exact next
+action is maintenance-only monitoring of bounded GCP budget and Cloud Run
+behavior; any broader work needs a new approval and protocol.
