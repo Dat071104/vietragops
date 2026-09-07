@@ -329,10 +329,14 @@ budget configurations:
 
 | Display name | Amount | Threshold rules |
 |---|---:|---|
-| clnf-60d-demo-budget | 3,500,000 VND | 50% / 75% / 90% |
 | VietRAGOps Gate 09R USD30 ceiling | 750,000 VND | 50% / 80% / 100% |
-| dat-k8s-gke-lab-budget | 75,000 VND | 50% / 75% / 90% |
-| ASKBetter G2 project alert | 250,000 VND | 50% / 90% / 100% |
+| (three unrelated budgets, withheld) | withheld | withheld |
+
+The billing account is shared with three budgets belonging to projects outside
+this gate's scope. Their display names and amounts are deliberately withheld
+from this public artifact as out-of-scope private data; only their count is
+recorded, because the count is what establishes that the target budget is one
+of four on a shared billing account. None of them filters this project.
 
 ### Frozen-control comparison
 

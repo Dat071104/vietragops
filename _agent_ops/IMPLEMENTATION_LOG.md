@@ -3230,10 +3230,10 @@ Run behavior; any new scope requires new approval and protocol.
   console errors, but showed `API unavailable`; no question was submitted.
   V1 classification: `CAPACITY`.
 - Read-only budget listing observed four budget display names and controls:
-  `clnf-60d-demo-budget` `3,500,000 VND` at `50/75/90%`; `VietRAGOps Gate
-  09R USD30 ceiling` `750,000 VND` at `50/80/100%`; `dat-k8s-gke-lab-budget`
-  `75,000 VND` at `50/75/90%`; and `ASKBetter G2 project alert` `250,000 VND`
-  at `50/90/100%`. No separate `375,000 VND` budget object was observed; the
+  `VietRAGOps Gate 09R USD30 ceiling` `750,000 VND` at `50/80/100%`, plus
+  three budgets belonging to projects outside this gate's scope whose display
+  names and amounts are withheld as out-of-scope private data; none of them
+  filters this project. No separate `375,000 VND` budget object was observed; the
   Cloud Run control is the derived half-budget value. The Budgets API response
   had no current-spend, usage, or forecast field, so current cost remains
   unverified and no billing export was created.
