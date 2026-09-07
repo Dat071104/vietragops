@@ -3249,3 +3249,22 @@ Run behavior; any new scope requires new approval and protocol.
   remains NEGATIVE; Gate 10 remains unauthorized. No source, deployment,
   budget, IAM, secret, provider, Firecrawl, repair, staging, or push action
   occurred.
+
+## 2026-09-07 — Gate 09R-C maintenance arc consolidation
+
+- C0 matched local HEAD `17059a6`, an empty index, exactly 30 status paths,
+  COMPLETE CAPACITY status in `GATE_09RV_RESULT.md`, and remote main
+  `3ceba474...` after the bounded OpenSSL retry for expected Schannel
+  `SEC_E_NO_CREDENTIALS`.
+- Recorded DEC-0030: retain `tests/test_groq_rotation.py` untracked and
+  prefer a future single-key OpenRouter migration. Updated RISK-0009 and
+  registered RISK-0025 (no Cloud Run service-scoped cost control), RISK-0026
+  (alternate-browser API-unavailable state), and RISK-0027 (consolidated host
+  ACL/credential transport health).
+- Corrected the derived `375,000 VND` Cloud Run control claim in
+  `GATE_09RM_RESULT.md`, recorded the two possible current-spend paths
+  without using either, and reconciled the roadmap/card/tracker after
+  per-file approval.
+- Wrote `GATE_09RC_RESULT.md`. No observation, GCP call, mutation, source
+  change, repair, or push occurred; only the named documentation records
+  were staged and committed locally.

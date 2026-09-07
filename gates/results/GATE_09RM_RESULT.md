@@ -293,3 +293,17 @@ Monitor the bounded GCP budget and Cloud Run behavior. Do not repair, deploy,
 rotate, enable APIs, change budget, change IAM, refresh the rejected method,
 start the original Gate 09, start Gate 10, or stage the overlay without a new
 explicit approval and protocol. Stop here after this result artifact.
+
+## Post-release correction — Gate 09R-C (2026-09-07)
+
+The `375,000 VND` Cloud Run control recorded during Gate 09R-V is a derived
+arithmetic half of the project-scoped `750,000 VND` budget, not a budget
+object. No Cloud Run-scoped budget object exists, and the project budget has no
+Cloud Run service filter. Only the project-scoped `750,000 VND` budget is
+enforced. Creating a service-scoped budget would be a GCP mutation requiring
+separate approval; none was proposed or executed.
+
+Current billing spend remains unobservable through the read-only budget
+configuration path. The only identified paths are an interactive Console
+sign-in or a billing export; the latter is a mutation with its own cost.
+Neither path was authorized or executed in Gate 09R-C.

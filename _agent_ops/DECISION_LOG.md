@@ -1301,3 +1301,31 @@ for the read-only budget query and was not printed, written, logged,
 screenshotted, or committed. No secret value, token, key, password, MFA code,
 or payment data was read. Any future impersonation grant remains a separate
 approval and was not executed.
+
+---
+
+## DEC-0030 — Retain the untracked rotation test; prefer a future single-key OpenRouter migration
+
+**Date:** 2026-09-07
+**Status:** COMPLETE — decision recorded
+**Gate:** 09R-C (Maintenance Arc Consolidation)
+
+### Decision
+
+Keep `tests/test_groq_rotation.py` as an untracked local experiment. Do not
+stage, move, modify, delete, or ship it. The user's intended future provider
+direction is a single-key OpenRouter migration at a later, separately approved
+time.
+
+### Governing constraint
+
+RISK-0009 targets multi-account key pools used to evade a provider's quota
+controls. Because the test remains unshipped, no key-rotation mechanism may
+enter `app/` or `rag/` production code against a single provider's Terms of
+Service without a separate approved decision. This decision authorizes neither
+implementation, live calls, nor a provider migration.
+
+### Consequence
+
+A single-key OpenRouter migration would retire the rotation mechanism entirely
+and is the preferred resolution path for RISK-0009.

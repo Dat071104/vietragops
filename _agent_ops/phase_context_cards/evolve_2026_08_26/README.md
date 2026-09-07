@@ -18,6 +18,12 @@ Both Gate 05 and Gate 06 were pushed to origin/main in one `git push`
 after the user's explicit request ("PUSH 2 of these gate"); live-verified
 with `git ls-remote origin main` == local HEAD == fed31c3.`
 
+Gate 07 V4.1 remains a narrow `GO` for `argument_split` and `tool_replacement`;
+its result and closure receipt are authoritative. Gate 08 is closed `NEGATIVE`
+and its method is not adopted. Gate 09R closed `PASS — product-only release` on
+2026-08-31. The 09R-M, 09R-V, and 09R-C maintenance arc is complete; the
+original Gate 09 and Gate 10 remain unavailable.
+
 ## Purpose
 
 This directory is the compact, durable tracker for the supplied **VietRAGOps
@@ -45,10 +51,13 @@ execution authorization. Read this file, then the card for the active gate only.
 | 04 | `GATE_04.md` | PASS (committed, pushed) | Result before Gate 05 |
 | 05 | `GATE_05.md` | PASS (committed, pushed) | Result before Gate 06 |
 | 06 | `GATE_06.md` | PASS (committed, pushed) | Result before Gate 07 |
-| 07 | `GATE_07.md` | Not started | GO / REFORMULATE / STOP |
-| 08 | `GATE_08.md` | Allowed only after Gate 07 GO | Result before Gate 09 |
-| 09 | `GATE_09.md` | Blocked by Gates 08 and full evidence | Result before Gate 10 |
-| 10 | `GATE_10.md` | Blocked by Gate 09 PASS | Final freeze only |
+| 07 | `GATE_07.md` | GO (narrow V4.1: `argument_split`, `tool_replacement`) | `GATE_07_RESULT.md` and closure receipt; never Gate 08 |
+| 08 | `GATE_08.md` | Closed NEGATIVE — method not adopted | Outside current task boundary |
+| 09 | `GATE_09.md` | Unavailable — original full evaluation not authorized | `GATE_09_RESULT.md` |
+| 09R | `GATE_09R.md` | PASS — product-only release | `GATE_09RM_RESULT.md` |
+| 09R-M | `GATE_09R.md` | COMPLETE — read-only observation | `GATE_09RM_RESULT.md` |
+| 09R-V | `GATE_09R.md` | COMPLETE — CAPACITY | `GATE_09RV_RESULT.md` |
+| 10 | `GATE_10.md` | Unavailable — Gate 09R does not authorize Gate 10 | Final freeze only |
 
 ## Read Order
 
