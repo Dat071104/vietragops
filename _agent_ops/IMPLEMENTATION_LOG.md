@@ -3268,3 +3268,37 @@ Run behavior; any new scope requires new approval and protocol.
 - Wrote `GATE_09RC_RESULT.md`. No observation, GCP call, mutation, source
   change, repair, or push occurred; only the named documentation records
   were staged and committed locally.
+
+## 2026-09-07 — Gate 11-OR OpenRouter migration scoping
+
+- Re-verified the canonical checkout at
+  `D:/Project cua Dat/VietRAGOps/ROOT/VietRagOps`, branch `main`, with HEAD and
+  `origin/main` both equal to
+  `7e8db468be8eb45ce8de714ecdc8fbb542c1ad21`. The first bounded OpenSSL remote
+  attempt could not connect; one bounded retry returned the exact SHA.
+- Confirmed exactly 26 pre-existing status paths, an empty Git index, and an
+  untracked `tests/test_groq_rotation.py`. The approved one-line
+  `_agent_ops/SESSION_BRIEF.md` correction was applied; the ignored overlay
+  file otherwise stayed unchanged.
+- Read the provider router, Groq/Ollama/DeepSeek clients, answer generator,
+  application wiring, provider policy tests, cloud policy tests, typed-error
+  tests, and the untracked rotation test. Read deployment/configuration and
+  Gate 07/Gate 08 evidence needed for the frozen research boundary.
+- Read official public Groq and OpenRouter documentation only for the contract
+  mapping. No provider, GCP, account, billing, key-management, or secret
+  operation occurred.
+- Wrote and JSON-validated `gates/baselines/GATE_11OR_PROTOCOL.json`; its
+  SHA-256 is
+  `894089365d9051eb2c7d4fd4636cdb209a52121dbcd93248864d71da454c77ed`.
+- Wrote `gates/results/GATE_11OR_SCOPE.md` with the single final verdict
+  `REFORMULATE`, recommending a single-key, non-research Option A scope and a
+  proposed USD 0.50 future implementation cap. Added DEC-0031 and updated the
+  current task pointer; the pre-existing project-context overlay was left
+  unchanged.
+- No production code, dependency, deployment file, provider account, secret
+  value, GCP resource, Gate 07/08 artifact, or test file was modified. The
+  full `564 passed, 2 warnings` state was supplied and not rerun in this
+  design-only gate.
+
+Next step: wait for a separately approved implementation gate; resolve
+RISK-0026 first and preserve the frozen provider-pinned research lane.

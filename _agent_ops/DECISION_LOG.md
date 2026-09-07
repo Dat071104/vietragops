@@ -1329,3 +1329,42 @@ implementation, live calls, nor a provider migration.
 
 A single-key OpenRouter migration would retire the rotation mechanism entirely
 and is the preferred resolution path for RISK-0009.
+
+---
+
+## DEC-0031 — Reformulate OpenRouter migration as a product-lane scope
+
+**Date:** 2026-09-07
+**Status:** COMPLETE — Gate 11-OR design-only scoping
+**Gate:** 11-OR (OpenRouter Migration Scoping)
+
+### Decision
+
+Recommend Option A: add an `OpenRouterClient` beside the existing adapters and
+select it only by explicit configuration for separately approved non-research
+product lanes. Keep the research lane provider-pinned and retain the Groq path
+for rollback. Use one OpenRouter key only; do not add key pools or rotation.
+
+### Reasoning
+
+The public Groq and OpenRouter catalogs both list the current product model slug
+`qwen/qwen3.6-27b`, so a product migration need not force a model-id change.
+The existing router has an additive provider-selection seam, and an adapter
+beside the current clients has a smaller and more reversible blast radius than
+an outright replacement or a cross-provider gateway rewrite. However, the
+reviewed documentation shows non-1-to-1 routing, structured-output, error,
+rate/credit, timeout, and cost semantics. The current `AnswerGenerator` also
+has a direct Groq bypass and the agent tool path is Ollama-only, so the work is
+not a one-file configuration swap.
+
+### Boundary and verdict
+
+This is a reformulation, not authorization to implement or deploy. A global
+Groq-to-OpenRouter migration is rejected because Gate 07 and Gate 08 froze the
+research lane against pinned providers and models; changing that provider would
+destroy comparability with the frozen Gate 07 baselines and invalidate the
+program's only evidence. RISK-0026 must be resolved before a product
+migration ships, and a future implementation gate must enforce a proposed
+USD 0.50 hard cap with reserve/settle accounting. RISK-0009 remains unchanged
+in this gate; its single-key mitigation update was proposed only in the scope
+artifact.

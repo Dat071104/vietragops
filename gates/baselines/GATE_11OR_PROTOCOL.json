@@ -1,0 +1,131 @@
+{
+  "gate": "11-OR",
+  "title": "OpenRouter Migration Scoping",
+  "protocol_version": 1,
+  "date": "2026-09-07",
+  "status": "DESIGN_ONLY",
+  "objective": "Assess whether a future OpenRouter migration is worthwhile, map its exact product and operational blast radius, identify contract and cost differences, and record one bounded recommendation without implementing or executing the migration.",
+  "authorization": {
+    "scoping_and_design_only": true,
+    "implementation": false,
+    "provider_calls": false,
+    "gcp_calls": false,
+    "account_or_key_creation": false,
+    "secret_value_access": false,
+    "gate_09_or_gate_10": false,
+    "gate_07_or_gate_08_rerun_or_rescore": false
+  },
+  "repository": {
+    "root": "D:/Project cua Dat/VietRAGOps/ROOT/VietRagOps",
+    "branch": "main",
+    "expected_head": "7e8db468be8eb45ce8de714ecdc8fbb542c1ad21",
+    "expected_remote": "https://github.com/Dat071104/vietragops.git"
+  },
+  "entry_gate": {
+    "head_observed": "7e8db468be8eb45ce8de714ecdc8fbb542c1ad21",
+    "origin_main_observed": "7e8db468be8eb45ce8de714ecdc8fbb542c1ad21",
+    "remote_command": "git -c http.sslBackend=openssl ls-remote origin main",
+    "remote_retry_count": 1,
+    "dirty_overlay_path_count": 26,
+    "cached_path_count": 0,
+    "groq_rotation_test_tracked": false,
+    "session_brief_correction": {
+      "approved": true,
+      "scope": "Replace only the stale Last Verified Commit line; preserve every other line."
+    }
+  },
+  "scope": {
+    "read_only_source_zones": [
+      "rag/generation/",
+      "app/",
+      "tests/",
+      "evals/",
+      "research/gate07/",
+      "gates/",
+      "_agent_ops/",
+      "deploy/gcp/",
+      ".github/",
+      "README.md",
+      ".env.example",
+      "docker-compose.yml"
+    ],
+    "forbidden_write_zones": [
+      "rag/",
+      "app/",
+      "scripts/",
+      "deploy/",
+      "Dockerfile",
+      "requirements.txt",
+      "tests/test_groq_rotation.py",
+      "research/gate07/",
+      "research/gate08/",
+      "gates/baselines/GATE_07_*.json",
+      "gates/results/GATE_07*",
+      "gates/results/GATE_08*"
+    ],
+    "allowed_artifacts": [
+      "gates/baselines/GATE_11OR_PROTOCOL.json",
+      "gates/results/GATE_11OR_SCOPE.md",
+      "_agent_ops/SESSION_BRIEF.md",
+      "_agent_ops/CURRENT_TASK.md",
+      "_agent_ops/IMPLEMENTATION_LOG.md",
+      "_agent_ops/PROJECT_CONTEXT_CARD.md",
+      "_agent_ops/DECISION_LOG.md"
+    ]
+  },
+  "network_boundary": {
+    "allowed": [
+      "The bounded Git remote verification command above.",
+      "Official Groq and OpenRouter documentation pages for contract mapping."
+    ],
+    "forbidden": [
+      "OpenRouter API calls",
+      "Groq API calls",
+      "DeepSeek API calls",
+      "Ollama calls",
+      "Firecrawl calls",
+      "Any GCP call",
+      "Any account, billing, or key-management mutation"
+    ]
+  },
+  "secrecy": {
+    "secret_values_read": false,
+    "secret_values_written": false,
+    "secret_values_logged": false,
+    "allowed_recording": "Names, paths, binding metadata, and the fact that a value was not read."
+  },
+  "research_lane_invariant": "Gate 07 and Gate 08 froze the research lane against pinned providers and models. The research lane must remain provider-pinned; changing it would destroy comparability with the frozen Gate 07 baselines and invalidate the program's only evidence. Any migration option that touches that lane is disqualified.",
+  "cost_control": {
+    "this_gate_provider_spend_usd": 0,
+    "this_gate_provider_calls": 0,
+    "this_gate_gcp_calls": 0,
+    "future_implementation_cap_usd": 0.50,
+    "future_cap_status": "PROPOSED_POLICY_NOT_OBSERVED",
+    "future_enforcement": "Reserve estimated input plus maximum output before each request, settle against actual usage, and conservatively retain the reservation when billable usage is unavailable. Stop before the next call at the cap."
+  },
+  "documentation_sources": [
+    "https://console.groq.com/docs/api-reference",
+    "https://console.groq.com/docs/openai",
+    "https://console.groq.com/docs/rate-limits",
+    "https://openrouter.ai/docs/api/api-reference/chat/create-a-chat-completion",
+    "https://openrouter.ai/docs/api_reference/errors-and-debugging",
+    "https://openrouter.ai/docs/api_reference/limits",
+    "https://openrouter.ai/docs/guides/routing/provider-selection",
+    "https://openrouter.ai/docs/guides/features/structured-outputs",
+    "https://openrouter.ai/qwen/qwen3.6-27b",
+    "https://openrouter.ai/openai/gpt-oss-120b",
+    "https://openrouter.ai/openai/gpt-oss-20b"
+  ],
+  "expected_artifacts": [
+    "A single English decision-grade scope document with exactly one final verdict: GO, STOP, or REFORMULATE.",
+    "A SHA-256 receipt for this frozen protocol in the scope document.",
+    "DEC-0031 recording the verdict and evidence-based reasoning.",
+    "A complete Closure Receipt resolving every required _agent_ops row."
+  ],
+  "closure": {
+    "commit_named_files_only": true,
+    "never_stage_overlay": true,
+    "push_authorized": false,
+    "ordinary_commit_message": true
+  }
+}
