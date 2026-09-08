@@ -1,0 +1,72 @@
+{
+  "gate": "13-D",
+  "title": "Grounding and defect diagnostic",
+  "protocol_version": "1.0",
+  "status": "FROZEN",
+  "scope": {
+    "objective": "Diagnose grounding and defects B, C, and D using existing artifacts, code reading, and retrieval-only evaluation.",
+    "repair": false,
+    "production_source_read_only": true,
+    "research_lane_frozen": true,
+    "gate_12v_rescore": false,
+    "gate_09_or_gate_10": false
+  },
+  "entry_requirements": {
+    "expected_head": "5fb765d18e10604304796d7c4c1c8d608c3eeb7d",
+    "expected_origin_main": "5fb765d18e10604304796d7c4c1c8d608c3eeb7d",
+    "expected_dirty_overlay_paths": 25,
+    "expected_index_entries": 0,
+    "expected_suite": "591 passed, 3 warnings",
+    "interpreter": ".venv\\Scripts\\python.exe",
+    "pytest_requires_external_basetemp": true
+  },
+  "provider_policy": {
+    "generation_calls_allowed": false,
+    "allowed_local_work": [
+      "retrieval evaluation",
+      "local embedding work"
+    ],
+    "providers_in_scope_but_not_callable": [
+      "OpenRouter",
+      "Groq",
+      "DeepSeek",
+      "Ollama"
+    ],
+    "gcp_calls_allowed": false,
+    "secret_values_may_be_read": false,
+    "env_file_may_be_edited": false
+  },
+  "diagnostic_stages": [
+    "D0 entry gate and protocol freeze",
+    "D1 metric audit",
+    "D2 full retrieval-only evaluation",
+    "D3 grounding root cause",
+    "D4 max_tokens root cause",
+    "D5 OpenRouter fallback root cause",
+    "D6 Groq single-key consequence",
+    "D7 sequenced repair plan",
+    "D8 result and closure"
+  ],
+  "data_scope": {
+    "golden_questions": 120,
+    "gate_12v_artifacts": "gates/artifacts/gate12v/",
+    "golden_set": "evals/datasets/golden_qa.jsonl",
+    "chunk_store": "data/chunks/",
+    "retrieval_endpoint": "POST /eval/retrieval"
+  },
+  "expected_artifacts": [
+    "gates/results/GATE_13D_RESULT.md",
+    "_agent_ops/DECISION_LOG.md",
+    "_agent_ops/RISK_REGISTER.md",
+    "_agent_ops/IMPLEMENTATION_LOG.md",
+    "_agent_ops/SESSION_BRIEF.md",
+    "gates/baselines/GATE_13D_PROTOCOL.json"
+  ],
+  "git_policy": {
+    "stage_explicit_filenames_only": true,
+    "never_stage_preexisting_overlay": true,
+    "network_command": "git -c http.sslBackend=openssl <cmd>",
+    "push_target": "origin main",
+    "push_retry_limit": 1
+  }
+}
