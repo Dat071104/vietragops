@@ -1,0 +1,244 @@
+{
+  "artifacts": {
+    "protocol_sha256_definition": "SHA-256 of canonical sorted-key JSON with protocol_sha256 omitted; the stored value is prefixed sha256:.",
+    "raw_and_run_root": "gates/artifacts/gate12v/ (ignored by gates/artifacts/.gitignore)",
+    "raw_prompt_policy": "No prompt or corpus context is written to any tracked file; raw provider response records are ignored artifacts only.",
+    "tracked_result": "gates/results/GATE_12V_RESULT.md"
+  },
+  "created_at_utc": "2026-09-08T12:30:55.971+00:00",
+  "dataset_boundary": {
+    "distinction_statement": "golden_qa.jsonl is the product evaluation set over the 37-document policy corpus; Gate 07/08 use the separate research/gate07 generated contract-drift corpus and research protocols. No research runner, protocol, baseline, metric, or dataset is invoked or modified.",
+    "gate07_manifest_sha256": "sha256:435d91e1d5c97f1a484eee4f2934c7b97d328d4437a04d51970aec30b7c41983",
+    "gate07_protocol": "gates/baselines/GATE_07_PROTOCOL_V4.json",
+    "gate07_source": "research/gate07/dataset/generator.py build_v4_cases",
+    "gate08_protocol": "gates/baselines/GATE_08_PROTOCOL.json",
+    "gate08_source": "research/gate07/dataset/generator.py build_v4_cases (unchanged)",
+    "product_qa_count": 120,
+    "product_qa_fields": [
+      "question_id",
+      "question",
+      "category",
+      "difficulty",
+      "is_answerable",
+      "must_cite",
+      "relevant_chunk_ids",
+      "expected_answer"
+    ],
+    "product_qa_path": "evals/datasets/golden_qa.jsonl",
+    "product_qa_sha256": "71f66f3fd39143f2f918d654306918fcf92424e3b51fb008446dd03fe2152ab4",
+    "research_lane_excluded": true
+  },
+  "entry_receipts": {
+    "cached_path_count_at_v0": 0,
+    "env_presence_count_only": {
+      "GROQ_API_KEY": 1,
+      "OPENROUTER_API_KEY": 1,
+      "OPENROUTER_MODEL": 1,
+      "OPENROUTER_MODEL_FALLBACK": 1
+    },
+    "expected_head": "a6d50cb1a2349d8820de904dcc9ac842f2dc8d47",
+    "head": "a6d50cb1a2349d8820de904dcc9ac842f2dc8d47",
+    "local_corpus": {
+      "chunk_count": 695,
+      "chunks_path": "data/chunks/chunks_500.jsonl",
+      "chunks_sha256": "0510c68876fc4b9295ba9ffff86bd1816432233f9b265b272e6e26613ba7e130",
+      "manifest_document_count": 37,
+      "manifest_path": "data/manifests/documents_manifest.csv",
+      "manifest_sha256": "2211b9191dcdd767bbac1b078a9a2221e93ea17d7d82fbef017e4ce0f2c11c8f",
+      "retrieval_smoke": {
+        "first_chunk_id": "ug_graduation_conditions_s001_c001",
+        "query": "Điều kiện tốt nghiệp là gì?",
+        "retrieved_count": 5,
+        "retriever": "HybridRetriever",
+        "top_k": 5
+      }
+    },
+    "openrouter_adapter_ledger_preflight": {
+      "ceiling": 1000,
+      "remaining": 1000,
+      "reserved": 0,
+      "scope": "new per-process ledger; prior process history is not durable",
+      "used": 0,
+      "utc_day": "2026-09-08"
+    },
+    "openrouter_credit_preflight": {
+      "endpoint": "GET https://openrouter.ai/api/v1/key",
+      "http_status": 200,
+      "limit_remaining": 0.2,
+      "secret_value_recorded": false,
+      "usage": 0,
+      "usage_daily": 0
+    },
+    "pytest": {
+      "basetemp_external": true,
+      "command": ".venv\\Scripts\\python.exe -m pytest -q --basetemp=<external dir>",
+      "duration_seconds": 456.01,
+      "result": "591 passed, 3 warnings"
+    },
+    "remote_main_sha": "a6d50cb1a2349d8820de904dcc9ac842f2dc8d47",
+    "status_path_count_at_v0": 25,
+    "status_paths_at_v0": [
+      "AGENTS.md",
+      "PROJECT_STATE.md",
+      "_agent_ops/PROJECT_CONTEXT_CARD.md",
+      "_agent_ops/REPO_MAP.md",
+      "_agent_ops/THIRD_PARTY_TOOLING.md",
+      "skills/implementation-logger/scripts/append_log.py",
+      "skills/project-context-cards/scripts/new_phase_card.py",
+      "skills/rag-eval-harness/scripts/compute_retrieval_metrics.py",
+      "skills/release-quality-gate/scripts/check_required_files.py",
+      "skills/zone-brain/scripts/scan_deps.py",
+      "_agent_ops/archive/",
+      "_agent_ops/env_templates/",
+      "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_03.md",
+      "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_04.md",
+      "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_07.md",
+      "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_07_EXECUTION_PROMPT.md",
+      "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_07_REPAIR_PROMPT.md",
+      "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_08.md",
+      "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_09.md",
+      "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_10.md",
+      "_agent_ops/tools/check_repo_hygiene.py",
+      "_agent_ops/tools/generate_context_card.py",
+      "_agent_ops/tools/scan_deps.py",
+      "_agent_ops/tools/summarize_implementation_log.py",
+      "gates/results/GATE_07_FIX_PROMPT.md"
+    ]
+  },
+  "gate": "12-V",
+  "metrics": {
+    "answer_quality": "For 36 answerable rows, use existing evals.metrics.generation_metrics.token_f1 against expected_answer after both provider runs; answer_correctness is token_f1 >= 0.45. Expected answers are loaded only in post-run report mode.",
+    "citation_grounding": "Use unique cited chunk_ids on answerable questions. Precision numerator = cited ids intersect relevant_chunk_ids; denominator = all unique cited ids. Recall numerator = same intersection; denominator = all relevant_chunk_ids. Report Wilson 95% intervals and raw counts.",
+    "citation_validity": "overall numerator = final product responses whose CitationVerification.is_valid is true; denominator = all 40 completed questions. Refusals are valid because the product verifier treats a refusal as having no citation obligation. Also report non-refusal-only rate.",
+    "error_taxonomy": "Count typed error kinds from final provider invocation and raw calls; preserve provider error bodies in ignored artifacts and never smooth errors into success.",
+    "fallback_activation": "OpenRouter question-level rate = rows whose actual serving model is gemma divided by provider-attempted questions; unknown/unserved rows remain visible. Break down all metrics by actual serving model class.",
+    "latency": "End-to-end elapsed time for the /ask product path per question; report p50 and p95 using the floor((n-1)*p) index rule. Also report per-generation-POST latency.",
+    "must_cite": "For each must_cite row, a refusal is safe-compliant; otherwise compliance requires at least one citation and CitationVerification.is_valid=true.",
+    "refusal_correctness": "A refusal is correct exactly when is_answerable=false; report accuracy over all 40 and false-answer rate over the 4 unanswerable rows.",
+    "schema_validity": "Denominator = sampled questions that reached at least one provider generation POST. First-attempt numerator = first raw provider response had choices[0].message.content that parsed as a JSON object. Later retries never count as first-attempt success.",
+    "token_behavior": "Use provider usage fields from every raw generation response; report reasoning_tokens_actual and output_tokens_actual distributions, missingness, completion values above 1024, and finish_reason=length count."
+  },
+  "product_path": {
+    "debug_enabled": true,
+    "entrypoint": "app.api.routes_query.ask",
+    "guardrails_enabled": true,
+    "no_agent_or_mcp_path": true,
+    "path": "routes_query.ask -> app.core.config.get_answer_generator -> ContextBuilder -> HybridRetriever -> GuardrailEngine -> PromptBuilder -> ProviderRouter -> AnswerGenerator citation verification/evidence state",
+    "request_contract": "POST /ask equivalent AskRequest(question, top_k=5, debug=true, use_guardrail=true)",
+    "research_mode": false,
+    "retriever": "default HybridRetriever over data/chunks/chunks_500.jsonl",
+    "top_k": 5
+  },
+  "protocol_sha256": "sha256:f6c2993b9f437095e7d65a69bac9997a66a515f1ec8cee25f557b3f81b3344f9",
+  "provider_configuration": {
+    "actual_payload_field_check": "record whether max_tokens was transmitted; no production source injection is allowed",
+    "groq_control": "explicit LLM_PROVIDER=groq process override; one Groq client/key seam",
+    "max_output_tokens_contract": 1024,
+    "mode": "development",
+    "openrouter_fallback": "google/gemma-4-31b-it:free",
+    "openrouter_lane": "explicit LLM_PROVIDER=openrouter process override; shipped free models array",
+    "openrouter_primary": "nvidia/nemotron-3-super-120b-a12b:free",
+    "paid_guard": "OpenRouter allow_paid_models=false; live catalog and frozen free catalog guards remain active",
+    "temperature_contract": 0.1
+  },
+  "request_budget": {
+    "catalog_and_credit_gets_not_generation_requests": true,
+    "hard_ceiling_total_generation_post_requests": 200,
+    "nominal_generation_requests": 80,
+    "nominal_questions_per_provider": 40,
+    "openrouter_min_inter_post_interval_seconds": 3.1,
+    "stop_condition": "Stop before any generation POST that would exceed 200 total."
+  },
+  "retry_policy": {
+    "answer_generator_citation_retry": "unchanged product behavior: one retry is eligible only when current_provider is groq or ollama; openrouter is not eligible in the shipped _can_retry_provider contract",
+    "first_attempt_rule": "A question with any retry is not a first-attempt success even if a later response parses or answers well.",
+    "provider_transport_max_retries": 1,
+    "request_budget_includes_retries": true,
+    "runner_question_retries": 0
+  },
+  "sample": {
+    "expected_answer_used_before_runs": false,
+    "joint_stratum_allocation": [
+      {"category": "academic_schedule", "difficulty": "easy", "is_answerable": true, "population": 3, "sample_count": 1},
+      {"category": "academic_schedule", "difficulty": "medium", "is_answerable": true, "population": 2, "sample_count": 1},
+      {"category": "course_registration", "difficulty": "easy", "is_answerable": true, "population": 2, "sample_count": 1},
+      {"category": "course_registration", "difficulty": "medium", "is_answerable": true, "population": 4, "sample_count": 1},
+      {"category": "credit_requirement", "difficulty": "easy", "is_answerable": true, "population": 11, "sample_count": 3},
+      {"category": "credit_requirement", "difficulty": "hard", "is_answerable": true, "population": 5, "sample_count": 1},
+      {"category": "credit_requirement", "difficulty": "medium", "is_answerable": true, "population": 6, "sample_count": 1},
+      {"category": "curriculum_structure", "difficulty": "easy", "is_answerable": true, "population": 14, "sample_count": 4},
+      {"category": "curriculum_structure", "difficulty": "hard", "is_answerable": true, "population": 1, "sample_count": 1},
+      {"category": "email_usage", "difficulty": "easy", "is_answerable": true, "population": 4, "sample_count": 1},
+      {"category": "graduation_requirement", "difficulty": "easy", "is_answerable": true, "population": 1, "sample_count": 1},
+      {"category": "graduation_requirement", "difficulty": "hard", "is_answerable": true, "population": 1, "sample_count": 1},
+      {"category": "graduation_requirement", "difficulty": "medium", "is_answerable": true, "population": 1, "sample_count": 1},
+      {"category": "policy_exception", "difficulty": "easy", "is_answerable": true, "population": 3, "sample_count": 1},
+      {"category": "policy_exception", "difficulty": "medium", "is_answerable": true, "population": 1, "sample_count": 1},
+      {"category": "source_conflict", "difficulty": "hard", "is_answerable": true, "population": 1, "sample_count": 1},
+      {"category": "student_account", "difficulty": "easy", "is_answerable": true, "population": 2, "sample_count": 1},
+      {"category": "student_account", "difficulty": "medium", "is_answerable": true, "population": 1, "sample_count": 1},
+      {"category": "training_regulation", "difficulty": "easy", "is_answerable": true, "population": 11, "sample_count": 3},
+      {"category": "training_regulation", "difficulty": "hard", "is_answerable": true, "population": 29, "sample_count": 6},
+      {"category": "training_regulation", "difficulty": "medium", "is_answerable": true, "population": 13, "sample_count": 4}
+    ],
+    "marginal_sample_counts": {
+      "category": {
+        "academic_schedule": 2,
+        "course_registration": 2,
+        "credit_requirement": 5,
+        "curriculum_structure": 5,
+        "email_usage": 1,
+        "graduation_requirement": 3,
+        "out_of_scope": 2,
+        "personal_data": 2,
+        "policy_exception": 2,
+        "source_conflict": 1,
+        "student_account": 2,
+        "training_regulation": 13
+      },
+      "difficulty": {"easy": 20, "hard": 10, "medium": 10},
+      "is_answerable": {"False": 4, "True": 36}
+    },
+    "metadata_only": true,
+    "question_ids": [
+      "dev_q002", "dev_q003", "dev_q006", "dev_q008", "dev_q012", "dev_q014", "dev_q016", "dev_q017", "dev_q018", "dev_q019", "dev_q020",
+      "gold_academic_schedule_007", "gold_credit_requirement_001", "gold_credit_requirement_023", "gold_credit_requirement_058", "gold_credit_requirement_085", "gold_credit_requirement_096",
+      "gold_curriculum_structure_006", "gold_curriculum_structure_011", "gold_curriculum_structure_013", "gold_curriculum_structure_020", "gold_curriculum_structure_049",
+      "gold_manual_002", "gold_manual_003", "gold_manual_004", "gold_manual_005", "gold_policy_exception_012", "gold_student_account_001",
+      "gold_training_regulation_052", "gold_training_regulation_067", "gold_training_regulation_068", "gold_training_regulation_070", "gold_training_regulation_071", "gold_training_regulation_104",
+      "gold_training_regulation_153", "gold_training_regulation_163", "gold_training_regulation_197", "gold_training_regulation_222", "gold_training_regulation_233", "gold_training_regulation_237"
+    ],
+    "sample_size": 40,
+    "seed": 20260908,
+    "selection_fields": ["category", "difficulty", "is_answerable"],
+    "unanswerable_included": 4,
+    "unanswerable_population": 4
+  },
+  "schema": "gate12v.protocol.v1",
+  "scope": {
+    "deployment": false,
+    "env_file_edited": false,
+    "gcp_calls": false,
+    "paid_openrouter_models": false,
+    "production_source_change": false,
+    "research_lane_invoked": false
+  },
+  "thresholds": {
+    "all_40_questions_completed_per_provider_required": true,
+    "justification": "The lane is a user-facing grounded QA product path. Thresholds require reliable first-attempt structured output, grounded citations, safe abstention, useful answer overlap, bounded latency, and enough primary serving to make the configured primary meaningful; the 10-point parity margin is the maximum acceptable degradation against the incumbent control.",
+    "openrouter_answer_correctness_rate_min": 0.7,
+    "openrouter_answer_token_f1_min": 0.45,
+    "openrouter_citation_grounding_precision_min": 0.9,
+    "openrouter_citation_grounding_recall_min": 0.75,
+    "openrouter_citation_validity_min": 0.9,
+    "openrouter_fallback_activation_rate_max": 0.5,
+    "openrouter_false_answer_rate_unanswerable_max": 0.05,
+    "openrouter_finish_length_rate_max": 0.05,
+    "openrouter_must_cite_compliance_min": 0.9,
+    "openrouter_p95_latency_ms_max": 30000,
+    "openrouter_schema_validity_first_attempt_min": 0.9,
+    "quality_gap_openrouter_minus_groq_min": -0.1,
+    "zero_paid_spend_required": true
+  },
+  "title": "Live validation of the OpenRouter product lane on the real corpus"
+}
