@@ -4,7 +4,15 @@ from fastapi import APIRouter
 
 from fastapi.responses import JSONResponse
 
-from app.core.config import get_answer_generator, get_live_manifest_rows, get_mcp_server, get_provider_router, get_settings, get_store
+from app.core.config import (
+    get_answer_generator,
+    get_context_builder,
+    get_live_manifest_rows,
+    get_mcp_server,
+    get_provider_router,
+    get_settings,
+    get_store,
+)
 
 
 router = APIRouter()
@@ -15,6 +23,7 @@ def health() -> dict:
     generator = get_answer_generator()
     provider_router = get_provider_router()
     status = provider_router.status()
+    retrieval_status = get_context_builder().retriever.status()
     return {
         "status": "ok",
         "groq_enabled": generator.groq_client.available(),
@@ -25,6 +34,8 @@ def health() -> dict:
         "ollama": status["ollama"],
         "mcp_configured": get_settings().mcp_cloud_iam or get_mcp_server().token_verifier.configured(),
         "storage_backend": get_settings().storage_backend,
+        "retrieval_backend": retrieval_status["backend"],
+        "retrieval_status": retrieval_status,
     }
 
 

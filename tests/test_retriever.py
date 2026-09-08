@@ -1,4 +1,9 @@
+import logging
+
+import pytest
+
 from rag.retrieval import BM25Retriever, ChunkIndexStore, DenseRetriever, HybridRetriever
+import rag.retrieval.dense_retriever as dense_retriever_module
 
 
 def make_store() -> ChunkIndexStore:
@@ -64,6 +69,48 @@ def test_dense_retriever_fallback_returns_semanticish_match():
     results = retriever.retrieve("Đăng nhập email trường bằng tài khoản sinh viên", top_k=2)
     assert results
     assert results[0].chunk_id == "student_email_chunk"
+
+
+def test_dense_backend_available_is_selected_and_reported(monkeypatch):
+    class FakeDenseBackend:
+        name = "sentence_transformers:test"
+
+        def __init__(self, store, config):
+            self.store = store
+            self.config = config
+
+        def search(self, query, top_k):
+            return [(0, 1.0)]
+
+    monkeypatch.setattr(dense_retriever_module, "_SentenceTransformerBackend", FakeDenseBackend)
+
+    retriever = DenseRetriever(make_store())
+
+    assert retriever.backend_name == "sentence_transformers:test"
+    assert retriever.status() == {
+        "name": "dense",
+        "backend": "sentence_transformers:test",
+        "state": "active",
+        "degraded": False,
+        "degradation_reason": None,
+        "model_name": retriever.config.model_name,
+    }
+
+
+def test_dense_backend_unavailable_is_loud_and_reported(monkeypatch, caplog):
+    def unavailable(store, config):
+        raise ModuleNotFoundError("No module named 'sentence_transformers'")
+
+    monkeypatch.setattr(dense_retriever_module, "_SentenceTransformerBackend", unavailable)
+
+    with caplog.at_level(logging.WARNING, logger="rag.retrieval.dense_retriever"):
+        retriever = DenseRetriever(make_store())
+
+    assert retriever.backend_name == "sparse_semantic_fallback"
+    assert retriever.status()["state"] == "degraded"
+    assert retriever.status()["degraded"] is True
+    assert "ModuleNotFoundError" in retriever.status()["degradation_reason"]
+    assert "sentence_transformers" in caplog.text
 
 
 def test_hybrid_retriever_combines_signals():

@@ -124,6 +124,24 @@ class AdvancedHybridRetriever(BaseRetriever):
             )
         return output
 
+    def status(self) -> dict[str, object]:
+        hybrid_status = self.hybrid.status()
+        reranker_status = self.reranker.status()
+        degraded = bool(hybrid_status.get("degraded") or reranker_status.get("degraded"))
+        return {
+            "name": self.name,
+            "backend": self.backend_name,
+            "state": "degraded" if degraded else "active",
+            "degraded": degraded,
+            "degradation_reason": (
+                hybrid_status.get("degradation_reason") or reranker_status.get("degradation_reason")
+            ),
+            "components": {
+                "hybrid": hybrid_status,
+                "reranker": reranker_status,
+            },
+        }
+
 
 def _normalize_scores(scores: dict[str, float]) -> dict[str, float]:
     if not scores:

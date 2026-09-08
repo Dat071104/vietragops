@@ -56,6 +56,7 @@ def retrieve(payload: RetrieveRequest) -> RetrieveResponse:
             {
                 "top_k": payload.top_k,
                 "use_reranker": payload.use_reranker,
+                "backend_status": retriever.status(),
                 "result_count": len(results),
                 "component_score_keys": sorted({key for result in results for key in result.component_scores}),
             }

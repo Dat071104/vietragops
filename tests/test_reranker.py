@@ -1,5 +1,8 @@
+import logging
+
 from rag.retrieval.base import RetrievalResult
-from rag.retrieval.reranker import LexicalReranker
+import rag.retrieval.reranker as reranker_module
+from rag.retrieval.reranker import LexicalReranker, build_reranker
 
 
 def make_candidate(chunk_id: str, text: str, title: str = "Hướng dẫn") -> RetrievalResult:
@@ -29,3 +32,19 @@ def test_lexical_reranker_prefers_high_overlap_candidate():
 
     assert ranked[0].result.chunk_id == "specific"
     assert ranked[0].score >= ranked[1].score
+
+
+def test_reranker_backend_unavailable_is_loud_and_reported(monkeypatch, caplog):
+    def unavailable(*args, **kwargs):
+        raise ModuleNotFoundError("No module named 'FlagEmbedding'")
+
+    monkeypatch.setattr(reranker_module, "BGEReranker", unavailable)
+
+    with caplog.at_level(logging.WARNING, logger="rag.retrieval.reranker"):
+        reranker = build_reranker()
+
+    assert isinstance(reranker, LexicalReranker)
+    assert reranker.status()["state"] == "degraded"
+    assert reranker.status()["degraded"] is True
+    assert "FlagEmbedding" in reranker.status()["degradation_reason"]
+    assert "FlagEmbedding" in caplog.text

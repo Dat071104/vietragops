@@ -62,3 +62,18 @@ class HybridRetriever(BaseRetriever):
             )
             for rank, item in enumerate(ranked, start=1)
         ]
+
+    def status(self) -> dict[str, object]:
+        dense_status = self.dense.status()
+        degraded = bool(dense_status.get("degraded"))
+        return {
+            "name": self.name,
+            "backend": self.backend_name,
+            "state": "degraded" if degraded else "active",
+            "degraded": degraded,
+            "degradation_reason": dense_status.get("degradation_reason"),
+            "components": {
+                "bm25": self.bm25.status(),
+                "dense": dense_status,
+            },
+        }

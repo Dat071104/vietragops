@@ -3,15 +3,19 @@
 from __future__ import annotations
 
 from collections import Counter, defaultdict
-import contextlib
 from dataclasses import dataclass
 import importlib
-import io
+import logging
 import math
 from typing import Any
 
 from rag.retrieval.base import BaseRetriever, RetrievalResult, make_char_ngrams, make_word_bigrams, tokenize
 from rag.retrieval.index_store import ChunkIndexStore
+
+logger = logging.getLogger(__name__)
+
+
+_DENSE_BACKEND_FAILURES = (ImportError, OSError, RuntimeError, TypeError, ValueError)
 
 
 @dataclass(frozen=True)
@@ -109,15 +113,36 @@ class DenseRetriever(BaseRetriever):
     def __init__(self, store: ChunkIndexStore, config: DenseConfig | None = None) -> None:
         super().__init__(store)
         self.config = config or DenseConfig()
+        self.backend_state = "initializing"
+        self.degradation_reason: str | None = None
         self._backend = self._build_backend()
         self.backend_name = self._backend.name
 
     def _build_backend(self) -> Any:
         try:
-            with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
-                return _SentenceTransformerBackend(self.store, self.config)
-        except Exception:
-            return _SparseSemanticBackend(self.store)
+            backend = _SentenceTransformerBackend(self.store, self.config)
+            self.backend_state = "active"
+            return backend
+        except _DENSE_BACKEND_FAILURES as exc:
+            self.degradation_reason = f"{type(exc).__name__}: {exc}"
+            fallback = _SparseSemanticBackend(self.store)
+            self.backend_state = "degraded"
+            logger.warning(
+                "Dense retrieval backend unavailable; active backend=%s; reason=%s",
+                fallback.name,
+                self.degradation_reason,
+            )
+            return fallback
+
+    def status(self) -> dict[str, Any]:
+        return {
+            "name": self.name,
+            "backend": self.backend_name,
+            "state": self.backend_state,
+            "degraded": self.backend_state == "degraded",
+            "degradation_reason": self.degradation_reason,
+            "model_name": self.config.model_name,
+        }
 
     def retrieve(self, query: str, top_k: int = 5) -> list[RetrievalResult]:
         ranked = self._backend.search(query, top_k)

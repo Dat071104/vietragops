@@ -95,10 +95,22 @@ class ContextBuilder:
                     resolved_by_doc[chunk["doc_id"]] = resolved
                 chunk["version"] = resolved
 
+        retriever_status = (
+            self.retriever.status()
+            if callable(getattr(self.retriever, "status", None))
+            else {
+                "name": self.retriever.name,
+                "backend": getattr(self.retriever, "backend_name", "unknown"),
+                "state": "unknown",
+                "degraded": None,
+                "degradation_reason": None,
+            }
+        )
         retrieval_debug = {
             "query": question,
             "retriever": self.retriever.name,
             "backend": getattr(self.retriever, "backend_name", "unknown"),
+            "backend_status": retriever_status,
             "top_k": top_k,
             "candidate_count": len(chunks),
             "chunk_ids": [chunk["chunk_id"] for chunk in selected_chunks],

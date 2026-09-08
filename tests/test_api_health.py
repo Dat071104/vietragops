@@ -9,7 +9,10 @@ client = TestClient(app)
 def test_health_endpoint():
     response = client.get("/health")
     assert response.status_code == 200
-    assert response.json()["status"] == "ok"
+    payload = response.json()
+    assert payload["status"] == "ok"
+    assert payload["retrieval_backend"]
+    assert payload["retrieval_status"]["state"] in {"active", "degraded"}
 
 
 def test_openapi_endpoint():

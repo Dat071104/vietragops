@@ -3,13 +3,17 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-import contextlib
 from dataclasses import dataclass
 import importlib
-import io
-from typing import Iterable
+import logging
+from typing import Any, Iterable
 
 from rag.retrieval.base import RetrievalResult, make_word_bigrams, normalize_text, tokenize
+
+logger = logging.getLogger(__name__)
+
+
+_RERANKER_BACKEND_FAILURES = (ImportError, OSError, RuntimeError, TypeError, ValueError)
 
 
 @dataclass(frozen=True)
@@ -25,9 +29,28 @@ class BaseReranker(ABC):
     def rerank(self, query: str, candidates: Iterable[RetrievalResult]) -> list[RerankScore]:
         raise NotImplementedError
 
+    def status(self) -> dict[str, Any]:
+        return {
+            "name": self.name,
+            "state": "active",
+            "degraded": False,
+            "degradation_reason": None,
+        }
+
 
 class LexicalReranker(BaseReranker):
     name = "lexical_fallback"
+
+    def __init__(self, degradation_reason: str | None = None) -> None:
+        self.degradation_reason = degradation_reason
+
+    def status(self) -> dict[str, Any]:
+        return {
+            "name": self.name,
+            "state": "degraded" if self.degradation_reason else "active",
+            "degraded": self.degradation_reason is not None,
+            "degradation_reason": self.degradation_reason,
+        }
 
     def rerank(self, query: str, candidates: Iterable[RetrievalResult]) -> list[RerankScore]:
         query_tokens = tokenize(query)
@@ -69,8 +92,7 @@ class BGEReranker(BaseReranker):
     def _load_model(self):
         flag_embedding = importlib.import_module("FlagEmbedding")
         reranker_cls = getattr(flag_embedding, "FlagReranker")
-        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
-            return reranker_cls(self.model_name, use_fp16=False, local_files_only=self.local_files_only)
+        return reranker_cls(self.model_name, use_fp16=False, local_files_only=self.local_files_only)
 
     def rerank(self, query: str, candidates: Iterable[RetrievalResult]) -> list[RerankScore]:
         pairs = [[query, candidate.text] for candidate in candidates]
@@ -89,8 +111,10 @@ class BGEReranker(BaseReranker):
 def build_reranker() -> BaseReranker:
     try:
         return BGEReranker()
-    except Exception:
-        return LexicalReranker()
+    except _RERANKER_BACKEND_FAILURES as exc:
+        reason = f"{type(exc).__name__}: {exc}"
+        logger.warning("BGE reranker unavailable; active backend=%s; reason=%s", LexicalReranker.name, reason)
+        return LexicalReranker(degradation_reason=reason)
 
 
 def _ratio(numerator: set[str], denominator: set[str]) -> float:

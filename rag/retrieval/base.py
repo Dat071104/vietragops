@@ -88,4 +88,14 @@ class BaseRetriever(ABC):
             "retriever": self.name,
             "backend": self.backend_name,
             "chunk_count": len(self.store),
+            "status": self.status(),
+        }
+
+    def status(self) -> dict[str, Any]:
+        return {
+            "name": self.name,
+            "backend": self.backend_name,
+            "state": "active",
+            "degraded": False,
+            "degradation_reason": None,
         }
