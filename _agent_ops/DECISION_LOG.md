@@ -1427,3 +1427,44 @@ Move the untouched untracked `tests/test_groq_rotation.py` to
 The renamed file is historical evidence only, remains untracked, and is not
 staged. Pytest collection after the rename collected 583 tests with zero archive
 matches. This decision explicitly supersedes DEC-0030.
+
+## DEC-0034 — Do not deploy the OpenRouter product lane after Gate 12-V
+
+**Date:** 2026-09-08
+**Status:** ADOPTED — Gate 12-V measurement closure
+**Gate:** 12-V (Live validation of the OpenRouter product lane on the real corpus)
+
+### Decision
+
+Return **NO-GO** for deploying the OpenRouter lane. Keep production behavior
+unchanged and do not start Gate 09 or Gate 10 from this evidence.
+
+### Reasoning
+
+The committed protocol froze 40 questions before generation, including all four
+unanswerable cases, and the same real `/ask` product path ran against the Groq
+control and OpenRouter lane. OpenRouter issued 58 generation POSTs: 26 actual
+Nemotron responses parsed as JSON and 32 HTTP-200 NVIDIA `502` overload error
+envelopes; Gemma was not observed as an actual serving model. OpenRouter missed
+the frozen thresholds for first-attempt schema validity (18/38), citation
+grounding precision (11/46), citation grounding recall (11/37), answer
+correctness (7/36), answer token-F1 (0.223210), and p95 product latency
+(90,590.011 ms versus the 30,000 ms threshold). It passed safe refusal on the
+four unanswerable rows (0/4 false answers), citation validity (40/40), and
+must-cite compliance (36/36), but those passes do not offset the quality and
+reliability failures.
+
+The Groq control itself was degraded: only 2 raw Groq responses succeeded,
+67 raw calls were rate-limited and 38 were other provider/JSON errors, with the
+development fallback trace reported as `ollama` for 36 questions. Therefore
+the result is a product-path comparison, not a claim that Nemotron beats a
+healthy standalone Groq model. OpenRouter paid spend was zero and the 166
+generation POSTs stayed below the 200-request ceiling.
+
+### Consequence
+
+Do not ship or deploy the OpenRouter lane. A future remediation gate must first
+propagate the 1024-token product budget, decide the OpenRouter citation-retry
+policy, establish actual fallback serving observability, and collect a fresh
+committed protocol run. The existing 40-question outputs must not be rescored
+after source changes.

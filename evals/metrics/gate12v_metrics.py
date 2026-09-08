@@ -49,11 +49,12 @@ def _percentile(values: list[float], fraction: float) -> float | None:
 
 
 def distribution(values: Iterable[int | float | None], *, unit: str = "count") -> dict[str, Any]:
-    observed = [float(value) for value in values if isinstance(value, (int, float)) and not isinstance(value, bool)]
+    materialized = list(values)
+    observed = [float(value) for value in materialized if isinstance(value, (int, float)) and not isinstance(value, bool)]
     payload: dict[str, Any] = {
         "unit": unit,
         "n_observed": len(observed),
-        "n_missing": 0,
+        "n_missing": len(materialized) - len(observed),
         "min": None,
         "p50": None,
         "p95": None,
@@ -85,6 +86,34 @@ def _citations(row: dict[str, Any]) -> list[dict[str, Any]]:
 
 def _answerable_rows(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return [row for row in records if bool(row.get("is_answerable"))]
+
+
+def _raw_call_error_kind(call: dict[str, Any]) -> str | None:
+    """Classify a captured generation response using the shipped client rules."""
+
+    body = call.get("parsed_body")
+    error_payload = body.get("error") if isinstance(body, dict) else None
+    if isinstance(error_payload, dict):
+        code = error_payload.get("code", call.get("http_status"))
+        try:
+            numeric_code = int(code)
+        except (TypeError, ValueError):
+            numeric_code = call.get("http_status")
+        message = str(error_payload.get("message", "")).casefold()
+        if numeric_code == 429 or "rate limit" in message or "too many requests" in message:
+            return "rate_limited"
+        if isinstance(numeric_code, int) and numeric_code in {401, 403}:
+            return "auth_failure"
+        if isinstance(numeric_code, int) and numeric_code >= 500:
+            return "provider_error"
+        return "provider_error"
+    if call.get("finish_reason") == "length":
+        return "provider_error"
+    if call.get("parsed_body") is not None and not (
+        isinstance(body, dict) and isinstance(body.get("choices"), list) and body.get("choices")
+    ):
+        return "provider_error"
+    return None
 
 
 def _metric_set(records: list[dict[str, Any]]) -> dict[str, Any]:
@@ -148,13 +177,15 @@ def _metric_set(records: list[dict[str, Any]]) -> dict[str, Any]:
     finish_length_count = sum(1 for call in raw_calls if call.get("finish_reason") == "length")
     completion_values = [
         (call.get("usage") or {}).get("output_tokens_actual")
-        for call in raw_calls
         if isinstance(call.get("usage"), dict)
+        else None
+        for call in raw_calls
     ]
     reasoning_values = [
         (call.get("usage") or {}).get("reasoning_tokens_actual")
-        for call in raw_calls
         if isinstance(call.get("usage"), dict)
+        else None
+        for call in raw_calls
     ]
     completion_over_budget = sum(
         1 for value in completion_values if isinstance(value, (int, float)) and value > 1024
@@ -165,10 +196,12 @@ def _metric_set(records: list[dict[str, Any]]) -> dict[str, Any]:
         kind = row.get("typed_error_kind")
         if kind:
             error_kinds[str(kind)] += 1
+    raw_error_kinds = Counter()
+    for row in records:
         for call in row.get("raw_calls") or []:
-            call_kind = call.get("typed_error_kind")
+            call_kind = _raw_call_error_kind(call)
             if call_kind:
-                error_kinds[str(call_kind)] += 1
+                raw_error_kinds[str(call_kind)] += 1
 
     model_counts = Counter(
         str(row.get("serving_model_class") or row.get("served_model") or "unserved")
@@ -223,6 +256,7 @@ def _metric_set(records: list[dict[str, Any]]) -> dict[str, Any]:
         "finish_reason_length_count": finish_length_count,
         "raw_generation_request_count": len(raw_calls),
         "error_taxonomy": dict(sorted(error_kinds.items())),
+        "raw_error_taxonomy": dict(sorted(raw_error_kinds.items())),
         "serving_model_question_counts": dict(sorted(model_counts.items())),
         "fallback_activation_rate": wilson_interval(fallback_served, len(attempted)),
         "fallback_served_question_count": fallback_served,

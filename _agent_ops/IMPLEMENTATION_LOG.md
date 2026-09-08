@@ -3364,3 +3364,31 @@ RISK-0026 first and preserve the frozen provider-pinned research lane.
 - Focused offline validation: `27 passed, 1 warning`. I10 rerun with the exact
   established external `--basetemp` command passed `591 tests, 3 warnings` in
   `418.75s`; no provider or deployment action occurred.
+
+## 2026-09-08 — Gate 12-V live product-lane validation and NO-GO closure
+
+- V0 matched the requested entry state: HEAD and `origin/main` were
+  `a6d50cb1a2349d8820de904dcc9ac842f2dc8d47`, the index was empty, the
+  pre-existing overlay was exactly 25 paths, and the external-basetemp suite
+  passed `591 passed, 3 warnings` in `456.01s`. Count-only checks found all
+  four required provider variable names; the OpenRouter credit preflight
+  returned HTTP 200, `limit_remaining=0.2`, `usage=0`, and `usage_daily=0`.
+- Added and committed the frozen Gate 12-V protocol, runner, and metrics at
+  freeze commit `1b7d88cee5078db64802e0278127da489b4ab85e`. Protocol SHA-256 is
+  `sha256:f6c2993b9f437095e7d65a69bac9997a66a515f1ec8cee25f557b3f81b3344f9`.
+  The metadata-only seed `20260908` selected 40 questions, including all four
+  unanswerable rows, before any expected answer was loaded.
+- The exact `app.api.routes_query.ask` path ran 40 questions for Groq in
+  development mode and the identical 40 for OpenRouter. Groq issued 108
+  generation POSTs; OpenRouter issued 58; total was 166/200 and OpenRouter
+  paid spend was zero. OpenRouter had 26 actual Nemotron JSON successes and 32
+  HTTP-200 `error.code=502` overload envelopes; actual Gemma serving was zero.
+- The first artifact-directory attempt stopped before a provider request on
+  WinError 5; the bounded escalated retry created only the ignored evidence
+  directory and completed the run. No production source, dependency, `.env`,
+  GCP resource, deployment, or research artifact was changed.
+- Gate 12-V result is **NO-GO**. OpenRouter missed first-attempt schema,
+  grounding, answer correctness, token-F1, and p95 latency thresholds. DEC-0034
+  records the decision; RISK-0028/0029 were updated and RISK-0030/0031 added.
+  Raw run files remain under ignored `gates/artifacts/gate12v/`; the tracked
+  result is `gates/results/GATE_12V_RESULT.md`.

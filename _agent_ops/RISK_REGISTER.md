@@ -32,6 +32,19 @@
 | RISK-0028 | Medium | High | OpenRouter model capability and free-endpoint reliability | The catalog-qualified `nvidia/nemotron-3-super-120b-a12b:free` is structurally capable in the new owner-supplied sample: 2 of 5 requests returned HTTP 200, `finish=stop`, and raw JSON accepted by `json.loads()`; the realistic Vietnamese RAG response reported 410 reasoning tokens in a separate field. Answer quality was not assessed. Three of five attempts failed (60% observed failure in this small sample), including an HTTP 200 body with `error.code=502`, an NVIDIA overload message, and no `choices` key. A longer reasoning response may also hit `finish_reason=length` at `max_tokens=1024`. | Keep Nemotron as the default primary because capability is measured, retain `google/gemma-4-31b-it:free` as the ordered `models` fallback, classify HTTP-200 error envelopes and `finish_reason=length` as typed failures, and do not treat this sample as a stable reliability or answer-quality estimate. Owner should decide whether the product lane needs a larger output budget for reasoning-heavy answers; no `.env` change is made here. | Open (Gate 11-OR-I correction, 2026-09-08) |
 | RISK-0029 | High | Medium | OpenRouter product-lane privacy | The accepted free endpoint policy is training-permissive at the provider layer even though OpenRouter-side prompt logging remains off; real user data or PII must not enter this lane. | Restrict the lane to approved synthetic/public policy inputs, keep prompt logging disabled, redact secrets, and do not claim privacy equivalence to a no-training or zero-retention provider. | Open (Gate 11-OR-I, 2026-09-08) |
 
+## Gate 12-V measured updates (2026-09-08)
+
+The following addenda supersede the earlier Gate 11-OR-I point estimates for
+the current product-validation decision while preserving their historical
+wording above.
+
+| Risk ID | Gate 12-V measured update | Current mitigation/status |
+| --- | --- | --- |
+| RISK-0028 | The 40-question real-corpus run issued 58 OpenRouter generation POSTs: 26 responses had actual `model=nvidia/nemotron-3-super-120b-a12b:free` with `finish=stop` and parseable JSON; 32 were HTTP 200 error envelopes with `error.code=502` / NVIDIA overload and no actual serving model. There were 12 final typed `provider_error` question outcomes, zero actual Gemma serving, p95 product latency 90,590.011 ms, answer correctness 7/36, and mean token-F1 0.223210. | Keep the lane out of deployment; treat the configured Gemma fallback as unmeasured until actual serving metadata is observed; require a fresh committed validation after remediation. Open. |
+| RISK-0029 | The measured sample used only the public 37-document academic-policy corpus; no secret or private user record was sent or recorded. The free endpoint remains training-permissive and OpenRouter-side prompt logging remains off. | Restrict the lane to approved public/synthetic policy inputs and do not claim no-training or zero-retention equivalence. Open. |
+| RISK-0030 | The frozen product contract names a 1024 output-token budget, but `max_tokens` was absent from all 108 Groq and 58 OpenRouter wire payloads. OpenRouter completion tokens exceeded 1024 in 16/26 usage-bearing responses (p95 5,407); Groq exceeded it in 2/2 usage-bearing responses. | Propagate the approved token/temperature settings through the real product router and rerun a newly frozen validation. Do not fix in Gate 12-V. Open. |
+| RISK-0031 | `AnswerGenerator._can_retry_provider()` permits the shipped citation-repair retry only for `groq`/`ollama`; explicitly selected `openrouter` is excluded, making citation failure handling asymmetric. | Decide and implement the OpenRouter retry policy in a separate source-change gate, then collect fresh evidence. Do not fix in Gate 12-V. Open. |
+
 ## Web Import Scope Correction (Gate 03)
 
 RISK-0010's mitigation ("keep localhost-only and configuration-validated")

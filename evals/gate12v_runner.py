@@ -849,6 +849,18 @@ def _attach_expected_answers(records: list[dict[str, Any]]) -> list[dict[str, An
     for record in records:
         copy = dict(record)
         copy["expected_answer"] = expected_by_id[record["question_id"]]
+        final_generation = (copy.get("final_response") or {}).get("generation") or {}
+        copy["final_provider"] = final_generation.get("provider")
+        copy["final_provider_model"] = final_generation.get("model")
+        actual_served_models = [
+            call.get("served_model")
+            for call in copy.get("raw_calls") or []
+            if isinstance(call.get("served_model"), str) and call.get("served_model")
+        ]
+        actual_served_model = actual_served_models[-1] if actual_served_models else None
+        copy["actual_served_model"] = actual_served_model
+        copy["served_model"] = actual_served_model
+        copy["serving_model_class"] = _classify_serving_model(actual_served_model)
         enriched.append(copy)
     return enriched
 
@@ -868,14 +880,29 @@ def _failure_analysis(groq_records: list[dict[str, Any]], open_records: list[dic
         retrieved = set(row.get("retrieved_chunk_ids") or [])
         groq_retrieved = set(groq.get("retrieved_chunk_ids") or [])
         kind = row.get("typed_error_kind")
+        raw_error_kinds: list[str] = []
+        for call in row.get("raw_calls") or []:
+            body = call.get("parsed_body")
+            error_payload = body.get("error") if isinstance(body, dict) else None
+            if isinstance(error_payload, dict):
+                code = error_payload.get("code", call.get("http_status"))
+                message = str(error_payload.get("message", "")).casefold()
+                try:
+                    numeric_code = int(code)
+                except (TypeError, ValueError):
+                    numeric_code = call.get("http_status")
+                if numeric_code == 429 or "rate limit" in message or "too many requests" in message:
+                    raw_error_kinds.append("rate_limited")
+                elif isinstance(numeric_code, int) and numeric_code >= 500:
+                    raw_error_kinds.append("provider_error")
+                else:
+                    raw_error_kinds.append("provider_error")
         cause = None
         detail = None
-        if kind == "rate_limited":
+        if "rate_limited" in raw_error_kinds or kind == "rate_limited":
             cause, detail = "rate_limit", "typed rate_limited outcome"
-        elif kind == "provider_error":
-            error_text = " ".join(
-                str(call.get("raw_body") or "") for call in row.get("raw_calls") or []
-            ).casefold()
+        elif "provider_error" in raw_error_kinds or kind == "provider_error":
+            error_text = " ".join(str(call.get("raw_body") or "") for call in row.get("raw_calls") or []).casefold()
             cause = "upstream_502" if "502" in error_text or "overload" in error_text else "provider_error"
             detail = "typed provider_error; raw response retained in ignored artifact"
         elif any(call.get("finish_reason") == "length" for call in row.get("raw_calls") or []):
@@ -943,6 +970,57 @@ def _examples(groq_records: list[dict[str, Any]], open_records: list[dict[str, A
     return examples[:5]
 
 
+def _quality_regressions(
+    groq_records: list[dict[str, Any]],
+    open_records: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    from evals.metrics.generation_metrics import token_f1
+
+    groq_by_id = {row["question_id"]: row for row in groq_records}
+    regressions: list[dict[str, Any]] = []
+    for row in open_records:
+        if not bool(row.get("is_answerable")):
+            continue
+        groq = groq_by_id[row["question_id"]]
+        open_f1 = token_f1(
+            str(row.get("expected_answer", "")),
+            str((row.get("final_response") or {}).get("answer", "")),
+        )
+        groq_f1 = token_f1(
+            str(groq.get("expected_answer", "")),
+            str((groq.get("final_response") or {}).get("answer", "")),
+        )
+        if open_f1 >= groq_f1:
+            continue
+        relevant = set(row.get("relevant_chunk_ids") or [])
+        open_retrieved = set(row.get("retrieved_chunk_ids") or [])
+        groq_retrieved = set(groq.get("retrieved_chunk_ids") or [])
+        raw_text = " ".join(str(call.get("raw_body") or "") for call in row.get("raw_calls") or []).casefold()
+        if "502" in raw_text or "overload" in raw_text:
+            cause = "upstream_502"
+        elif not relevant.intersection(open_retrieved) and not relevant.intersection(groq_retrieved):
+            cause = "retrieval_miss_affecting_both"
+        elif bool((row.get("final_response") or {}).get("refusal")) and not bool((groq.get("final_response") or {}).get("refusal")):
+            cause = "wrong_refusal"
+        elif (
+            not bool((row.get("final_response") or {}).get("refusal"))
+            and not bool(((row.get("final_response") or {}).get("citation_verification") or {}).get("is_valid", True))
+        ):
+            cause = "hallucinated_citation"
+        else:
+            cause = "prompt_contract_mismatch"
+        regressions.append(
+            {
+                "question_id": row["question_id"],
+                "classification": cause,
+                "openrouter_token_f1": round(open_f1, 6),
+                "groq_token_f1": round(groq_f1, 6),
+                "provider_caused": cause not in {"retrieval_miss_affecting_both"},
+            }
+        )
+    return regressions
+
+
 def report(protocol: dict[str, Any], artifact_root: Path = ARTIFACT_ROOT) -> dict[str, Any]:
     from evals.metrics.gate12v_metrics import compute_gate12v_metrics, quality_gap
 
@@ -953,6 +1031,7 @@ def report(protocol: dict[str, Any], artifact_root: Path = ARTIFACT_ROOT) -> dic
     groq_metrics = compute_gate12v_metrics(groq_records)
     open_metrics = compute_gate12v_metrics(open_records)
     failures = _failure_analysis(groq_records, open_records)
+    regressions = _quality_regressions(groq_records, open_records)
     payload = {
         "schema": "gate12v.report.v1",
         "generated_at_utc": _utc_now(),
@@ -961,6 +1040,7 @@ def report(protocol: dict[str, Any], artifact_root: Path = ARTIFACT_ROOT) -> dic
         "openrouter": open_metrics,
         "quality_gap_openrouter_minus_groq": quality_gap(open_metrics["overall"], groq_metrics["overall"]),
         "failure_analysis": failures,
+        "quality_regressions": regressions,
         "examples": _examples(groq_records, open_records, failures),
         "request_accounting": {
             "groq_generation_post_count": groq_metrics["overall"]["raw_generation_request_count"],
