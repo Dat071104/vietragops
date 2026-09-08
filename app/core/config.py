@@ -88,6 +88,27 @@ class Settings:
     ollama_base_url: str = field(default_factory=lambda: os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434").strip())
     ollama_model: str = field(default_factory=lambda: os.environ.get("OLLAMA_MODEL", "qwen2.5:3b").strip())
     ollama_num_ctx: int = field(default_factory=lambda: int(os.environ.get("OLLAMA_NUM_CTX", "8192")))
+    openrouter_model: str = field(default_factory=lambda: os.environ.get("OPENROUTER_MODEL", "").strip())
+    openrouter_fallback_model: str = field(
+        default_factory=lambda: os.environ.get("OPENROUTER_MODEL_FALLBACK", "").strip()
+    )
+    openrouter_base_url: str = field(
+        default_factory=lambda: os.environ.get("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1").strip()
+    )
+    openrouter_request_timeout_seconds: float = field(
+        default_factory=lambda: float(os.environ.get("OPENROUTER_REQUEST_TIMEOUT_SECONDS", "90"))
+    )
+    openrouter_max_requests_per_day: int = field(
+        default_factory=lambda: int(os.environ.get("OPENROUTER_MAX_REQUESTS_PER_DAY", "1000"))
+    )
+    openrouter_allow_paid_models: bool = field(
+        default_factory=lambda: os.environ.get("OPENROUTER_ALLOW_PAID_MODELS", "").strip().casefold()
+        in {"1", "true", "yes", "on"}
+    )
+    openrouter_http_referer: str = field(
+        default_factory=lambda: os.environ.get("OPENROUTER_HTTP_REFERER", "").strip()
+    )
+    openrouter_x_title: str = field(default_factory=lambda: os.environ.get("OPENROUTER_X_TITLE", "").strip())
     mcp_bearer_token: str = field(default_factory=lambda: os.environ.get("MCP_BEARER_TOKEN", "").strip())
     mcp_host: str = field(default_factory=lambda: os.environ.get("MCP_HOST", "127.0.0.1").strip())
     mcp_allowed_origins: str = field(
@@ -276,6 +297,14 @@ def get_provider_router() -> ProviderRouter:
         ollama_base_url=settings.ollama_base_url,
         ollama_model=settings.ollama_model,
         ollama_num_ctx=settings.ollama_num_ctx,
+        openrouter_model=settings.openrouter_model,
+        openrouter_fallback_model=settings.openrouter_fallback_model,
+        openrouter_base_url=settings.openrouter_base_url,
+        openrouter_request_timeout_seconds=settings.openrouter_request_timeout_seconds,
+        openrouter_max_requests_per_day=settings.openrouter_max_requests_per_day,
+        openrouter_allow_paid_models=settings.openrouter_allow_paid_models,
+        openrouter_http_referer=settings.openrouter_http_referer,
+        openrouter_x_title=settings.openrouter_x_title,
     )
 
 
@@ -296,6 +325,14 @@ def get_agent_provider_router() -> ProviderRouter:
         ollama_base_url=settings.ollama_base_url,
         ollama_model=settings.ollama_model,
         ollama_num_ctx=settings.ollama_num_ctx,
+        openrouter_model=settings.openrouter_model,
+        openrouter_fallback_model=settings.openrouter_fallback_model,
+        openrouter_base_url=settings.openrouter_base_url,
+        openrouter_request_timeout_seconds=settings.openrouter_request_timeout_seconds,
+        openrouter_max_requests_per_day=settings.openrouter_max_requests_per_day,
+        openrouter_allow_paid_models=settings.openrouter_allow_paid_models,
+        openrouter_http_referer=settings.openrouter_http_referer,
+        openrouter_x_title=settings.openrouter_x_title,
     )
 
 

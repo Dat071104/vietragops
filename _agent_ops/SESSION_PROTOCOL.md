@@ -140,7 +140,7 @@ completion report.
 Closure Receipt
 - CURRENT_TASK.md      : updated (files touched, next step) | not needed (<why>)
 - IMPLEMENTATION_LOG.md: appended <date>/<task>             | not needed (<why>)
-- SESSION_BRIEF.md     : state + Last Verified Commit -> <sha> | not needed (<why>)
+- SESSION_BRIEF.md     : state + Last Verified Commit -> <sha> (**mandatory after a push in this session**; `not needed` is valid only when no push occurred)
 - PROJECT_CONTEXT_CARD : updated (<what>)                   | not needed (<why>)
 - DECISION_LOG.md      : DEC-00NN added                     | not needed (<why>)
 - RISK_REGISTER.md     : RISK-00NN added/changed            | not needed (<why>)

@@ -3311,3 +3311,56 @@ RISK-0026 first and preserve the frozen provider-pinned research lane.
   OpenRouter product lane remains the preferred resolution.
 - No source, test, dependency, or deployment file was changed. No provider or
   GCP call occurred.
+
+## 2026-09-08 — Gate 11-OR-I implementation and I7 closure
+
+- Reverified the OpenRouter catalog at `2026-09-08T08:29:45.883697Z`: 428
+  models, 16 fixed `:free` zero-priced entries, 5 NVIDIA/Nemotron and 11
+  non-NVIDIA; 5 entries declare `response_format` and 3 declare
+  `structured_outputs`. The I3b four-model probe set was unchanged.
+- I3b consumed 7 additional free-only generation requests (13 generation
+  requests across I3/I3b). Nemotron Super remained `UNMEASURED` after repeated
+  HTTP 502 upstream overload responses. Liquid and Gemma 26B produced directly
+  parseable JSON; Gemma 31B remains the measured operating primary. Credit API
+  checks before and after the live probe window both reported
+  `limit=0.2`, `limit_remaining=0.2`, `usage=0`, and `usage_daily=0`; no paid
+  spend or secret value was printed.
+- Added the single-key OpenRouter adapter with live/I2 catalog free guards,
+  explicit paid override off by default, unverified-primary opt-in off by
+  default, `models` fallback routing, typed errors, redacted status/logging,
+  and a per-process UTC reserve/settle request ledger capped at 1000/day.
+  Wired explicit product-lane selection through config/router/answer
+  generation; research mode denies OpenRouter without an HTTP attempt.
+- Retired Groq indexed discovery, rotation, cooldown maps, strategy switching,
+  and per-key statistics while retaining request construction, timeout handling,
+  typed 429/401/5xx/network/timeout outcomes, single-key backoff, and
+  `Retry-After`. Added all-mode indexed-key regression coverage.
+- Preserved the untracked rotation experiment byte-for-byte at
+  `_agent_ops/archive/groq_rotation_experiment.py`; archive README marks it as
+  evidence-only. Its original SHA-256 is
+  `30A7AC21DF261BF5E6A2E76AAB71D18FD279D678778DB866F03C38EC43F04349` and
+  `pytest --collect-only -q` collected 583 tests with zero archive matches.
+- Full suite after I7, using the external basetemp workaround, passed
+  `590 passed, 3 warnings`; the third warning is the pre-existing
+  `PytestCacheWarning` caused by repository `.pytest_cache` ACLs. No GCP call or
+  deployment occurred.
+
+## 2026-09-08 — Gate 11-OR-I Nemotron correction and truncation guard
+
+- Added the owner-supplied five-request Nemotron evidence to the Gate 11-OR-I
+  accounting: two structural successes and three failures, for 18 observed live
+  generation requests in total and zero paid spend. The sample implies a 60%
+  observed failure rate on this endpoint, not a general reliability estimate.
+- The successful realistic Vietnamese RAG request returned `finish=stop`,
+  `reasoning_tokens=410`, `completion_tokens=494`, and raw `message.content`
+  passed `json.loads()`; reasoning was carried in a separate field. Answer
+  quality was not assessed.
+- Restored Nemotron as the default primary and Gemma 31B as the ordered
+  `models` fallback. Removed the stale unverified-primary flag from the env
+  example, settings, router, client, and status contract; `.env` was not edited.
+- The client now emits typed `OpenRouterProviderError` outcomes for malformed
+  JSON-object responses, missing choices, the exact HTTP-200 NVIDIA error
+  envelope, and `finish_reason=length` before attempting content JSON parsing.
+- Focused offline validation: `27 passed, 1 warning`. I10 rerun with the exact
+  established external `--basetemp` command passed `591 tests, 3 warnings` in
+  `418.75s`; no provider or deployment action occurred.

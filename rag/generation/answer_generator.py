@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import json
+import os
 from time import perf_counter
 import re
 from typing import Any
@@ -41,7 +42,17 @@ class AnswerGenerator:
         self.citation_verifier = citation_verifier or CitationVerifier()
         self.guardrails = guardrails or GuardrailEngine()
         self.groq_client = groq_client or GroqClient()
-        self.provider_router = provider_router
+        if provider_router is not None:
+            self.provider_router = provider_router
+        elif groq_client is None:
+            self.provider_router = ProviderRouter(
+                provider=os.environ.get("LLM_PROVIDER", "mock"),
+                mode=os.environ.get("PROVIDER_MODE", "development"),
+            )
+        else:
+            # Explicit test/legacy clients retain their direct seam; the app
+            # wiring always supplies a ProviderRouter for configured providers.
+            self.provider_router = None
         self.config = config or AnswerGeneratorConfig()
 
     def answer(self, question: str, debug: bool = False, top_k: int | None = None) -> dict[str, Any]:
@@ -176,6 +187,8 @@ class AnswerGenerator:
                     failure_kind=invocation.failure_kind,
                     mode=invocation.mode,
                     primary_attempt=invocation.primary_attempt,
+                    requested_model=invocation.requested_model,
+                    served_provider=invocation.served_provider,
                 )
             return self._deterministic_answer(question, context_bundle), self._provider_meta(
                 provider=invocation.provider,
@@ -185,6 +198,8 @@ class AnswerGenerator:
                 failure_kind=invocation.failure_kind,
                 mode=invocation.mode,
                 primary_attempt=invocation.primary_attempt,
+                requested_model=invocation.requested_model,
+                served_provider=invocation.served_provider,
             )
         if self.groq_client.available() and self.config.use_groq_when_available:
             try:
@@ -511,6 +526,8 @@ class AnswerGenerator:
         failure_kind: str | None = None,
         mode: str | None = None,
         primary_attempt: dict[str, Any] | None = None,
+        requested_model: str | None = None,
+        served_provider: str | None = None,
     ) -> dict[str, Any]:
         return {
             "provider": provider,
@@ -520,6 +537,8 @@ class AnswerGenerator:
             "failure_kind": failure_kind,
             "mode": mode,
             "primary_attempt": primary_attempt,
+            "requested_model": requested_model,
+            "served_provider": served_provider,
         }
 
     def _can_retry_provider(self) -> bool:
@@ -550,4 +569,6 @@ def _generation_trace(provider_meta: dict[str, Any], latency_ms: float | None) -
         "failure_kind": provider_meta.get("failure_kind"),
         "mode": provider_meta.get("mode"),
         "primary_attempt": provider_meta.get("primary_attempt"),
+        "requested_model": provider_meta.get("requested_model"),
+        "served_provider": provider_meta.get("served_provider"),
     }

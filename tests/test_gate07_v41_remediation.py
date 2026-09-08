@@ -189,7 +189,7 @@ def test_bug2_http_error_body_is_exposed_without_breaking_research_policy(monkey
         raise error.HTTPError(raw_req.full_url, 400, "Bad Request", {}, io.BytesIO(body))
 
     monkeypatch.setattr("urllib.request.urlopen", _urlopen)
-    client = GroqClient(api_keys=["key"], max_retries=0)
+    client = GroqClient(api_key="key", max_retries=0)
     invocation = ProviderRouter(provider="groq", mode="research", groq_client=client).generate_json("hello")
 
     assert invocation.payload is None
@@ -215,7 +215,7 @@ def test_bug4_usage_is_taken_from_provider_body_and_returned_as_metadata(monkeyp
             return None
 
     monkeypatch.setattr("urllib.request.urlopen", lambda raw_req, timeout: MockResponse())
-    client = GroqClient(api_keys=["key"], max_retries=0)
+    client = GroqClient(api_key="key", max_retries=0)
     result = client.generate_json("hello")
     invocation = ProviderRouter(provider="groq", mode="research", groq_client=client).generate_json("hello")
 

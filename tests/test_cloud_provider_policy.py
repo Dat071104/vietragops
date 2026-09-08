@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import pytest
+
 from rag.generation.groq_client import GroqClient, GroqRateLimitError
 from rag.generation.provider_router import ProviderRouter
 
@@ -58,6 +60,19 @@ def test_cloud_ollama_selection_is_policy_denied_without_network_probe():
 
 def test_cloud_groq_client_ignores_indexed_key_rotation_variables(monkeypatch):
     monkeypatch.setenv("PROVIDER_MODE", "cloud")
+    monkeypatch.setenv("GROQ_API_KEY", "single-test-key")
+    monkeypatch.setenv("GROQ_API_KEY_1", "indexed-test-key")
+    monkeypatch.setenv("GROQ_API_KEY_2", "indexed-test-key-2")
+
+    client = GroqClient()
+
+    assert client.key_count == 1
+    assert client._keys == ["single-test-key"]
+
+
+@pytest.mark.parametrize("mode", ["development", "demo", "research", "cloud", ""])
+def test_groq_client_ignores_indexed_key_variables_in_all_modes(monkeypatch, mode):
+    monkeypatch.setenv("PROVIDER_MODE", mode)
     monkeypatch.setenv("GROQ_API_KEY", "single-test-key")
     monkeypatch.setenv("GROQ_API_KEY_1", "indexed-test-key")
     monkeypatch.setenv("GROQ_API_KEY_2", "indexed-test-key-2")

@@ -1368,3 +1368,62 @@ migration ships, and a future implementation gate must enforce a proposed
 USD 0.50 hard cap with reserve/settle accounting. RISK-0009 remains unchanged
 in this gate; its single-key mitigation update was proposed only in the scope
 artifact.
+
+---
+
+## DEC-0032 — Adopt the measured OpenRouter free product lane
+
+**Date:** 2026-09-08
+**Status:** ADOPTED — Gate 11-OR-I implementation
+**Gate:** 11-OR-I (OpenRouter free-tier product adapter)
+
+### Decision
+
+Use `nvidia/nemotron-3-super-120b-a12b:free` as the operating product primary,
+with `google/gemma-4-31b-it:free` as the fallback in the OpenRouter `models`
+array. The `.env` primary/fallback lines already express this configuration and
+were not edited. The default routing no longer depends on an
+unverified-primary flag.
+
+The lane uses one OpenRouter key, a 1000-request UTC-day ceiling, catalog and
+live-pricing free guards, and an OpenRouter `models` fallback chain only when
+every entry is independently confirmed free. The research lane remains
+provider-pinned and returns `policy_denied` for OpenRouter without a network
+call. Training-permissive free endpoints are accepted for this product lane;
+OpenRouter-side prompt logging remains off, and real user data or PII is not an
+approved input to this lane.
+
+### Evidence and boundary
+
+The correction adds five owner-supplied live free requests to the original 13,
+for 18 observed requests and zero paid spend. Nemotron had two structural
+successes: a trivial JSON request and a realistic Vietnamese RAG request, both
+HTTP 200 with `finish=stop` and raw `content` accepted by `json.loads()`; the
+realistic response exposed `reasoning_tokens=410` in a separate reasoning field,
+not interleaved into `message.content`. Three of five attempts failed in the
+small sample (60% observed failure), including an HTTP 200 body with
+`error.code=502` and no `choices`, attributed to upstream NVIDIA overload.
+Answer quality remains unassessed. A reasoning-heavy response can still exhaust
+`max_tokens=1024`, so `finish_reason=length` is now a typed failure before JSON
+parsing and the configured fallback remains the mitigation.
+
+---
+
+## DEC-0033 — Retire Groq rotation and archive the historical experiment
+
+**Date:** 2026-09-08
+**Status:** ADOPTED — Gate 11-OR-I I7 disposition (a)
+**Gate:** 11-OR-I (OpenRouter free-tier product adapter)
+
+### Decision
+
+Retire indexed Groq key discovery, rotation, cooldown maps, strategy switching,
+and per-key statistics from the production client. The client reads one
+`GROQ_API_KEY` and preserves typed error classification, timeout handling,
+single-key backoff, and `Retry-After` handling.
+
+Move the untouched untracked `tests/test_groq_rotation.py` to
+`_agent_ops/archive/groq_rotation_experiment.py` without changing its bytes.
+The renamed file is historical evidence only, remains untracked, and is not
+staged. Pytest collection after the rename collected 583 tests with zero archive
+matches. This decision explicitly supersedes DEC-0030.

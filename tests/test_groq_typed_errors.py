@@ -1,9 +1,7 @@
-"""Gate 05 Phase 5.1: the real `GroqClient` (not a stub) raises typed
-exceptions once its multi-key rotation/retry is exhausted, instead of a
-generic `RuntimeError`. Verifies the narrow, additive edit authorized in
-DECISION_LOG.md DEC-0008 -- rotation/cooldown/retry behavior itself is
-covered separately by the pre-existing `tests/test_groq_rotation.py` and is
-untouched here.
+"""The real `GroqClient` raises typed exceptions after single-key retries.
+
+Rotation/cooldown behavior was retired by Gate 11-OR-I; this file preserves
+the typed error contract and single-key retry checks.
 """
 
 from __future__ import annotations
@@ -31,7 +29,7 @@ def _raise_http_error(code: str, reason: str):
 
 
 def test_exhausted_429_raises_rate_limit_error(monkeypatch):
-    client = GroqClient(api_keys=["only_key"], max_retries=0)
+    client = GroqClient(api_key="only_key", max_retries=0)
     monkeypatch.setattr("urllib.request.urlopen", _raise_http_error(429, "Too Many Requests"))
 
     with pytest.raises(GroqRateLimitError) as exc_info:
@@ -41,7 +39,7 @@ def test_exhausted_429_raises_rate_limit_error(monkeypatch):
 
 
 def test_exhausted_401_raises_auth_error(monkeypatch):
-    client = GroqClient(api_keys=["only_key"], max_retries=0)
+    client = GroqClient(api_key="only_key", max_retries=0)
     monkeypatch.setattr("urllib.request.urlopen", _raise_http_error(401, "Unauthorized"))
 
     with pytest.raises(GroqAuthError):
@@ -49,7 +47,7 @@ def test_exhausted_401_raises_auth_error(monkeypatch):
 
 
 def test_exhausted_503_raises_provider_error(monkeypatch):
-    client = GroqClient(api_keys=["only_key"], max_retries=0)
+    client = GroqClient(api_key="only_key", max_retries=0)
     monkeypatch.setattr("urllib.request.urlopen", _raise_http_error(503, "Service Unavailable"))
 
     with pytest.raises(GroqProviderError):
@@ -57,7 +55,7 @@ def test_exhausted_503_raises_provider_error(monkeypatch):
 
 
 def test_exhausted_timeout_raises_timeout_error(monkeypatch):
-    client = GroqClient(api_keys=["only_key"], max_retries=0)
+    client = GroqClient(api_key="only_key", max_retries=0)
 
     def _urlopen(raw_req, timeout):
         raise TimeoutError("timed out")
@@ -69,7 +67,7 @@ def test_exhausted_timeout_raises_timeout_error(monkeypatch):
 
 
 def test_exhausted_connection_refused_raises_network_error(monkeypatch):
-    client = GroqClient(api_keys=["only_key"], max_retries=0)
+    client = GroqClient(api_key="only_key", max_retries=0)
 
     def _urlopen(raw_req, timeout):
         raise error.URLError("connection refused")
@@ -81,7 +79,7 @@ def test_exhausted_connection_refused_raises_network_error(monkeypatch):
 
 
 def test_typed_error_preserves_original_message_text(monkeypatch):
-    client = GroqClient(api_keys=["only_key"], max_retries=0)
+    client = GroqClient(api_key="only_key", max_retries=0)
     monkeypatch.setattr("urllib.request.urlopen", _raise_http_error(429, "Too Many Requests"))
 
     with pytest.raises(GroqRateLimitError) as exc_info:
@@ -90,34 +88,30 @@ def test_typed_error_preserves_original_message_text(monkeypatch):
     assert "429" in str(exc_info.value)
 
 
-def test_rotation_across_multiple_keys_still_works_before_exhaustion(monkeypatch):
-    """Non-regression: the pre-existing rotation behavior (already covered by
-    tests/test_groq_rotation.py) is unaffected by the typed-exception edit --
-    a later key that succeeds still returns normally, no exception raised."""
-    import json
+def test_single_key_does_not_rotate_after_rate_limit(monkeypatch):
+    client = GroqClient(api_key="only_key", max_retries=0)
+    monkeypatch.setattr("urllib.request.urlopen", _raise_http_error(429, "Rate Limit"))
 
-    client = GroqClient(api_keys=["bad_key", "good_key"], max_retries=2)
-    call_history = []
+    with pytest.raises(GroqRateLimitError):
+        client.generate_json("hello")
+    assert client.key_count == 1
+    assert client._keys == ["only_key"]
+
+
+def test_single_key_honors_retry_after_before_retrying(monkeypatch):
+    sleeps = []
+    calls = []
+    client = GroqClient(api_key="only_key", max_retries=1, sleep_fn=sleeps.append)
+    client.jitter_seconds = 0.0
 
     def _urlopen(raw_req, timeout):
-        auth = raw_req.headers.get("Authorization", "")
-        call_history.append(auth)
-        if "bad_key" in auth:
-            raise error.HTTPError(raw_req.full_url, 429, "Rate Limit", {"Retry-After": "1"}, None)
-
-        class MockResp:
-            def read(self):
-                return json.dumps({"choices": [{"message": {"content": json.dumps({"answer": "ok"})}}]}).encode()
-
-            def __enter__(self):
-                return self
-
-            def __exit__(self, *a):
-                pass
-
-        return MockResp()
+        calls.append(raw_req.headers.get("Authorization"))
+        raise error.HTTPError(raw_req.full_url, 429, "Rate Limit", {"Retry-After": "2"}, None)
 
     monkeypatch.setattr("urllib.request.urlopen", _urlopen)
 
-    result = client.generate_json("hello")
-    assert result == {"answer": "ok"}
+    with pytest.raises(GroqRateLimitError):
+        client.generate_json("hello")
+
+    assert calls == ["Bearer only_key", "Bearer only_key"]
+    assert sleeps == [2.0]

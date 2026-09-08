@@ -6,6 +6,7 @@ from rag.generation.context_builder import ContextBuilder
 from rag.generation.guardrails import GuardrailEngine
 from rag.generation.groq_client import GroqClient
 from rag.generation.ollama_client import OllamaClient
+from rag.generation.openrouter_client import OpenRouterClient
 from rag.generation.prompt_builder import PromptBuilder
 from rag.generation.provider_router import ProviderRouter
 
@@ -16,6 +17,7 @@ __all__ = [
     "GuardrailEngine",
     "GroqClient",
     "OllamaClient",
+    "OpenRouterClient",
     "PromptBuilder",
     "ProviderRouter",
 ]

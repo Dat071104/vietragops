@@ -1,0 +1,114 @@
+{
+  "gate": "11-OR-I",
+  "title": "OpenRouter free-tier product adapter implementation",
+  "date_frozen": "2026-09-08",
+  "repository": {
+    "root": "D:/Project cua Dat/VietRAGOps/ROOT/VietRagOps",
+    "branch": "main",
+    "head": "8363f5d6b5247857c92ffcea6f2ab5c4626f2c39",
+    "origin_main": "8363f5d6b5247857c92ffcea6f2ab5c4626f2c39",
+    "status_path_count": 26,
+    "staged_path_count": 0,
+    "overlay_policy": "Preserve all 26 pre-existing dirty paths; never stage them."
+  },
+  "scope": {
+    "mission": "Add an isolated single-key OpenRouter chat-completions adapter for free product lanes, wire it by explicit provider selection, retire Groq indexed-key rotation, and preserve the provider-pinned research lane.",
+    "free_only": true,
+    "zero_paid_spend": true,
+    "research_lane_exclusion": true,
+    "no_deployment": true,
+    "no_gcp_calls": true,
+    "no_new_dependency": true,
+    "transport": "urllib",
+    "daily_request_ceiling": 1000,
+    "reset_boundary": "UTC calendar day",
+    "ledger_scope": "Per-process unless a non-tracked durable store is added; no tracked-path persistence is permitted.",
+    "owner_credit_update": "Owner reports at least 10 USD credits purchased; I2 must verify the documented 20 RPM and 1000 RPD free-model limits.",
+    "data_policy_status": "Pending explicit owner confirmation; I3 probes are synthetic and contain no corpus or user data.",
+    "no_deploy_boundary": "Gate ends at a pushed main commit. Cloud Run shipping is a separate approval blocked by RISK-0026."
+  },
+  "i0_receipts": {
+    "OPENROUTER_API_KEY_count_only": 1,
+    "OPENROUTER_MODEL_count_only": 1,
+    "OPENROUTER_MODEL_empty_count_only": 1,
+    "secret_values_observed": false,
+    "credit_check": {
+      "endpoint": "GET https://openrouter.ai/api/v1/key",
+      "http_status": 200,
+      "is_free_tier": false,
+      "limit_remaining": 0.2,
+      "usage": 0,
+      "usage_daily": 0,
+      "key_value_recorded": false
+    }
+  },
+  "i1_receipts": {
+    "exact_baseline_command": ".venv\\Scripts\\python.exe -m pytest -q",
+    "exact_baseline_result": "433 passed, 2 warnings, 131 errors in 105.08s",
+    "exact_baseline_status": "HOST_ENVIRONMENT_FAILURE",
+    "exact_baseline_failure": "WinError 5 while pytest scanned C:/Users/ADMIN/AppData/Local/Temp/pytest-of-ADMIN; the failure occurred during tmp_path setup.",
+    "diagnostic_command": ".venv\\Scripts\\python.exe -m pytest -q --basetemp D:\\GRADUATION_THESIS\\_gate11ori_pytest_basetemp_20260908",
+    "diagnostic_result": "564 passed, 3 warnings in 178.43s",
+    "diagnostic_note": "The third warning is PytestCacheWarning for the pre-existing repository .pytest_cache ACL. The temporary basetemp was created and removed by this run.",
+    "untracked_rotation_test_collected": 6,
+    "untracked_rotation_test": "tests/test_groq_rotation.py",
+    "untracked_rotation_disposition": "Deferred to I7 hard stop; DEC-0030 currently requires untouched and untracked."
+  },
+  "i2_initial_catalog_observation": {
+    "endpoint": "GET https://openrouter.ai/api/v1/models",
+    "catalog_total": 428,
+    "free_zero_price_suffix_count": 16,
+    "free_nvidia_or_nemotron_count": 5,
+    "free_non_nvidia_count": 11,
+    "observed_owner_claim": "not confirmed; the live catalog was not NVIDIA-dominated on 2026-09-08",
+    "catalog_snapshot_policy": "The I2 free catalog, not suffix syntax alone, is the authority for the I5 guard."
+  },
+  "expected_artifacts": [
+    "gates/baselines/GATE_11ORI_PROTOCOL.json",
+    "rag/generation/openrouter_client.py",
+    "tests/test_openrouter_client.py",
+    "tests/test_openrouter_budget.py",
+    "gates/results/GATE_11ORI_RESULT.md",
+    "_agent_ops/IMPLEMENTATION_LOG.md",
+    "_agent_ops/DECISION_LOG.md",
+    "_agent_ops/RISK_REGISTER.md",
+    "_agent_ops/SESSION_BRIEF.md",
+    "_agent_ops/SESSION_PROTOCOL.md"
+  ],
+  "pre_change_line_map": {
+    "rag/generation/openrouter_client.py": 0,
+    "rag/generation/provider_router.py": 405,
+    "rag/generation/groq_client.py": 354,
+    "rag/generation/answer_generator.py": 553,
+    "app/core/config.py": 324,
+    "rag/generation/__init__.py": 21,
+    ".env.example": 21,
+    "tests/test_cloud_provider_policy.py": 68,
+    "tests/test_provider_policy.py": 325,
+    "tests/test_provider_router.py": 94,
+    "tests/test_answer_generator.py": 94,
+    "tests/test_openrouter_client.py": 0,
+    "tests/test_openrouter_budget.py": 0,
+    "tests/test_openrouter_router.py": 0,
+    "gates/results/GATE_11ORI_RESULT.md": 0,
+    "_agent_ops/IMPLEMENTATION_LOG.md": 3313,
+    "_agent_ops/DECISION_LOG.md": 1370,
+    "_agent_ops/RISK_REGISTER.md": 42,
+    "_agent_ops/SESSION_BRIEF.md": 289,
+    "_agent_ops/SESSION_PROTOCOL.md": 187
+  },
+  "constraints": {
+    "indexed_openrouter_keys_forbidden": true,
+    "indexed_groq_rotation_to_remove": [
+      "GROQ_API_KEY_1..GROQ_KEY_COUNT",
+      "GROQ_ROUTER_STRATEGY",
+      "round-robin selection",
+      "per-key cooldown map",
+      "per-key statistics"
+    ],
+    "research_provider_change_forbidden": true,
+    "requirements_docker_deploy_unchanged": true,
+    "gate_07_gate_08_rerun_forbidden": true,
+    "gate_09_gate_10_forbidden": true
+  }
+}
