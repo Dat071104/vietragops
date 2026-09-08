@@ -3302,3 +3302,12 @@ Run behavior; any new scope requires new approval and protocol.
 
 Next step: wait for a separately approved implementation gate; resolve
 RISK-0026 first and preserve the frozen provider-pinned research lane.
+
+## 2026-09-08 — Gate 11-OR-F RISK-0009 correction
+
+- Corrected `RISK-0009` to state that the indexed-key path remains present in
+  tracked `rag/generation/groq_client.py` and is suppressed at runtime only by
+  the `PROVIDER_MODE == "cloud"` branch; the separately approved single-key
+  OpenRouter product lane remains the preferred resolution.
+- No source, test, dependency, or deployment file was changed. No provider or
+  GCP call occurred.
