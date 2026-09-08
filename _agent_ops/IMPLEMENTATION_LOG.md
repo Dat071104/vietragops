@@ -3392,3 +3392,46 @@ RISK-0026 first and preserve the frozen provider-pinned research lane.
   records the decision; RISK-0028/0029 were updated and RISK-0030/0031 added.
   Raw run files remain under ignored `gates/artifacts/gate12v/`; the tracked
   result is `gates/results/GATE_12V_RESULT.md`.
+
+## 2026-09-08 — Gate 13-D grounding and defect diagnostic
+
+- Frozen `gates/baselines/GATE_13D_PROTOCOL.json` before analysis. The protocol
+  was committed as `464da8f`; SHA-256 is
+  `efed5ef531b531d59b5b9885f205397b77403682cf52ad0b92fcabb8381bfe17`.
+- D0 reverified entry HEAD and `origin/main` at
+  `5fb765d18e10604304796d7c4c1c8d608c3eeb7d`, exactly 25 pre-existing dirty
+  paths, an empty index, and the external-basetemp full suite at `591 passed,
+  3 warnings` in 702.80 seconds. Gate 12-V artifact identities were recorded
+  in the result; no secret value was read or printed.
+- Read-only metric audit established that Gate 12-V citation validity is local
+  retrieved-chunk/quote validity while grounding is direct cited-ID versus
+  golden-ID overlap. Verdict: metric-sound; no metric or golden-set repair.
+- Ran the existing retrieval comparison harness on all 120 product questions
+  over frozen `data/chunks/chunks_500.jsonl` at top-k 10 and 50. The direct
+  hybrid default reached recall@5 `0.6293` and any-hit `73/116`; the direct
+  reranker reached recall@5 `0.6250` and any-hit `73/116`. The exact product
+  `ContextBuilder` default path reached any-hit `71/116` at top-5 and the
+  opt-in reranker `72/116`; nine answerable questions were absent from both
+  raw top-50 candidate pools. The dense branch reported
+  `sparse_semantic_fallback`.
+- Read-only source tracing established that `RAG_MAX_OUTPUT_TOKENS` has no
+  consumer and is dropped before the router at
+  `rag/generation/answer_generator.py:180` (and the legacy Groq seam at `:206`).
+  The clients' conditional payload guards are downstream and intact.
+- Read-only OpenRouter evidence established that the ordered `models` array
+  was transmitted, but the client raises on the HTTP-200 embedded 502 envelope
+  and retries the same request; no Gemma serving was observed. Current official
+  fallback documentation was recorded in the result. No provider call was made
+  by this gate.
+- Read-only Groq evidence established one configured key, 108 raw calls,
+  67 rate limits, 38 JSON/provider errors, 2 successes, and an observed
+  3.432 requests/minute. The captured bodies point to organization-level
+  OTPM/ITPM limits and missing output-token control; the causal claim that the
+  one-key remediation alone caused the collapse was not established.
+- Added `DEC-0035`, updated `RISK-0030`, and added `RISK-0032` through
+  `RISK-0034`. Added `gates/results/GATE_13D_RESULT.md`; no production source,
+  dependency, data, provider, GCP, or research file changed.
+- Repair ordering is now explicit: grounding/retrieval first; token propagation
+  second; fallback contract/implementation third; owner control decision fourth.
+  Recommended next gate is a separately authorized grounding-repair gate with
+  zero provider calls in its first phase.

@@ -1468,3 +1468,45 @@ propagate the 1024-token product budget, decide the OpenRouter citation-retry
 policy, establish actual fallback serving observability, and collect a fresh
 committed protocol run. The existing 40-question outputs must not be rescored
 after source changes.
+
+## DEC-0035 — Fix grounding before provider reliability and control work
+
+**Date:** 2026-09-08
+**Status:** ADOPTED — Gate 13-D diagnostic ordering
+**Gate:** 13-D (Grounding and defect diagnostic)
+
+### Decision
+
+Treat the grounding failure as a retrieval/context-selection defect and make it
+the first repair target. Do not repair `max_tokens`, OpenRouter fallback, or the
+Groq control in Gate 13-D. A future grounding-repair gate must first re-measure
+the exact product `ContextBuilder` paths on all 120 product questions.
+
+### Evidence and ordering
+
+The Gate 12-V citation metric is sound: citation validity checks exact retrieved
+chunk membership and quote support, while grounding compares unique cited IDs
+with the golden relevant IDs. The full retrieval-only run found 116 answerable
+questions and a default product top-5 any-hit ceiling of 71/116 (72/116 with the
+opt-in reranker). The direct top-50 raw candidate pool still had nine hard
+misses. The dense branch used `sparse_semantic_fallback`, and five inspected
+hard cases had plausible, answer-bearing annotations; no metric or golden-set
+repair is justified.
+
+`max_tokens` is dropped before the router because the product answer generator
+never passes the configured budget. The OpenRouter `models` array is present,
+but the closed artifacts show no Gemma serving for HTTP-200 embedded 502 error
+envelopes and the client has no independent second-model request. Groq's 67/108
+429s match captured organization-level OTPM/ITPM errors at an observed
+3.432 requests/minute; the evidence does not establish that one key alone, as
+opposed to the missing token cap and the organization's free quota, caused the
+collapse. The owner must choose the future control lane; multi-key rotation is
+not reopened.
+
+### Consequence
+
+The recommended next gate is a separately authorized grounding-repair gate with
+zero provider calls in its first phase. Only after the retrieval ceiling improves
+should a provider-remediation gate address token propagation, fallback behavior,
+and the owner-selected control. Gate 12-V remains a closed NO-GO and must not be
+rescored.
