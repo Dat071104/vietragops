@@ -4,6 +4,7 @@ import pytest
 
 from rag.retrieval import BM25Retriever, ChunkIndexStore, DenseRetriever, HybridRetriever
 import rag.retrieval.dense_retriever as dense_retriever_module
+from rag.retrieval.dense_retriever import VectorSpaceMismatchError
 
 
 def make_store() -> ChunkIndexStore:
@@ -72,8 +73,8 @@ def test_dense_retriever_fallback_returns_semanticish_match():
 
 
 def test_dense_backend_available_is_selected_and_reported(monkeypatch):
-    class FakeDenseBackend:
-        name = "sentence_transformers:test"
+    class FakeOnnxBackend:
+        name = "onnx:test:fp32"
 
         def __init__(self, store, config):
             self.store = store
@@ -82,19 +83,14 @@ def test_dense_backend_available_is_selected_and_reported(monkeypatch):
         def search(self, query, top_k):
             return [(0, 1.0)]
 
-    monkeypatch.setattr(dense_retriever_module, "_SentenceTransformerBackend", FakeDenseBackend)
+    monkeypatch.setattr(dense_retriever_module, "_OnnxBackend", FakeOnnxBackend)
 
     retriever = DenseRetriever(make_store())
 
-    assert retriever.backend_name == "sentence_transformers:test"
-    assert retriever.status() == {
-        "name": "dense",
-        "backend": "sentence_transformers:test",
-        "state": "active",
-        "degraded": False,
-        "degradation_reason": None,
-        "model_name": retriever.config.model_name,
-    }
+    assert retriever.backend_name == "onnx:test:fp32"
+    assert retriever.status()["state"] == "active"
+    assert retriever.status()["degraded"] is False
+    assert retriever.status()["downgrade_reasons"] == []
 
 
 def test_dense_backend_unavailable_is_loud_and_reported(monkeypatch, caplog):
@@ -111,6 +107,34 @@ def test_dense_backend_unavailable_is_loud_and_reported(monkeypatch, caplog):
     assert retriever.status()["degraded"] is True
     assert "ModuleNotFoundError" in retriever.status()["degradation_reason"]
     assert "sentence_transformers" in caplog.text
+
+
+@pytest.mark.parametrize(
+    ("metadata", "message"),
+    [
+        ({"model_id": "other/model", "dimension": 2, "normalized": True, "normalization": "l2"}, "model identity"),
+        ({"model_id": "expected/model", "dimension": 3, "normalized": True, "normalization": "l2"}, "shape"),
+        ({"model_id": "expected/model", "dimension": 2, "normalized": False, "normalization": "none"}, "normalized"),
+    ],
+)
+def test_vector_space_contract_rejects_mismatch(metadata, message):
+    class FakeEmbeddings:
+        ndim = 2
+        shape = (3, 2)
+
+        def __len__(self):
+            return self.shape[0]
+
+    with pytest.raises(VectorSpaceMismatchError, match=message):
+        dense_retriever_module._validate_vector_space(
+            metadata,
+            FakeEmbeddings(),
+            [chunk.chunk_id for chunk in make_store()],
+            make_store(),
+            expected_model_name="expected/model",
+            expected_model_revision=None,
+            session_dimension=2,
+        )
 
 
 def test_hybrid_retriever_combines_signals():

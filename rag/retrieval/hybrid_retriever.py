@@ -6,7 +6,7 @@ from dataclasses import dataclass
 
 from rag.retrieval.base import BaseRetriever, RetrievalResult
 from rag.retrieval.bm25_retriever import BM25Retriever
-from rag.retrieval.dense_retriever import DenseRetriever
+from rag.retrieval.dense_retriever import DenseConfig, DenseRetriever
 from rag.retrieval.index_store import ChunkIndexStore
 from rag.retrieval.rrf import reciprocal_rank_fusion
 
@@ -15,6 +15,7 @@ from rag.retrieval.rrf import reciprocal_rank_fusion
 class HybridConfig:
     rrf_k: int = 60
     candidate_pool: int = 30
+    dense_config: DenseConfig | None = None
 
 
 class HybridRetriever(BaseRetriever):
@@ -24,7 +25,7 @@ class HybridRetriever(BaseRetriever):
         super().__init__(store)
         self.config = config or HybridConfig()
         self.bm25 = BM25Retriever(store)
-        self.dense = DenseRetriever(store)
+        self.dense = DenseRetriever(store, config=self.config.dense_config)
         self.backend_name = f"rrf({self.bm25.backend_name}+{self.dense.backend_name})"
 
     def retrieve(self, query: str, top_k: int = 5) -> list[RetrievalResult]:

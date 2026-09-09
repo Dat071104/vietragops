@@ -6,7 +6,8 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from rag.retrieval.base import BaseRetriever, RetrievalResult
-from rag.retrieval.hybrid_retriever import HybridRetriever
+from rag.retrieval.dense_retriever import DenseConfig
+from rag.retrieval.hybrid_retriever import HybridConfig, HybridRetriever
 from rag.retrieval.index_store import ChunkIndexStore
 from rag.retrieval.reranker import BaseReranker, LexicalReranker, build_reranker
 from rag.retrieval.source_priority import load_manifest_rows, recency_score, source_authority_score
@@ -19,6 +20,7 @@ class AdvancedHybridConfig:
     enable_source_priority: bool = True
     enable_recency: bool = True
     manifest_path: str = "data/manifests/documents_manifest.csv"
+    dense_config: DenseConfig | None = None
 
 
 class AdvancedHybridRetriever(BaseRetriever):
@@ -32,7 +34,7 @@ class AdvancedHybridRetriever(BaseRetriever):
     ) -> None:
         super().__init__(store)
         self.config = config or AdvancedHybridConfig()
-        self.hybrid = HybridRetriever(store)
+        self.hybrid = HybridRetriever(store, config=HybridConfig(dense_config=self.config.dense_config))
         self.reranker = reranker or (build_reranker() if self.config.enable_reranker else LexicalReranker())
         manifest_path = Path(self.config.manifest_path)
         self._manifest_rows = load_manifest_rows(manifest_path) if manifest_path.exists() else {}

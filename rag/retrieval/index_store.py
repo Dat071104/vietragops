@@ -119,6 +119,20 @@ class ChunkIndexStore:
         digest = hashlib.sha256(fingerprint.encode("utf-8")).hexdigest()
         return f"sha256:{digest[:16]}"
 
+    def content_hash(self) -> str:
+        """Return the byte identity of the backing chunks or canonical records."""
+
+        if self.source_path is not None:
+            try:
+                return hashlib.sha256(Path(self.source_path).read_bytes()).hexdigest()
+            except OSError:
+                pass
+        canonical = "\n".join(
+            json.dumps(chunk.to_dict(), ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+            for chunk in self.chunks
+        )
+        return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
     @classmethod
     def from_jsonl(cls, path: str | Path) -> "ChunkIndexStore":
         chunk_path = Path(path)
