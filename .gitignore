@@ -24,6 +24,10 @@ dist/
 build/
 *.egg-info/
 
+# Gate 14-R generated ONNX/query and corpus-vector artifacts
+data/chunks/embeddings/gate14r/
+data/chunks/embeddings/active/
+
 # Local debug and scratch artifacts
 debug_*
 tmp_*
