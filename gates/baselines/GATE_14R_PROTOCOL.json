@@ -2,7 +2,7 @@
   "gate": "14-R",
   "title": "Restore dense retrieval and re-measure grounding",
   "protocol_version": "1.0",
-  "status": "FROZEN_BEFORE_MEASUREMENT",
+  "status": "FROZEN_WITH_OWNER_DECISION_BEFORE_R3",
   "frozen_at": "2026-09-09",
   "scope": {
     "purpose": "Make product-lane dense retrieval observable, obtain the owner's dependency decision, and measure retrieval-only grounding ceilings after the chosen local path is implemented.",
@@ -250,6 +250,15 @@
       "stay sparse"
     ],
     "current_production_statement": "Because requirements.txt has no ML runtime and Dockerfile installs only that file, the deployed product is sparse-only."
+  },
+  "owner_decision": {
+    "recorded_at": "2026-09-09",
+    "selected_option": "b_prime_onnx_runtime_with_precomputed_corpus_embeddings",
+    "decision": "APPROVED_FOR_R3",
+    "rationale": "Use the same embedding model offline to export an ONNX query encoder and persist corpus vectors; ship only ONNX Runtime, tokenizers, numpy, the query encoder, and the vector artifact. Torch is local export tooling only and must not enter requirements.txt or the Dockerfile.",
+    "plain_option_b_rejected": "Precomputed corpus embeddings alone are insufficient: runtime queries still need the same encoder and vector space. Plain option (b) would therefore still ship torch plus the model and would save almost nothing in image size or cold start, which is the reason it was rejected.",
+    "unchanged_thresholds": "The R0 +5 percentage-point and +3 percentage-point answerable-ceiling thresholds remain binding and are not re-registered.",
+    "deployment_boundary": "No GCP call, deployment, Cloud Run revision, or provider generation call is authorized in this gate."
   },
   "measurement_restrictions": {
     "no_threshold_changes_after_observation": true,
