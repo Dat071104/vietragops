@@ -40,7 +40,10 @@ def _export_fp32(model: Any, output_path: Path, max_seq_length: int) -> None:
 
     transformer = model[0]
     pooling = model[1]
-    if not bool(getattr(pooling, "pooling_mode_mean_tokens", False)):
+    is_mean_pooling = getattr(pooling, "pooling_mode", None) == "mean" or bool(
+        getattr(pooling, "pooling_mode_mean_tokens", False)
+    )
+    if not is_mean_pooling:
         raise RuntimeError("Only mean-pooling SentenceTransformer models are supported by this exporter.")
     encoder = transformer.auto_model
 
