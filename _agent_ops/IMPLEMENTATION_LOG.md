@@ -3435,3 +3435,47 @@ RISK-0026 first and preserve the frozen provider-pinned research lane.
   second; fallback contract/implementation third; owner control decision fourth.
   Recommended next gate is a separately authorized grounding-repair gate with
   zero provider calls in its first phase.
+
+## 2026-09-09 — Gate 14-R R0/R1 closure and R2 dependency decision stop
+
+- R0 reverified entry HEAD and `origin/main` at
+  `31a69c02fee68ab004c14a4ecd85eca563ae728f`, exactly 25 pre-existing dirty
+  paths, and an empty index. The external-basetemp baseline passed `591 passed,
+  3 warnings` in 611.03 seconds. The `.venv` import probes report
+  `sentence_transformers`, `torch`, and `transformers` absent; `requirements.txt`
+  declares no ML runtime and `Dockerfile` installs only that file. Production
+  is therefore sparse-only.
+- Frozen `gates/baselines/GATE_14R_PROTOCOL.json` before any Gate-14
+  measurement. It was committed as `ed9c258`; SHA-256 is
+  `6ba272c3a9b74d1952619828b22726099b818bc25a84ed52b490252c3de8d317`. The
+  protocol pins the 120-row golden file, its 116 answerable IDs, and the
+  pre-registered +5-point top-k/dense-5 and +3-point dense-10/real-reranker
+  answerable-ceiling floors.
+- R1 removed stdout/stderr suppression around dense and BGE initialization,
+  replaced broad silent fallback catches with typed import/initialization
+  catches, logs concrete reasons at WARNING, and exposes active/degraded state
+  through retriever metadata, ContextBuilder debug, `/retrieve` debug, and
+  `/health`. Added tests cover dense available selection and unavailable
+  fallback logging/state plus reranker fallback logging/state. Focused tests
+  passed `15 passed, 1 warning`; the full suite passed `594 passed, 3 warnings`
+  in 762.89 seconds. The source/test slice was committed as `ad6a887`.
+- R2 no-install sizing snapshot: PyPI latest Windows CPython 3.13 wheels were
+  `torch 2.14.0` 124113865 bytes, `sentence-transformers 6.0.1` 739832 bytes,
+  and `transformers 5.16.1` 12080592 bytes; direct wheel total is 136934289
+  bytes (130.59 MiB). The corresponding Docker Linux CPython 3.11 torch wheel
+  is 554583496 bytes; direct Linux wheel total is 567403920 bytes (541.12 MiB).
+  These are distribution-wheel sizes, not installed sizes; the observed
+  installed size is zero because all three packages remain absent.
+- The frozen MiniLM model manifest reports `model.safetensors` at 470641600
+  bytes (448.84 MiB) and an 11-file runtime subset at 499557407 bytes (476.42
+  MiB). A float32 695 x 384 precomputed chunk-vector matrix would be 1067520
+  bytes (1.02 MiB). Direct Linux wheels plus that model subset are already
+  1066961327 bytes (1017.53 MiB, 0.994 GiB) before transitive dependencies or
+  unpacking. The latest Linux torch metadata also declares CUDA-related
+  dependencies.
+- No container image delta or cold-start benchmark was run: the local Docker
+  daemon is unavailable and an install/build is outside the pre-decision
+  boundary. A pip dependency dry-run was stopped before resolution completed;
+  no package was installed and no provider/GCP/deployment action occurred.
+  Owner decision among full local runtime, precomputed vectors/light query
+  encoder, hosted embedding API, and staying sparse remains pending.
