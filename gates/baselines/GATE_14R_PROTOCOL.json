@@ -260,6 +260,40 @@
     "unchanged_thresholds": "The R0 +5 percentage-point and +3 percentage-point answerable-ceiling thresholds remain binding and are not re-registered.",
     "deployment_boundary": "No GCP call, deployment, Cloud Run revision, or provider generation call is authorized in this gate."
   },
+  "model_selection_registration": {
+    "frozen_before_model_measurement": true,
+    "selection_rule": "Compare exactly these three product-lane models on the frozen 116-question set; choose the winner by the registered retrieval metrics and runtime evidence, not by external leaderboard claims.",
+    "research_lane_boundary": "BGE-M3 is excluded because Gate 07 measured BGE-M3 embeddings and its artifacts are frozen; these are new product-lane exports only.",
+    "models": [
+      {
+        "model_id": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+        "role": "incumbent",
+        "expected_dimension": 384,
+        "query_prefix": "",
+        "passage_prefix": "",
+        "justification": "Existing dense_retriever.py incumbent; its official card documents 50 languages, semantic search, 384 dimensions, and mean pooling.",
+        "citation": "https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+      },
+      {
+        "model_id": "intfloat/multilingual-e5-small",
+        "role": "retrieval_specific_multilingual_candidate",
+        "expected_dimension": 384,
+        "query_prefix": "query: ",
+        "passage_prefix": "passage: ",
+        "justification": "Its official card includes Vietnamese in the supported language list and documents query/passage prefixes; the E5 paper reports strong zero-shot retrieval performance across BEIR/MTEB.",
+        "citation": "https://huggingface.co/intfloat/multilingual-e5-small; https://arxiv.org/abs/2212.03533"
+      },
+      {
+        "model_id": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+        "role": "larger_multilingual_candidate",
+        "expected_dimension": 768,
+        "query_prefix": "",
+        "passage_prefix": "",
+        "justification": "Its official card documents 50 languages, 768-dimensional semantic-search embeddings, and mean pooling, providing a larger multilingual comparison point.",
+        "citation": "https://huggingface.co/sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+      }
+    ]
+  },
   "measurement_restrictions": {
     "no_threshold_changes_after_observation": true,
     "no_research_artifact_recomputation": true,
