@@ -9,6 +9,7 @@ import json
 import logging
 import math
 from pathlib import Path
+import time
 from typing import Any
 
 from rag.retrieval.base import BaseRetriever, RetrievalResult, make_char_ngrams, make_word_bigrams, tokenize
@@ -110,6 +111,7 @@ class _OnnxBackend:
         self._tokenizer = tokenizer_cls.from_file(str(tokenizer_path))
         self._metadata = metadata
         self._embeddings = numpy.load(embeddings_path, mmap_mode="r", allow_pickle=False)
+        self.last_query_encode_ms = 0.0
         chunk_ids = json.loads(chunk_ids_path.read_text(encoding="utf-8"))
         session_dimension = _session_output_dimension(self._session)
         _validate_vector_space(
@@ -169,7 +171,9 @@ class _OnnxBackend:
         return normalized.astype(self._np.float32)
 
     def search(self, query: str, top_k: int) -> list[tuple[int, float]]:
+        started = time.perf_counter()
         query_vector = self._encode([query])[0]
+        self.last_query_encode_ms = (time.perf_counter() - started) * 1000
         scores = self._embeddings @ query_vector
         ranked_indices = self._np.argsort(-scores, kind="stable")[:top_k]
         return [(int(index), float(scores[index])) for index in ranked_indices]
