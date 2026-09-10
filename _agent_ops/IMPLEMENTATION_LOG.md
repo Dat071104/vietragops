@@ -3599,3 +3599,6 @@ RISK-0026 first and preserve the frozen provider-pinned research lane.
   `0.194444/0.612069 = 31.8%` projects only `24.1%` at the new ceiling;
   Nemotron served-only correctness was independently `6/25 = 24.0%`. B4 is
   therefore not expected to reach `70%` under observed provider behavior.
+- Full suite after the B0 audit artifacts passed `603 passed, 3 warnings` in
+  `478.60` seconds with an external `--basetemp`; no source/test behavior
+  changed in B0.

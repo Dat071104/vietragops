@@ -195,6 +195,13 @@ B4 has not run. The owner must choose one of these paths:
 No threshold was revised in this checkpoint, and no generation call is allowed
 until the owner resolves this choice.
 
+## Regression receipt
+
+The full suite after the B0 audit artifacts passed `603 passed, 3 warnings` in
+`478.60` seconds with an external `--basetemp`, reconciling exactly to the
+Gate 15 Phase B baseline. B0 changed documentation and audit artifacts only;
+no production source or test behavior changed.
+
 ## Scope not measured
 
 No fresh provider availability, fallback activation, live latency, served-model
