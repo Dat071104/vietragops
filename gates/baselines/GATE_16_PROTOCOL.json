@@ -1,0 +1,162 @@
+{
+  "gate": "16",
+  "title": "Generation parameter tuning and fallback policy repair",
+  "schema": "vietragops.gate16.protocol.v1",
+  "created_at_utc": "2026-09-10T07:36:28.9533098Z",
+  "protocol_sha256_definition": "SHA-256 of canonical UTF-8 JSON produced after omitting protocol_sha256, sorting keys recursively, and using separators=(',', ':'); stored value is prefixed sha256:.",
+  "protocol_sha256": "sha256:b84668c11c100309d7f7e3e91112143a3947e13813859565d16e6bf5c139e869",
+  "scope": {
+    "working_directory": "D:/Project cua Dat/VietRAGOps/ROOT/VietRagOps",
+    "interpreter": ".venv/Scripts/python.exe",
+    "pytest_command": ".venv\\Scripts\\python.exe -m pytest -q --basetemp=<external directory>",
+    "no_deployment": true,
+    "no_push": true,
+    "free_models_only": true,
+    "paid_spend_cap_usd": 0.20,
+    "research_lane_frozen": true,
+    "retrieval_fixed": {
+      "top_k": 10,
+      "rrf_k": 60,
+      "dense_backend": "ONNX E5-small int8",
+      "corpus_and_annotations_unchanged": true
+    }
+  },
+  "entry_receipts": {
+    "head": "6124dfed8976c4698541d688147e790d5d507b8d",
+    "origin_main": "6124dfed8976c4698541d688147e790d5d507b8d",
+    "index_empty": true,
+    "pre_existing_overlay_path_count": 25,
+    "env_presence_count_only": {
+      "OPENROUTER_API_KEY": 1,
+      "OPENROUTER_MODEL": 1,
+      "OPENROUTER_MODEL_FALLBACK": 1,
+      "GROQ_API_KEY": 1
+    },
+    "pytest_baseline": {
+      "command": ".venv\\Scripts\\python.exe -m pytest -q --basetemp=C:\\Users\\ADMIN\\AppData\\Local\\Temp\\vietragops-gate16-baseline-8a5d119ca5bd4c2d94109705846df645",
+      "result": "603 passed, 3 warnings",
+      "duration_seconds": 529.06,
+      "external_basetemp": true,
+      "host_warning": "Pytest cache ACL warning is included in the three warnings; no test failed."
+    },
+    "gate15b_observations": {
+      "result_artifact": "gates/results/GATE_15B_RESULT.md",
+      "result_artifact_sha256": "sha256:7c62ce807f637be52b991b8bdc1ba2aef657c6331e39e3dbb560ccf8c9009279",
+      "protocol_artifact": "gates/baselines/GATE_15B_PROTOCOL.json",
+      "protocol_artifact_sha256": "sha256:294703274caa942512012e24df0882993c6bc07a6b1a5a5560f8a43a2099a623",
+      "valid_b4_raw_artifact": "C:/Users/ADMIN/AppData/Local/Temp/vietragops-gate15b-retry-artifacts-20260910/openrouter/raw_responses.jsonl",
+      "valid_b4_raw_sha256": "sha256:6e7a5b8bc26be94dda9f0822e02f17401f3a3df8e7ee97a772617603cbf59e0a",
+      "valid_b4_records_sha256": "sha256:70682ba7a14bb8ba65cd243884f772460205096c4df7f3a28701a2193ec129ab",
+      "raw_generation_requests": 64,
+      "primary_requests": 48,
+      "fallback_requests": 16,
+      "fallback_rate_limited": 16,
+      "embedded_http_502": 2,
+      "gemma_served": 0,
+      "served_nemotron_responses": 46,
+      "unserved_or_error": 18,
+      "max_tokens_wire": "2048 on 64/64 requests",
+      "finish_reason_length": "17/64; all 17 observed completion values were 2048",
+      "source_receipt_lines": "GATE_15B_RESULT.md lines 224-255 and 331-348"
+    },
+    "gate12v_observations": {
+      "result_artifact": "gates/results/GATE_12V_RESULT.md",
+      "raw_artifact": "gates/artifacts/gate12v/openrouter/raw_responses.jsonl",
+      "raw_artifact_sha256": "sha256:1a32f496b08d29e056fad62323d0339ac0723290180a0fea35cc10286659b48a",
+      "raw_generation_requests": 58,
+      "embedded_http_502": 32,
+      "completion_tokens_p95": 5407,
+      "reasoning_tokens_p95": 2382,
+      "max_tokens_present": false,
+      "source_receipt_lines": "GATE_12V_RESULT.md lines 189-202 and 204-219"
+    }
+  },
+  "g1_offline_sizing": {
+    "source_fields": "usage.output_tokens_actual and usage.reasoning_tokens_actual in the two raw JSONL artifacts",
+    "gate12v_openrouter": {
+      "completion_tokens": {"n": 26, "p50": 1151, "p90": 2846, "p95": 5407, "p99": 5456, "max": 5941, "missing": 32},
+      "reasoning_tokens": {"n": 26, "p50": 711, "p90": 1552, "p95": 2382, "p99": 3721, "max": 4552, "missing": 32}
+    },
+    "gate15b_b4_valid": {
+      "completion_tokens": {"n": 46, "p50": 1660, "p90": 2048, "p95": 2048, "p99": 2048, "max": 2048, "missing": 18},
+      "reasoning_tokens": {"n": 46, "p50": 906, "p90": 2161, "p95": 2451, "p99": 2633, "max": 2635, "missing": 18}
+    },
+    "b4_length_completion_values": {"count": 17, "all_equal_to": 2048},
+    "derived_candidate_max_tokens": 8192,
+    "derivation": "8192 is the next power-of-two cap above the Gate 12-V observed completion p95=5407 and max=5941; it leaves 2251 tokens above the prior observed maximum. B4 is censored at 2048 and cannot supply an uncensored maximum. The 262144-token context window makes this cap structurally feasible.",
+    "content_vs_reasoning_observation": "Gate 12-V recorded approximately 84 visible content tokens versus approximately 410 reasoning tokens on a realistic prompt; the output cap is therefore consumed mainly by reasoning rather than answer text."
+  },
+  "g2_reasoning_control": {
+    "documentation_urls": [
+      "https://openrouter.ai/docs/guides/best-practices/reasoning-tokens",
+      "https://openrouter.ai/docs/guides/overview/models",
+      "https://openrouter.ai/docs/api/api-reference/chat/send-chat-completion-request?explorer=true"
+    ],
+    "documented_options_to_record": ["effort: max|xhigh|high|medium|low|minimal|none", "max_tokens: integer reasoning budget", "exclude: boolean", "enabled: boolean"],
+    "implementation_requirement": "OpenRouter client accepts an optional reasoning mapping and environment-backed reasoning configuration; unset configuration sends no reasoning field, so G3—not source preference—selects the carried setting.",
+    "expected_effects_to_measure": ["lower finish_reason=length rate", "lower latency when reasoning is reduced or disabled", "possible correctness loss on multi-step questions", "whether the configured Nemotron endpoint honors, ignores, or rejects the reasoning field"],
+    "configured_primary_catalog_note": "The frozen Gate 11-OR-I catalog recorded Nemotron response_format and structured_outputs support; it did not establish reasoning-parameter support. G3 wire payloads and usage/response behavior are the authorized test of honor/ignore/reject."
+  },
+  "g3_probe": {
+    "sample_size": 8,
+    "sample_source": "The frozen Gate 12-V 40-question sample, selected without reading expected_answer.",
+    "question_ids": [
+      {"question_id": "dev_q003", "category": "email_usage", "difficulty": "easy"},
+      {"question_id": "dev_q006", "category": "academic_schedule", "difficulty": "medium"},
+      {"question_id": "dev_q012", "category": "course_registration", "difficulty": "easy"},
+      {"question_id": "gold_credit_requirement_096", "category": "credit_requirement", "difficulty": "hard"},
+      {"question_id": "gold_curriculum_structure_006", "category": "curriculum_structure", "difficulty": "hard"},
+      {"question_id": "gold_manual_002", "category": "policy_exception", "difficulty": "medium"},
+      {"question_id": "gold_manual_003", "category": "source_conflict", "difficulty": "hard"},
+      {"question_id": "gold_training_regulation_068", "category": "training_regulation", "difficulty": "hard"}
+    ],
+    "configurations": [
+      {"id": "cfg1", "model": "nvidia/nemotron-3-super-120b-a12b:free", "reasoning": null, "max_tokens": 2048},
+      {"id": "cfg2", "model": "nvidia/nemotron-3-super-120b-a12b:free", "reasoning": null, "max_tokens": 8192},
+      {"id": "cfg3", "model": "nvidia/nemotron-3-super-120b-a12b:free", "reasoning": {"effort": "none"}, "max_tokens": 8192},
+      {"id": "cfg4", "model": "google/gemma-4-31b-it:free", "reasoning": null, "max_tokens": 8192}
+    ],
+    "measurements_per_configuration": ["finish_reason distribution", "first-attempt schema validity", "latency p50 and p95", "completion_tokens distribution", "reasoning_tokens distribution", "HTTP status and typed error taxonomy", "hand reading of every answer"],
+    "selection_criteria_frozen_before_probe": {
+      "hard_safety": "Reject a configuration from selection if any request is paid/non-free, the free guard is bypassed, or max_tokens/reasoning wire fields do not match its registered configuration.",
+      "primary_order": [
+        "Prefer finish_reason=length rate <= 0.05; a configuration above 0.05 cannot outrank one at or below 0.05.",
+        "Among the remaining configurations, maximize hand-adjudicated correct answers over the eight answerable probe questions; missing/unserved answers are not correct.",
+        "Prefer fewer provider-availability failures (HTTP/provider errors with no served model); evidence-based refusals remain separate and are not counted as availability failures.",
+        "Maximize first-attempt schema-valid count over provider-attempted rows.",
+        "Minimize end-to-end latency p95, then reasoning-token p95.",
+        "Fixed final tie-break order: cfg3, cfg4, cfg2, cfg1."
+      ],
+      "no_threshold_revision": "The Gate 12-V thresholds remain acceptance thresholds for G5; the G3 ranking only selects a measured configuration and cannot change them.",
+      "availability_caveat": "A small probe does not establish day-stable provider availability; G3 and G5 must report raw 502/429 counts and distinguish availability variance from configuration effects."
+    },
+    "request_budget": {"maximum_generation_requests": 60, "pace": "strictly under 20 requests/minute including retries and fallbacks", "paid_requests": 0},
+    "stop_conditions": ["stop before a 61st generation POST", "stop if the free guard cannot verify a configured slug", "stop on any paid/non-free catalog observation", "stop if daily allowance is insufficient for the registered budget"]
+  },
+  "g4_fallback_policy": {
+    "fallback_eligible_class": "Only upstream provider errors: typed provider_error with HTTP 5xx or an HTTP-200 embedded upstream error such as code=502 and no choices.",
+    "rate_limit_class": "HTTP 429 or an error envelope/headers identifying account rate limiting (Retry-After or X-RateLimit-*); wait according to Retry-After and retry the same model, never switch models because of this class.",
+    "other_typed_failures": "Timeout, network, authentication, invalid request, finish_reason=length, and malformed response do not trigger model fallback.",
+    "global_governor": "One process-global governor counts every generation POST, including primary, fallback, and same-model retry, at a minimum interval that remains strictly under 20 RPM.",
+    "daily_ledger": "Every dispatched generation POST increments the daily ledger regardless of HTTP status or response outcome.",
+    "offline_tests": ["exact HTTP-200 embedded 502 fires fallback", "HTTP 429 with Retry-After does not fire fallback and retries the same model", "governor count includes fallback and retry", "non-free fallback slug is refused before transport"],
+    "existing_test_gap": "Existing tests exercised the fallback mechanism and a retry-after retry, but did not assert the policy boundary separating account rate limits from upstream provider errors."
+  },
+  "g5_rerun": {
+    "protocol_requirement": "A fresh committed protocol is required immediately before the first G5 generation POST and must carry the G3-selected configuration, G4 policy, unchanged thresholds, and the exact Gate 12-V sample hash.",
+    "sample": "Reuse Gate 12-V frozen 40-question sample exactly; no rescoring of prior gates.",
+    "request_budget": {"maximum_generation_requests": 140, "gate16_total_maximum": 200, "pace": "strictly under 20 requests/minute including retries and fallbacks", "paid_requests": 0},
+    "scoring_columns": ["frozen token_f1 >= 0.45", "Gate 15-B0 corrected metric", "hand adjudication for every answerable row"],
+    "unchanged_thresholds": {"first_attempt_schema": 0.90, "grounding_precision": 0.90, "grounding_recall": 0.75, "frozen_answer_correctness": 0.70, "hand_answer_correctness": 0.70, "latency_p95_ms": 30000, "finish_reason_length_rate": 0.05},
+    "required_headlines": ["finish_reason=length vs B4 17/64", "latency p50/p95 vs B4 122820ms p95", "fallback issued/rate-limited/served models vs B4 16/16/0 Gemma", "refusal causes", "max_tokens presence and value on every request", "raw 502 and 429 counts"]
+  },
+  "g6_boundaries": {
+    "deployment_blocker": "RISK-0026 remains open: owner approval is required for least-privilege roles/iam.serviceAccountTokenCreator on vietragops-web-runtime@vietragops-evolve-20260831.iam.gserviceaccount.com.",
+    "unmeasured": ["multi-turn", "concurrency", "cloud mode", "MCP", "agent path", "authenticated API access", "88-to-110 retrieval ranking gap", "exhaustiveness of relevant_chunk_ids"]
+  },
+  "frozen_artifact_boundaries": {
+    "read_only": ["research/", "evals/datasets/golden_qa.jsonl", "data/raw/", "data/manifests/", "data/chunks/"],
+    "secret_policy": "Count-only .env presence; never print, log, store, or commit secret values.",
+    "git_policy": "Explicit filenames only; never stage the 25 overlay paths; no reset/stash/clean/checkout/restore/amend/rebase/force-push/push."
+  }
+}
