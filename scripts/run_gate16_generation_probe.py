@@ -127,6 +127,7 @@ def _usage_from_summary(summary: dict[str, Any]) -> dict[str, int] | None:
 def _run_configuration(
     config: dict[str, Any],
     *,
+    question_spec: list[tuple[str, str, str]],
     qa_by_id: dict[str, dict[str, Any]],
     store: ChunkIndexStore,
     output_dir: Path,
@@ -195,7 +196,7 @@ def _run_configuration(
     module.request.urlopen = recording_urlopen
     answers: list[dict[str, Any]] = []
     try:
-        for question_id, category, difficulty in FROZEN_PROBE:
+        for question_id, category, difficulty in question_spec:
             call_state["question_id"] = question_id
             row = qa_by_id[question_id]
             started = time.perf_counter()
@@ -220,7 +221,7 @@ def _run_configuration(
             total_count = call_state["generation_requests_used"]
             print(f"config={config['id']} question={question_id} generation_requests={post_count} total_generation_requests={total_count}", flush=True)
             if total_count >= call_state["generation_budget_limit"]:
-                raise RuntimeError("Gate 16 G3 hard stop reached before a 61st generation POST.")
+                raise RuntimeError("Gate 16 generation hard stop reached before the next POST.")
     finally:
         module.request.urlopen = original_urlopen
 
@@ -270,7 +271,7 @@ def _run_configuration(
     payload = {
         "configuration": config,
         "fallback_model": fallback_model,
-        "question_ids": [question_id for question_id, _, _ in FROZEN_PROBE],
+        "question_ids": [question_id for question_id, _, _ in question_spec],
         "request_count": len(posts),
         "raw_call_count_including_catalog_gets": len(raw_calls),
         "finish_reason": dict(finish),
@@ -296,6 +297,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--chunks", default="data/chunks/chunks_500.jsonl")
     parser.add_argument("--output-dir", required=True)
     parser.add_argument("--already-consumed", type=int, default=0)
+    parser.add_argument("--max-generation-requests", type=int, default=60)
+    parser.add_argument("--mode", choices=["g3", "g5"], default="g3")
     return parser.parse_args()
 
 
@@ -308,29 +311,50 @@ def main() -> None:
         row["question_id"]: row
         for row in (json.loads(line) for line in Path(args.qa).read_text(encoding="utf-8").splitlines() if line.strip())
     }
-    missing = [question_id for question_id, _, _ in FROZEN_PROBE if question_id not in qa_by_id]
+    if args.mode == "g3":
+        question_spec = FROZEN_PROBE
+    else:
+        frozen_protocol = json.loads(
+            Path("gates/baselines/GATE_12V_PROTOCOL.json").read_text(encoding="utf-8")
+        )
+        question_spec = [
+            (question_id, qa_by_id[question_id]["category"], qa_by_id[question_id]["difficulty"])
+            for question_id in frozen_protocol["sample"]["question_ids"]
+        ]
+    missing = [question_id for question_id, _, _ in question_spec if question_id not in qa_by_id]
     if missing:
         raise SystemExit(f"Missing frozen probe IDs: {missing}")
     store = ChunkIndexStore.from_jsonl(args.chunks)
     call_state: dict[str, Any] = {
         "question_id": None,
         "generation_requests_used": args.already_consumed,
-        "generation_budget_limit": 60,
+        "generation_budget_limit": args.already_consumed + args.max_generation_requests,
     }
-    configs = [
-        {"id": "cfg1", "model": PRIMARY, "reasoning": None, "max_tokens": 2048},
-        {"id": "cfg2", "model": PRIMARY, "reasoning": None, "max_tokens": 8192},
-        {"id": "cfg3", "model": PRIMARY, "reasoning": {"effort": "none"}, "max_tokens": 8192},
-        {"id": "cfg4", "model": GEMMA, "reasoning": None, "max_tokens": 8192},
-    ]
+    configs = (
+        [
+            {"id": "cfg1", "model": PRIMARY, "reasoning": None, "max_tokens": 2048},
+            {"id": "cfg2", "model": PRIMARY, "reasoning": None, "max_tokens": 8192},
+            {"id": "cfg3", "model": PRIMARY, "reasoning": {"effort": "none"}, "max_tokens": 8192},
+            {"id": "cfg4", "model": GEMMA, "reasoning": None, "max_tokens": 8192},
+        ]
+        if args.mode == "g3"
+        else [{"id": "cfg3", "model": PRIMARY, "reasoning": {"effort": "none"}, "max_tokens": 8192}]
+    )
     for config in configs:
         os.environ.pop("OPENROUTER_REASONING_EFFORT", None)
         os.environ.pop("OPENROUTER_REASONING_MAX_TOKENS", None)
         os.environ.pop("OPENROUTER_REASONING_EXCLUDE", None)
         os.environ.pop("OPENROUTER_REASONING_ENABLED", None)
         # The explicit constructor value is the registered probe configuration.
-        _run_configuration(config, qa_by_id=qa_by_id, store=store, output_dir=output_dir, call_state=call_state)
-    print(json.dumps({"output_dir": str(output_dir), "configurations": ["cfg1", "cfg2", "cfg3", "cfg4"]}))
+        _run_configuration(
+            config,
+            question_spec=question_spec,
+            qa_by_id=qa_by_id,
+            store=store,
+            output_dir=output_dir,
+            call_state=call_state,
+        )
+    print(json.dumps({"output_dir": str(output_dir), "configurations": [config["id"] for config in configs], "mode": args.mode}))
 
 
 if __name__ == "__main__":
