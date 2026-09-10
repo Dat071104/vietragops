@@ -441,6 +441,11 @@ class _CapturedResponse:
             self._call["parsed_body"] = json.loads(raw)
         except (TypeError, ValueError, json.JSONDecodeError):
             self._call["parsed_body"] = None
+        finished = time.perf_counter()
+        self._call["finished_at_utc"] = _utc_now()
+        started = self._call.get("_started_monotonic")
+        if isinstance(started, (int, float)):
+            self._call["latency_ms"] = round((finished - started) * 1000, 3)
         return body
 
 
@@ -530,6 +535,7 @@ class LiveRecorder:
             except (TypeError, ValueError, json.JSONDecodeError):
                 call["parsed_body"] = None
             call["latency_ms"] = round((time.perf_counter() - started) * 1000, 3)
+            call["finished_at_utc"] = _utc_now()
             self.calls.append(call)
             exc.fp = io.BytesIO(body if isinstance(body, bytes) else str(body).encode("utf-8"))
             raise
@@ -537,6 +543,7 @@ class LiveRecorder:
             call["error_type"] = type(exc).__name__
             call["error_text"] = _redact(exc)
             call["latency_ms"] = round((time.perf_counter() - started) * 1000, 3)
+            call["finished_at_utc"] = _utc_now()
             self.calls.append(call)
             raise
         call["http_status"] = getattr(response, "status", None)
@@ -546,6 +553,7 @@ class LiveRecorder:
             if str(key).casefold() in {"retry-after", "x-ratelimit-limit", "x-ratelimit-remaining", "x-ratelimit-reset"}
         }
         call["_started_monotonic"] = started
+        call["started_at_utc"] = call.get("started_at_utc") or _utc_now()
         self.calls.append(call)
         return _CapturedResponse(response, self, call)
 
@@ -631,6 +639,8 @@ def _call_summary(call: dict[str, Any], *, typed_error_kind: str | None) -> dict
     served_provider = body.get("provider") if isinstance(body, dict) and isinstance(body.get("provider"), str) else None
     return {
         "call_index": call.get("call_index"),
+        "started_at_utc": call.get("started_at_utc"),
+        "finished_at_utc": call.get("finished_at_utc"),
         "http_status": call.get("http_status"),
         "latency_ms": call.get("latency_ms"),
         "finish_reason": choice.get("finish_reason") if isinstance(choice, dict) else None,
@@ -698,6 +708,7 @@ def _run_provider(
     os.environ["GROQ_MAX_RETRIES"] = str(PROVIDER_TRANSPORT_RETRIES)
     os.environ["OPENROUTER_MAX_RETRIES"] = str(PROVIDER_TRANSPORT_RETRIES)
     os.environ["OPENROUTER_ALLOW_PAID_MODELS"] = "false"
+    os.environ["RAG_MAX_OUTPUT_TOKENS"] = str(protocol["provider_configuration"]["max_output_tokens"])
     routes_query = _clear_product_caches()
     from app.core.config import get_provider_router
     from app.schemas.query import AskRequest
