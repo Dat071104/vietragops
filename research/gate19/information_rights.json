@@ -1,0 +1,124 @@
+{
+  "schema": "gate19.information_rights.v1",
+  "source": "_agent_ops/RESEARCH_PLAN_PAPER.md#6.1",
+  "setting": "pre-execution cross-version tool alignment",
+  "comparison": [
+    {
+      "method": "static",
+      "old_schema": true,
+      "old_trace": false,
+      "new_schema": true,
+      "migration_map": false,
+      "probe_new_api": false
+    },
+    {
+      "method": "direct_llm",
+      "old_schema": true,
+      "old_trace": "optional",
+      "new_schema": true,
+      "migration_map": false,
+      "probe_new_api": false
+    },
+    {
+      "method": "tool_evo",
+      "old_schema": "stale",
+      "old_trace": null,
+      "new_schema": "via interaction",
+      "migration_map": false,
+      "probe_new_api": true
+    },
+    {
+      "method": "ieee_normalization",
+      "old_schema": null,
+      "old_trace": "controller memory",
+      "new_schema": null,
+      "migration_map": "known manifest",
+      "probe_new_api": "at execution"
+    },
+    {
+      "method": "ours",
+      "old_schema": true,
+      "old_trace": true,
+      "new_schema": true,
+      "migration_map": false,
+      "probe_new_api": false
+    },
+    {
+      "method": "oracle",
+      "old_schema": true,
+      "old_trace": true,
+      "new_schema": true,
+      "migration_map": true,
+      "probe_new_api": false
+    }
+  ],
+  "ours_declared_artifacts": [
+    {
+      "id": "old_schema",
+      "artifact": "method-facing old tool contracts",
+      "fields": [
+        "tool name",
+        "description",
+        "input schema",
+        "declared input fields",
+        "declared field types and descriptions",
+        "declared preconditions and effects"
+      ]
+    },
+    {
+      "id": "old_trace",
+      "artifact": "verified old-version traces",
+      "fields": [
+        "visible old tool calls",
+        "visible old argument names and values",
+        "visible outputs and effects included in the trace"
+      ]
+    },
+    {
+      "id": "new_schema",
+      "artifact": "method-facing new tool inventory and contracts",
+      "fields": [
+        "candidate tool names",
+        "descriptions",
+        "input schemas",
+        "declared input fields",
+        "declared field types and descriptions",
+        "declared preconditions and effects"
+      ]
+    },
+    {
+      "id": "task_context",
+      "artifact": "method-facing task description",
+      "fields": [
+        "task prose",
+        "old tool identity supplied in the task",
+        "candidate inventory supplied in the task"
+      ]
+    }
+  ],
+  "excluded_artifacts": [
+    "evaluator-only ground truth",
+    "sandbox source and internal operations code",
+    "migration map",
+    "new-version reference trajectory",
+    "post-call execution feedback",
+    "candidate-order oracle",
+    "scoring code",
+    "hidden repair annotations"
+  ],
+  "observable_derivation_rules": [
+    {
+      "id": "identity",
+      "rule": "A target equal to a visible old argument value is derivable."
+    },
+    {
+      "id": "visible_split",
+      "rule": "A target that is an explicit prefix or suffix of a visible source value split by a delimiter present in that source value is derivable from the observed value."
+    },
+    {
+      "id": "declared_external_derivation",
+      "rule": "For external pairs, a hand-verified annotation may mark a derivation observable only when its inputs and construction rule are present in the declared source surface."
+    }
+  ],
+  "fail_closed_rule": "If a target is not a declared field, or if a required construction convention is not evidenced by the declared surface, classify it as unreachable rather than infer a likely convention."
+}
