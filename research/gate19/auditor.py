@@ -139,6 +139,14 @@ def classify_item(item: dict[str, Any], rights: dict[str, Any]) -> dict[str, Any
             "derivation": {"kind": "identity"},
         }
 
+    if isinstance(target_value, str) and target_value and target_value in visible_text:
+        return {
+            **base,
+            "status": REACHABLE,
+            "reason": "target literal is present in the method-visible surface",
+            "derivation": {"kind": "visible_literal"},
+        }
+
     hidden_join = _find_hidden_join(target_text, source_values, visible_text)
     if hidden_join is not None:
         return {
@@ -267,6 +275,65 @@ def build_gate07_items() -> list[dict[str, Any]]:
     return items
 
 
+def build_gate07_required_field_items() -> list[dict[str, Any]]:
+    """Build required-field target items not represented by old-to-new pairs."""
+
+    from research.gate0.evaluator.capability import EvaluatorCapability
+    from research.gate07.dataset.generator import build_v4_cases
+    from research.gate07.harness.serialization import task_record
+    from research.gate07.oracle.ground_truth import all_ground_truth
+
+    cases = {case.case_id: case for case in build_v4_cases() if not case.held_out}
+    capability = EvaluatorCapability()
+    truth_by_id = {
+        truth.case_id: truth for truth in all_ground_truth(capability, graded_only=True) if truth.case_id in cases
+    }
+    items: list[dict[str, Any]] = []
+    for case_id, case in sorted(cases.items()):
+        truth = truth_by_id[case_id]
+        task = task_record(case)
+        contracts = {contract["name"]: contract for contract in task["new_contracts"]}
+        fields = {
+            name: sorted((contract.get("input_schema") or {}).get("properties", {}))
+            for name, contract in contracts.items()
+        }
+        correct_inputs = dict(zip(truth.correct_new_tool_names, case.new_inputs))
+        mapped_by_tool: dict[str, set[str]] = defaultdict(set)
+        for _old_tool, _old_arg, new_tool, new_arg in truth.argument_pairs:
+            mapped_by_tool[new_tool].add(new_arg)
+        all_old_values = [value for mapping in case.old_inputs for value in mapping.values()]
+        visible_text = [json.dumps(task, ensure_ascii=True, sort_keys=True, separators=(",", ":"))]
+        for new_tool in truth.correct_new_tool_names:
+            required = (contracts[new_tool].get("input_schema") or {}).get("required", [])
+            for field in required:
+                if field in mapped_by_tool[new_tool]:
+                    continue
+                items.append(
+                    {
+                        "item_id": f"{case_id}#required_field_{new_tool}.{field}",
+                        "item_type": "required_field_value",
+                        "case_id": case_id,
+                        "family": truth.family,
+                        "old_tool": None,
+                        "old_arg": None,
+                        "old_value": None,
+                        "new_tool": new_tool,
+                        "new_arg": field,
+                        "target_value": correct_inputs.get(new_tool, {}).get(field),
+                        "source_values": all_old_values,
+                        "visible_source_values": all_old_values,
+                        "visible_text": visible_text,
+                        "new_contract_fields": fields,
+                        "frozen_source": {
+                            "ground_truth": "research/gate07/oracle/ground_truth.py",
+                            "method_surface": "research/gate07/harness/method_facing.py",
+                            "case_source": "research/gate07/dataset/generator.py::build_v4_cases",
+                        },
+                    }
+                )
+    return items
+
+
 def _load_json(path: str | Path) -> Any:
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
@@ -276,9 +343,20 @@ def main() -> int:
     parser.add_argument("--rights", required=True, help="Machine-readable rights declaration JSON")
     parser.add_argument("--input", help="JSON array of auditor items; omit to build frozen Gate 07 items")
     parser.add_argument("--output", required=True, help="Output JSON path")
+    parser.add_argument(
+        "--item-kind",
+        choices=("argument_pairs", "required_fields"),
+        default="argument_pairs",
+        help="Frozen input register to build when --input is omitted",
+    )
     args = parser.parse_args()
     rights = _load_json(args.rights)
-    items = _load_json(args.input) if args.input else build_gate07_items()
+    if args.input:
+        items = _load_json(args.input)
+    elif args.item_kind == "required_fields":
+        items = build_gate07_required_field_items()
+    else:
+        items = build_gate07_items()
     if not isinstance(items, list):
         raise SystemExit("input must be a JSON array")
     result = audit_items(items, rights)

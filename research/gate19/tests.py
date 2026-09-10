@@ -12,6 +12,7 @@ from research.gate19.auditor import (
     TARGET_ABSENT,
     audit_items,
     build_gate07_items,
+    build_gate07_required_field_items,
 )
 
 
@@ -67,3 +68,10 @@ def test_frozen_gate07_reproduction_counts() -> None:
     assert replacement["case_count"] == 15
     assert split["pairs"] == 40
     assert split["unreachable_pairs"] == 0
+
+
+def test_required_field_scan_is_separate_and_finds_hidden_ack_defaults() -> None:
+    result = audit_items(build_gate07_required_field_items(), {"schema": "gate19.information_rights.v1"})
+    assert result["item_count"] == 45
+    assert result["families"]["added_required_field"]["unreachable_pairs"] == 15
+    assert result["families"]["tool_replacement"]["unreachable_pairs"] == 5
