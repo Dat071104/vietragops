@@ -3817,3 +3817,46 @@ RISK-0026 first and preserve the frozen provider-pinned research lane.
 - No corpus, manifest, golden set, secret, IAM, scaling, quota, budget, billing,
   or research artifact was changed. No push occurred; the owner must push
   explicitly if desired.
+
+## 2026-09-11 — Gate 19 oracle reachability, additive exclusion, diagnostic probe, and external evidence
+
+- Entry O0 reverified HEAD/origin at `bfdbb60a6bed118d058712ccc63471c16c16ecd2`,
+  exactly 25 pre-existing overlay paths, empty index, and the full suite at
+  `612 passed, 2 warnings` in `497.84s` with the `.venv` interpreter and an
+  external basetemp. The latest repository OpenRouter receipt remained the
+  Gate 18-R observation of `4/1000` used and `996` remaining for its observed
+  UTC day; Gate 19 did not claim a fresh provider-account balance.
+- Frozen protocol `gates/baselines/GATE_19_PROTOCOL.json` was committed before
+  Gate 19 analysis. The machine-readable rights declaration and reusable
+  `research/gate19/auditor.py` were added with six explicit offline tests.
+- The auditor independently reproduced `tool_replacement=10/35`
+  `UNREACHABLE-TARGET-ABSENT`, five of 15 graded cases requiring `::` (10 pair
+  records classified `UNREACHABLE-CONVENTION-UNOBSERVABLE`), and
+  `argument_split=0/40`. It also found the same hidden `::` convention in
+  `argument_merge` (`30/30` pair records across 15/15 cases) and a separate
+  required-field scan with 15 boolean acknowledgement defaults and five
+  credential approval literals not explicitly declared in the method surface.
+- Additive oracle V1 retains 15 reachable `tool_replacement` pair items; its
+  manifest records all 35 original items and excludes 20 unreachable items.
+  No Gate 07 or Gate 08 artifact was edited, moved, regenerated, rescored, or
+  overwritten, and no Gate 07/08 number was restated on the repaired set.
+- Frozen V4/V4.1 extraction covered 85 effective baseline rows for the five
+  hidden-join cases: zero literal `::`, three different-separator constructions,
+  and 82 no-join rows. The raw extraction is preserved separately because it
+  does not match the Gate 08 prose claim that some baselines guessed `::`.
+- The bounded diagnostic probe used one catalog-qualified free Nemotron slug,
+  no fallback, 3.2-second pacing, and exactly 60 generation requests. All
+  60 stayed on the free slug; 57 JSON successes and 3 provider failures were
+  recorded. `::` emission was `0/28` valid JSON in the hidden-`::` stratum and
+  `0/29` in the arbitrary-separator stratum, so the sample is inconclusive for
+  convention prior and remains diagnostic-only.
+- Path A reviewed MCPEvol-Bench and DynamicMCPBench public releases. The
+  obtained task/trace registers were not old/new contract-pair registers, so
+  the Gate 19 auditor was not applied to them. Path B hand-verified 20
+  `modelcontextprotocol/servers` commit-parent pairs; all 20 were reachable and
+  none was unreachable. External validation of the local defect is therefore
+  not established; the supported paper tier is a single-system case study with
+  a reusable criterion.
+- Frozen-input hash manifest `GATE_19_FROZEN_SOURCE_HASHES.json` covers 134
+  Gate 07/Gate 08 protocol, result, raw-artifact, and code-surface files.
+  Closure re-verification returned `UNCHANGED=134`, `CHANGED=0`, `MISSING=0`.

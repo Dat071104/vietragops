@@ -359,7 +359,7 @@ intervals are wide; RISK-0020 through RISK-0023 as stated in §4.
 | Gate | Purpose | Status |
 |---|---|---|
 | **Gate 18** | Close RISK-0026, deploy the repaired product lane | approved, next |
-| **Gate 19** | Oracle repair (RISK-0021/0022) + reachability audit of a public benchmark (§6.2) + guess-rate measurement (§6.3) | **not yet authorized — this is what decides the paper's tier** |
+| **Gate 19** | Oracle repair (RISK-0021/0022) + reachability audit of a public benchmark (§6.2) + guess-rate measurement (§6.3) | **complete — single-system case-study tier; external validation not established** |
 | **Gate 20** | Hostile baseline campaign B0–B7 under the repaired oracle and a frozen protocol | not yet authorized |
 | **Gate 10** | Freeze, write, submit | blocked |
 
@@ -368,3 +368,34 @@ It is Gate 19: repair the oracle, audit an external benchmark with the
 reachability criterion, and quantify the unobservable-convention guess rate. That
 result determines whether this is an 8/10 algorithmic paper or a 6/10 measurement
 preprint — and either is publishable if reported honestly.
+
+### Gate 19 outcome (2026-09-11)
+
+Gate 19 delivered the reusable reachability criterion and auditor. On the
+frozen V4/V4.1 surface it reproduced `10/35` target-absent
+`tool_replacement` pairs, five of 15 graded cases requiring an unobservable
+`::` join, and `0/40` unreachable `argument_split` pairs. It also found the
+same hidden join in `argument_merge` and separate unadvertised required-field
+literal/default risks. The additive V1 oracle retains only 15 reachable
+`tool_replacement` argument-pair items and excludes 20 with a per-item
+manifest; no Gate 07 or Gate 08 metric was rescored.
+
+The frozen baseline extraction found no literal `::` construction in 85
+effective prediction rows for the five affected cases. The separately
+authorized 60-request free-only diagnostic probe also emitted `::` at rate
+`0` in both hidden strata, with three provider failures; this is diagnostic and
+inconclusive, not evidence of contamination or a convention prior.
+
+Path A confirmed public MCPEvol-Bench and DynamicMCPBench releases, but the
+obtained records were not old/new contract-pair registers compatible with the
+auditor. Path B supplied 20 hand-verified real MCP version pairs; all 20 were
+reachable and none was unreachable. External validation of the local defect is
+therefore **not established**. The evidence supports **Case Study B / tier (b):
+a single-system case study with a reusable criterion**, not a field-level
+measurement contribution and not an algorithmic paper.
+
+Gate 20 remains unauthorized. If it is later authorized, it must freeze a new
+protocol over the additive V1 oracle, keep excluded target/convention/default
+items out of scoring or explicitly type their missingness, and preserve the
+original Gate 07/08 numbers as historical. Gate 10 remains blocked; no paper
+prose is authorized by Gate 19.

@@ -1849,3 +1849,53 @@ retrieval or generation tuning, scaling changes, IAM/Secret Manager changes,
 quota/budget/billing changes, or a push. Keying vectors by `chunk_id` instead
 of positional array remains a future recommendation recorded in RISK-0044,
 not an implementation in this deployment gate.
+
+## DEC-0046 — Adopt oracle reachability under declared information rights and exclude unreachable Gate 19 targets
+
+**Date:** 2026-09-11
+**Status:** ADOPTED — Gate 19
+**Gate:** 19
+
+### Decision
+
+Adopt the following criterion for agent-migration benchmarks:
+
+> Given declared information rights `R`, a ground-truth target is
+> **REACHABLE** if and only if the target value and every construction step are
+> derivable from `R` alone. A target that is not derivable is an
+> **UNREACHABLE ORACLE** and must be repaired or excluded before scoring.
+
+The Gate 19 `tool_replacement` repair policy is fail-closed and additive:
+
+- retain a pair only when its target field and value construction are reachable;
+- exclude target-absent pairs rather than inventing a new field;
+- exclude convention-unobservable pairs rather than guessing or silently
+  registering a separator, format, default, unit, or ordering;
+- account for exclusions in a new dataset and per-item manifest; never rewrite
+  Gate 07 or Gate 08 artifacts or restate their metrics in this gate.
+
+### Evidence
+
+The committed auditor independently reproduced `10/35` target-absent
+`tool_replacement` pairs, `10` convention-affected pair records in five of 15
+graded cases, and `0/40` unreachable `argument_split` pairs. The additive
+`GATE_19_TOOL_REPLACEMENT_ORACLE_V1` retains 15 reachable pair items and the
+manifest records all 35 original items and actions. The same hidden `::`
+convention affects `argument_merge` (`30/30` pair records across 15/15 cases),
+and a separate required-field audit exposes additional implicit literal/default
+requirements without mixing them into the 35-pair headline denominator.
+
+The five frozen `tool_replacement` convention cases are also a raw-artifact
+integrity warning: 85 effective V4/V4.1 prediction rows contain zero literal
+`::` constructions, three different-separator constructions, and 82 no-join
+outputs. The Gate 19 result records this discrepancy against the Gate 08 prose
+without inventing a reconciliation.
+
+### Boundary
+
+The 60-request free-only probe is diagnostic only; it is not a Gate 07/Gate 08
+result and did not establish a convention prior. Public benchmark review did
+not produce an audit-compatible per-item old/new oracle; a hand-verified sample
+of 20 real MCP version pairs produced `20 reachable / 0 unreachable`, so
+external validation of the local defect is **not established**. Gate 20 remains
+unauthorized and Gate 10 remains blocked.
