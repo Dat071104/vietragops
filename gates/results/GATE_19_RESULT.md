@@ -11,7 +11,7 @@ the local oracle. Gate 20 remains unauthorized; Gate 10 remains blocked.
 ## O0 — Entry, freeze, and integrity
 
 - Entry `HEAD` and `origin/main`: `bfdbb60a6bed118d058712ccc63471c16c16ecd2`.
-- Final local `HEAD`: `36130151724e715052fcbc9079a696a7e95ca648`. No push occurred; `origin/main`
+- Final local `HEAD`: `6253faa1367d0bf543739de31f4ebb33a416413d`. No push occurred; `origin/main`
   remains `bfdbb60a6bed118d058712ccc63471c16c16ecd2`.
 - Entry overlay: exactly 25 pre-existing paths; index empty. No overlay path
   was staged by Gate 19.
