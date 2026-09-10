@@ -1777,3 +1777,29 @@ open pending the owner's least-privilege IAM decision.
 
 This decision does not authorize provider calls, threshold revision, source or
 dataset edits, deployment, IAM mutation, or a full all-36 corrected rescore.
+
+## DEC-0044 — Bake dense artifacts into the image, reject stale vector space
+
+**Date:** 2026-09-10
+**Status:** ADOPTED — Gate 18 NO-GO
+**Gate:** 18
+
+### Decision
+
+Bake the validated ONNX query encoder and corpus vectors into the API image
+using a clean external build context. Do not promote the candidate until the
+artifact is regenerated against the exact active GCS release and the deployed
+/health surface reports the ONNX dense backend as active.
+
+### Evidence
+
+The new image was built successfully and the OpenRouter candidate revision was
+Ready at 0% traffic. The vector-space guard then rejected the persisted
+artifact because its chunk-ID order represented 695 rows while the active GCS
+release contained 698 chunks. The raw health state was
+rrf(offline_bm25+sparse_semantic_fallback) with a typed
+VectorSpaceMismatchError; this is the required loud degradation behavior.
+
+Promotion was refused and traffic was restored to
+vietragops-api-00009-w5j. A future re-embedding/redeployment requires a
+separate approved artifact-generation step.

@@ -3701,3 +3701,25 @@ RISK-0026 first and preserve the frozen provider-pinned research lane.
   not deployment authorization. RISK-0026 remains open for the owner's
   least-privilege IAM decision. Gate 16 and Gate 12-V findings remain preserved
   with addenda rather than rewritten.
+
+## 2026-09-10 — Gate 18 deployment attempt and fail-closed rollback
+
+- Froze and committed GATE_18_PROTOCOL.json before GCP mutation. The baseline
+  suite was 607 passed, 3 warnings with an external basetemp; the 25-path
+  overlay and empty index were preserved.
+- Applied the approved web-runtime TokenCreator binding and the secret-level
+  accessor binding required to bind OPENROUTER_API_KEY to the API runtime.
+  Secret version metadata was checked without reading its value.
+- Built API digest
+  sha256:5a7cfaa2cfd8951678a5941d29310e2525620b05440ff202dc45ded269dc1ce3
+  from a clean context containing six active embedding files. Registry image
+  size grew from 445213143 to 646295489 bytes.
+- Candidate tag verification proved OpenRouter Nemotron free generation,
+  citations, refusal behavior, and stateless MCP Origin enforcement. The
+  candidate /health then reported
+  VectorSpaceMismatchError: persisted chunk ID order does not match the active
+  chunk store because the baked artifact represented 695 chunks while the
+  active GCS release contained 698.
+- Gate 18 is NO-GO. No promotion occurred; traffic was restored to
+  vietragops-api-00009-w5j at 100%. DEC-0044 and RISK-0043 record the
+  artifact-delivery decision and required re-embedding boundary.

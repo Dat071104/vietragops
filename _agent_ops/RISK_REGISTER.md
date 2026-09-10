@@ -80,6 +80,12 @@ wording above.
 | RISK-0040 | The Gate 16 G5 grounding audit measured the annotation gap directly on 26 hand-correct answers: 47 unique cited IDs were counted per-row, 32 were absent from `relevant_chunk_ids`, 31 of those 32 supported the answer text, and 1 was a genuine grounding failure. Twenty of 26 correct answers had at least one supporting citation omitted from the annotation. On the audited surface, corrected precision is `46/47` and corrected recall is `46/58`; the original all-36 `15/51` and `15/37` values remain historical annotation-bound measurements. | Keep golden fields unchanged. Treat annotation-bound retrieval/grounding values as conservative lower bounds, retain hand-audited support as the current measurement reference, and require a separately frozen full-sample exhaustiveness audit before claiming an all-36 corrected rate. Open. |
 | RISK-0039 | Gate 17 confirms that Gate 15-B0's corrected numeric/prefix recipe was only a diagnostic correction: Gate 16 mean F1 moved `0.353517 -> 0.353705`, but binary correctness stayed `13/36`; disagreement with hand labels is `15/36`, including one false positive. | Keep hand adjudication as the corpus reference; automated F1/containment remain diagnostic until a semantic metric is separately validated. Open. |
 
+## Gate 18 updates (2026-09-10)
+
+| Risk ID | Severity | Likelihood | Area | Description | Mitigation | Status |
+| --- | --- | --- | --- | --- | --- | --- |
+| RISK-0043 | High | High | Deployment artifact integrity | Gate 18 baked an ONNX/vector artifact for 695 chunk IDs into the image, while the active GCS release contained 698 chunks. The vector-space contract correctly rejected the mismatch and degraded the candidate to sparse_semantic_fallback; promoting it would silently lose the Gate 14-R dense retrieval benefit. | Re-embed the exact active GCS release, persist and verify release ID, model identity, dimension, normalization, chunk order, and hashes, then repeat the 0%-traffic proof. Do not promote the current image. | Open (Gate 18 NO-GO) |
+
 ## Web Import Scope Correction (Gate 03)
 
 RISK-0010's mitigation ("keep localhost-only and configuration-validated")
