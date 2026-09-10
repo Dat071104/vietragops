@@ -1,0 +1,194 @@
+{
+  "schema": "vietragops.gate18r.protocol.v1",
+  "gate": "18-R",
+  "title": "Corpus reconciliation, build-time guard, and deployment retry",
+  "created_utc": "2026-09-10T16:32:30.0118684Z",
+  "protocol_sha256_definition": "SHA-256 of canonical UTF-8 JSON after omitting protocol_sha256, recursively sorting keys, and using separators=(',', ':'). The stored value is prefixed sha256:.",
+  "protocol_sha256": "sha256:edf957a3f970342317afe6b3c679467461ae85282aa512f86415f1b845ddf961",
+  "working_directory": "D:\\Project cua Dat\\VietRAGOps\\ROOT\\VietRagOps",
+  "interpreter": ".venv\\Scripts\\python.exe",
+  "entry": {
+    "head": "c337120cabc86011a75a1c857483b15d73462a1c",
+    "origin_main": "c337120cabc86011a75a1c857483b15d73462a1c",
+    "branch": "main",
+    "overlay_paths": 25,
+    "index_paths": 0,
+    "suite": {
+      "command": ".venv\\Scripts\\python.exe -B -m pytest -q --basetemp D:\\Research\\vietragops_gate18r_r0_20260910_01",
+      "passed": 607,
+      "warnings": 2,
+      "wall_clock_seconds": 542.48,
+      "warning_names": [
+        "websockets.legacy deprecation",
+        "websockets.server.WebSocketServerProtocol deprecation"
+      ],
+      "prior_reference": "Gate 18 reported 607 passed, 3 warnings; its third warning was the host pytest-cache ACL warning, which did not recur in this invocation.",
+      "reconciliation": "Observed test count is unchanged at 607. The observed warning count is recorded as 2; no unobserved warning is added."
+    }
+  },
+  "boundaries": {
+    "approved_gcp_mutations": [
+      "read the active GCS corpus release",
+      "build and deploy Cloud Run revisions",
+      "Cloud Run traffic splits"
+    ],
+    "forbidden_gcp_mutations": [
+      "quotas",
+      "budgets",
+      "scaling",
+      "new services",
+      "billing exports",
+      "IAM changes",
+      "Secret Manager writes or edits"
+    ],
+    "forbidden_repository_mutations": [
+      "corpus content",
+      "manifest",
+      "evals/datasets/golden_qa.jsonl",
+      "expected_answer",
+      "relevant_chunk_ids",
+      "retrieval or generation configuration outside this gate",
+      "the 25 pre-existing overlay paths",
+      "push, reset, stash, clean, amend, rebase, or force-push"
+    ],
+    "scaling_invariant": {
+      "minScale": 0,
+      "maxScale": 2,
+      "containerConcurrency": 1,
+      "action": "Do not change scaling or concurrency. Record the exact live observations, including the API's existing maxScale=1 and the web's maxScale=2."
+    },
+    "provider_policy": {
+      "free_models_only": true,
+      "paid_spend_target": 0,
+      "primary": "nvidia/nemotron-3-super-120b-a12b:free",
+      "fallback": "google/gemma-4-31b-it:free",
+      "daily_ceiling": 1000,
+      "reasoning": {"effort": "none"},
+      "max_tokens": 8192
+    },
+    "secret_policy": "Never read, print, echo, log, store, or commit a secret value. Secret bindings may be recorded only by environment name, secret name, and version."
+  },
+  "rollback_target": {
+    "api": {
+      "service": "vietragops-api",
+      "revision": "vietragops-api-00009-w5j",
+      "digest": "sha256:f037b8189c01c13f5c686079c8d3abe86381dcddc0f28950d2b99af4eb816e96",
+      "traffic_percent": 100,
+      "url": "https://vietragops-api-ohtmo6zgoq-as.a.run.app"
+    },
+    "web": {
+      "service": "vietragops-web",
+      "revision": "vietragops-web-00002-wp9",
+      "digest": "sha256:6b7a68f20c17b47321cb94a37dcec13af01a39d9915652c9547efdb37eeb7d4f",
+      "traffic_percent": 100,
+      "url": "https://vietragops-web-ohtmo6zgoq-as.a.run.app"
+    },
+    "candidate_before_retry": {
+      "revision": "vietragops-api-00020-wib",
+      "tag": "gate18v3",
+      "traffic_percent": 0,
+      "digest": "sha256:5a7cfaa2cfd8951678a5941d29310e2525620b05440ff202dc45ded269dc1ce3",
+      "known_state": "Ready but degraded because the baked artifact has 695 chunk IDs while the active GCS release has 698 chunks."
+    }
+  },
+  "live_state_before_gate18r_mutation": {
+    "project": "vietragops-evolve-20260831",
+    "region": "asia-southeast1",
+    "api_traffic": [
+      {"revision": "vietragops-api-00009-w5j", "percent": 100},
+      {"revision": "vietragops-api-00016-wud", "tag": "gate18v2", "percent": 0},
+      {"revision": "vietragops-api-00020-wib", "tag": "gate18v3", "percent": 0}
+    ],
+    "api_latest_ready": "vietragops-api-00020-wib",
+    "api_image": "asia-southeast1-docker.pkg.dev/vietragops-evolve-20260831/vietragops/api@sha256:5a7cfaa2cfd8951678a5941d29310e2525620b05440ff202dc45ded269dc1ce3",
+    "api_runtime_shape": {"maxScale": 1, "containerConcurrency": 1, "execution_environment": "gen2"},
+    "web_traffic": [{"revision": "vietragops-web-00002-wp9", "percent": 100}],
+    "web_latest_ready": "vietragops-web-00002-wp9",
+    "web_image": "asia-southeast1-docker.pkg.dev/vietragops-evolve-20260831/vietragops/web@sha256:6b7a68f20c17b47321cb94a37dcec13af01a39d9915652c9547efdb37eeb7d4f",
+    "web_runtime_shape": {"minScale": 0, "maxScale": 2, "containerConcurrency": 1, "execution_environment": "gen2"},
+    "api_env_names": [
+      "GOOGLE_CLOUD_PROJECT", "VIETRAGOPS_STORAGE_BACKEND", "VIETRAGOPS_GCS_BUCKET",
+      "VIETRAGOPS_GCS_BOOTSTRAP_RELEASE", "VIETRAGOPS_GCS_REGISTRY_OBJECT", "VIETRAGOPS_GCS_CACHE_ROOT",
+      "LLM_PROVIDER", "PROVIDER_MODE", "FIRECRAWL_ALLOWED_DOMAINS", "MCP_HOST", "MCP_ALLOWED_HOSTS",
+      "MCP_ALLOWED_ORIGINS", "MCP_CLOUD_IAM", "MCP_REQUIRE_ORIGIN", "MCP_ENABLE_PROTECTED_PROBE_TOOL",
+      "PYTHON_DOTENV_DISABLED", "GROQ_API_KEY", "FIRECRAWL_API_KEY", "OPENROUTER_API_KEY",
+      "OPENROUTER_MODEL", "OPENROUTER_MODEL_FALLBACK", "OPENROUTER_BASE_URL",
+      "OPENROUTER_REQUEST_TIMEOUT_SECONDS", "OPENROUTER_MAX_REQUESTS_PER_DAY",
+      "OPENROUTER_ALLOW_PAID_MODELS", "OPENROUTER_REASONING_EFFORT", "RAG_MAX_OUTPUT_TOKENS"
+    ],
+    "api_secret_bindings": [
+      {"env": "GROQ_API_KEY", "secret": "GROQ_API_KEY", "version": "1"},
+      {"env": "FIRECRAWL_API_KEY", "secret": "FIRECRAWL_API_KEY", "version": "1"},
+      {"env": "OPENROUTER_API_KEY", "secret": "OPENROUTER_API_KEY", "version": "1"}
+    ],
+    "web_env_names": [
+      "VIETRAGOPS_API_BASE_URL", "VIETRAGOPS_API_AUTH_MODE", "VIETRAGOPS_DEMO_MODE",
+      "STREAMLIT_SERVER_HEADLESS", "STREAMLIT_BROWSER_GATHER_USAGE_STATS", "PYTHON_DOTENV_DISABLED"
+    ],
+    "web_secret_bindings": [],
+    "api_health_observation": {
+      "http": 200,
+      "revision": "vietragops-api-00009-w5j",
+      "llm_provider": "groq",
+      "retrieval_backend": "not exposed by rollback health schema",
+      "note": "The tagged OpenRouter candidate health was separately read at 200 and reported the known stale-artifact sparse semantic fallback."
+    },
+    "openrouter_ledger": {
+      "ceiling": 1000,
+      "used": null,
+      "remaining": null,
+      "observation": "Not exposed by /health. DailyRequestLedger is per-process and non-durable; an exact provider_status value will be recorded from the post-freeze validation probe, with no number inferred here."
+    }
+  },
+  "authoritative_corpus_observation": {
+    "bucket": "vietragops-evolve-20260831-vietragops-data",
+    "registry_object": "registry/pointers/state.json",
+    "bootstrap_release": "bootstrap-dbcee185a4a55583459da6b3bee691907bf3218a",
+    "active_release_id": "release-614e820190314e5d8cda4a9ac0308dee",
+    "chunks_object": "releases/release-614e820190314e5d8cda4a9ac0308dee/chunks_500.jsonl",
+    "manifest_object": "releases/release-614e820190314e5d8cda4a9ac0308dee/manifest.csv",
+    "release_metadata_sha256": "1133138e7dfbf9cd310e0fcd30789c0be8dec1f82e91a203e5d37023db7b6950",
+    "chunks_sha256": "db15b93e533b4a8806b50fed14198f0eb58ff4f84a5dbb25f3e67b2f5ab26e70",
+    "manifest_sha256": "80265185aa7e09f86bb676e8192cebc7973354b57147e1021344579f365bd2209",
+    "chunk_count_observed": 698,
+    "document_count_observed": 38,
+    "read_only_copy": "D:/Research/vietragops_gate18r_corpus_20260910_01"
+  },
+  "evaluation_identity_checkpoint": {
+    "qa_path": "evals/datasets/golden_qa.jsonl",
+    "qa_sha256": "71f66f3fd39143f2f918d654306918fcf92424e3b51fb008446dd03fe2152ab4",
+    "question_count": 120,
+    "answerable_count": 116,
+    "reference_ceiling": "88/116",
+    "reference_curriculum_structure": "7/15",
+    "prior_evaluation_chunk_path": "data/chunks/chunks_500.jsonl",
+    "prior_evaluation_chunk_store_sha256": "0510c68876fc4b9295ba9ffff86bd1816432233f9b265b272e6e26613ba7e130",
+    "prior_evaluation_chunk_count": 695,
+    "authoritative_set_rerun_required": true,
+    "material_change_stop_rule": "If the authoritative-set retrieval ceiling materially changes from 88/116, stop before deployment and report; generation re-run requires a separate provider-budget decision."
+  },
+  "artifact_contract": {
+    "model_id": "intfloat/multilingual-e5-small",
+    "model_revision_required": true,
+    "dimension": 384,
+    "normalization": "l2",
+    "normalized": true,
+    "precision": "int8_dynamic_weight",
+    "retrieval_backend": "ONNX E5-small int8 hybrid",
+    "rrf_k": 60,
+    "top_k": 10,
+    "artifact_delivery": "bake_into_image",
+    "guard_policy": "Reuse the existing vector-space validation logic. Do not weaken, bypass, override, or duplicate it."
+  },
+  "required_sequence": [
+    "R1 exact corpus and artifact reconciliation",
+    "R2 authoritative-corpus decision",
+    "R3 retrieval-only evaluation on the authoritative set",
+    "R4 rebuild the artifact from the explicit authoritative release",
+    "R5 reuse the vector contract at a mandatory pre-build verification step and add offline mismatch tests",
+    "R6 prove the rebuilt artifact is delivered in the immutable image",
+    "R7 deploy at 0 percent, verify health/grounding/refusal/MCP/latency, then promote only if all checks pass",
+    "R8 write result, decisions, risks, implementation log, closure receipt, and explicit-file commit without push"
+  ],
+  "protocol_commit_requirement": "This file must be committed before any build, provider validation call, Cloud Build, Cloud Run deployment, or traffic split."
+}
