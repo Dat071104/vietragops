@@ -1,0 +1,93 @@
+{
+  "gate": "16-G5",
+  "title": "Frozen 40-question generation re-run after measured configuration and fallback policy repair",
+  "schema": "vietragops.gate16.g5.protocol.v1",
+  "created_at_utc": "2026-09-10T08:09:08.4151956Z",
+  "protocol_sha256_definition": "SHA-256 of canonical UTF-8 JSON produced after omitting protocol_sha256, sorting keys recursively, and using separators=(',', ':'); stored value is prefixed sha256:.",
+  "protocol_sha256": "sha256:c846d24a757c1b28c726b2f8a04bb0accbbb14dbbe6becda8e68006ff429f826",
+  "entry": {
+    "gate16_protocol": "gates/baselines/GATE_16_PROTOCOL.json",
+    "gate16_protocol_sha256": "sha256:b84668c11c100309d7f7e3e91112143a3947e13813859565d16e6bf5c139e869",
+    "gate16_protocol_commit": "5cbc9ce",
+    "g3_implementation_commit": "7e7da2c93d26f4295e90ec3bac1247b835a9ada8",
+    "g3_live_post_accounting": {"aborted_sparse_fallback": 1, "scored_re_run": 44, "total": 45, "budget": 60},
+    "g3_artifacts": {
+      "root": "C:/Users/ADMIN/AppData/Local/Temp/vietragops-gate16-g3-r1-20260910",
+      "cfg1_sha256": "sha256:0a005fe9deeb1ecd7ef133e87c334e0ddbcf1940abe0b2b48c7709f5043b3093",
+      "cfg2_sha256": "sha256:42aee48d4db828f96d71a622449c6c11b1cd7bded005066f547fc870acc741b5",
+      "cfg3_sha256": "sha256:5ad90d7840ca97d82d92f8cca1f958594d79f31dea96d4862b7e815633fbe6e0",
+      "cfg4_sha256": "sha256:bc7c5c824b13f8e6cf068ca054c26dba8b34edd74f2a6c83d8c57d987065abd9"
+    }
+  },
+  "selected_configuration": {
+    "id": "cfg3",
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "reasoning": {"effort": "none"},
+    "max_tokens": 8192,
+    "fallback_model": "google/gemma-4-31b-it:free",
+    "selection_receipt": "G3 pre-registered ranking: cfg1 failed length<=5% with 2/9; cfg2/cfg3/cfg4 had zero length finishes, then cfg3 won hand correctness 6/8 versus cfg2 5/8 and cfg4 2/8. cfg3 also had first-attempt schema 8/8 and p95 latency 26292ms on the eight-question probe.",
+    "wire_contract": "Every generation POST must include max_tokens=8192 and reasoning={effort:none}; the selected free primary and configured free fallback must pass the catalog guard."
+  },
+  "fallback_policy": {
+    "implementation_commit": "7e7da2c93d26f4295e90ec3bac1247b835a9ada8",
+    "model_fallback_only_on": "upstream provider_error with HTTP 5xx or HTTP-200 embedded upstream error such as code=502 and no choices",
+    "rate_limit_behavior": "HTTP 429 or Retry-After/X-RateLimit-* account-limit signal retries the same model after the documented delay; no model fallback request",
+    "other_failures": "Timeout, network, auth, invalid request, malformed response, and finish_reason=length do not switch models",
+    "governor": {"requests_per_minute": 20, "minimum_interval_seconds": 3.1, "scope": "process-global across primary, fallback, and retry POSTs"},
+    "daily_ledger": "Every dispatched generation POST counts regardless of outcome."
+  },
+  "sample": {
+    "source_protocol": "gates/baselines/GATE_12V_PROTOCOL.json",
+    "source_result": "gates/results/GATE_12V_RESULT.md",
+    "question_ids_sha256": "sha256:170d3201cf97f796732d8d462367d224033b08bdf45bc3cd4036c853dcd79c49",
+    "question_count": 40,
+    "answerable_count": 36,
+    "unanswerable_count": 4,
+    "reuse_exactly": true,
+    "expected_answer_loaded_only_after_run": true,
+    "retrieval": {"top_k": 10, "rrf_k": 60, "backend": "ONNX E5-small int8 hybrid", "changed": false}
+  },
+  "request_budget": {
+    "g3_generation_requests_already_counted": 45,
+    "g5_maximum_generation_requests": 140,
+    "gate16_total_hard_ceiling": 200,
+    "free_slugs_only": true,
+    "paid_spend": 0,
+    "pace": "strictly under 20 RPM including primary, fallback, and retry requests",
+    "stop_before": 140,
+    "stop_conditions": ["daily allowance is insufficient", "free guard cannot confirm a slug", "any paid/non-free request would be sent", "the next POST would exceed the G5 or total ceiling"]
+  },
+  "scoring": {
+    "columns": ["frozen token_f1 >= 0.45", "Gate 15-B0 corrected metric", "hand adjudication for every answerable row"],
+    "frozen_token_f1": {"implementation": "evals.metrics.generation_metrics.token_f1", "threshold": 0.45},
+    "corrected_metric": {"digit_runs": "canonicalize 07 to 7 and 02 to 2", "preamble": "strip only leading Theo ngữ cảnh đã truy xuất,", "reports": ["normalized symmetric token-F1", "expected-token containment recall"], "threshold": 0.45, "not_ground_truth": true},
+    "hand_labels": ["correct", "partial", "wrong", "refused"],
+    "disagreement": "Report automated binary disagreement against hand labels for both frozen and corrected metrics."
+  },
+  "unchanged_gate12v_thresholds": {
+    "first_attempt_schema": 0.90,
+    "grounding_precision": 0.90,
+    "grounding_recall": 0.75,
+    "frozen_answer_correctness": 0.70,
+    "hand_answer_correctness": 0.70,
+    "latency_p95_ms": 30000,
+    "finish_reason_length_rate": 0.05
+  },
+  "required_headlines": [
+    "finish_reason=length rate against B4 17/64",
+    "latency p50 and p95 against B4 p95 122820ms",
+    "fallback requests issued, rate-limited, and actually served models against B4 16, 16, and 0 Gemma",
+    "raw embedded 502 and raw 429 counts",
+    "provider-availability refusals versus evidence-based refusals",
+    "max_tokens presence and value on every request",
+    "models actually served and daily-ledger request count"
+  ],
+  "boundaries": {
+    "no_deployment": true,
+    "no_gcp": true,
+    "no_secret_output": true,
+    "research_and_data_read_only": true,
+    "no_rescoring_prior_gates": true,
+    "owner_blocker": "RISK-0026 remains open pending owner approval of least-privilege roles/iam.serviceAccountTokenCreator on vietragops-web-runtime@vietragops-evolve-20260831.iam.gserviceaccount.com."
+  }
+}
