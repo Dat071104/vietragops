@@ -3,6 +3,7 @@
   "gate": "15-B",
   "title": "Within-provider OpenRouter paired re-run after retrieval, token-budget, and client-fallback repairs",
   "created_at_utc": "2026-09-10",
+  "protocol_sha256": "sha256:ba68fd9fd907f6429202ba0bc120ab9e39fc65074bf24959a410e613a315763e",
   "parent_gate15_protocol_sha256": "6feb4d7cbd5bf38b44adde252bda9adc8075dcfd3efef51cd4c0e839c5f20c0e",
   "gate12v_protocol_sha256": "sha256:f6c2993b9f437095e7d65a69bac9997a66a515f1ec8cee25f557b3f81b3344f9",
   "entry": {
@@ -43,6 +44,7 @@
       "gold_training_regulation_052", "gold_training_regulation_067", "gold_training_regulation_068", "gold_training_regulation_070", "gold_training_regulation_071", "gold_training_regulation_104",
       "gold_training_regulation_153", "gold_training_regulation_163", "gold_training_regulation_197", "gold_training_regulation_222", "gold_training_regulation_233", "gold_training_regulation_237"
     ],
+    "expected_answer_used_before_runs": false,
     "expected_answer_used_before_run": false,
     "unanswerable_count": 4,
     "answerable_count": 36
