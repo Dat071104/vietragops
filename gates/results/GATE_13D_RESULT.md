@@ -424,3 +424,19 @@ provider-remediation/control decision gate address B, C, and D.
   unchanged during this gate.
 - Final release commit and remote SHA are recorded in the final Git receipt and
   `_agent_ops/IMPLEMENTATION_LOG.md`; no overlay path is included in the stage.
+
+## Gate 14-R correction addendum — reranker identity
+
+Gate 13-D's reranker rows exercised `LexicalReranker`, not
+`BAAI/bge-reranker-v2-m3`. The local `FlagEmbedding`/transformer runtime was
+absent, and the configured BGE construction degraded to the lexical fallback;
+therefore Gate 13-D's statement that the reranker did not help is not evidence
+about the real BGE model.
+
+Gate 14-R measured the corrected product-lane comparison on the same frozen
+120-question set: E5-small ONNX int8 without BGE reached `88/116` answerable
+question hits at top-10, while the real `BAAI/bge-reranker-v2-m3` reached
+`89/116`. The +1-question (`+0.862 pp`) lift is below Gate 14-R's registered
+`+3 pp` reranker threshold. The original Gate 13-D findings remain unchanged;
+this addendum only corrects the reranker identity and interpretation. See
+`gates/results/GATE_14R_RESULT.md`.

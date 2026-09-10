@@ -1510,3 +1510,42 @@ zero provider calls in its first phase. Only after the retrieval ceiling improve
 should a provider-remediation gate address token propagation, fallback behavior,
 and the owner-selected control. Gate 12-V remains a closed NO-GO and must not be
 rescored.
+
+## DEC-0036 — Adopt ONNX E5-small retrieval artifact and keep top-k default at 5
+
+**Date:** 2026-09-10
+**Status:** ADOPTED — Gate 14-R retrieval-only closure
+**Gate:** 14-R (ONNX dense retrieval and grounding re-measurement)
+
+### Decision
+
+Adopt the owner-selected b' path: `intfloat/multilingual-e5-small` exported
+offline to ONNX, dynamic int8 weight quantization, normalized precomputed corpus
+vectors, and runtime dependencies limited to exact `onnxruntime==1.20.1`,
+`tokenizers==0.23.2`, and `numpy==2.4.6`. Do not add torch,
+sentence-transformers, or transformers to the product requirements or Dockerfile.
+
+The product dense default is now E5-small, while the incumbent
+`sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2` remains a frozen
+comparison candidate in the Gate 14-R registry. The selected int8 artifact is
+about 130.17 MiB self-contained versus about 465.81 MiB for its fp32 artifact;
+top-10 retrieval ceiling is identical at `88/116`, while top-5 loses one hit
+(`74/116` fp32 versus `73/116` int8). The size/quality trade-off is explicit:
+int8 is adopted for the owner-selected ~160 MiB runtime target and top-10
+retrieval objective; fp32 remains the alternative if top-5 fidelity becomes
+the primary objective.
+
+Keep the shipped `top_k` default at 5. Raising selection to 10 improves the
+E5 int8 ceiling from `73/116` to `88/116`, but prompt measurement shows a mean
+of 5,900.53 E5-tokenizer tokens and 119/120 rows above the configured 3,000
+soft budget. The current input budget is not enforced, so a future generation
+gate must add and test that policy before changing the default.
+
+### Evidence and consequence
+
+The R0 +5/+3 percentage-point thresholds remain binding. Sparse top-k=10 and
+dense E5 top-k=10 pass their respective floors; dense E5 top-k=5 and the real
+BGE reranker lift fail. The real BGE row is active and corrects Gate 13-D's
+LexicalReranker-only evidence, but adds only `1/116` at top-10. Generated ONNX
+and vector binaries remain local ignored artifacts with hash-bound metadata;
+deployment packaging is deferred to the deployment gate blocked by RISK-0026.

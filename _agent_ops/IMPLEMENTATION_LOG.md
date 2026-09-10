@@ -3479,3 +3479,37 @@ RISK-0026 first and preserve the frozen provider-pinned research lane.
   no package was installed and no provider/GCP/deployment action occurred.
   Owner decision among full local runtime, precomputed vectors/light query
   encoder, hosted embedding API, and staying sparse remains pending.
+
+## 2026-09-10 — Gate 14-R ONNX retrieval closure
+
+- Owner-selected b' was recorded before R3 measurement in the protocol. Plain
+  precomputed embeddings were explicitly rejected because runtime queries still
+  require the same encoder/vector space and would still ship torch plus the
+  model. Final protocol SHA-256 is
+  `6d75e51696008f3b9a1c7360055cbf8d7515d7614c2e31646528cd14d414281f`.
+- Registered and compared three product-lane models: incumbent multilingual
+  MiniLM, multilingual E5-small, and multilingual MPNet-base-v2. BGE-M3 was
+  not recomputed because Gate 07 research artifacts are frozen.
+- ONNX export/materialization commits are `775cda7`, `0b6616c`, `d3f498e`,
+  `40cecd9`, and `03a5a8a`. The backend order is ONNX ->
+  sentence-transformers -> sparse, with typed vector identity/dimension/
+  normalization/chunk-hash validation. The E5-small int8 artifact is
+  `136493803` bytes and its embedding SHA-256 is
+  `9b9fdfb36951a7f0aef4c1ccf0cf4f914533d7cb41b7e0e62a1f52d72cbcc976`.
+- Retrieval-only controls reproduced Gate 13-D product ceilings: sparse top-5
+  `71/116`, sparse top-10 `83/116`. E5 int8 reached `73/116` at top-5 and
+  `88/116` at top-10. Real `BAAI/bge-reranker-v2-m3` reached `89/116` at
+  top-10, with the reranker active in every chunk; serialized BGE wall-clock
+  was `11325.394` seconds. Curriculum structure was `7/15` for E5 top-10 and
+  remained `7/15` with real BGE. The E5 hybrid raw top-50 pool had 12 hard
+  misses (`104/116` pool ceiling).
+- Quantization cost: E5 fp32/int8 top-10 ceiling tied at `88/116`; top-5 was
+  `74/116` versus `73/116`, while the self-contained artifact fell from
+  `465.81 MiB` to `130.17 MiB`. The product default model is E5 int8; the
+  shipped top_k default remains 5 because prompt measurement found mean
+  `3080.61` tokens at top-5 and `5900.53` at top-10, with no current input-cap
+  enforcement.
+- Final project suite: `598 passed, 3 warnings` in 348.93 seconds. No provider,
+  GCP, deployment, secret, research, corpus, manifest, chunk-store, or golden
+  dataset mutation occurred. The 25-path overlay remained unstaged and the
+  index remained empty.
