@@ -15,6 +15,7 @@ from rag.generation.openrouter_client import (
     OpenRouterProviderError,
     OpenRouterRateLimitError,
     OpenRouterTimeoutError,
+    RequestRateGovernor,
 )
 
 
@@ -60,6 +61,10 @@ def make_client(*, catalog=None, loader=None, **kwargs) -> OpenRouterClient:
         "timeout": 90,
         "max_retries": kwargs.pop("max_retries", 0),
         "sleep_fn": kwargs.pop("sleep_fn", lambda _seconds: None),
+        "rate_governor": kwargs.pop(
+            "rate_governor",
+            RequestRateGovernor(min_interval_seconds=0, sleep_fn=lambda _seconds: None),
+        ),
     }
     options.update(kwargs)
     return OpenRouterClient(**options)
@@ -93,6 +98,36 @@ def test_success_parse_uses_catalog_guard_and_models_array(monkeypatch):
     assert timeout == 90
     assert client.last_served_provider == "TestUpstream"
     assert client.status()["daily_requests_used"] == 1
+    assert client.status()["rate_governor"]["dispatched"] == 1
+
+
+def test_reasoning_configuration_reaches_wire(monkeypatch):
+    captured = []
+
+    def fake_urlopen(raw_request, timeout):
+        captured.append(json.loads(raw_request.data.decode("utf-8")))
+        return FakeResponse(success_body(PRIMARY))
+
+    monkeypatch.setattr("rag.generation.openrouter_client.request.urlopen", fake_urlopen)
+    client = make_client()
+
+    assert client.generate_json("synthetic prompt", max_tokens=8192, reasoning={"effort": "low"}) == {"ok": True}
+    assert captured[0]["max_tokens"] == 8192
+    assert captured[0]["reasoning"] == {"effort": "low"}
+
+
+def test_unset_reasoning_configuration_omits_reasoning_field(monkeypatch):
+    captured = []
+
+    def fake_urlopen(raw_request, timeout):
+        captured.append(json.loads(raw_request.data.decode("utf-8")))
+        return FakeResponse(success_body(PRIMARY))
+
+    monkeypatch.setattr("rag.generation.openrouter_client.request.urlopen", fake_urlopen)
+    client = make_client()
+
+    assert client.generate_json("synthetic prompt", max_tokens=8192) == {"ok": True}
+    assert "reasoning" not in captured[0]
 
 
 def test_measured_primary_is_in_default_routing_array(monkeypatch):
@@ -178,6 +213,38 @@ def test_exact_http_200_nvidia_error_envelope_triggers_client_side_fallback(monk
     assert [item["max_tokens"] for item in captured] == [2048, 2048]
     assert client.status()["daily_requests_used"] == 2
     assert client.last_served_model == FALLBACK
+    assert client.status()["rate_governor"]["dispatched"] == 2
+
+
+def test_http_429_retries_same_model_without_model_fallback(monkeypatch):
+    responses = [
+        error.HTTPError(
+            "https://example.test",
+            429,
+            "rate limited",
+            {"Retry-After": "2", "X-RateLimit-Remaining": "0"},
+            BytesIO(json.dumps({"error": {"code": 429, "message": "slow"}}).encode()),
+        ),
+        FakeResponse(success_body(FALLBACK)),
+    ]
+    captured = []
+    sleeps = []
+
+    def fake_urlopen(raw_request, timeout):
+        captured.append(json.loads(raw_request.data.decode("utf-8")))
+        item = responses.pop(0)
+        if isinstance(item, Exception):
+            raise item
+        return item
+
+    monkeypatch.setattr("rag.generation.openrouter_client.request.urlopen", fake_urlopen)
+    client = make_client(max_retries=1, sleep_fn=sleeps.append)
+
+    assert client.generate_json("synthetic prompt") == {"ok": True}
+    assert [item["models"] for item in captured] == [[PRIMARY], [PRIMARY]]
+    assert sleeps == [2.0]
+    assert client.status()["daily_requests_used"] == 2
+    assert client.status()["rate_governor"]["dispatched"] == 2
 
 
 @pytest.mark.parametrize(

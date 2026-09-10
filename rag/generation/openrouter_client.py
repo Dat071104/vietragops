@@ -137,6 +137,54 @@ class DailyRequestLedger:
             }
 
 
+class RequestRateGovernor:
+    """Process-global pacing for every dispatched generation POST."""
+
+    def __init__(
+        self,
+        requests_per_minute: int = 20,
+        *,
+        min_interval_seconds: float | None = None,
+        clock: Callable[[], float] | None = None,
+        sleep_fn: Callable[[float], None] | None = None,
+    ) -> None:
+        if requests_per_minute <= 0:
+            raise ValueError("The OpenRouter requests-per-minute limit must be positive.")
+        self.requests_per_minute = requests_per_minute
+        self.min_interval_seconds = max(
+            60.0 / requests_per_minute,
+            min_interval_seconds if min_interval_seconds is not None else 3.1,
+        )
+        self._clock = clock or time.monotonic
+        self._sleep = sleep_fn or time.sleep
+        self._lock = threading.Lock()
+        self._last_dispatch: float | None = None
+        self._dispatched = 0
+
+    def acquire(self) -> None:
+        """Wait until the next request is allowed, then count it."""
+        with self._lock:
+            now = self._clock()
+            if self._last_dispatch is not None:
+                delay = self.min_interval_seconds - (now - self._last_dispatch)
+                if delay > 0:
+                    self._sleep(delay)
+                    now = self._clock()
+            self._last_dispatch = now
+            self._dispatched += 1
+
+    def snapshot(self) -> dict[str, Any]:
+        with self._lock:
+            return {
+                "requests_per_minute": self.requests_per_minute,
+                "min_interval_seconds": self.min_interval_seconds,
+                "dispatched": self._dispatched,
+            }
+
+
+_DEFAULT_RATE_GOVERNOR = RequestRateGovernor()
+
+
 class OpenRouterRequestError(RuntimeError):
     """Base for an OpenRouter request that failed after the guard ran."""
 
@@ -153,6 +201,7 @@ class OpenRouterRequestError(RuntimeError):
         served_provider: str | None = None,
         served_model: str | None = None,
         local_budget: bool = False,
+        fallback_eligible: bool = False,
     ) -> None:
         super().__init__(message)
         self.provider_error_body = provider_error_body
@@ -162,6 +211,7 @@ class OpenRouterRequestError(RuntimeError):
         self.served_provider = served_provider
         self.served_model = served_model
         self.local_budget = local_budget
+        self.fallback_eligible = fallback_eligible
 
 
 class OpenRouterRateLimitError(OpenRouterRequestError):
@@ -237,6 +287,76 @@ def _parse_retry_after(value: str | None, *, now: datetime | None = None) -> flo
         return None
 
 
+_REASONING_EFFORTS = frozenset({"max", "xhigh", "high", "medium", "low", "minimal", "none"})
+_REASONING_KEYS = frozenset({"effort", "max_tokens", "exclude", "enabled"})
+
+
+def _normalize_reasoning_config(value: Mapping[str, Any] | None) -> dict[str, Any] | None:
+    if value is None:
+        return None
+    if not isinstance(value, Mapping):
+        raise OpenRouterConfigError("OpenRouter reasoning configuration must be a mapping.")
+    config = dict(value)
+    unknown = set(config) - _REASONING_KEYS
+    if unknown:
+        raise OpenRouterConfigError(
+            f"OpenRouter reasoning configuration has unsupported keys: {sorted(unknown)}."
+        )
+    effort = config.get("effort")
+    if effort is not None and effort not in _REASONING_EFFORTS:
+        raise OpenRouterConfigError(
+            f"OpenRouter reasoning effort must be one of {sorted(_REASONING_EFFORTS)}."
+        )
+    reasoning_max_tokens = config.get("max_tokens")
+    if reasoning_max_tokens is not None:
+        if (
+            not isinstance(reasoning_max_tokens, int)
+            or isinstance(reasoning_max_tokens, bool)
+            or reasoning_max_tokens <= 0
+        ):
+            raise OpenRouterConfigError("OpenRouter reasoning.max_tokens must be a positive integer.")
+    if effort is not None and reasoning_max_tokens is not None:
+        raise OpenRouterConfigError("OpenRouter reasoning.effort and reasoning.max_tokens are mutually exclusive.")
+    for key in ("exclude", "enabled"):
+        if key in config and not isinstance(config[key], bool):
+            raise OpenRouterConfigError(f"OpenRouter reasoning.{key} must be boolean.")
+    return config
+
+
+def _reasoning_from_environment() -> dict[str, Any] | None:
+    effort = os.environ.get("OPENROUTER_REASONING_EFFORT", "").strip().casefold()
+    max_tokens_raw = os.environ.get("OPENROUTER_REASONING_MAX_TOKENS", "").strip()
+    exclude_raw = os.environ.get("OPENROUTER_REASONING_EXCLUDE", "").strip()
+    enabled_raw = os.environ.get("OPENROUTER_REASONING_ENABLED", "").strip()
+    if not any((effort, max_tokens_raw, exclude_raw, enabled_raw)):
+        return None
+    config: dict[str, Any] = {}
+    if effort:
+        config["effort"] = effort
+    if max_tokens_raw:
+        try:
+            config["max_tokens"] = int(max_tokens_raw)
+        except ValueError as exc:
+            raise OpenRouterConfigError("OPENROUTER_REASONING_MAX_TOKENS must be an integer.") from exc
+    for env_name, raw_value, key in (
+        ("OPENROUTER_REASONING_EXCLUDE", exclude_raw, "exclude"),
+        ("OPENROUTER_REASONING_ENABLED", enabled_raw, "enabled"),
+    ):
+        if raw_value:
+            if raw_value.casefold() not in {"1", "true", "yes", "on", "0", "false", "no", "off"}:
+                raise OpenRouterConfigError(f"{env_name} must be boolean.")
+            config[key] = raw_value.casefold() in {"1", "true", "yes", "on"}
+    return _normalize_reasoning_config(config)
+
+
+def _header_value(headers: Mapping[str, Any] | None, name: str) -> str | None:
+    wanted = name.casefold()
+    for key, value in (headers or {}).items():
+        if str(key).casefold() == wanted:
+            return str(value)
+    return None
+
+
 def _normalize_catalog(catalog: Any) -> dict[str, dict[str, Any]]:
     if isinstance(catalog, Mapping) and isinstance(catalog.get("data"), list):
         catalog = catalog["data"]
@@ -283,7 +403,11 @@ def _classify_exhausted_request_error(exc: Exception, attempts: int) -> OpenRout
             return OpenRouterRateLimitError(message, status_code=exc.code)
         if exc.code in {401, 403}:
             return OpenRouterAuthError(message, status_code=exc.code)
-        return OpenRouterProviderError(message, status_code=exc.code)
+        return OpenRouterProviderError(
+            message,
+            status_code=exc.code,
+            fallback_eligible=exc.code >= 500,
+        )
     if isinstance(exc, TimeoutError):
         return OpenRouterTimeoutError(message)
     if isinstance(exc, error.URLError):
@@ -317,6 +441,8 @@ class OpenRouterClient:
         clock: Callable[[], datetime] | None = None,
         sleep_fn: Callable[[float], None] | None = None,
         ledger: DailyRequestLedger | None = None,
+        reasoning: Mapping[str, Any] | None = None,
+        rate_governor: RequestRateGovernor | None = None,
     ) -> None:
         self.api_key = api_key if api_key is not None else os.environ.get("OPENROUTER_API_KEY", "").strip()
         self.model = model if model is not None else os.environ.get("OPENROUTER_MODEL", "").strip()
@@ -347,6 +473,8 @@ class OpenRouterClient:
         )
         self._catalog_loader = catalog_loader or self._fetch_live_catalog
         self._sleep = sleep_fn or time.sleep
+        self.reasoning = _normalize_reasoning_config(reasoning) if reasoning is not None else _reasoning_from_environment()
+        self.rate_governor = rate_governor or _DEFAULT_RATE_GOVERNOR
         self.ledger = ledger or DailyRequestLedger(
             max_requests_per_day
             if max_requests_per_day is not None
@@ -431,6 +559,7 @@ class OpenRouterClient:
         *,
         status_code: int,
         retry_after: float | None = None,
+        response_headers: Mapping[str, Any] | None = None,
     ) -> OpenRouterRequestError:
         error_payload = body.get("error") if isinstance(body, Mapping) else None
         error_payload = error_payload if isinstance(error_payload, Mapping) else {}
@@ -449,13 +578,17 @@ class OpenRouterClient:
             numeric_code = int(code)
         except (TypeError, ValueError):
             numeric_code = status_code
-        if numeric_code == 429 or error_type in {"rate_limit_exceeded", "provider_overloaded"}:
+        rate_headers = {str(key).casefold() for key in (response_headers or {})}
+        has_rate_limit_headers = any(
+            key.startswith("x-ratelimit-") or key == "retry-after" for key in rate_headers
+        )
+        if numeric_code == 429 or error_type in {"rate_limit_exceeded", "rate_limit"} or has_rate_limit_headers:
             cls: type[OpenRouterRequestError] = OpenRouterRateLimitError
         elif numeric_code in {401, 403} or error_type in {"authentication", "permission_denied"}:
             cls = OpenRouterAuthError
         elif numeric_code == 408 or error_type == "timeout":
             cls = OpenRouterTimeoutError
-        elif numeric_code >= 500 or error_type in {"provider_unavailable", "server", "unmapped"}:
+        elif numeric_code >= 500 or error_type in {"provider_overloaded", "provider_unavailable", "server", "unmapped"}:
             cls = OpenRouterProviderError
         else:
             cls = OpenRouterProviderError
@@ -467,6 +600,10 @@ class OpenRouterClient:
             retry_after=retry_after,
             served_provider=str(served_provider) if served_provider else None,
             served_model=served_model,
+            fallback_eligible=(
+                cls is OpenRouterProviderError
+                and (numeric_code >= 500 or error_type in {"provider_overloaded", "provider_unavailable", "server", "unmapped"})
+            ),
         )
 
     def _record_response(self, body: Mapping[str, Any], status_code: int) -> None:
@@ -491,10 +628,7 @@ class OpenRouterClient:
 
     @staticmethod
     def _client_fallback_eligible(exc: OpenRouterRequestError) -> bool:
-        return (
-            not exc.local_budget
-            and exc.failure_kind in {"rate_limited", "timeout", "provider_error", "network_failure"}
-        )
+        return not exc.local_budget and exc.fallback_eligible
 
     def _generate_json_for_model(
         self,
@@ -503,6 +637,7 @@ class OpenRouterClient:
         model: str,
         temperature: Any,
         max_tokens: Any,
+        reasoning: Mapping[str, Any] | None,
     ) -> dict[str, Any]:
         payload: dict[str, Any] = {
             "models": [model],
@@ -512,12 +647,15 @@ class OpenRouterClient:
         }
         if max_tokens is not None:
             payload["max_tokens"] = max_tokens
+        if reasoning is not None:
+            payload["reasoning"] = dict(reasoning)
         attempts = max(1, self.max_retries + 1)
         last_exception: Exception | None = None
         for attempt in range(attempts):
             reservation = self.ledger.reserve()
             dispatched = False
             try:
+                self.rate_governor.acquire()
                 raw_request = request.Request(
                     self.endpoint,
                     data=json.dumps(payload).encode("utf-8"),
@@ -527,6 +665,7 @@ class OpenRouterClient:
                 dispatched = True
                 with request.urlopen(raw_request, timeout=self.timeout) as response:
                     status_code = response.status
+                    response_headers = {str(key): str(value) for key, value in response.headers.items()}
                     raw_body = response.read().decode("utf-8")
                 self.ledger.settle(reservation, consumed=True)
                 body = json.loads(raw_body)
@@ -537,7 +676,12 @@ class OpenRouterClient:
                     )
                 self._record_response(body, status_code)
                 if isinstance(body.get("error"), Mapping):
-                    raise self._error_from_body(body, status_code=status_code)
+                    raise self._error_from_body(
+                        body,
+                        status_code=status_code,
+                        retry_after=_parse_retry_after(_header_value(response_headers, "Retry-After")),
+                        response_headers=response_headers,
+                    )
                 choices = body.get("choices")
                 choice = choices[0] if isinstance(choices, list) and choices else None
                 if not isinstance(choice, Mapping):
@@ -588,7 +732,12 @@ class OpenRouterClient:
                 except (TypeError, ValueError, json.JSONDecodeError):
                     body = {"error": {"code": exc.code, "message": "non-JSON HTTP error body"}}
                 retry_after = _parse_retry_after(exc.headers.get("Retry-After"))
-                current = self._error_from_body(body, status_code=exc.code, retry_after=retry_after)
+                current = self._error_from_body(
+                    body,
+                    status_code=exc.code,
+                    retry_after=retry_after,
+                    response_headers={str(key): str(value) for key, value in exc.headers.items()},
+                )
                 self.last_http_status = exc.code
                 self.last_provider_error_body = current.provider_error_body
                 self.last_error_kind = current.failure_kind
@@ -653,6 +802,7 @@ class OpenRouterClient:
                     model=model,
                     temperature=kwargs.get("temperature", 0.1),
                     max_tokens=kwargs.get("max_tokens"),
+                    reasoning=_normalize_reasoning_config(kwargs.get("reasoning", self.reasoning)),
                 )
             except OpenRouterRequestError as exc:
                 has_fallback = index + 1 < len(model_chain)
@@ -684,6 +834,8 @@ class OpenRouterClient:
             "daily_requests_used": ledger["used"],
             "daily_requests_remaining": ledger["remaining"],
             "daily_ledger_utc_day": ledger["utc_day"],
+            "reasoning": self.reasoning,
+            "rate_governor": self.rate_governor.snapshot(),
             "free_guard_override": self.allow_paid_models,
             "catalog_snapshot_utc": I2_CATALOG_SNAPSHOT_UTC,
             "last_http_status": self.last_http_status,
@@ -705,5 +857,6 @@ __all__ = [
     "OpenRouterRateLimitError",
     "OpenRouterRequestError",
     "OpenRouterTimeoutError",
+    "RequestRateGovernor",
     "_classify_exhausted_request_error",
 ]

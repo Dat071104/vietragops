@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 
 import pytest
 
-from rag.generation.openrouter_client import DailyRequestLedger, OpenRouterRateLimitError
+from rag.generation.openrouter_client import DailyRequestLedger, OpenRouterRateLimitError, RequestRateGovernor
 
 
 class FakeClock:
@@ -67,3 +67,25 @@ def test_utc_day_rollover_resets_allowance():
     assert ledger.snapshot()["remaining"] == 1
     ledger.settle(ledger.reserve(), consumed=True)
     assert ledger.snapshot()["used"] == 1
+
+
+def test_rate_governor_counts_every_dispatch_and_enforces_under_20_rpm():
+    now = [0.0]
+    sleeps = []
+
+    def clock():
+        return now[0]
+
+    def sleep(seconds):
+        sleeps.append(seconds)
+        now[0] += seconds
+
+    governor = RequestRateGovernor(clock=clock, sleep_fn=sleep)
+    governor.acquire()
+    governor.acquire()
+    governor.acquire()
+
+    snapshot = governor.snapshot()
+    assert snapshot["dispatched"] == 3
+    assert snapshot["min_interval_seconds"] == 3.1
+    assert sleeps == [3.1, 3.1]
