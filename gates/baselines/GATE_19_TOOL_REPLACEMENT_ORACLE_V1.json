@@ -1,0 +1,205 @@
+{
+  "retained_items": [
+    {
+      "case_id": "G07-G-0127",
+      "derivation": {
+        "kind": "identity"
+      },
+      "item_id": "G07-G-0127#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "student_id",
+      "old_tool": "create_registration",
+      "reachability_status": "REACHABLE",
+      "target_value": "STU-0014"
+    },
+    {
+      "case_id": "G07-G-0128",
+      "derivation": {
+        "kind": "identity"
+      },
+      "item_id": "G07-G-0128#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "student_id",
+      "old_tool": "issue_completion_certificate",
+      "reachability_status": "REACHABLE",
+      "target_value": "STU-0011"
+    },
+    {
+      "case_id": "G07-G-0129",
+      "derivation": {
+        "kind": "identity"
+      },
+      "item_id": "G07-G-0129#argument_pair_00",
+      "new_arg": "facility_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "room_code",
+      "old_tool": "reserve_teaching_room",
+      "reachability_status": "REACHABLE",
+      "target_value": "ROOM-004"
+    },
+    {
+      "case_id": "G07-G-0130",
+      "derivation": {
+        "kind": "identity"
+      },
+      "item_id": "G07-G-0130#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "student_id",
+      "old_tool": "create_registration",
+      "reachability_status": "REACHABLE",
+      "target_value": "STU-0018"
+    },
+    {
+      "case_id": "G07-G-0131",
+      "derivation": {
+        "kind": "identity"
+      },
+      "item_id": "G07-G-0131#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "student_id",
+      "old_tool": "issue_completion_certificate",
+      "reachability_status": "REACHABLE",
+      "target_value": "STU-0012"
+    },
+    {
+      "case_id": "G07-G-0132",
+      "derivation": {
+        "kind": "identity"
+      },
+      "item_id": "G07-G-0132#argument_pair_00",
+      "new_arg": "facility_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "room_code",
+      "old_tool": "reserve_teaching_room",
+      "reachability_status": "REACHABLE",
+      "target_value": "ROOM-008"
+    },
+    {
+      "case_id": "G07-G-0133",
+      "derivation": {
+        "kind": "identity"
+      },
+      "item_id": "G07-G-0133#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "student_id",
+      "old_tool": "create_registration",
+      "reachability_status": "REACHABLE",
+      "target_value": "STU-0020"
+    },
+    {
+      "case_id": "G07-G-0134",
+      "derivation": {
+        "kind": "identity"
+      },
+      "item_id": "G07-G-0134#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "student_id",
+      "old_tool": "issue_completion_certificate",
+      "reachability_status": "REACHABLE",
+      "target_value": "STU-0003"
+    },
+    {
+      "case_id": "G07-G-0135",
+      "derivation": {
+        "kind": "identity"
+      },
+      "item_id": "G07-G-0135#argument_pair_00",
+      "new_arg": "facility_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "room_code",
+      "old_tool": "reserve_teaching_room",
+      "reachability_status": "REACHABLE",
+      "target_value": "ROOM-012"
+    },
+    {
+      "case_id": "G07-G-0136",
+      "derivation": {
+        "kind": "identity"
+      },
+      "item_id": "G07-G-0136#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "student_id",
+      "old_tool": "create_registration",
+      "reachability_status": "REACHABLE",
+      "target_value": "STU-0020"
+    },
+    {
+      "case_id": "G07-G-0137",
+      "derivation": {
+        "kind": "identity"
+      },
+      "item_id": "G07-G-0137#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "student_id",
+      "old_tool": "issue_completion_certificate",
+      "reachability_status": "REACHABLE",
+      "target_value": "STU-0013"
+    },
+    {
+      "case_id": "G07-G-0138",
+      "derivation": {
+        "kind": "identity"
+      },
+      "item_id": "G07-G-0138#argument_pair_00",
+      "new_arg": "facility_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "room_code",
+      "old_tool": "reserve_teaching_room",
+      "reachability_status": "REACHABLE",
+      "target_value": "ROOM-013"
+    },
+    {
+      "case_id": "G07-G-0139",
+      "derivation": {
+        "kind": "identity"
+      },
+      "item_id": "G07-G-0139#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "student_id",
+      "old_tool": "create_registration",
+      "reachability_status": "REACHABLE",
+      "target_value": "STU-0003"
+    },
+    {
+      "case_id": "G07-G-0140",
+      "derivation": {
+        "kind": "identity"
+      },
+      "item_id": "G07-G-0140#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "student_id",
+      "old_tool": "issue_completion_certificate",
+      "reachability_status": "REACHABLE",
+      "target_value": "STU-0009"
+    },
+    {
+      "case_id": "G07-G-0141",
+      "derivation": {
+        "kind": "identity"
+      },
+      "item_id": "G07-G-0141#argument_pair_00",
+      "new_arg": "facility_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "room_code",
+      "old_tool": "reserve_teaching_room",
+      "reachability_status": "REACHABLE",
+      "target_value": "ROOM-009"
+    }
+  ],
+  "schema": "gate19.tool_replacement_oracle.v1",
+  "scope": "Reachable argument-pair targets only; Gate 07 and Gate 08 case-level metrics are not rescored here.",
+  "source_audit": "gates/results/GATE_19_AUDIT.json",
+  "source_audit_sha256": "4ff5db197eb995ce0ec00de4e4c1a3f82cc7ad3193fa9785259bbc6e289c7d22",
+  "source_manifest": "gates/baselines/GATE_19_TOOL_REPLACEMENT_ORACLE_V1_MANIFEST.json",
+  "version": "GATE_19_TOOL_REPLACEMENT_ORACLE_V1"
+}

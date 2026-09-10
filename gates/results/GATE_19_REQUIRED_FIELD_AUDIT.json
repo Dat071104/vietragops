@@ -1,0 +1,952 @@
+{
+  "criterion": "Target and every construction step must be derivable from the declared information rights.",
+  "families": {
+    "added_required_field": {
+      "case_count": 15,
+      "convention_case_count": 15,
+      "convention_case_ids": [
+        "G07-G-0055",
+        "G07-G-0056",
+        "G07-G-0057",
+        "G07-G-0058",
+        "G07-G-0059",
+        "G07-G-0060",
+        "G07-G-0061",
+        "G07-G-0062",
+        "G07-G-0063",
+        "G07-G-0064",
+        "G07-G-0065",
+        "G07-G-0066",
+        "G07-G-0067",
+        "G07-G-0068",
+        "G07-G-0069"
+      ],
+      "convention_case_share": 1.0,
+      "max_attainable_recall": 0.0,
+      "pairs": 15,
+      "status_counts": {
+        "REACHABLE": 0,
+        "UNREACHABLE-CONVENTION-UNOBSERVABLE": 15,
+        "UNREACHABLE-TARGET-ABSENT": 0
+      },
+      "unreachable_pairs": 15,
+      "unreachable_share": 1.0
+    },
+    "argument_split": {
+      "case_count": 5,
+      "convention_case_count": 0,
+      "convention_case_ids": [],
+      "convention_case_share": 0.0,
+      "max_attainable_recall": 1.0,
+      "pairs": 5,
+      "status_counts": {
+        "REACHABLE": 5,
+        "UNREACHABLE-CONVENTION-UNOBSERVABLE": 0,
+        "UNREACHABLE-TARGET-ABSENT": 0
+      },
+      "unreachable_pairs": 0,
+      "unreachable_share": 0.0
+    },
+    "tool_replacement": {
+      "case_count": 15,
+      "convention_case_count": 5,
+      "convention_case_ids": [
+        "G07-G-0128",
+        "G07-G-0131",
+        "G07-G-0134",
+        "G07-G-0137",
+        "G07-G-0140"
+      ],
+      "convention_case_share": 0.3333333333,
+      "max_attainable_recall": 0.8,
+      "pairs": 25,
+      "status_counts": {
+        "REACHABLE": 20,
+        "UNREACHABLE-CONVENTION-UNOBSERVABLE": 5,
+        "UNREACHABLE-TARGET-ABSENT": 0
+      },
+      "unreachable_pairs": 5,
+      "unreachable_share": 0.2
+    }
+  },
+  "item_count": 45,
+  "items": [
+    {
+      "case_id": "G07-G-0055",
+      "derivation": null,
+      "family": "added_required_field",
+      "item_id": "G07-G-0055#required_field_submit_course_enrollment.consent_ack",
+      "new_arg": "consent_ack",
+      "new_tool": "submit_course_enrollment",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "no derivation rule is evidenced by the declared information rights",
+      "source_values": [
+        "STU-0008",
+        "CRS-015",
+        "TERM-01"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": true
+    },
+    {
+      "case_id": "G07-G-0056",
+      "derivation": null,
+      "family": "added_required_field",
+      "item_id": "G07-G-0056#required_field_submit_assessment_response.honor_code",
+      "new_arg": "honor_code",
+      "new_tool": "submit_assessment_response",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "no derivation rule is evidenced by the declared information rights",
+      "source_values": [
+        "STU-0010",
+        "ASM-012",
+        "synthetic response"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": true
+    },
+    {
+      "case_id": "G07-G-0057",
+      "derivation": null,
+      "family": "added_required_field",
+      "item_id": "G07-G-0057#required_field_record_invoice_payment.payment_ack",
+      "new_arg": "payment_ack",
+      "new_tool": "record_invoice_payment",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "no derivation rule is evidenced by the declared information rights",
+      "source_values": [
+        "INV-008",
+        "1200"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": true
+    },
+    {
+      "case_id": "G07-G-0058",
+      "derivation": null,
+      "family": "added_required_field",
+      "item_id": "G07-G-0058#required_field_submit_course_enrollment.consent_ack",
+      "new_arg": "consent_ack",
+      "new_tool": "submit_course_enrollment",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "no derivation rule is evidenced by the declared information rights",
+      "source_values": [
+        "STU-0015",
+        "CRS-002",
+        "TERM-03"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": true
+    },
+    {
+      "case_id": "G07-G-0059",
+      "derivation": null,
+      "family": "added_required_field",
+      "item_id": "G07-G-0059#required_field_submit_assessment_response.honor_code",
+      "new_arg": "honor_code",
+      "new_tool": "submit_assessment_response",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "no derivation rule is evidenced by the declared information rights",
+      "source_values": [
+        "STU-0006",
+        "ASM-008",
+        "synthetic response"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": true
+    },
+    {
+      "case_id": "G07-G-0060",
+      "derivation": null,
+      "family": "added_required_field",
+      "item_id": "G07-G-0060#required_field_record_invoice_payment.payment_ack",
+      "new_arg": "payment_ack",
+      "new_tool": "record_invoice_payment",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "no derivation rule is evidenced by the declared information rights",
+      "source_values": [
+        "INV-001",
+        "1025"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": true
+    },
+    {
+      "case_id": "G07-G-0061",
+      "derivation": null,
+      "family": "added_required_field",
+      "item_id": "G07-G-0061#required_field_submit_course_enrollment.consent_ack",
+      "new_arg": "consent_ack",
+      "new_tool": "submit_course_enrollment",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "no derivation rule is evidenced by the declared information rights",
+      "source_values": [
+        "STU-0020",
+        "CRS-017",
+        "TERM-03"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": true
+    },
+    {
+      "case_id": "G07-G-0062",
+      "derivation": null,
+      "family": "added_required_field",
+      "item_id": "G07-G-0062#required_field_submit_assessment_response.honor_code",
+      "new_arg": "honor_code",
+      "new_tool": "submit_assessment_response",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "no derivation rule is evidenced by the declared information rights",
+      "source_values": [
+        "STU-0006",
+        "ASM-008",
+        "synthetic response"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": true
+    },
+    {
+      "case_id": "G07-G-0063",
+      "derivation": null,
+      "family": "added_required_field",
+      "item_id": "G07-G-0063#required_field_record_invoice_payment.payment_ack",
+      "new_arg": "payment_ack",
+      "new_tool": "record_invoice_payment",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "no derivation rule is evidenced by the declared information rights",
+      "source_values": [
+        "INV-011",
+        "1275"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": true
+    },
+    {
+      "case_id": "G07-G-0064",
+      "derivation": null,
+      "family": "added_required_field",
+      "item_id": "G07-G-0064#required_field_submit_course_enrollment.consent_ack",
+      "new_arg": "consent_ack",
+      "new_tool": "submit_course_enrollment",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "no derivation rule is evidenced by the declared information rights",
+      "source_values": [
+        "STU-0011",
+        "CRS-028",
+        "TERM-02"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": true
+    },
+    {
+      "case_id": "G07-G-0065",
+      "derivation": null,
+      "family": "added_required_field",
+      "item_id": "G07-G-0065#required_field_submit_assessment_response.honor_code",
+      "new_arg": "honor_code",
+      "new_tool": "submit_assessment_response",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "no derivation rule is evidenced by the declared information rights",
+      "source_values": [
+        "STU-0002",
+        "ASM-004",
+        "synthetic response"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": true
+    },
+    {
+      "case_id": "G07-G-0066",
+      "derivation": null,
+      "family": "added_required_field",
+      "item_id": "G07-G-0066#required_field_record_invoice_payment.payment_ack",
+      "new_arg": "payment_ack",
+      "new_tool": "record_invoice_payment",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "no derivation rule is evidenced by the declared information rights",
+      "source_values": [
+        "INV-013",
+        "1325"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": true
+    },
+    {
+      "case_id": "G07-G-0067",
+      "derivation": null,
+      "family": "added_required_field",
+      "item_id": "G07-G-0067#required_field_submit_course_enrollment.consent_ack",
+      "new_arg": "consent_ack",
+      "new_tool": "submit_course_enrollment",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "no derivation rule is evidenced by the declared information rights",
+      "source_values": [
+        "STU-0016",
+        "CRS-003",
+        "TERM-01"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": true
+    },
+    {
+      "case_id": "G07-G-0068",
+      "derivation": null,
+      "family": "added_required_field",
+      "item_id": "G07-G-0068#required_field_submit_assessment_response.honor_code",
+      "new_arg": "honor_code",
+      "new_tool": "submit_assessment_response",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "no derivation rule is evidenced by the declared information rights",
+      "source_values": [
+        "STU-0020",
+        "ASM-002",
+        "synthetic response"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": true
+    },
+    {
+      "case_id": "G07-G-0069",
+      "derivation": null,
+      "family": "added_required_field",
+      "item_id": "G07-G-0069#required_field_record_invoice_payment.payment_ack",
+      "new_arg": "payment_ack",
+      "new_tool": "record_invoice_payment",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "no derivation rule is evidenced by the declared information rights",
+      "source_values": [
+        "INV-020",
+        "1500"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": true
+    },
+    {
+      "case_id": "G07-G-0074",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0074#required_field_get_module_schedule_parts.period_ref",
+      "new_arg": "period_ref",
+      "new_tool": "get_module_schedule_parts",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-014",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "TERM-03"
+    },
+    {
+      "case_id": "G07-G-0077",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0077#required_field_get_module_schedule_parts.period_ref",
+      "new_arg": "period_ref",
+      "new_tool": "get_module_schedule_parts",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-001",
+        "TERM-02"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "TERM-02"
+    },
+    {
+      "case_id": "G07-G-0080",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0080#required_field_get_module_schedule_parts.period_ref",
+      "new_arg": "period_ref",
+      "new_tool": "get_module_schedule_parts",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-006",
+        "TERM-01"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "TERM-01"
+    },
+    {
+      "case_id": "G07-G-0083",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0083#required_field_get_module_schedule_parts.period_ref",
+      "new_arg": "period_ref",
+      "new_tool": "get_module_schedule_parts",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-014",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "TERM-03"
+    },
+    {
+      "case_id": "G07-G-0086",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0086#required_field_get_module_schedule_parts.period_ref",
+      "new_arg": "period_ref",
+      "new_tool": "get_module_schedule_parts",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-008",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "TERM-03"
+    },
+    {
+      "case_id": "G07-G-0127",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0127#required_field_finalize_paid_registration.payment_status",
+      "new_arg": "payment_status",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "STU-0014",
+        "CRS-021",
+        "TERM-01"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "paid"
+    },
+    {
+      "case_id": "G07-G-0128",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0128#required_field_grant_completion_credential.course_ref",
+      "new_arg": "course_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0011",
+        "CRS-028"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-028"
+    },
+    {
+      "case_id": "G07-G-0128",
+      "derivation": null,
+      "family": "tool_replacement",
+      "item_id": "G07-G-0128#required_field_grant_completion_credential.approval_status",
+      "new_arg": "approval_status",
+      "new_tool": "grant_completion_credential",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "no derivation rule is evidenced by the declared information rights",
+      "source_values": [
+        "STU-0011",
+        "CRS-028"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "approved"
+    },
+    {
+      "case_id": "G07-G-0129",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0129#required_field_confirm_room_booking.period_ref",
+      "new_arg": "period_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ROOM-004",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "TERM-03"
+    },
+    {
+      "case_id": "G07-G-0129",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0129#required_field_confirm_room_booking.approval_status",
+      "new_arg": "approval_status",
+      "new_tool": "confirm_room_booking",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "ROOM-004",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "approved"
+    },
+    {
+      "case_id": "G07-G-0130",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0130#required_field_finalize_paid_registration.payment_status",
+      "new_arg": "payment_status",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "STU-0018",
+        "CRS-005",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "paid"
+    },
+    {
+      "case_id": "G07-G-0131",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0131#required_field_grant_completion_credential.course_ref",
+      "new_arg": "course_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0012",
+        "CRS-029"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-029"
+    },
+    {
+      "case_id": "G07-G-0131",
+      "derivation": null,
+      "family": "tool_replacement",
+      "item_id": "G07-G-0131#required_field_grant_completion_credential.approval_status",
+      "new_arg": "approval_status",
+      "new_tool": "grant_completion_credential",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "no derivation rule is evidenced by the declared information rights",
+      "source_values": [
+        "STU-0012",
+        "CRS-029"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "approved"
+    },
+    {
+      "case_id": "G07-G-0132",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0132#required_field_confirm_room_booking.period_ref",
+      "new_arg": "period_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ROOM-008",
+        "TERM-01"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "TERM-01"
+    },
+    {
+      "case_id": "G07-G-0132",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0132#required_field_confirm_room_booking.approval_status",
+      "new_arg": "approval_status",
+      "new_tool": "confirm_room_booking",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "ROOM-008",
+        "TERM-01"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "approved"
+    },
+    {
+      "case_id": "G07-G-0133",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0133#required_field_finalize_paid_registration.payment_status",
+      "new_arg": "payment_status",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "STU-0020",
+        "CRS-007",
+        "TERM-02"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "paid"
+    },
+    {
+      "case_id": "G07-G-0134",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0134#required_field_grant_completion_credential.course_ref",
+      "new_arg": "course_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0003",
+        "CRS-010"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-010"
+    },
+    {
+      "case_id": "G07-G-0134",
+      "derivation": null,
+      "family": "tool_replacement",
+      "item_id": "G07-G-0134#required_field_grant_completion_credential.approval_status",
+      "new_arg": "approval_status",
+      "new_tool": "grant_completion_credential",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "no derivation rule is evidenced by the declared information rights",
+      "source_values": [
+        "STU-0003",
+        "CRS-010"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "approved"
+    },
+    {
+      "case_id": "G07-G-0135",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0135#required_field_confirm_room_booking.period_ref",
+      "new_arg": "period_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ROOM-012",
+        "TERM-02"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "TERM-02"
+    },
+    {
+      "case_id": "G07-G-0135",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0135#required_field_confirm_room_booking.approval_status",
+      "new_arg": "approval_status",
+      "new_tool": "confirm_room_booking",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "ROOM-012",
+        "TERM-02"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "approved"
+    },
+    {
+      "case_id": "G07-G-0136",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0136#required_field_finalize_paid_registration.payment_status",
+      "new_arg": "payment_status",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "STU-0020",
+        "CRS-007",
+        "TERM-02"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "paid"
+    },
+    {
+      "case_id": "G07-G-0137",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0137#required_field_grant_completion_credential.course_ref",
+      "new_arg": "course_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0013",
+        "CRS-010"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-010"
+    },
+    {
+      "case_id": "G07-G-0137",
+      "derivation": null,
+      "family": "tool_replacement",
+      "item_id": "G07-G-0137#required_field_grant_completion_credential.approval_status",
+      "new_arg": "approval_status",
+      "new_tool": "grant_completion_credential",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "no derivation rule is evidenced by the declared information rights",
+      "source_values": [
+        "STU-0013",
+        "CRS-010"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "approved"
+    },
+    {
+      "case_id": "G07-G-0138",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0138#required_field_confirm_room_booking.period_ref",
+      "new_arg": "period_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ROOM-013",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "TERM-03"
+    },
+    {
+      "case_id": "G07-G-0138",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0138#required_field_confirm_room_booking.approval_status",
+      "new_arg": "approval_status",
+      "new_tool": "confirm_room_booking",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "ROOM-013",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "approved"
+    },
+    {
+      "case_id": "G07-G-0139",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0139#required_field_finalize_paid_registration.payment_status",
+      "new_arg": "payment_status",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "STU-0003",
+        "CRS-020",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "paid"
+    },
+    {
+      "case_id": "G07-G-0140",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0140#required_field_grant_completion_credential.course_ref",
+      "new_arg": "course_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0009",
+        "CRS-016"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-016"
+    },
+    {
+      "case_id": "G07-G-0140",
+      "derivation": null,
+      "family": "tool_replacement",
+      "item_id": "G07-G-0140#required_field_grant_completion_credential.approval_status",
+      "new_arg": "approval_status",
+      "new_tool": "grant_completion_credential",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "no derivation rule is evidenced by the declared information rights",
+      "source_values": [
+        "STU-0009",
+        "CRS-016"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "approved"
+    },
+    {
+      "case_id": "G07-G-0141",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0141#required_field_confirm_room_booking.period_ref",
+      "new_arg": "period_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ROOM-009",
+        "TERM-02"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "TERM-02"
+    },
+    {
+      "case_id": "G07-G-0141",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0141#required_field_confirm_room_booking.approval_status",
+      "new_arg": "approval_status",
+      "new_tool": "confirm_room_booking",
+      "old_arg": null,
+      "old_tool": null,
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "ROOM-009",
+        "TERM-02"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "approved"
+    }
+  ],
+  "rights_schema": "gate19.information_rights.v1",
+  "schema": "gate19.oracle_reachability_audit.v1"
+}

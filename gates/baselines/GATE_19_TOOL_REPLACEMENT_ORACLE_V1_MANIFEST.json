@@ -1,0 +1,834 @@
+{
+  "items": [
+    {
+      "action": "RETAIN",
+      "case_id": "G07-G-0127",
+      "derivation": {
+        "kind": "identity"
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0127#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "student_id",
+      "old_tool": "create_registration",
+      "old_value": "STU-0014",
+      "original_target_value": "STU-0014",
+      "reachability_status": "REACHABLE",
+      "reason": "target equals a visible source value"
+    },
+    {
+      "action": "EXCLUDE",
+      "case_id": "G07-G-0127",
+      "derivation": {
+        "kind": "join",
+        "left_index": 1,
+        "right_index": 2,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0127#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "course_code",
+      "old_tool": "create_registration",
+      "old_value": "STU-0014",
+      "original_target_value": "CRS-021::TERM-01",
+      "reachability_status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "reason": "target requires a join separator absent from the declared method-visible surface"
+    },
+    {
+      "action": "EXCLUDE",
+      "case_id": "G07-G-0127",
+      "derivation": {
+        "kind": "join",
+        "left_index": 1,
+        "right_index": 2,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0127#argument_pair_02",
+      "new_arg": "section_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "term_id",
+      "old_tool": "create_registration",
+      "old_value": "STU-0014",
+      "original_target_value": "CRS-021::TERM-01",
+      "reachability_status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "reason": "target requires a join separator absent from the declared method-visible surface"
+    },
+    {
+      "action": "RETAIN",
+      "case_id": "G07-G-0128",
+      "derivation": {
+        "kind": "identity"
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0128#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "student_id",
+      "old_tool": "issue_completion_certificate",
+      "old_value": "STU-0011",
+      "original_target_value": "STU-0011",
+      "reachability_status": "REACHABLE",
+      "reason": "target equals a visible source value"
+    },
+    {
+      "action": "EXCLUDE",
+      "case_id": "G07-G-0128",
+      "derivation": null,
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0128#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "course_code",
+      "old_tool": "issue_completion_certificate",
+      "old_value": "STU-0011",
+      "original_target_value": null,
+      "reachability_status": "UNREACHABLE-TARGET-ABSENT",
+      "reason": "new_arg is not a declared input field of the method-visible new contract"
+    },
+    {
+      "action": "RETAIN",
+      "case_id": "G07-G-0129",
+      "derivation": {
+        "kind": "identity"
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0129#argument_pair_00",
+      "new_arg": "facility_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "room_code",
+      "old_tool": "reserve_teaching_room",
+      "old_value": "ROOM-004",
+      "original_target_value": "ROOM-004",
+      "reachability_status": "REACHABLE",
+      "reason": "target equals a visible source value"
+    },
+    {
+      "action": "EXCLUDE",
+      "case_id": "G07-G-0129",
+      "derivation": null,
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0129#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "term_id",
+      "old_tool": "reserve_teaching_room",
+      "old_value": "ROOM-004",
+      "original_target_value": null,
+      "reachability_status": "UNREACHABLE-TARGET-ABSENT",
+      "reason": "new_arg is not a declared input field of the method-visible new contract"
+    },
+    {
+      "action": "RETAIN",
+      "case_id": "G07-G-0130",
+      "derivation": {
+        "kind": "identity"
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0130#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "student_id",
+      "old_tool": "create_registration",
+      "old_value": "STU-0018",
+      "original_target_value": "STU-0018",
+      "reachability_status": "REACHABLE",
+      "reason": "target equals a visible source value"
+    },
+    {
+      "action": "EXCLUDE",
+      "case_id": "G07-G-0130",
+      "derivation": {
+        "kind": "join",
+        "left_index": 1,
+        "right_index": 2,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0130#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "course_code",
+      "old_tool": "create_registration",
+      "old_value": "STU-0018",
+      "original_target_value": "CRS-005::TERM-03",
+      "reachability_status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "reason": "target requires a join separator absent from the declared method-visible surface"
+    },
+    {
+      "action": "EXCLUDE",
+      "case_id": "G07-G-0130",
+      "derivation": {
+        "kind": "join",
+        "left_index": 1,
+        "right_index": 2,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0130#argument_pair_02",
+      "new_arg": "section_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "term_id",
+      "old_tool": "create_registration",
+      "old_value": "STU-0018",
+      "original_target_value": "CRS-005::TERM-03",
+      "reachability_status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "reason": "target requires a join separator absent from the declared method-visible surface"
+    },
+    {
+      "action": "RETAIN",
+      "case_id": "G07-G-0131",
+      "derivation": {
+        "kind": "identity"
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0131#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "student_id",
+      "old_tool": "issue_completion_certificate",
+      "old_value": "STU-0012",
+      "original_target_value": "STU-0012",
+      "reachability_status": "REACHABLE",
+      "reason": "target equals a visible source value"
+    },
+    {
+      "action": "EXCLUDE",
+      "case_id": "G07-G-0131",
+      "derivation": null,
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0131#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "course_code",
+      "old_tool": "issue_completion_certificate",
+      "old_value": "STU-0012",
+      "original_target_value": null,
+      "reachability_status": "UNREACHABLE-TARGET-ABSENT",
+      "reason": "new_arg is not a declared input field of the method-visible new contract"
+    },
+    {
+      "action": "RETAIN",
+      "case_id": "G07-G-0132",
+      "derivation": {
+        "kind": "identity"
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0132#argument_pair_00",
+      "new_arg": "facility_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "room_code",
+      "old_tool": "reserve_teaching_room",
+      "old_value": "ROOM-008",
+      "original_target_value": "ROOM-008",
+      "reachability_status": "REACHABLE",
+      "reason": "target equals a visible source value"
+    },
+    {
+      "action": "EXCLUDE",
+      "case_id": "G07-G-0132",
+      "derivation": null,
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0132#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "term_id",
+      "old_tool": "reserve_teaching_room",
+      "old_value": "ROOM-008",
+      "original_target_value": null,
+      "reachability_status": "UNREACHABLE-TARGET-ABSENT",
+      "reason": "new_arg is not a declared input field of the method-visible new contract"
+    },
+    {
+      "action": "RETAIN",
+      "case_id": "G07-G-0133",
+      "derivation": {
+        "kind": "identity"
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0133#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "student_id",
+      "old_tool": "create_registration",
+      "old_value": "STU-0020",
+      "original_target_value": "STU-0020",
+      "reachability_status": "REACHABLE",
+      "reason": "target equals a visible source value"
+    },
+    {
+      "action": "EXCLUDE",
+      "case_id": "G07-G-0133",
+      "derivation": {
+        "kind": "join",
+        "left_index": 1,
+        "right_index": 2,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0133#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "course_code",
+      "old_tool": "create_registration",
+      "old_value": "STU-0020",
+      "original_target_value": "CRS-007::TERM-02",
+      "reachability_status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "reason": "target requires a join separator absent from the declared method-visible surface"
+    },
+    {
+      "action": "EXCLUDE",
+      "case_id": "G07-G-0133",
+      "derivation": {
+        "kind": "join",
+        "left_index": 1,
+        "right_index": 2,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0133#argument_pair_02",
+      "new_arg": "section_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "term_id",
+      "old_tool": "create_registration",
+      "old_value": "STU-0020",
+      "original_target_value": "CRS-007::TERM-02",
+      "reachability_status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "reason": "target requires a join separator absent from the declared method-visible surface"
+    },
+    {
+      "action": "RETAIN",
+      "case_id": "G07-G-0134",
+      "derivation": {
+        "kind": "identity"
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0134#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "student_id",
+      "old_tool": "issue_completion_certificate",
+      "old_value": "STU-0003",
+      "original_target_value": "STU-0003",
+      "reachability_status": "REACHABLE",
+      "reason": "target equals a visible source value"
+    },
+    {
+      "action": "EXCLUDE",
+      "case_id": "G07-G-0134",
+      "derivation": null,
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0134#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "course_code",
+      "old_tool": "issue_completion_certificate",
+      "old_value": "STU-0003",
+      "original_target_value": null,
+      "reachability_status": "UNREACHABLE-TARGET-ABSENT",
+      "reason": "new_arg is not a declared input field of the method-visible new contract"
+    },
+    {
+      "action": "RETAIN",
+      "case_id": "G07-G-0135",
+      "derivation": {
+        "kind": "identity"
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0135#argument_pair_00",
+      "new_arg": "facility_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "room_code",
+      "old_tool": "reserve_teaching_room",
+      "old_value": "ROOM-012",
+      "original_target_value": "ROOM-012",
+      "reachability_status": "REACHABLE",
+      "reason": "target equals a visible source value"
+    },
+    {
+      "action": "EXCLUDE",
+      "case_id": "G07-G-0135",
+      "derivation": null,
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0135#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "term_id",
+      "old_tool": "reserve_teaching_room",
+      "old_value": "ROOM-012",
+      "original_target_value": null,
+      "reachability_status": "UNREACHABLE-TARGET-ABSENT",
+      "reason": "new_arg is not a declared input field of the method-visible new contract"
+    },
+    {
+      "action": "RETAIN",
+      "case_id": "G07-G-0136",
+      "derivation": {
+        "kind": "identity"
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0136#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "student_id",
+      "old_tool": "create_registration",
+      "old_value": "STU-0020",
+      "original_target_value": "STU-0020",
+      "reachability_status": "REACHABLE",
+      "reason": "target equals a visible source value"
+    },
+    {
+      "action": "EXCLUDE",
+      "case_id": "G07-G-0136",
+      "derivation": {
+        "kind": "join",
+        "left_index": 1,
+        "right_index": 2,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0136#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "course_code",
+      "old_tool": "create_registration",
+      "old_value": "STU-0020",
+      "original_target_value": "CRS-007::TERM-02",
+      "reachability_status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "reason": "target requires a join separator absent from the declared method-visible surface"
+    },
+    {
+      "action": "EXCLUDE",
+      "case_id": "G07-G-0136",
+      "derivation": {
+        "kind": "join",
+        "left_index": 1,
+        "right_index": 2,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0136#argument_pair_02",
+      "new_arg": "section_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "term_id",
+      "old_tool": "create_registration",
+      "old_value": "STU-0020",
+      "original_target_value": "CRS-007::TERM-02",
+      "reachability_status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "reason": "target requires a join separator absent from the declared method-visible surface"
+    },
+    {
+      "action": "RETAIN",
+      "case_id": "G07-G-0137",
+      "derivation": {
+        "kind": "identity"
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0137#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "student_id",
+      "old_tool": "issue_completion_certificate",
+      "old_value": "STU-0013",
+      "original_target_value": "STU-0013",
+      "reachability_status": "REACHABLE",
+      "reason": "target equals a visible source value"
+    },
+    {
+      "action": "EXCLUDE",
+      "case_id": "G07-G-0137",
+      "derivation": null,
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0137#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "course_code",
+      "old_tool": "issue_completion_certificate",
+      "old_value": "STU-0013",
+      "original_target_value": null,
+      "reachability_status": "UNREACHABLE-TARGET-ABSENT",
+      "reason": "new_arg is not a declared input field of the method-visible new contract"
+    },
+    {
+      "action": "RETAIN",
+      "case_id": "G07-G-0138",
+      "derivation": {
+        "kind": "identity"
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0138#argument_pair_00",
+      "new_arg": "facility_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "room_code",
+      "old_tool": "reserve_teaching_room",
+      "old_value": "ROOM-013",
+      "original_target_value": "ROOM-013",
+      "reachability_status": "REACHABLE",
+      "reason": "target equals a visible source value"
+    },
+    {
+      "action": "EXCLUDE",
+      "case_id": "G07-G-0138",
+      "derivation": null,
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0138#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "term_id",
+      "old_tool": "reserve_teaching_room",
+      "old_value": "ROOM-013",
+      "original_target_value": null,
+      "reachability_status": "UNREACHABLE-TARGET-ABSENT",
+      "reason": "new_arg is not a declared input field of the method-visible new contract"
+    },
+    {
+      "action": "RETAIN",
+      "case_id": "G07-G-0139",
+      "derivation": {
+        "kind": "identity"
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0139#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "student_id",
+      "old_tool": "create_registration",
+      "old_value": "STU-0003",
+      "original_target_value": "STU-0003",
+      "reachability_status": "REACHABLE",
+      "reason": "target equals a visible source value"
+    },
+    {
+      "action": "EXCLUDE",
+      "case_id": "G07-G-0139",
+      "derivation": {
+        "kind": "join",
+        "left_index": 1,
+        "right_index": 2,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0139#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "course_code",
+      "old_tool": "create_registration",
+      "old_value": "STU-0003",
+      "original_target_value": "CRS-020::TERM-03",
+      "reachability_status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "reason": "target requires a join separator absent from the declared method-visible surface"
+    },
+    {
+      "action": "EXCLUDE",
+      "case_id": "G07-G-0139",
+      "derivation": {
+        "kind": "join",
+        "left_index": 1,
+        "right_index": 2,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0139#argument_pair_02",
+      "new_arg": "section_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "term_id",
+      "old_tool": "create_registration",
+      "old_value": "STU-0003",
+      "original_target_value": "CRS-020::TERM-03",
+      "reachability_status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "reason": "target requires a join separator absent from the declared method-visible surface"
+    },
+    {
+      "action": "RETAIN",
+      "case_id": "G07-G-0140",
+      "derivation": {
+        "kind": "identity"
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0140#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "student_id",
+      "old_tool": "issue_completion_certificate",
+      "old_value": "STU-0009",
+      "original_target_value": "STU-0009",
+      "reachability_status": "REACHABLE",
+      "reason": "target equals a visible source value"
+    },
+    {
+      "action": "EXCLUDE",
+      "case_id": "G07-G-0140",
+      "derivation": null,
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0140#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "course_code",
+      "old_tool": "issue_completion_certificate",
+      "old_value": "STU-0009",
+      "original_target_value": null,
+      "reachability_status": "UNREACHABLE-TARGET-ABSENT",
+      "reason": "new_arg is not a declared input field of the method-visible new contract"
+    },
+    {
+      "action": "RETAIN",
+      "case_id": "G07-G-0141",
+      "derivation": {
+        "kind": "identity"
+      },
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0141#argument_pair_00",
+      "new_arg": "facility_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "room_code",
+      "old_tool": "reserve_teaching_room",
+      "old_value": "ROOM-009",
+      "original_target_value": "ROOM-009",
+      "reachability_status": "REACHABLE",
+      "reason": "target equals a visible source value"
+    },
+    {
+      "action": "EXCLUDE",
+      "case_id": "G07-G-0141",
+      "derivation": null,
+      "frozen_sources": [
+        "research/gate07/oracle/ground_truth.py",
+        "research/gate07/harness/method_facing.py",
+        "research/gate07/dataset/generator.py::build_v4_cases",
+        "gates/baselines/GATE_07_PROTOCOL_V4.json",
+        "gates/baselines/GATE_08_PROTOCOL.json"
+      ],
+      "item_id": "G07-G-0141#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "term_id",
+      "old_tool": "reserve_teaching_room",
+      "old_value": "ROOM-009",
+      "original_target_value": null,
+      "reachability_status": "UNREACHABLE-TARGET-ABSENT",
+      "reason": "new_arg is not a declared input field of the method-visible new contract"
+    }
+  ],
+  "policy": "Retain only REACHABLE argument-pair items. Exclude target-absent and convention-unobservable items; do not invent replacement values.",
+  "schema": "gate19.tool_replacement_oracle_manifest.v1",
+  "source_audit": "gates/results/GATE_19_AUDIT.json",
+  "source_audit_sha256": "4ff5db197eb995ce0ec00de4e4c1a3f82cc7ad3193fa9785259bbc6e289c7d22",
+  "version": "GATE_19_TOOL_REPLACEMENT_ORACLE_V1"
+}

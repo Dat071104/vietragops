@@ -1,0 +1,1864 @@
+{
+  "case_count": 5,
+  "cases": [
+    "G07-G-0127",
+    "G07-G-0130",
+    "G07-G-0133",
+    "G07-G-0136",
+    "G07-G-0139"
+  ],
+  "different_separator_rows": 3,
+  "interpretation_boundary": "This is a read-only extraction of frozen parsed predictions. It does not infer a missing separator from evaluator execution and does not rescore any Gate 07/08 metric.",
+  "no_join_rows": 82,
+  "rows": [
+    {
+      "argument_pairs": [],
+      "arm_id": "cross_encoder",
+      "case_id": "G07-G-0127",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "BAAI/bge-reranker-v2-m3@953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_cross_encoder.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "cross_encoder",
+      "case_id": "G07-G-0130",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "BAAI/bge-reranker-v2-m3@953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_cross_encoder.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "cross_encoder",
+      "case_id": "G07-G-0133",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "BAAI/bge-reranker-v2-m3@953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_cross_encoder.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "cross_encoder",
+      "case_id": "G07-G-0136",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "BAAI/bge-reranker-v2-m3@953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_cross_encoder.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "cross_encoder",
+      "case_id": "G07-G-0139",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "BAAI/bge-reranker-v2-m3@953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_cross_encoder.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "embed_name_desc",
+      "case_id": "G07-G-0127",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "BAAI/bge-m3@5617a9f61b028005a4858fdac845db406aefb181",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_embedding.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "embed_name_desc",
+      "case_id": "G07-G-0130",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "BAAI/bge-m3@5617a9f61b028005a4858fdac845db406aefb181",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_embedding.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "embed_name_desc",
+      "case_id": "G07-G-0133",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "BAAI/bge-m3@5617a9f61b028005a4858fdac845db406aefb181",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_embedding.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "embed_name_desc",
+      "case_id": "G07-G-0136",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "BAAI/bge-m3@5617a9f61b028005a4858fdac845db406aefb181",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_embedding.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "embed_name_desc",
+      "case_id": "G07-G-0139",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "BAAI/bge-m3@5617a9f61b028005a4858fdac845db406aefb181",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_embedding.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [
+        [
+          "create_registration",
+          "course_code",
+          "lookup_exact_learner",
+          "student_id"
+        ],
+        [
+          "create_registration",
+          "student_id",
+          "lookup_exact_learner",
+          "student_id"
+        ],
+        [
+          "create_registration",
+          "term_id",
+          "lookup_exact_learner",
+          "student_id"
+        ]
+      ],
+      "arm_id": "embed_serialized_schema",
+      "case_id": "G07-G-0127",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "BAAI/bge-m3@5617a9f61b028005a4858fdac845db406aefb181",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "lookup_exact_learner"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_embedding.jsonl",
+      "value_transforms": [
+        {
+          "kind": "identity"
+        },
+        {
+          "kind": "identity"
+        },
+        {
+          "kind": "identity"
+        }
+      ]
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "embed_serialized_schema",
+      "case_id": "G07-G-0130",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "BAAI/bge-m3@5617a9f61b028005a4858fdac845db406aefb181",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_embedding.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [
+        [
+          "create_registration",
+          "course_code",
+          "lookup_exact_learner",
+          "student_id"
+        ],
+        [
+          "create_registration",
+          "student_id",
+          "lookup_exact_learner",
+          "student_id"
+        ],
+        [
+          "create_registration",
+          "term_id",
+          "lookup_exact_learner",
+          "student_id"
+        ]
+      ],
+      "arm_id": "embed_serialized_schema",
+      "case_id": "G07-G-0133",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "BAAI/bge-m3@5617a9f61b028005a4858fdac845db406aefb181",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "lookup_exact_learner"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_embedding.jsonl",
+      "value_transforms": [
+        {
+          "kind": "identity"
+        },
+        {
+          "kind": "identity"
+        },
+        {
+          "kind": "identity"
+        }
+      ]
+    },
+    {
+      "argument_pairs": [
+        [
+          "create_registration",
+          "course_code",
+          "grant_completion_credential",
+          "course_ref"
+        ]
+      ],
+      "arm_id": "embed_serialized_schema",
+      "case_id": "G07-G-0136",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "BAAI/bge-m3@5617a9f61b028005a4858fdac845db406aefb181",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "grant_completion_credential"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_embedding.jsonl",
+      "value_transforms": [
+        {
+          "kind": "identity"
+        }
+      ]
+    },
+    {
+      "argument_pairs": [
+        [
+          "create_registration",
+          "course_code",
+          "get_course_summary",
+          "course_code"
+        ],
+        [
+          "create_registration",
+          "student_id",
+          "get_course_summary",
+          "course_code"
+        ],
+        [
+          "create_registration",
+          "term_id",
+          "get_course_summary",
+          "course_code"
+        ]
+      ],
+      "arm_id": "embed_serialized_schema",
+      "case_id": "G07-G-0139",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "BAAI/bge-m3@5617a9f61b028005a4858fdac845db406aefb181",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "get_course_summary"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_embedding.jsonl",
+      "value_transforms": [
+        {
+          "kind": "identity"
+        },
+        {
+          "kind": "identity"
+        },
+        {
+          "kind": "identity"
+        }
+      ]
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "lexical_name",
+      "case_id": "G07-G-0127",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "deterministic_lexical_name",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_lexical.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "lexical_name",
+      "case_id": "G07-G-0130",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "deterministic_lexical_name",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_lexical.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "lexical_name",
+      "case_id": "G07-G-0133",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "deterministic_lexical_name",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_lexical.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "lexical_name",
+      "case_id": "G07-G-0136",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "deterministic_lexical_name",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_lexical.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "lexical_name",
+      "case_id": "G07-G-0139",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "deterministic_lexical_name",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_lexical.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "lexical_serialized",
+      "case_id": "G07-G-0127",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "deterministic_lexical_serialized",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "confirm_room_booking"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_lexical.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "lexical_serialized",
+      "case_id": "G07-G-0130",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "deterministic_lexical_serialized",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "confirm_room_booking"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_lexical.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "lexical_serialized",
+      "case_id": "G07-G-0133",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "deterministic_lexical_serialized",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_lexical.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [
+        [
+          "create_registration",
+          "course_code",
+          "grant_completion_credential",
+          "course_ref"
+        ]
+      ],
+      "arm_id": "lexical_serialized",
+      "case_id": "G07-G-0136",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "deterministic_lexical_serialized",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "grant_completion_credential"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_lexical.jsonl",
+      "value_transforms": [
+        {
+          "kind": "identity"
+        }
+      ]
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "lexical_serialized",
+      "case_id": "G07-G-0139",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "deterministic_lexical_serialized",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "confirm_room_booking"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_lexical.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_new_schema_only",
+      "case_id": "G07-G-0127",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-new-only-v4",
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_new_schema_only",
+      "case_id": "G07-G-0130",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-new-only-v4",
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_new_schema_only",
+      "case_id": "G07-G-0133",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-new-only-v4",
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_new_schema_only",
+      "case_id": "G07-G-0136",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-new-only-v4",
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_new_schema_only",
+      "case_id": "G07-G-0139",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-new-only-v4",
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [
+        [
+          "create_registration",
+          "learner_id",
+          "finalize_paid_registration",
+          "learner_ref"
+        ],
+        [
+          "create_registration",
+          "section_id",
+          "finalize_paid_registration",
+          "section_ref"
+        ],
+        [
+          "create_registration",
+          "payment_status",
+          "finalize_paid_registration",
+          "payment_status"
+        ]
+      ],
+      "arm_id": "llm_new_schema_only",
+      "case_id": "G07-G-0127",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-new-only-v4",
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": [
+        {
+          "kind": "identity"
+        },
+        {
+          "kind": "identity"
+        },
+        {
+          "kind": "identity"
+        }
+      ]
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_new_schema_only",
+      "case_id": "G07-G-0130",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-new-only-v4",
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [
+        [
+          "create_course_registration",
+          "learner_id",
+          "finalize_paid_registration",
+          "learner_ref"
+        ],
+        [
+          "create_course_registration",
+          "payment_status",
+          "finalize_paid_registration",
+          "payment_status"
+        ],
+        [
+          "create_course_registration",
+          "course_id",
+          "finalize_paid_registration",
+          "section_ref"
+        ]
+      ],
+      "arm_id": "llm_new_schema_only",
+      "case_id": "G07-G-0133",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-new-only-v4",
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": [
+        {
+          "kind": "identity"
+        },
+        {
+          "kind": "identity"
+        },
+        {
+          "kind": "identity"
+        }
+      ]
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_new_schema_only",
+      "case_id": "G07-G-0136",
+      "constructed_argument_values": [
+        {
+          "arguments": {},
+          "new_tool": "finalize_paid_registration"
+        }
+      ],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-new-only-v4",
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_new_schema_only",
+      "case_id": "G07-G-0139",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-new-only-v4",
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_direct",
+      "case_id": "G07-G-0127",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-direct-v4-forced",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_direct",
+      "case_id": "G07-G-0130",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-direct-v4-forced",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_direct",
+      "case_id": "G07-G-0133",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-direct-v4-forced",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_direct",
+      "case_id": "G07-G-0136",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-direct-v4-forced",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_direct",
+      "case_id": "G07-G-0139",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-direct-v4-forced",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_direct",
+      "case_id": "G07-G-0127",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-direct-v4-forced",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_direct",
+      "case_id": "G07-G-0130",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-direct-v4-forced",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_direct",
+      "case_id": "G07-G-0133",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-direct-v4-forced",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [
+        [
+          "create_registration",
+          "student_id",
+          "finalize_paid_registration",
+          "learner_ref"
+        ],
+        [
+          "create_registration",
+          "course_code",
+          "finalize_paid_registration",
+          "section_ref"
+        ]
+      ],
+      "arm_id": "llm_old_new_direct",
+      "case_id": "G07-G-0136",
+      "constructed_argument_values": [
+        {
+          "arguments": {
+            "payment_status": "paid"
+          },
+          "new_tool": "finalize_paid_registration"
+        }
+      ],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-direct-v4-forced",
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": [
+        {
+          "kind": "identity"
+        },
+        {
+          "kind": "identity"
+        }
+      ]
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_direct",
+      "case_id": "G07-G-0139",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-direct-v4-forced",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_direct_v3_legacy",
+      "case_id": "G07-G-0127",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-direct-v1-legacy",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": null
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_direct_v3_legacy",
+      "case_id": "G07-G-0130",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-direct-v1-legacy",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": null
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_direct_v3_legacy",
+      "case_id": "G07-G-0133",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-direct-v1-legacy",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": null
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_direct_v3_legacy",
+      "case_id": "G07-G-0136",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-direct-v1-legacy",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": null
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_direct_v3_legacy",
+      "case_id": "G07-G-0139",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-direct-v1-legacy",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": null
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_direct_v3_legacy",
+      "case_id": "G07-G-0127",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-direct-v1-legacy",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": null
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_direct_v3_legacy",
+      "case_id": "G07-G-0130",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-direct-v1-legacy",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": null
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_direct_v3_legacy",
+      "case_id": "G07-G-0133",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-direct-v1-legacy",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": null
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_direct_v3_legacy",
+      "case_id": "G07-G-0136",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-direct-v1-legacy",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": null
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_direct_v3_legacy",
+      "case_id": "G07-G-0139",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-direct-v1-legacy",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": null
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_history",
+      "case_id": "G07-G-0127",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-history-v4",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_history",
+      "case_id": "G07-G-0130",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-history-v4",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_history",
+      "case_id": "G07-G-0133",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-history-v4",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_history",
+      "case_id": "G07-G-0136",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-history-v4",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_history",
+      "case_id": "G07-G-0139",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-history-v4",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_history",
+      "case_id": "G07-G-0127",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-history-v4",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_old_new_history",
+      "case_id": "G07-G-0130",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-history-v4",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [
+        [
+          "create_registration",
+          "student_id",
+          "finalize_paid_registration",
+          "learner_ref"
+        ],
+        [
+          "create_registration",
+          "course_code",
+          "finalize_paid_registration",
+          "section_ref"
+        ]
+      ],
+      "arm_id": "llm_old_new_history",
+      "case_id": "G07-G-0133",
+      "constructed_argument_values": [
+        {
+          "arguments": {
+            "payment_status": "paid"
+          },
+          "new_tool": "finalize_paid_registration"
+        }
+      ],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-history-v4",
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": [
+        {
+          "kind": "identity"
+        },
+        {
+          "kind": "identity"
+        }
+      ]
+    },
+    {
+      "argument_pairs": [
+        [
+          "create_registration",
+          "student_id",
+          "finalize_paid_registration",
+          "learner_ref"
+        ]
+      ],
+      "arm_id": "llm_old_new_history",
+      "case_id": "G07-G-0136",
+      "constructed_argument_values": [
+        {
+          "arguments": {
+            "learner_ref": "STU-0020",
+            "payment_status": "paid",
+            "section_ref": "CRS-007-TERM-02"
+          },
+          "new_tool": "finalize_paid_registration"
+        }
+      ],
+      "failure_kind": null,
+      "join_classification": "different_separator",
+      "join_observations": [
+        {
+          "new_tool": "finalize_paid_registration",
+          "separator": null,
+          "source": "constructed_literal",
+          "value": "CRS-007-TERM-02"
+        }
+      ],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-history-v4",
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": [
+        {
+          "kind": "identity"
+        }
+      ]
+    },
+    {
+      "argument_pairs": [
+        [
+          "create_registration",
+          "student_id",
+          "finalize_paid_registration",
+          "learner_ref"
+        ],
+        [
+          "create_registration",
+          "course_code",
+          "finalize_paid_registration",
+          "section_ref"
+        ],
+        [
+          "create_registration",
+          "term_id",
+          "finalize_paid_registration",
+          "section_ref"
+        ]
+      ],
+      "arm_id": "llm_old_new_history",
+      "case_id": "G07-G-0139",
+      "constructed_argument_values": [
+        {
+          "arguments": {
+            "payment_status": "paid"
+          },
+          "new_tool": "finalize_paid_registration"
+        }
+      ],
+      "failure_kind": null,
+      "join_classification": "different_separator",
+      "join_observations": [
+        {
+          "delimiter": "-",
+          "order": 1,
+          "source": "value_transform"
+        },
+        {
+          "delimiter": "-",
+          "order": 2,
+          "source": "value_transform"
+        }
+      ],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-history-v4",
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": [
+        {
+          "kind": "identity"
+        },
+        {
+          "delimiter": "-",
+          "kind": "join",
+          "order": 1
+        },
+        {
+          "delimiter": "-",
+          "kind": "join",
+          "order": 2
+        }
+      ]
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_reasoning",
+      "case_id": "G07-G-0127",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-reasoning-v4",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_reasoning",
+      "case_id": "G07-G-0130",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-reasoning-v4",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_reasoning",
+      "case_id": "G07-G-0133",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-reasoning-v4",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_reasoning",
+      "case_id": "G07-G-0136",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-reasoning-v4",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_reasoning",
+      "case_id": "G07-G-0139",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-120b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-reasoning-v4",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_reasoning",
+      "case_id": "G07-G-0127",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-reasoning-v4",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_reasoning",
+      "case_id": "G07-G-0130",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-reasoning-v4",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_reasoning",
+      "case_id": "G07-G-0133",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-reasoning-v4",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [
+        [
+          "create_registration",
+          "student_id",
+          "finalize_paid_registration",
+          "learner_ref"
+        ]
+      ],
+      "arm_id": "llm_reasoning",
+      "case_id": "G07-G-0136",
+      "constructed_argument_values": [
+        {
+          "arguments": {
+            "payment_status": "paid",
+            "section_ref": "${course_code}-${term_id}"
+          },
+          "new_tool": "finalize_paid_registration"
+        }
+      ],
+      "failure_kind": null,
+      "join_classification": "different_separator",
+      "join_observations": [
+        {
+          "new_tool": "finalize_paid_registration",
+          "separator": null,
+          "source": "constructed_literal",
+          "value": "${course_code}-${term_id}"
+        }
+      ],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-reasoning-v4",
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": [
+        {
+          "kind": "identity"
+        }
+      ]
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "llm_reasoning",
+      "case_id": "G07-G-0139",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "openai/gpt-oss-20b",
+      "outcome": "success",
+      "prompt_id": "gate07-llm-reasoning-v4",
+      "selected_tool_names": [],
+      "source": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "positional_prior",
+      "case_id": "G07-G-0127",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "deterministic_control",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_controls.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "positional_prior",
+      "case_id": "G07-G-0130",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "deterministic_control",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "confirm_room_booking"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_controls.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "positional_prior",
+      "case_id": "G07-G-0133",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "deterministic_control",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "search_room_options"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_controls.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "positional_prior",
+      "case_id": "G07-G-0136",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "deterministic_control",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "get_invoice_summary_generalized"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_controls.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "positional_prior",
+      "case_id": "G07-G-0139",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "deterministic_control",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_controls.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "random_choice",
+      "case_id": "G07-G-0127",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "deterministic_control",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "lookup_exact_learner"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_controls.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "random_choice",
+      "case_id": "G07-G-0130",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "deterministic_control",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "finalize_paid_registration"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_controls.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "random_choice",
+      "case_id": "G07-G-0133",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "deterministic_control",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "lookup_exact_learner"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_controls.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "random_choice",
+      "case_id": "G07-G-0136",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "deterministic_control",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "get_invoice_summary_generalized"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_controls.jsonl",
+      "value_transforms": []
+    },
+    {
+      "argument_pairs": [],
+      "arm_id": "random_choice",
+      "case_id": "G07-G-0139",
+      "constructed_argument_values": [],
+      "failure_kind": null,
+      "join_classification": "no_join",
+      "join_observations": [],
+      "model": "deterministic_control",
+      "outcome": null,
+      "prompt_id": null,
+      "selected_tool_names": [
+        "get_course_summary"
+      ],
+      "source": "gates/artifacts/gate07/v4/offline_controls.jsonl",
+      "value_transforms": []
+    }
+  ],
+  "sandbox_join_rows": 0,
+  "schema": "gate19.frozen_convention_extraction.v1",
+  "source_receipts": [
+    {
+      "effective_row_count": 360,
+      "path": "gates/artifacts/gate07/v4/offline_lexical.jsonl",
+      "raw_row_count": 360,
+      "sha256": "ad325a53d4c07464a06b6a19cfdbb96ae55d45f3155c9c62ab783a9fd8065ee6",
+      "size_bytes": 404211
+    },
+    {
+      "effective_row_count": 360,
+      "path": "gates/artifacts/gate07/v4/offline_embedding.jsonl",
+      "raw_row_count": 360,
+      "sha256": "4035de9f7510ef2192c075843dd288680dce9a2bc9230729168eec29db622ee4",
+      "size_bytes": 419153
+    },
+    {
+      "effective_row_count": 180,
+      "path": "gates/artifacts/gate07/v4/offline_cross_encoder.jsonl",
+      "raw_row_count": 180,
+      "sha256": "a7f6fe1a328a8e493c7f8e5cc9ea24a73a2a3619b70dd94d627e9958899d8aed",
+      "size_bytes": 213729
+    },
+    {
+      "effective_row_count": 360,
+      "path": "gates/artifacts/gate07/v4/offline_controls.jsonl",
+      "raw_row_count": 360,
+      "sha256": "fe26c48dc2ef7c321cf6a560acc86df622e78c56909b493c314b6ec268c38d3a",
+      "size_bytes": 157024
+    },
+    {
+      "effective_row_count": 1800,
+      "path": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "raw_row_count": 2584,
+      "sha256": "c25e760841574ffa0eac2abb5fe7717e71f91533d2ab5be146f0c0794c17f599",
+      "size_bytes": 1977154
+    }
+  ],
+  "summary_by_arm_model": {
+    "cross_encoder::BAAI/bge-reranker-v2-m3@953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e": {
+      "different_separator": 0,
+      "no_join": 5,
+      "rows": 5,
+      "sandbox_join": 0
+    },
+    "embed_name_desc::BAAI/bge-m3@5617a9f61b028005a4858fdac845db406aefb181": {
+      "different_separator": 0,
+      "no_join": 5,
+      "rows": 5,
+      "sandbox_join": 0
+    },
+    "embed_serialized_schema::BAAI/bge-m3@5617a9f61b028005a4858fdac845db406aefb181": {
+      "different_separator": 0,
+      "no_join": 5,
+      "rows": 5,
+      "sandbox_join": 0
+    },
+    "lexical_name::deterministic_lexical_name": {
+      "different_separator": 0,
+      "no_join": 5,
+      "rows": 5,
+      "sandbox_join": 0
+    },
+    "lexical_serialized::deterministic_lexical_serialized": {
+      "different_separator": 0,
+      "no_join": 5,
+      "rows": 5,
+      "sandbox_join": 0
+    },
+    "llm_new_schema_only::openai/gpt-oss-120b": {
+      "different_separator": 0,
+      "no_join": 5,
+      "rows": 5,
+      "sandbox_join": 0
+    },
+    "llm_new_schema_only::openai/gpt-oss-20b": {
+      "different_separator": 0,
+      "no_join": 5,
+      "rows": 5,
+      "sandbox_join": 0
+    },
+    "llm_old_new_direct::openai/gpt-oss-120b": {
+      "different_separator": 0,
+      "no_join": 5,
+      "rows": 5,
+      "sandbox_join": 0
+    },
+    "llm_old_new_direct::openai/gpt-oss-20b": {
+      "different_separator": 0,
+      "no_join": 5,
+      "rows": 5,
+      "sandbox_join": 0
+    },
+    "llm_old_new_direct_v3_legacy::openai/gpt-oss-120b": {
+      "different_separator": 0,
+      "no_join": 5,
+      "rows": 5,
+      "sandbox_join": 0
+    },
+    "llm_old_new_direct_v3_legacy::openai/gpt-oss-20b": {
+      "different_separator": 0,
+      "no_join": 5,
+      "rows": 5,
+      "sandbox_join": 0
+    },
+    "llm_old_new_history::openai/gpt-oss-120b": {
+      "different_separator": 0,
+      "no_join": 5,
+      "rows": 5,
+      "sandbox_join": 0
+    },
+    "llm_old_new_history::openai/gpt-oss-20b": {
+      "different_separator": 2,
+      "no_join": 3,
+      "rows": 5,
+      "sandbox_join": 0
+    },
+    "llm_reasoning::openai/gpt-oss-120b": {
+      "different_separator": 0,
+      "no_join": 5,
+      "rows": 5,
+      "sandbox_join": 0
+    },
+    "llm_reasoning::openai/gpt-oss-20b": {
+      "different_separator": 1,
+      "no_join": 4,
+      "rows": 5,
+      "sandbox_join": 0
+    },
+    "positional_prior::deterministic_control": {
+      "different_separator": 0,
+      "no_join": 5,
+      "rows": 5,
+      "sandbox_join": 0
+    },
+    "random_choice::deterministic_control": {
+      "different_separator": 0,
+      "no_join": 5,
+      "rows": 5,
+      "sandbox_join": 0
+    }
+  },
+  "total_rows": 85
+}

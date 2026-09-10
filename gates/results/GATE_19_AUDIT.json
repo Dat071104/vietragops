@@ -1,0 +1,6517 @@
+{
+  "criterion": "Target and every construction step must be derivable from the declared information rights.",
+  "families": {
+    "added_required_field": {
+      "case_count": 15,
+      "convention_case_count": 0,
+      "convention_case_ids": [],
+      "convention_case_share": 0.0,
+      "max_attainable_recall": 1.0,
+      "pairs": 40,
+      "status_counts": {
+        "REACHABLE": 40,
+        "UNREACHABLE-CONVENTION-UNOBSERVABLE": 0,
+        "UNREACHABLE-TARGET-ABSENT": 0
+      },
+      "unreachable_pairs": 0,
+      "unreachable_share": 0.0
+    },
+    "argument_merge": {
+      "case_count": 15,
+      "convention_case_count": 15,
+      "convention_case_ids": [
+        "G07-G-0091",
+        "G07-G-0092",
+        "G07-G-0093",
+        "G07-G-0094",
+        "G07-G-0095",
+        "G07-G-0096",
+        "G07-G-0097",
+        "G07-G-0098",
+        "G07-G-0099",
+        "G07-G-0100",
+        "G07-G-0101",
+        "G07-G-0102",
+        "G07-G-0103",
+        "G07-G-0104",
+        "G07-G-0105"
+      ],
+      "convention_case_share": 1.0,
+      "max_attainable_recall": 0.0,
+      "pairs": 30,
+      "status_counts": {
+        "REACHABLE": 0,
+        "UNREACHABLE-CONVENTION-UNOBSERVABLE": 30,
+        "UNREACHABLE-TARGET-ABSENT": 0
+      },
+      "unreachable_pairs": 30,
+      "unreachable_share": 1.0
+    },
+    "argument_rename": {
+      "case_count": 15,
+      "convention_case_count": 0,
+      "convention_case_ids": [],
+      "convention_case_share": 0.0,
+      "max_attainable_recall": 1.0,
+      "pairs": 20,
+      "status_counts": {
+        "REACHABLE": 20,
+        "UNREACHABLE-CONVENTION-UNOBSERVABLE": 0,
+        "UNREACHABLE-TARGET-ABSENT": 0
+      },
+      "unreachable_pairs": 0,
+      "unreachable_share": 0.0
+    },
+    "argument_split": {
+      "case_count": 15,
+      "convention_case_count": 0,
+      "convention_case_ids": [],
+      "convention_case_share": 0.0,
+      "max_attainable_recall": 1.0,
+      "pairs": 40,
+      "status_counts": {
+        "REACHABLE": 40,
+        "UNREACHABLE-CONVENTION-UNOBSERVABLE": 0,
+        "UNREACHABLE-TARGET-ABSENT": 0
+      },
+      "unreachable_pairs": 0,
+      "unreachable_share": 0.0
+    },
+    "multiple_old_to_one_new": {
+      "case_count": 15,
+      "convention_case_count": 0,
+      "convention_case_ids": [],
+      "convention_case_share": 0.0,
+      "max_attainable_recall": 1.0,
+      "pairs": 30,
+      "status_counts": {
+        "REACHABLE": 30,
+        "UNREACHABLE-CONVENTION-UNOBSERVABLE": 0,
+        "UNREACHABLE-TARGET-ABSENT": 0
+      },
+      "unreachable_pairs": 0,
+      "unreachable_share": 0.0
+    },
+    "multiple_simultaneous_renames": {
+      "case_count": 15,
+      "convention_case_count": 0,
+      "convention_case_ids": [],
+      "convention_case_share": 0.0,
+      "max_attainable_recall": 1.0,
+      "pairs": 40,
+      "status_counts": {
+        "REACHABLE": 40,
+        "UNREACHABLE-CONVENTION-UNOBSERVABLE": 0,
+        "UNREACHABLE-TARGET-ABSENT": 0
+      },
+      "unreachable_pairs": 0,
+      "unreachable_share": 0.0
+    },
+    "one_old_to_multiple_new": {
+      "case_count": 15,
+      "convention_case_count": 0,
+      "convention_case_ids": [],
+      "convention_case_share": 0.0,
+      "max_attainable_recall": 1.0,
+      "pairs": 30,
+      "status_counts": {
+        "REACHABLE": 30,
+        "UNREACHABLE-CONVENTION-UNOBSERVABLE": 0,
+        "UNREACHABLE-TARGET-ABSENT": 0
+      },
+      "unreachable_pairs": 0,
+      "unreachable_share": 0.0
+    },
+    "output_restructure": {
+      "case_count": 15,
+      "convention_case_count": 0,
+      "convention_case_ids": [],
+      "convention_case_share": 0.0,
+      "max_attainable_recall": 1.0,
+      "pairs": 15,
+      "status_counts": {
+        "REACHABLE": 15,
+        "UNREACHABLE-CONVENTION-UNOBSERVABLE": 0,
+        "UNREACHABLE-TARGET-ABSENT": 0
+      },
+      "unreachable_pairs": 0,
+      "unreachable_share": 0.0
+    },
+    "semantic_near_collision": {
+      "case_count": 15,
+      "convention_case_count": 0,
+      "convention_case_ids": [],
+      "convention_case_share": 0.0,
+      "max_attainable_recall": 1.0,
+      "pairs": 15,
+      "status_counts": {
+        "REACHABLE": 15,
+        "UNREACHABLE-CONVENTION-UNOBSERVABLE": 0,
+        "UNREACHABLE-TARGET-ABSENT": 0
+      },
+      "unreachable_pairs": 0,
+      "unreachable_share": 0.0
+    },
+    "tool_rename": {
+      "case_count": 15,
+      "convention_case_count": 0,
+      "convention_case_ids": [],
+      "convention_case_share": 0.0,
+      "max_attainable_recall": 1.0,
+      "pairs": 15,
+      "status_counts": {
+        "REACHABLE": 15,
+        "UNREACHABLE-CONVENTION-UNOBSERVABLE": 0,
+        "UNREACHABLE-TARGET-ABSENT": 0
+      },
+      "unreachable_pairs": 0,
+      "unreachable_share": 0.0
+    },
+    "tool_replacement": {
+      "case_count": 15,
+      "convention_case_count": 5,
+      "convention_case_ids": [
+        "G07-G-0127",
+        "G07-G-0130",
+        "G07-G-0133",
+        "G07-G-0136",
+        "G07-G-0139"
+      ],
+      "convention_case_share": 0.3333333333,
+      "max_attainable_recall": 0.4285714286,
+      "pairs": 35,
+      "status_counts": {
+        "REACHABLE": 15,
+        "UNREACHABLE-CONVENTION-UNOBSERVABLE": 10,
+        "UNREACHABLE-TARGET-ABSENT": 10
+      },
+      "unreachable_pairs": 20,
+      "unreachable_share": 0.5714285714
+    }
+  },
+  "item_count": 310,
+  "items": [
+    {
+      "case_id": "G07-G-0001",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_rename",
+      "item_id": "G07-G-0001#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "find_course_catalog",
+      "old_arg": "course_code",
+      "old_tool": "search_course_catalog",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-029"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-029"
+    },
+    {
+      "case_id": "G07-G-0002",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_rename",
+      "item_id": "G07-G-0002#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "find_student_directory",
+      "old_arg": "student_id",
+      "old_tool": "search_student_directory",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0014"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0014"
+    },
+    {
+      "case_id": "G07-G-0003",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_rename",
+      "item_id": "G07-G-0003#argument_pair_00",
+      "new_arg": "room_code",
+      "new_tool": "find_room_directory",
+      "old_arg": "room_code",
+      "old_tool": "search_room_directory",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ROOM-004"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ROOM-004"
+    },
+    {
+      "case_id": "G07-G-0004",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_rename",
+      "item_id": "G07-G-0004#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "find_course_catalog",
+      "old_arg": "course_code",
+      "old_tool": "search_course_catalog",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-026"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-026"
+    },
+    {
+      "case_id": "G07-G-0005",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_rename",
+      "item_id": "G07-G-0005#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "find_student_directory",
+      "old_arg": "student_id",
+      "old_tool": "search_student_directory",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0017"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0017"
+    },
+    {
+      "case_id": "G07-G-0006",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_rename",
+      "item_id": "G07-G-0006#argument_pair_00",
+      "new_arg": "room_code",
+      "new_tool": "find_room_directory",
+      "old_arg": "room_code",
+      "old_tool": "search_room_directory",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ROOM-006"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ROOM-006"
+    },
+    {
+      "case_id": "G07-G-0007",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_rename",
+      "item_id": "G07-G-0007#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "find_course_catalog",
+      "old_arg": "course_code",
+      "old_tool": "search_course_catalog",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-020"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-020"
+    },
+    {
+      "case_id": "G07-G-0008",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_rename",
+      "item_id": "G07-G-0008#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "find_student_directory",
+      "old_arg": "student_id",
+      "old_tool": "search_student_directory",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0008"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0008"
+    },
+    {
+      "case_id": "G07-G-0009",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_rename",
+      "item_id": "G07-G-0009#argument_pair_00",
+      "new_arg": "room_code",
+      "new_tool": "find_room_directory",
+      "old_arg": "room_code",
+      "old_tool": "search_room_directory",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ROOM-014"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ROOM-014"
+    },
+    {
+      "case_id": "G07-G-0010",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_rename",
+      "item_id": "G07-G-0010#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "find_course_catalog",
+      "old_arg": "course_code",
+      "old_tool": "search_course_catalog",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-028"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-028"
+    },
+    {
+      "case_id": "G07-G-0011",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_rename",
+      "item_id": "G07-G-0011#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "find_student_directory",
+      "old_arg": "student_id",
+      "old_tool": "search_student_directory",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0005"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0005"
+    },
+    {
+      "case_id": "G07-G-0012",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_rename",
+      "item_id": "G07-G-0012#argument_pair_00",
+      "new_arg": "room_code",
+      "new_tool": "find_room_directory",
+      "old_arg": "room_code",
+      "old_tool": "search_room_directory",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ROOM-009"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ROOM-009"
+    },
+    {
+      "case_id": "G07-G-0013",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_rename",
+      "item_id": "G07-G-0013#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "find_course_catalog",
+      "old_arg": "course_code",
+      "old_tool": "search_course_catalog",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-014"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-014"
+    },
+    {
+      "case_id": "G07-G-0014",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_rename",
+      "item_id": "G07-G-0014#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "find_student_directory",
+      "old_arg": "student_id",
+      "old_tool": "search_student_directory",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0017"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0017"
+    },
+    {
+      "case_id": "G07-G-0015",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_rename",
+      "item_id": "G07-G-0015#argument_pair_00",
+      "new_arg": "room_code",
+      "new_tool": "find_room_directory",
+      "old_arg": "room_code",
+      "old_tool": "search_room_directory",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ROOM-012"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ROOM-012"
+    },
+    {
+      "case_id": "G07-G-0019",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_rename",
+      "item_id": "G07-G-0019#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "check_module_eligibility",
+      "old_arg": "student_id",
+      "old_tool": "check_module_eligibility",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0020",
+        "CRS-027"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0020"
+    },
+    {
+      "case_id": "G07-G-0019",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_rename",
+      "item_id": "G07-G-0019#argument_pair_01",
+      "new_arg": "module_ref",
+      "new_tool": "check_module_eligibility",
+      "old_arg": "course_code",
+      "old_tool": "check_module_eligibility",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0020",
+        "CRS-027"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-027"
+    },
+    {
+      "case_id": "G07-G-0020",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_rename",
+      "item_id": "G07-G-0020#argument_pair_00",
+      "new_arg": "evaluation_id",
+      "new_tool": "get_assessment_result",
+      "old_arg": "assessment_id",
+      "old_tool": "get_assessment_result",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ASM-009"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ASM-009"
+    },
+    {
+      "case_id": "G07-G-0021",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_rename",
+      "item_id": "G07-G-0021#argument_pair_00",
+      "new_arg": "billing_ref",
+      "new_tool": "check_invoice_status",
+      "old_arg": "invoice_id",
+      "old_tool": "check_invoice_status",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-013"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-013"
+    },
+    {
+      "case_id": "G07-G-0022",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_rename",
+      "item_id": "G07-G-0022#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "check_module_eligibility",
+      "old_arg": "student_id",
+      "old_tool": "check_module_eligibility",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0020",
+        "CRS-007"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0020"
+    },
+    {
+      "case_id": "G07-G-0022",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_rename",
+      "item_id": "G07-G-0022#argument_pair_01",
+      "new_arg": "module_ref",
+      "new_tool": "check_module_eligibility",
+      "old_arg": "course_code",
+      "old_tool": "check_module_eligibility",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0020",
+        "CRS-007"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-007"
+    },
+    {
+      "case_id": "G07-G-0023",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_rename",
+      "item_id": "G07-G-0023#argument_pair_00",
+      "new_arg": "evaluation_id",
+      "new_tool": "get_assessment_result",
+      "old_arg": "assessment_id",
+      "old_tool": "get_assessment_result",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ASM-020"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ASM-020"
+    },
+    {
+      "case_id": "G07-G-0024",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_rename",
+      "item_id": "G07-G-0024#argument_pair_00",
+      "new_arg": "billing_ref",
+      "new_tool": "check_invoice_status",
+      "old_arg": "invoice_id",
+      "old_tool": "check_invoice_status",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-002"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-002"
+    },
+    {
+      "case_id": "G07-G-0025",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_rename",
+      "item_id": "G07-G-0025#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "check_module_eligibility",
+      "old_arg": "student_id",
+      "old_tool": "check_module_eligibility",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0006",
+        "CRS-023"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0006"
+    },
+    {
+      "case_id": "G07-G-0025",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_rename",
+      "item_id": "G07-G-0025#argument_pair_01",
+      "new_arg": "module_ref",
+      "new_tool": "check_module_eligibility",
+      "old_arg": "course_code",
+      "old_tool": "check_module_eligibility",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0006",
+        "CRS-023"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-023"
+    },
+    {
+      "case_id": "G07-G-0026",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_rename",
+      "item_id": "G07-G-0026#argument_pair_00",
+      "new_arg": "evaluation_id",
+      "new_tool": "get_assessment_result",
+      "old_arg": "assessment_id",
+      "old_tool": "get_assessment_result",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ASM-002"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ASM-002"
+    },
+    {
+      "case_id": "G07-G-0027",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_rename",
+      "item_id": "G07-G-0027#argument_pair_00",
+      "new_arg": "billing_ref",
+      "new_tool": "check_invoice_status",
+      "old_arg": "invoice_id",
+      "old_tool": "check_invoice_status",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-011"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-011"
+    },
+    {
+      "case_id": "G07-G-0028",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_rename",
+      "item_id": "G07-G-0028#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "check_module_eligibility",
+      "old_arg": "student_id",
+      "old_tool": "check_module_eligibility",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0016",
+        "CRS-013"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0016"
+    },
+    {
+      "case_id": "G07-G-0028",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_rename",
+      "item_id": "G07-G-0028#argument_pair_01",
+      "new_arg": "module_ref",
+      "new_tool": "check_module_eligibility",
+      "old_arg": "course_code",
+      "old_tool": "check_module_eligibility",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0016",
+        "CRS-013"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-013"
+    },
+    {
+      "case_id": "G07-G-0029",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_rename",
+      "item_id": "G07-G-0029#argument_pair_00",
+      "new_arg": "evaluation_id",
+      "new_tool": "get_assessment_result",
+      "old_arg": "assessment_id",
+      "old_tool": "get_assessment_result",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ASM-002"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ASM-002"
+    },
+    {
+      "case_id": "G07-G-0030",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_rename",
+      "item_id": "G07-G-0030#argument_pair_00",
+      "new_arg": "billing_ref",
+      "new_tool": "check_invoice_status",
+      "old_arg": "invoice_id",
+      "old_tool": "check_invoice_status",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-015"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-015"
+    },
+    {
+      "case_id": "G07-G-0031",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_rename",
+      "item_id": "G07-G-0031#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "check_module_eligibility",
+      "old_arg": "student_id",
+      "old_tool": "check_module_eligibility",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0017",
+        "CRS-004"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0017"
+    },
+    {
+      "case_id": "G07-G-0031",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_rename",
+      "item_id": "G07-G-0031#argument_pair_01",
+      "new_arg": "module_ref",
+      "new_tool": "check_module_eligibility",
+      "old_arg": "course_code",
+      "old_tool": "check_module_eligibility",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0017",
+        "CRS-004"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-004"
+    },
+    {
+      "case_id": "G07-G-0032",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_rename",
+      "item_id": "G07-G-0032#argument_pair_00",
+      "new_arg": "evaluation_id",
+      "new_tool": "get_assessment_result",
+      "old_arg": "assessment_id",
+      "old_tool": "get_assessment_result",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ASM-009"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ASM-009"
+    },
+    {
+      "case_id": "G07-G-0033",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_rename",
+      "item_id": "G07-G-0033#argument_pair_00",
+      "new_arg": "billing_ref",
+      "new_tool": "check_invoice_status",
+      "old_arg": "invoice_id",
+      "old_tool": "check_invoice_status",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-020"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-020"
+    },
+    {
+      "case_id": "G07-G-0037",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0037#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "log_session_presence",
+      "old_arg": "student_id",
+      "old_tool": "record_class_attendance",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0015",
+        "CRS-012",
+        "2026-09-04"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0015"
+    },
+    {
+      "case_id": "G07-G-0037",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0037#argument_pair_01",
+      "new_arg": "module_ref",
+      "new_tool": "log_session_presence",
+      "old_arg": "course_code",
+      "old_tool": "record_class_attendance",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0015",
+        "CRS-012",
+        "2026-09-04"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-012"
+    },
+    {
+      "case_id": "G07-G-0037",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0037#argument_pair_02",
+      "new_arg": "meeting_day",
+      "new_tool": "log_session_presence",
+      "old_arg": "session_date",
+      "old_tool": "record_class_attendance",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0015",
+        "CRS-012",
+        "2026-09-04"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "2026-09-04"
+    },
+    {
+      "case_id": "G07-G-0038",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0038#argument_pair_00",
+      "new_arg": "module_ref",
+      "new_tool": "inspect_module_timetable",
+      "old_arg": "course_code",
+      "old_tool": "read_class_schedule",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-001",
+        "TERM-02",
+        "2026-09-11"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-001"
+    },
+    {
+      "case_id": "G07-G-0038",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0038#argument_pair_01",
+      "new_arg": "period_ref",
+      "new_tool": "inspect_module_timetable",
+      "old_arg": "term_id",
+      "old_tool": "read_class_schedule",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-001",
+        "TERM-02",
+        "2026-09-11"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "TERM-02"
+    },
+    {
+      "case_id": "G07-G-0038",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0038#argument_pair_02",
+      "new_arg": "meeting_day",
+      "new_tool": "inspect_module_timetable",
+      "old_arg": "session_day",
+      "old_tool": "read_class_schedule",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-001",
+        "TERM-02",
+        "2026-09-11"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "2026-09-11"
+    },
+    {
+      "case_id": "G07-G-0039",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0039#argument_pair_00",
+      "new_arg": "billing_ref",
+      "new_tool": "review_billing_record",
+      "old_arg": "invoice_id",
+      "old_tool": "audit_student_invoice",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-009",
+        "routine review"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-009"
+    },
+    {
+      "case_id": "G07-G-0039",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0039#argument_pair_01",
+      "new_arg": "review_note",
+      "new_tool": "review_billing_record",
+      "old_arg": "audit_reason",
+      "old_tool": "audit_student_invoice",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-009",
+        "routine review"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "routine review"
+    },
+    {
+      "case_id": "G07-G-0040",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0040#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "log_session_presence",
+      "old_arg": "student_id",
+      "old_tool": "record_class_attendance",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0015",
+        "CRS-022",
+        "2026-09-04"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0015"
+    },
+    {
+      "case_id": "G07-G-0040",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0040#argument_pair_01",
+      "new_arg": "module_ref",
+      "new_tool": "log_session_presence",
+      "old_arg": "course_code",
+      "old_tool": "record_class_attendance",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0015",
+        "CRS-022",
+        "2026-09-04"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-022"
+    },
+    {
+      "case_id": "G07-G-0040",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0040#argument_pair_02",
+      "new_arg": "meeting_day",
+      "new_tool": "log_session_presence",
+      "old_arg": "session_date",
+      "old_tool": "record_class_attendance",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0015",
+        "CRS-022",
+        "2026-09-04"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "2026-09-04"
+    },
+    {
+      "case_id": "G07-G-0041",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0041#argument_pair_00",
+      "new_arg": "module_ref",
+      "new_tool": "inspect_module_timetable",
+      "old_arg": "course_code",
+      "old_tool": "read_class_schedule",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-002",
+        "TERM-03",
+        "2026-09-04"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-002"
+    },
+    {
+      "case_id": "G07-G-0041",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0041#argument_pair_01",
+      "new_arg": "period_ref",
+      "new_tool": "inspect_module_timetable",
+      "old_arg": "term_id",
+      "old_tool": "read_class_schedule",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-002",
+        "TERM-03",
+        "2026-09-04"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "TERM-03"
+    },
+    {
+      "case_id": "G07-G-0041",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0041#argument_pair_02",
+      "new_arg": "meeting_day",
+      "new_tool": "inspect_module_timetable",
+      "old_arg": "session_day",
+      "old_tool": "read_class_schedule",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-002",
+        "TERM-03",
+        "2026-09-04"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "2026-09-04"
+    },
+    {
+      "case_id": "G07-G-0042",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0042#argument_pair_00",
+      "new_arg": "billing_ref",
+      "new_tool": "review_billing_record",
+      "old_arg": "invoice_id",
+      "old_tool": "audit_student_invoice",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-004",
+        "routine review"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-004"
+    },
+    {
+      "case_id": "G07-G-0042",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0042#argument_pair_01",
+      "new_arg": "review_note",
+      "new_tool": "review_billing_record",
+      "old_arg": "audit_reason",
+      "old_tool": "audit_student_invoice",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-004",
+        "routine review"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "routine review"
+    },
+    {
+      "case_id": "G07-G-0043",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0043#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "log_session_presence",
+      "old_arg": "student_id",
+      "old_tool": "record_class_attendance",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0002",
+        "CRS-009",
+        "2026-09-15"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0002"
+    },
+    {
+      "case_id": "G07-G-0043",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0043#argument_pair_01",
+      "new_arg": "module_ref",
+      "new_tool": "log_session_presence",
+      "old_arg": "course_code",
+      "old_tool": "record_class_attendance",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0002",
+        "CRS-009",
+        "2026-09-15"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-009"
+    },
+    {
+      "case_id": "G07-G-0043",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0043#argument_pair_02",
+      "new_arg": "meeting_day",
+      "new_tool": "log_session_presence",
+      "old_arg": "session_date",
+      "old_tool": "record_class_attendance",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0002",
+        "CRS-009",
+        "2026-09-15"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "2026-09-15"
+    },
+    {
+      "case_id": "G07-G-0044",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0044#argument_pair_00",
+      "new_arg": "module_ref",
+      "new_tool": "inspect_module_timetable",
+      "old_arg": "course_code",
+      "old_tool": "read_class_schedule",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-022",
+        "TERM-02",
+        "2026-09-04"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-022"
+    },
+    {
+      "case_id": "G07-G-0044",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0044#argument_pair_01",
+      "new_arg": "period_ref",
+      "new_tool": "inspect_module_timetable",
+      "old_arg": "term_id",
+      "old_tool": "read_class_schedule",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-022",
+        "TERM-02",
+        "2026-09-04"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "TERM-02"
+    },
+    {
+      "case_id": "G07-G-0044",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0044#argument_pair_02",
+      "new_arg": "meeting_day",
+      "new_tool": "inspect_module_timetable",
+      "old_arg": "session_day",
+      "old_tool": "read_class_schedule",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-022",
+        "TERM-02",
+        "2026-09-04"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "2026-09-04"
+    },
+    {
+      "case_id": "G07-G-0045",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0045#argument_pair_00",
+      "new_arg": "billing_ref",
+      "new_tool": "review_billing_record",
+      "old_arg": "invoice_id",
+      "old_tool": "audit_student_invoice",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-017",
+        "routine review"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-017"
+    },
+    {
+      "case_id": "G07-G-0045",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0045#argument_pair_01",
+      "new_arg": "review_note",
+      "new_tool": "review_billing_record",
+      "old_arg": "audit_reason",
+      "old_tool": "audit_student_invoice",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-017",
+        "routine review"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "routine review"
+    },
+    {
+      "case_id": "G07-G-0046",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0046#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "log_session_presence",
+      "old_arg": "student_id",
+      "old_tool": "record_class_attendance",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0015",
+        "CRS-022",
+        "2026-09-04"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0015"
+    },
+    {
+      "case_id": "G07-G-0046",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0046#argument_pair_01",
+      "new_arg": "module_ref",
+      "new_tool": "log_session_presence",
+      "old_arg": "course_code",
+      "old_tool": "record_class_attendance",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0015",
+        "CRS-022",
+        "2026-09-04"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-022"
+    },
+    {
+      "case_id": "G07-G-0046",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0046#argument_pair_02",
+      "new_arg": "meeting_day",
+      "new_tool": "log_session_presence",
+      "old_arg": "session_date",
+      "old_tool": "record_class_attendance",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0015",
+        "CRS-022",
+        "2026-09-04"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "2026-09-04"
+    },
+    {
+      "case_id": "G07-G-0047",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0047#argument_pair_00",
+      "new_arg": "module_ref",
+      "new_tool": "inspect_module_timetable",
+      "old_arg": "course_code",
+      "old_tool": "read_class_schedule",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-016",
+        "TERM-02",
+        "2026-09-16"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-016"
+    },
+    {
+      "case_id": "G07-G-0047",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0047#argument_pair_01",
+      "new_arg": "period_ref",
+      "new_tool": "inspect_module_timetable",
+      "old_arg": "term_id",
+      "old_tool": "read_class_schedule",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-016",
+        "TERM-02",
+        "2026-09-16"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "TERM-02"
+    },
+    {
+      "case_id": "G07-G-0047",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0047#argument_pair_02",
+      "new_arg": "meeting_day",
+      "new_tool": "inspect_module_timetable",
+      "old_arg": "session_day",
+      "old_tool": "read_class_schedule",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-016",
+        "TERM-02",
+        "2026-09-16"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "2026-09-16"
+    },
+    {
+      "case_id": "G07-G-0048",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0048#argument_pair_00",
+      "new_arg": "billing_ref",
+      "new_tool": "review_billing_record",
+      "old_arg": "invoice_id",
+      "old_tool": "audit_student_invoice",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-018",
+        "routine review"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-018"
+    },
+    {
+      "case_id": "G07-G-0048",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0048#argument_pair_01",
+      "new_arg": "review_note",
+      "new_tool": "review_billing_record",
+      "old_arg": "audit_reason",
+      "old_tool": "audit_student_invoice",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-018",
+        "routine review"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "routine review"
+    },
+    {
+      "case_id": "G07-G-0049",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0049#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "log_session_presence",
+      "old_arg": "student_id",
+      "old_tool": "record_class_attendance",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0014",
+        "CRS-021",
+        "2026-09-11"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0014"
+    },
+    {
+      "case_id": "G07-G-0049",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0049#argument_pair_01",
+      "new_arg": "module_ref",
+      "new_tool": "log_session_presence",
+      "old_arg": "course_code",
+      "old_tool": "record_class_attendance",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0014",
+        "CRS-021",
+        "2026-09-11"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-021"
+    },
+    {
+      "case_id": "G07-G-0049",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0049#argument_pair_02",
+      "new_arg": "meeting_day",
+      "new_tool": "log_session_presence",
+      "old_arg": "session_date",
+      "old_tool": "record_class_attendance",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0014",
+        "CRS-021",
+        "2026-09-11"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "2026-09-11"
+    },
+    {
+      "case_id": "G07-G-0050",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0050#argument_pair_00",
+      "new_arg": "module_ref",
+      "new_tool": "inspect_module_timetable",
+      "old_arg": "course_code",
+      "old_tool": "read_class_schedule",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-030",
+        "TERM-01",
+        "2026-09-18"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-030"
+    },
+    {
+      "case_id": "G07-G-0050",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0050#argument_pair_01",
+      "new_arg": "period_ref",
+      "new_tool": "inspect_module_timetable",
+      "old_arg": "term_id",
+      "old_tool": "read_class_schedule",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-030",
+        "TERM-01",
+        "2026-09-18"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "TERM-01"
+    },
+    {
+      "case_id": "G07-G-0050",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0050#argument_pair_02",
+      "new_arg": "meeting_day",
+      "new_tool": "inspect_module_timetable",
+      "old_arg": "session_day",
+      "old_tool": "read_class_schedule",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-030",
+        "TERM-01",
+        "2026-09-18"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "2026-09-18"
+    },
+    {
+      "case_id": "G07-G-0051",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0051#argument_pair_00",
+      "new_arg": "billing_ref",
+      "new_tool": "review_billing_record",
+      "old_arg": "invoice_id",
+      "old_tool": "audit_student_invoice",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-007",
+        "routine review"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-007"
+    },
+    {
+      "case_id": "G07-G-0051",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_simultaneous_renames",
+      "item_id": "G07-G-0051#argument_pair_01",
+      "new_arg": "review_note",
+      "new_tool": "review_billing_record",
+      "old_arg": "audit_reason",
+      "old_tool": "audit_student_invoice",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-007",
+        "routine review"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "routine review"
+    },
+    {
+      "case_id": "G07-G-0055",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0055#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "submit_course_enrollment",
+      "old_arg": "student_id",
+      "old_tool": "submit_course_enrollment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0008",
+        "CRS-015",
+        "TERM-01"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0008"
+    },
+    {
+      "case_id": "G07-G-0055",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0055#argument_pair_01",
+      "new_arg": "course_code",
+      "new_tool": "submit_course_enrollment",
+      "old_arg": "course_code",
+      "old_tool": "submit_course_enrollment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0008",
+        "CRS-015",
+        "TERM-01"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-015"
+    },
+    {
+      "case_id": "G07-G-0055",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0055#argument_pair_02",
+      "new_arg": "term_id",
+      "new_tool": "submit_course_enrollment",
+      "old_arg": "term_id",
+      "old_tool": "submit_course_enrollment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0008",
+        "CRS-015",
+        "TERM-01"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "TERM-01"
+    },
+    {
+      "case_id": "G07-G-0056",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0056#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "submit_assessment_response",
+      "old_arg": "student_id",
+      "old_tool": "submit_assessment_response",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0010",
+        "ASM-012",
+        "synthetic response"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0010"
+    },
+    {
+      "case_id": "G07-G-0056",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0056#argument_pair_01",
+      "new_arg": "assessment_id",
+      "new_tool": "submit_assessment_response",
+      "old_arg": "assessment_id",
+      "old_tool": "submit_assessment_response",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0010",
+        "ASM-012",
+        "synthetic response"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ASM-012"
+    },
+    {
+      "case_id": "G07-G-0056",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0056#argument_pair_02",
+      "new_arg": "response_text",
+      "new_tool": "submit_assessment_response",
+      "old_arg": "response_text",
+      "old_tool": "submit_assessment_response",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0010",
+        "ASM-012",
+        "synthetic response"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "synthetic response"
+    },
+    {
+      "case_id": "G07-G-0057",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0057#argument_pair_00",
+      "new_arg": "invoice_id",
+      "new_tool": "record_invoice_payment",
+      "old_arg": "invoice_id",
+      "old_tool": "record_invoice_payment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-008",
+        "1200"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-008"
+    },
+    {
+      "case_id": "G07-G-0057",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0057#argument_pair_01",
+      "new_arg": "amount",
+      "new_tool": "record_invoice_payment",
+      "old_arg": "amount",
+      "old_tool": "record_invoice_payment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-008",
+        "1200"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": 1200
+    },
+    {
+      "case_id": "G07-G-0058",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0058#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "submit_course_enrollment",
+      "old_arg": "student_id",
+      "old_tool": "submit_course_enrollment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0015",
+        "CRS-002",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0015"
+    },
+    {
+      "case_id": "G07-G-0058",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0058#argument_pair_01",
+      "new_arg": "course_code",
+      "new_tool": "submit_course_enrollment",
+      "old_arg": "course_code",
+      "old_tool": "submit_course_enrollment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0015",
+        "CRS-002",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-002"
+    },
+    {
+      "case_id": "G07-G-0058",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0058#argument_pair_02",
+      "new_arg": "term_id",
+      "new_tool": "submit_course_enrollment",
+      "old_arg": "term_id",
+      "old_tool": "submit_course_enrollment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0015",
+        "CRS-002",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "TERM-03"
+    },
+    {
+      "case_id": "G07-G-0059",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0059#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "submit_assessment_response",
+      "old_arg": "student_id",
+      "old_tool": "submit_assessment_response",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0006",
+        "ASM-008",
+        "synthetic response"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0006"
+    },
+    {
+      "case_id": "G07-G-0059",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0059#argument_pair_01",
+      "new_arg": "assessment_id",
+      "new_tool": "submit_assessment_response",
+      "old_arg": "assessment_id",
+      "old_tool": "submit_assessment_response",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0006",
+        "ASM-008",
+        "synthetic response"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ASM-008"
+    },
+    {
+      "case_id": "G07-G-0059",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0059#argument_pair_02",
+      "new_arg": "response_text",
+      "new_tool": "submit_assessment_response",
+      "old_arg": "response_text",
+      "old_tool": "submit_assessment_response",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0006",
+        "ASM-008",
+        "synthetic response"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "synthetic response"
+    },
+    {
+      "case_id": "G07-G-0060",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0060#argument_pair_00",
+      "new_arg": "invoice_id",
+      "new_tool": "record_invoice_payment",
+      "old_arg": "invoice_id",
+      "old_tool": "record_invoice_payment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-001",
+        "1025"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-001"
+    },
+    {
+      "case_id": "G07-G-0060",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0060#argument_pair_01",
+      "new_arg": "amount",
+      "new_tool": "record_invoice_payment",
+      "old_arg": "amount",
+      "old_tool": "record_invoice_payment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-001",
+        "1025"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": 1025
+    },
+    {
+      "case_id": "G07-G-0061",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0061#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "submit_course_enrollment",
+      "old_arg": "student_id",
+      "old_tool": "submit_course_enrollment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0020",
+        "CRS-017",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0020"
+    },
+    {
+      "case_id": "G07-G-0061",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0061#argument_pair_01",
+      "new_arg": "course_code",
+      "new_tool": "submit_course_enrollment",
+      "old_arg": "course_code",
+      "old_tool": "submit_course_enrollment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0020",
+        "CRS-017",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-017"
+    },
+    {
+      "case_id": "G07-G-0061",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0061#argument_pair_02",
+      "new_arg": "term_id",
+      "new_tool": "submit_course_enrollment",
+      "old_arg": "term_id",
+      "old_tool": "submit_course_enrollment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0020",
+        "CRS-017",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "TERM-03"
+    },
+    {
+      "case_id": "G07-G-0062",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0062#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "submit_assessment_response",
+      "old_arg": "student_id",
+      "old_tool": "submit_assessment_response",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0006",
+        "ASM-008",
+        "synthetic response"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0006"
+    },
+    {
+      "case_id": "G07-G-0062",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0062#argument_pair_01",
+      "new_arg": "assessment_id",
+      "new_tool": "submit_assessment_response",
+      "old_arg": "assessment_id",
+      "old_tool": "submit_assessment_response",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0006",
+        "ASM-008",
+        "synthetic response"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ASM-008"
+    },
+    {
+      "case_id": "G07-G-0062",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0062#argument_pair_02",
+      "new_arg": "response_text",
+      "new_tool": "submit_assessment_response",
+      "old_arg": "response_text",
+      "old_tool": "submit_assessment_response",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0006",
+        "ASM-008",
+        "synthetic response"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "synthetic response"
+    },
+    {
+      "case_id": "G07-G-0063",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0063#argument_pair_00",
+      "new_arg": "invoice_id",
+      "new_tool": "record_invoice_payment",
+      "old_arg": "invoice_id",
+      "old_tool": "record_invoice_payment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-011",
+        "1275"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-011"
+    },
+    {
+      "case_id": "G07-G-0063",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0063#argument_pair_01",
+      "new_arg": "amount",
+      "new_tool": "record_invoice_payment",
+      "old_arg": "amount",
+      "old_tool": "record_invoice_payment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-011",
+        "1275"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": 1275
+    },
+    {
+      "case_id": "G07-G-0064",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0064#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "submit_course_enrollment",
+      "old_arg": "student_id",
+      "old_tool": "submit_course_enrollment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0011",
+        "CRS-028",
+        "TERM-02"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0011"
+    },
+    {
+      "case_id": "G07-G-0064",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0064#argument_pair_01",
+      "new_arg": "course_code",
+      "new_tool": "submit_course_enrollment",
+      "old_arg": "course_code",
+      "old_tool": "submit_course_enrollment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0011",
+        "CRS-028",
+        "TERM-02"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-028"
+    },
+    {
+      "case_id": "G07-G-0064",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0064#argument_pair_02",
+      "new_arg": "term_id",
+      "new_tool": "submit_course_enrollment",
+      "old_arg": "term_id",
+      "old_tool": "submit_course_enrollment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0011",
+        "CRS-028",
+        "TERM-02"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "TERM-02"
+    },
+    {
+      "case_id": "G07-G-0065",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0065#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "submit_assessment_response",
+      "old_arg": "student_id",
+      "old_tool": "submit_assessment_response",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0002",
+        "ASM-004",
+        "synthetic response"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0002"
+    },
+    {
+      "case_id": "G07-G-0065",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0065#argument_pair_01",
+      "new_arg": "assessment_id",
+      "new_tool": "submit_assessment_response",
+      "old_arg": "assessment_id",
+      "old_tool": "submit_assessment_response",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0002",
+        "ASM-004",
+        "synthetic response"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ASM-004"
+    },
+    {
+      "case_id": "G07-G-0065",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0065#argument_pair_02",
+      "new_arg": "response_text",
+      "new_tool": "submit_assessment_response",
+      "old_arg": "response_text",
+      "old_tool": "submit_assessment_response",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0002",
+        "ASM-004",
+        "synthetic response"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "synthetic response"
+    },
+    {
+      "case_id": "G07-G-0066",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0066#argument_pair_00",
+      "new_arg": "invoice_id",
+      "new_tool": "record_invoice_payment",
+      "old_arg": "invoice_id",
+      "old_tool": "record_invoice_payment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-013",
+        "1325"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-013"
+    },
+    {
+      "case_id": "G07-G-0066",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0066#argument_pair_01",
+      "new_arg": "amount",
+      "new_tool": "record_invoice_payment",
+      "old_arg": "amount",
+      "old_tool": "record_invoice_payment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-013",
+        "1325"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": 1325
+    },
+    {
+      "case_id": "G07-G-0067",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0067#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "submit_course_enrollment",
+      "old_arg": "student_id",
+      "old_tool": "submit_course_enrollment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0016",
+        "CRS-003",
+        "TERM-01"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0016"
+    },
+    {
+      "case_id": "G07-G-0067",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0067#argument_pair_01",
+      "new_arg": "course_code",
+      "new_tool": "submit_course_enrollment",
+      "old_arg": "course_code",
+      "old_tool": "submit_course_enrollment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0016",
+        "CRS-003",
+        "TERM-01"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-003"
+    },
+    {
+      "case_id": "G07-G-0067",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0067#argument_pair_02",
+      "new_arg": "term_id",
+      "new_tool": "submit_course_enrollment",
+      "old_arg": "term_id",
+      "old_tool": "submit_course_enrollment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0016",
+        "CRS-003",
+        "TERM-01"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "TERM-01"
+    },
+    {
+      "case_id": "G07-G-0068",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0068#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "submit_assessment_response",
+      "old_arg": "student_id",
+      "old_tool": "submit_assessment_response",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0020",
+        "ASM-002",
+        "synthetic response"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0020"
+    },
+    {
+      "case_id": "G07-G-0068",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0068#argument_pair_01",
+      "new_arg": "assessment_id",
+      "new_tool": "submit_assessment_response",
+      "old_arg": "assessment_id",
+      "old_tool": "submit_assessment_response",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0020",
+        "ASM-002",
+        "synthetic response"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ASM-002"
+    },
+    {
+      "case_id": "G07-G-0068",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0068#argument_pair_02",
+      "new_arg": "response_text",
+      "new_tool": "submit_assessment_response",
+      "old_arg": "response_text",
+      "old_tool": "submit_assessment_response",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0020",
+        "ASM-002",
+        "synthetic response"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "synthetic response"
+    },
+    {
+      "case_id": "G07-G-0069",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0069#argument_pair_00",
+      "new_arg": "invoice_id",
+      "new_tool": "record_invoice_payment",
+      "old_arg": "invoice_id",
+      "old_tool": "record_invoice_payment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-020",
+        "1500"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-020"
+    },
+    {
+      "case_id": "G07-G-0069",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "added_required_field",
+      "item_id": "G07-G-0069#argument_pair_01",
+      "new_arg": "amount",
+      "new_tool": "record_invoice_payment",
+      "old_arg": "amount",
+      "old_tool": "record_invoice_payment",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-020",
+        "1500"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": 1500
+    },
+    {
+      "case_id": "G07-G-0073",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0073#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "check_prerequisite_by_parts",
+      "old_arg": "student_id",
+      "old_tool": "check_prerequisite_by_code",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0019",
+        "CRS-026"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0019"
+    },
+    {
+      "case_id": "G07-G-0073",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0073#argument_pair_01",
+      "new_arg": "subject_area",
+      "new_tool": "check_prerequisite_by_parts",
+      "old_arg": "course_code",
+      "old_tool": "check_prerequisite_by_code",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "STU-0019",
+        "CRS-026"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS"
+    },
+    {
+      "case_id": "G07-G-0073",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0073#argument_pair_02",
+      "new_arg": "catalog_number",
+      "new_tool": "check_prerequisite_by_parts",
+      "old_arg": "course_code",
+      "old_tool": "check_prerequisite_by_code",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "STU-0019",
+        "CRS-026"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "026"
+    },
+    {
+      "case_id": "G07-G-0074",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0074#argument_pair_00",
+      "new_arg": "subject_area",
+      "new_tool": "get_module_schedule_parts",
+      "old_arg": "course_code",
+      "old_tool": "get_module_schedule",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-014",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS"
+    },
+    {
+      "case_id": "G07-G-0074",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0074#argument_pair_01",
+      "new_arg": "catalog_number",
+      "new_tool": "get_module_schedule_parts",
+      "old_arg": "course_code",
+      "old_tool": "get_module_schedule",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-014",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "014"
+    },
+    {
+      "case_id": "G07-G-0074",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0074#argument_pair_02",
+      "new_arg": "catalog_number",
+      "new_tool": "get_module_schedule_parts",
+      "old_arg": "term_id",
+      "old_tool": "get_module_schedule",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-014",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "014"
+    },
+    {
+      "case_id": "G07-G-0075",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0075#argument_pair_00",
+      "new_arg": "subject_area",
+      "new_tool": "get_course_contact_parts",
+      "old_arg": "course_code",
+      "old_tool": "get_course_contact",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-030"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS"
+    },
+    {
+      "case_id": "G07-G-0075",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0075#argument_pair_01",
+      "new_arg": "catalog_number",
+      "new_tool": "get_course_contact_parts",
+      "old_arg": "course_code",
+      "old_tool": "get_course_contact",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-030"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "030"
+    },
+    {
+      "case_id": "G07-G-0076",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0076#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "check_prerequisite_by_parts",
+      "old_arg": "student_id",
+      "old_tool": "check_prerequisite_by_code",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0011",
+        "CRS-018"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0011"
+    },
+    {
+      "case_id": "G07-G-0076",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0076#argument_pair_01",
+      "new_arg": "subject_area",
+      "new_tool": "check_prerequisite_by_parts",
+      "old_arg": "course_code",
+      "old_tool": "check_prerequisite_by_code",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "STU-0011",
+        "CRS-018"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS"
+    },
+    {
+      "case_id": "G07-G-0076",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0076#argument_pair_02",
+      "new_arg": "catalog_number",
+      "new_tool": "check_prerequisite_by_parts",
+      "old_arg": "course_code",
+      "old_tool": "check_prerequisite_by_code",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "STU-0011",
+        "CRS-018"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "018"
+    },
+    {
+      "case_id": "G07-G-0077",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0077#argument_pair_00",
+      "new_arg": "subject_area",
+      "new_tool": "get_module_schedule_parts",
+      "old_arg": "course_code",
+      "old_tool": "get_module_schedule",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-001",
+        "TERM-02"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS"
+    },
+    {
+      "case_id": "G07-G-0077",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0077#argument_pair_01",
+      "new_arg": "catalog_number",
+      "new_tool": "get_module_schedule_parts",
+      "old_arg": "course_code",
+      "old_tool": "get_module_schedule",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-001",
+        "TERM-02"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "001"
+    },
+    {
+      "case_id": "G07-G-0077",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0077#argument_pair_02",
+      "new_arg": "catalog_number",
+      "new_tool": "get_module_schedule_parts",
+      "old_arg": "term_id",
+      "old_tool": "get_module_schedule",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-001",
+        "TERM-02"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "001"
+    },
+    {
+      "case_id": "G07-G-0078",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0078#argument_pair_00",
+      "new_arg": "subject_area",
+      "new_tool": "get_course_contact_parts",
+      "old_arg": "course_code",
+      "old_tool": "get_course_contact",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-009"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS"
+    },
+    {
+      "case_id": "G07-G-0078",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0078#argument_pair_01",
+      "new_arg": "catalog_number",
+      "new_tool": "get_course_contact_parts",
+      "old_arg": "course_code",
+      "old_tool": "get_course_contact",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-009"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "009"
+    },
+    {
+      "case_id": "G07-G-0079",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0079#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "check_prerequisite_by_parts",
+      "old_arg": "student_id",
+      "old_tool": "check_prerequisite_by_code",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0015",
+        "CRS-022"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0015"
+    },
+    {
+      "case_id": "G07-G-0079",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0079#argument_pair_01",
+      "new_arg": "subject_area",
+      "new_tool": "check_prerequisite_by_parts",
+      "old_arg": "course_code",
+      "old_tool": "check_prerequisite_by_code",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "STU-0015",
+        "CRS-022"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS"
+    },
+    {
+      "case_id": "G07-G-0079",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0079#argument_pair_02",
+      "new_arg": "catalog_number",
+      "new_tool": "check_prerequisite_by_parts",
+      "old_arg": "course_code",
+      "old_tool": "check_prerequisite_by_code",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "STU-0015",
+        "CRS-022"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "022"
+    },
+    {
+      "case_id": "G07-G-0080",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0080#argument_pair_00",
+      "new_arg": "subject_area",
+      "new_tool": "get_module_schedule_parts",
+      "old_arg": "course_code",
+      "old_tool": "get_module_schedule",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-006",
+        "TERM-01"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS"
+    },
+    {
+      "case_id": "G07-G-0080",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0080#argument_pair_01",
+      "new_arg": "catalog_number",
+      "new_tool": "get_module_schedule_parts",
+      "old_arg": "course_code",
+      "old_tool": "get_module_schedule",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-006",
+        "TERM-01"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "006"
+    },
+    {
+      "case_id": "G07-G-0080",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0080#argument_pair_02",
+      "new_arg": "catalog_number",
+      "new_tool": "get_module_schedule_parts",
+      "old_arg": "term_id",
+      "old_tool": "get_module_schedule",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-006",
+        "TERM-01"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "006"
+    },
+    {
+      "case_id": "G07-G-0081",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0081#argument_pair_00",
+      "new_arg": "subject_area",
+      "new_tool": "get_course_contact_parts",
+      "old_arg": "course_code",
+      "old_tool": "get_course_contact",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-029"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS"
+    },
+    {
+      "case_id": "G07-G-0081",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0081#argument_pair_01",
+      "new_arg": "catalog_number",
+      "new_tool": "get_course_contact_parts",
+      "old_arg": "course_code",
+      "old_tool": "get_course_contact",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-029"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "029"
+    },
+    {
+      "case_id": "G07-G-0082",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0082#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "check_prerequisite_by_parts",
+      "old_arg": "student_id",
+      "old_tool": "check_prerequisite_by_code",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0012",
+        "CRS-019"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0012"
+    },
+    {
+      "case_id": "G07-G-0082",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0082#argument_pair_01",
+      "new_arg": "subject_area",
+      "new_tool": "check_prerequisite_by_parts",
+      "old_arg": "course_code",
+      "old_tool": "check_prerequisite_by_code",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "STU-0012",
+        "CRS-019"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS"
+    },
+    {
+      "case_id": "G07-G-0082",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0082#argument_pair_02",
+      "new_arg": "catalog_number",
+      "new_tool": "check_prerequisite_by_parts",
+      "old_arg": "course_code",
+      "old_tool": "check_prerequisite_by_code",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "STU-0012",
+        "CRS-019"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "019"
+    },
+    {
+      "case_id": "G07-G-0083",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0083#argument_pair_00",
+      "new_arg": "subject_area",
+      "new_tool": "get_module_schedule_parts",
+      "old_arg": "course_code",
+      "old_tool": "get_module_schedule",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-014",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS"
+    },
+    {
+      "case_id": "G07-G-0083",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0083#argument_pair_01",
+      "new_arg": "catalog_number",
+      "new_tool": "get_module_schedule_parts",
+      "old_arg": "course_code",
+      "old_tool": "get_module_schedule",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-014",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "014"
+    },
+    {
+      "case_id": "G07-G-0083",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0083#argument_pair_02",
+      "new_arg": "catalog_number",
+      "new_tool": "get_module_schedule_parts",
+      "old_arg": "term_id",
+      "old_tool": "get_module_schedule",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-014",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "014"
+    },
+    {
+      "case_id": "G07-G-0084",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0084#argument_pair_00",
+      "new_arg": "subject_area",
+      "new_tool": "get_course_contact_parts",
+      "old_arg": "course_code",
+      "old_tool": "get_course_contact",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-026"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS"
+    },
+    {
+      "case_id": "G07-G-0084",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0084#argument_pair_01",
+      "new_arg": "catalog_number",
+      "new_tool": "get_course_contact_parts",
+      "old_arg": "course_code",
+      "old_tool": "get_course_contact",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-026"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "026"
+    },
+    {
+      "case_id": "G07-G-0085",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0085#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "check_prerequisite_by_parts",
+      "old_arg": "student_id",
+      "old_tool": "check_prerequisite_by_code",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0011",
+        "CRS-008"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0011"
+    },
+    {
+      "case_id": "G07-G-0085",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0085#argument_pair_01",
+      "new_arg": "subject_area",
+      "new_tool": "check_prerequisite_by_parts",
+      "old_arg": "course_code",
+      "old_tool": "check_prerequisite_by_code",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "STU-0011",
+        "CRS-008"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS"
+    },
+    {
+      "case_id": "G07-G-0085",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0085#argument_pair_02",
+      "new_arg": "catalog_number",
+      "new_tool": "check_prerequisite_by_parts",
+      "old_arg": "course_code",
+      "old_tool": "check_prerequisite_by_code",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "STU-0011",
+        "CRS-008"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "008"
+    },
+    {
+      "case_id": "G07-G-0086",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0086#argument_pair_00",
+      "new_arg": "subject_area",
+      "new_tool": "get_module_schedule_parts",
+      "old_arg": "course_code",
+      "old_tool": "get_module_schedule",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-008",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS"
+    },
+    {
+      "case_id": "G07-G-0086",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0086#argument_pair_01",
+      "new_arg": "catalog_number",
+      "new_tool": "get_module_schedule_parts",
+      "old_arg": "course_code",
+      "old_tool": "get_module_schedule",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-008",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "008"
+    },
+    {
+      "case_id": "G07-G-0086",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0086#argument_pair_02",
+      "new_arg": "catalog_number",
+      "new_tool": "get_module_schedule_parts",
+      "old_arg": "term_id",
+      "old_tool": "get_module_schedule",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-008",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "008"
+    },
+    {
+      "case_id": "G07-G-0087",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0087#argument_pair_00",
+      "new_arg": "subject_area",
+      "new_tool": "get_course_contact_parts",
+      "old_arg": "course_code",
+      "old_tool": "get_course_contact",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-019"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS"
+    },
+    {
+      "case_id": "G07-G-0087",
+      "derivation": {
+        "kind": "visible_literal"
+      },
+      "family": "argument_split",
+      "item_id": "G07-G-0087#argument_pair_01",
+      "new_arg": "catalog_number",
+      "new_tool": "get_course_contact_parts",
+      "old_arg": "course_code",
+      "old_tool": "get_course_contact",
+      "reason": "target literal is present in the method-visible surface",
+      "source_values": [
+        "CRS-019"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "019"
+    },
+    {
+      "case_id": "G07-G-0091",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0091#argument_pair_00",
+      "new_arg": "section_ref",
+      "new_tool": "get_exam_slot_by_section",
+      "old_arg": "course_code",
+      "old_tool": "get_exam_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-027",
+        "TERM-01"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-027::TERM-01"
+    },
+    {
+      "case_id": "G07-G-0091",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0091#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "get_exam_slot_by_section",
+      "old_arg": "term_id",
+      "old_tool": "get_exam_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-027",
+        "TERM-01"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-027::TERM-01"
+    },
+    {
+      "case_id": "G07-G-0092",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0092#argument_pair_00",
+      "new_arg": "section_ref",
+      "new_tool": "get_advising_slot_by_reference",
+      "old_arg": "course_code",
+      "old_tool": "get_advising_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-024",
+        "TERM-01"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-024::TERM-01"
+    },
+    {
+      "case_id": "G07-G-0092",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0092#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "get_advising_slot_by_reference",
+      "old_arg": "term_id",
+      "old_tool": "get_advising_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-024",
+        "TERM-01"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-024::TERM-01"
+    },
+    {
+      "case_id": "G07-G-0093",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0093#argument_pair_00",
+      "new_arg": "section_ref",
+      "new_tool": "get_classroom_slot_by_section",
+      "old_arg": "course_code",
+      "old_tool": "get_classroom_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-014",
+        "TERM-03"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-014::TERM-03"
+    },
+    {
+      "case_id": "G07-G-0093",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0093#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "get_classroom_slot_by_section",
+      "old_arg": "term_id",
+      "old_tool": "get_classroom_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-014",
+        "TERM-03"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-014::TERM-03"
+    },
+    {
+      "case_id": "G07-G-0094",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0094#argument_pair_00",
+      "new_arg": "section_ref",
+      "new_tool": "get_exam_slot_by_section",
+      "old_arg": "course_code",
+      "old_tool": "get_exam_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-015",
+        "TERM-01"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-015::TERM-01"
+    },
+    {
+      "case_id": "G07-G-0094",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0094#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "get_exam_slot_by_section",
+      "old_arg": "term_id",
+      "old_tool": "get_exam_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-015",
+        "TERM-01"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-015::TERM-01"
+    },
+    {
+      "case_id": "G07-G-0095",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0095#argument_pair_00",
+      "new_arg": "section_ref",
+      "new_tool": "get_advising_slot_by_reference",
+      "old_arg": "course_code",
+      "old_tool": "get_advising_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-003",
+        "TERM-01"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-003::TERM-01"
+    },
+    {
+      "case_id": "G07-G-0095",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0095#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "get_advising_slot_by_reference",
+      "old_arg": "term_id",
+      "old_tool": "get_advising_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-003",
+        "TERM-01"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-003::TERM-01"
+    },
+    {
+      "case_id": "G07-G-0096",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0096#argument_pair_00",
+      "new_arg": "section_ref",
+      "new_tool": "get_classroom_slot_by_section",
+      "old_arg": "course_code",
+      "old_tool": "get_classroom_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-016",
+        "TERM-02"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-016::TERM-02"
+    },
+    {
+      "case_id": "G07-G-0096",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0096#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "get_classroom_slot_by_section",
+      "old_arg": "term_id",
+      "old_tool": "get_classroom_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-016",
+        "TERM-02"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-016::TERM-02"
+    },
+    {
+      "case_id": "G07-G-0097",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0097#argument_pair_00",
+      "new_arg": "section_ref",
+      "new_tool": "get_exam_slot_by_section",
+      "old_arg": "course_code",
+      "old_tool": "get_exam_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-029",
+        "TERM-03"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-029::TERM-03"
+    },
+    {
+      "case_id": "G07-G-0097",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0097#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "get_exam_slot_by_section",
+      "old_arg": "term_id",
+      "old_tool": "get_exam_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-029",
+        "TERM-03"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-029::TERM-03"
+    },
+    {
+      "case_id": "G07-G-0098",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0098#argument_pair_00",
+      "new_arg": "section_ref",
+      "new_tool": "get_advising_slot_by_reference",
+      "old_arg": "course_code",
+      "old_tool": "get_advising_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-012",
+        "TERM-01"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-012::TERM-01"
+    },
+    {
+      "case_id": "G07-G-0098",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0098#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "get_advising_slot_by_reference",
+      "old_arg": "term_id",
+      "old_tool": "get_advising_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-012",
+        "TERM-01"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-012::TERM-01"
+    },
+    {
+      "case_id": "G07-G-0099",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0099#argument_pair_00",
+      "new_arg": "section_ref",
+      "new_tool": "get_classroom_slot_by_section",
+      "old_arg": "course_code",
+      "old_tool": "get_classroom_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-011",
+        "TERM-03"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-011::TERM-03"
+    },
+    {
+      "case_id": "G07-G-0099",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0099#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "get_classroom_slot_by_section",
+      "old_arg": "term_id",
+      "old_tool": "get_classroom_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-011",
+        "TERM-03"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-011::TERM-03"
+    },
+    {
+      "case_id": "G07-G-0100",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0100#argument_pair_00",
+      "new_arg": "section_ref",
+      "new_tool": "get_exam_slot_by_section",
+      "old_arg": "course_code",
+      "old_tool": "get_exam_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-019",
+        "TERM-02"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-019::TERM-02"
+    },
+    {
+      "case_id": "G07-G-0100",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0100#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "get_exam_slot_by_section",
+      "old_arg": "term_id",
+      "old_tool": "get_exam_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-019",
+        "TERM-02"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-019::TERM-02"
+    },
+    {
+      "case_id": "G07-G-0101",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0101#argument_pair_00",
+      "new_arg": "section_ref",
+      "new_tool": "get_advising_slot_by_reference",
+      "old_arg": "course_code",
+      "old_tool": "get_advising_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-005",
+        "TERM-03"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-005::TERM-03"
+    },
+    {
+      "case_id": "G07-G-0101",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0101#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "get_advising_slot_by_reference",
+      "old_arg": "term_id",
+      "old_tool": "get_advising_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-005",
+        "TERM-03"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-005::TERM-03"
+    },
+    {
+      "case_id": "G07-G-0102",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0102#argument_pair_00",
+      "new_arg": "section_ref",
+      "new_tool": "get_classroom_slot_by_section",
+      "old_arg": "course_code",
+      "old_tool": "get_classroom_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-007",
+        "TERM-02"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-007::TERM-02"
+    },
+    {
+      "case_id": "G07-G-0102",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0102#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "get_classroom_slot_by_section",
+      "old_arg": "term_id",
+      "old_tool": "get_classroom_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-007",
+        "TERM-02"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-007::TERM-02"
+    },
+    {
+      "case_id": "G07-G-0103",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0103#argument_pair_00",
+      "new_arg": "section_ref",
+      "new_tool": "get_exam_slot_by_section",
+      "old_arg": "course_code",
+      "old_tool": "get_exam_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-005",
+        "TERM-03"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-005::TERM-03"
+    },
+    {
+      "case_id": "G07-G-0103",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0103#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "get_exam_slot_by_section",
+      "old_arg": "term_id",
+      "old_tool": "get_exam_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-005",
+        "TERM-03"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-005::TERM-03"
+    },
+    {
+      "case_id": "G07-G-0104",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0104#argument_pair_00",
+      "new_arg": "section_ref",
+      "new_tool": "get_advising_slot_by_reference",
+      "old_arg": "course_code",
+      "old_tool": "get_advising_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-020",
+        "TERM-03"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-020::TERM-03"
+    },
+    {
+      "case_id": "G07-G-0104",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0104#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "get_advising_slot_by_reference",
+      "old_arg": "term_id",
+      "old_tool": "get_advising_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-020",
+        "TERM-03"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-020::TERM-03"
+    },
+    {
+      "case_id": "G07-G-0105",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0105#argument_pair_00",
+      "new_arg": "section_ref",
+      "new_tool": "get_classroom_slot_by_section",
+      "old_arg": "course_code",
+      "old_tool": "get_classroom_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-028",
+        "TERM-02"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-028::TERM-02"
+    },
+    {
+      "case_id": "G07-G-0105",
+      "derivation": {
+        "kind": "join",
+        "left_index": 0,
+        "right_index": 1,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "argument_merge",
+      "item_id": "G07-G-0105#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "get_classroom_slot_by_section",
+      "old_arg": "term_id",
+      "old_tool": "get_classroom_slot",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "CRS-028",
+        "TERM-02"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-028::TERM-02"
+    },
+    {
+      "case_id": "G07-G-0109",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "output_restructure",
+      "item_id": "G07-G-0109#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "get_course_summary",
+      "old_arg": "course_code",
+      "old_tool": "get_course_summary",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-007"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-007"
+    },
+    {
+      "case_id": "G07-G-0110",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "output_restructure",
+      "item_id": "G07-G-0110#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "get_student_profile",
+      "old_arg": "student_id",
+      "old_tool": "get_student_profile",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0001"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0001"
+    },
+    {
+      "case_id": "G07-G-0111",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "output_restructure",
+      "item_id": "G07-G-0111#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "get_student_transcript",
+      "old_arg": "student_id",
+      "old_tool": "get_student_transcript",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0013"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0013"
+    },
+    {
+      "case_id": "G07-G-0112",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "output_restructure",
+      "item_id": "G07-G-0112#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "get_course_summary",
+      "old_arg": "course_code",
+      "old_tool": "get_course_summary",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-029"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-029"
+    },
+    {
+      "case_id": "G07-G-0113",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "output_restructure",
+      "item_id": "G07-G-0113#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "get_student_profile",
+      "old_arg": "student_id",
+      "old_tool": "get_student_profile",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0010"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0010"
+    },
+    {
+      "case_id": "G07-G-0114",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "output_restructure",
+      "item_id": "G07-G-0114#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "get_student_transcript",
+      "old_arg": "student_id",
+      "old_tool": "get_student_transcript",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0007"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0007"
+    },
+    {
+      "case_id": "G07-G-0115",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "output_restructure",
+      "item_id": "G07-G-0115#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "get_course_summary",
+      "old_arg": "course_code",
+      "old_tool": "get_course_summary",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-005"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-005"
+    },
+    {
+      "case_id": "G07-G-0116",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "output_restructure",
+      "item_id": "G07-G-0116#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "get_student_profile",
+      "old_arg": "student_id",
+      "old_tool": "get_student_profile",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0014"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0014"
+    },
+    {
+      "case_id": "G07-G-0117",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "output_restructure",
+      "item_id": "G07-G-0117#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "get_student_transcript",
+      "old_arg": "student_id",
+      "old_tool": "get_student_transcript",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0006"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0006"
+    },
+    {
+      "case_id": "G07-G-0118",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "output_restructure",
+      "item_id": "G07-G-0118#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "get_course_summary",
+      "old_arg": "course_code",
+      "old_tool": "get_course_summary",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-018"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-018"
+    },
+    {
+      "case_id": "G07-G-0119",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "output_restructure",
+      "item_id": "G07-G-0119#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "get_student_profile",
+      "old_arg": "student_id",
+      "old_tool": "get_student_profile",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0008"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0008"
+    },
+    {
+      "case_id": "G07-G-0120",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "output_restructure",
+      "item_id": "G07-G-0120#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "get_student_transcript",
+      "old_arg": "student_id",
+      "old_tool": "get_student_transcript",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0007"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0007"
+    },
+    {
+      "case_id": "G07-G-0121",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "output_restructure",
+      "item_id": "G07-G-0121#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "get_course_summary",
+      "old_arg": "course_code",
+      "old_tool": "get_course_summary",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-029"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-029"
+    },
+    {
+      "case_id": "G07-G-0122",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "output_restructure",
+      "item_id": "G07-G-0122#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "get_student_profile",
+      "old_arg": "student_id",
+      "old_tool": "get_student_profile",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0019"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0019"
+    },
+    {
+      "case_id": "G07-G-0123",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "output_restructure",
+      "item_id": "G07-G-0123#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "get_student_transcript",
+      "old_arg": "student_id",
+      "old_tool": "get_student_transcript",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0013"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0013"
+    },
+    {
+      "case_id": "G07-G-0127",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0127#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "student_id",
+      "old_tool": "create_registration",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0014",
+        "CRS-021",
+        "TERM-01"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0014"
+    },
+    {
+      "case_id": "G07-G-0127",
+      "derivation": {
+        "kind": "join",
+        "left_index": 1,
+        "right_index": 2,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0127#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "course_code",
+      "old_tool": "create_registration",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "STU-0014",
+        "CRS-021",
+        "TERM-01"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-021::TERM-01"
+    },
+    {
+      "case_id": "G07-G-0127",
+      "derivation": {
+        "kind": "join",
+        "left_index": 1,
+        "right_index": 2,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0127#argument_pair_02",
+      "new_arg": "section_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "term_id",
+      "old_tool": "create_registration",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "STU-0014",
+        "CRS-021",
+        "TERM-01"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-021::TERM-01"
+    },
+    {
+      "case_id": "G07-G-0128",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0128#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "student_id",
+      "old_tool": "issue_completion_certificate",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0011",
+        "CRS-028"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0011"
+    },
+    {
+      "case_id": "G07-G-0128",
+      "derivation": null,
+      "family": "tool_replacement",
+      "item_id": "G07-G-0128#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "course_code",
+      "old_tool": "issue_completion_certificate",
+      "reason": "new_arg is not a declared input field of the method-visible new contract",
+      "source_values": [
+        "STU-0011",
+        "CRS-028"
+      ],
+      "status": "UNREACHABLE-TARGET-ABSENT",
+      "target_field_declared": false,
+      "target_value": null
+    },
+    {
+      "case_id": "G07-G-0129",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0129#argument_pair_00",
+      "new_arg": "facility_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "room_code",
+      "old_tool": "reserve_teaching_room",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ROOM-004",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ROOM-004"
+    },
+    {
+      "case_id": "G07-G-0129",
+      "derivation": null,
+      "family": "tool_replacement",
+      "item_id": "G07-G-0129#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "term_id",
+      "old_tool": "reserve_teaching_room",
+      "reason": "new_arg is not a declared input field of the method-visible new contract",
+      "source_values": [
+        "ROOM-004",
+        "TERM-03"
+      ],
+      "status": "UNREACHABLE-TARGET-ABSENT",
+      "target_field_declared": false,
+      "target_value": null
+    },
+    {
+      "case_id": "G07-G-0130",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0130#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "student_id",
+      "old_tool": "create_registration",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0018",
+        "CRS-005",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0018"
+    },
+    {
+      "case_id": "G07-G-0130",
+      "derivation": {
+        "kind": "join",
+        "left_index": 1,
+        "right_index": 2,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0130#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "course_code",
+      "old_tool": "create_registration",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "STU-0018",
+        "CRS-005",
+        "TERM-03"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-005::TERM-03"
+    },
+    {
+      "case_id": "G07-G-0130",
+      "derivation": {
+        "kind": "join",
+        "left_index": 1,
+        "right_index": 2,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0130#argument_pair_02",
+      "new_arg": "section_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "term_id",
+      "old_tool": "create_registration",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "STU-0018",
+        "CRS-005",
+        "TERM-03"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-005::TERM-03"
+    },
+    {
+      "case_id": "G07-G-0131",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0131#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "student_id",
+      "old_tool": "issue_completion_certificate",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0012",
+        "CRS-029"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0012"
+    },
+    {
+      "case_id": "G07-G-0131",
+      "derivation": null,
+      "family": "tool_replacement",
+      "item_id": "G07-G-0131#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "course_code",
+      "old_tool": "issue_completion_certificate",
+      "reason": "new_arg is not a declared input field of the method-visible new contract",
+      "source_values": [
+        "STU-0012",
+        "CRS-029"
+      ],
+      "status": "UNREACHABLE-TARGET-ABSENT",
+      "target_field_declared": false,
+      "target_value": null
+    },
+    {
+      "case_id": "G07-G-0132",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0132#argument_pair_00",
+      "new_arg": "facility_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "room_code",
+      "old_tool": "reserve_teaching_room",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ROOM-008",
+        "TERM-01"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ROOM-008"
+    },
+    {
+      "case_id": "G07-G-0132",
+      "derivation": null,
+      "family": "tool_replacement",
+      "item_id": "G07-G-0132#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "term_id",
+      "old_tool": "reserve_teaching_room",
+      "reason": "new_arg is not a declared input field of the method-visible new contract",
+      "source_values": [
+        "ROOM-008",
+        "TERM-01"
+      ],
+      "status": "UNREACHABLE-TARGET-ABSENT",
+      "target_field_declared": false,
+      "target_value": null
+    },
+    {
+      "case_id": "G07-G-0133",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0133#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "student_id",
+      "old_tool": "create_registration",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0020",
+        "CRS-007",
+        "TERM-02"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0020"
+    },
+    {
+      "case_id": "G07-G-0133",
+      "derivation": {
+        "kind": "join",
+        "left_index": 1,
+        "right_index": 2,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0133#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "course_code",
+      "old_tool": "create_registration",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "STU-0020",
+        "CRS-007",
+        "TERM-02"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-007::TERM-02"
+    },
+    {
+      "case_id": "G07-G-0133",
+      "derivation": {
+        "kind": "join",
+        "left_index": 1,
+        "right_index": 2,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0133#argument_pair_02",
+      "new_arg": "section_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "term_id",
+      "old_tool": "create_registration",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "STU-0020",
+        "CRS-007",
+        "TERM-02"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-007::TERM-02"
+    },
+    {
+      "case_id": "G07-G-0134",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0134#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "student_id",
+      "old_tool": "issue_completion_certificate",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0003",
+        "CRS-010"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0003"
+    },
+    {
+      "case_id": "G07-G-0134",
+      "derivation": null,
+      "family": "tool_replacement",
+      "item_id": "G07-G-0134#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "course_code",
+      "old_tool": "issue_completion_certificate",
+      "reason": "new_arg is not a declared input field of the method-visible new contract",
+      "source_values": [
+        "STU-0003",
+        "CRS-010"
+      ],
+      "status": "UNREACHABLE-TARGET-ABSENT",
+      "target_field_declared": false,
+      "target_value": null
+    },
+    {
+      "case_id": "G07-G-0135",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0135#argument_pair_00",
+      "new_arg": "facility_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "room_code",
+      "old_tool": "reserve_teaching_room",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ROOM-012",
+        "TERM-02"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ROOM-012"
+    },
+    {
+      "case_id": "G07-G-0135",
+      "derivation": null,
+      "family": "tool_replacement",
+      "item_id": "G07-G-0135#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "term_id",
+      "old_tool": "reserve_teaching_room",
+      "reason": "new_arg is not a declared input field of the method-visible new contract",
+      "source_values": [
+        "ROOM-012",
+        "TERM-02"
+      ],
+      "status": "UNREACHABLE-TARGET-ABSENT",
+      "target_field_declared": false,
+      "target_value": null
+    },
+    {
+      "case_id": "G07-G-0136",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0136#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "student_id",
+      "old_tool": "create_registration",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0020",
+        "CRS-007",
+        "TERM-02"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0020"
+    },
+    {
+      "case_id": "G07-G-0136",
+      "derivation": {
+        "kind": "join",
+        "left_index": 1,
+        "right_index": 2,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0136#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "course_code",
+      "old_tool": "create_registration",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "STU-0020",
+        "CRS-007",
+        "TERM-02"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-007::TERM-02"
+    },
+    {
+      "case_id": "G07-G-0136",
+      "derivation": {
+        "kind": "join",
+        "left_index": 1,
+        "right_index": 2,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0136#argument_pair_02",
+      "new_arg": "section_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "term_id",
+      "old_tool": "create_registration",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "STU-0020",
+        "CRS-007",
+        "TERM-02"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-007::TERM-02"
+    },
+    {
+      "case_id": "G07-G-0137",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0137#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "student_id",
+      "old_tool": "issue_completion_certificate",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0013",
+        "CRS-010"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0013"
+    },
+    {
+      "case_id": "G07-G-0137",
+      "derivation": null,
+      "family": "tool_replacement",
+      "item_id": "G07-G-0137#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "course_code",
+      "old_tool": "issue_completion_certificate",
+      "reason": "new_arg is not a declared input field of the method-visible new contract",
+      "source_values": [
+        "STU-0013",
+        "CRS-010"
+      ],
+      "status": "UNREACHABLE-TARGET-ABSENT",
+      "target_field_declared": false,
+      "target_value": null
+    },
+    {
+      "case_id": "G07-G-0138",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0138#argument_pair_00",
+      "new_arg": "facility_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "room_code",
+      "old_tool": "reserve_teaching_room",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ROOM-013",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ROOM-013"
+    },
+    {
+      "case_id": "G07-G-0138",
+      "derivation": null,
+      "family": "tool_replacement",
+      "item_id": "G07-G-0138#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "term_id",
+      "old_tool": "reserve_teaching_room",
+      "reason": "new_arg is not a declared input field of the method-visible new contract",
+      "source_values": [
+        "ROOM-013",
+        "TERM-03"
+      ],
+      "status": "UNREACHABLE-TARGET-ABSENT",
+      "target_field_declared": false,
+      "target_value": null
+    },
+    {
+      "case_id": "G07-G-0139",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0139#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "student_id",
+      "old_tool": "create_registration",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0003",
+        "CRS-020",
+        "TERM-03"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0003"
+    },
+    {
+      "case_id": "G07-G-0139",
+      "derivation": {
+        "kind": "join",
+        "left_index": 1,
+        "right_index": 2,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0139#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "course_code",
+      "old_tool": "create_registration",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "STU-0003",
+        "CRS-020",
+        "TERM-03"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-020::TERM-03"
+    },
+    {
+      "case_id": "G07-G-0139",
+      "derivation": {
+        "kind": "join",
+        "left_index": 1,
+        "right_index": 2,
+        "separator": "::",
+        "separator_observable": false
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0139#argument_pair_02",
+      "new_arg": "section_ref",
+      "new_tool": "finalize_paid_registration",
+      "old_arg": "term_id",
+      "old_tool": "create_registration",
+      "reason": "target requires a join separator absent from the declared method-visible surface",
+      "source_values": [
+        "STU-0003",
+        "CRS-020",
+        "TERM-03"
+      ],
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-020::TERM-03"
+    },
+    {
+      "case_id": "G07-G-0140",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0140#argument_pair_00",
+      "new_arg": "learner_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "student_id",
+      "old_tool": "issue_completion_certificate",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0009",
+        "CRS-016"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0009"
+    },
+    {
+      "case_id": "G07-G-0140",
+      "derivation": null,
+      "family": "tool_replacement",
+      "item_id": "G07-G-0140#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "grant_completion_credential",
+      "old_arg": "course_code",
+      "old_tool": "issue_completion_certificate",
+      "reason": "new_arg is not a declared input field of the method-visible new contract",
+      "source_values": [
+        "STU-0009",
+        "CRS-016"
+      ],
+      "status": "UNREACHABLE-TARGET-ABSENT",
+      "target_field_declared": false,
+      "target_value": null
+    },
+    {
+      "case_id": "G07-G-0141",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "tool_replacement",
+      "item_id": "G07-G-0141#argument_pair_00",
+      "new_arg": "facility_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "room_code",
+      "old_tool": "reserve_teaching_room",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ROOM-009",
+        "TERM-02"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ROOM-009"
+    },
+    {
+      "case_id": "G07-G-0141",
+      "derivation": null,
+      "family": "tool_replacement",
+      "item_id": "G07-G-0141#argument_pair_01",
+      "new_arg": "section_ref",
+      "new_tool": "confirm_room_booking",
+      "old_arg": "term_id",
+      "old_tool": "reserve_teaching_room",
+      "reason": "new_arg is not a declared input field of the method-visible new contract",
+      "source_values": [
+        "ROOM-009",
+        "TERM-02"
+      ],
+      "status": "UNREACHABLE-TARGET-ABSENT",
+      "target_field_declared": false,
+      "target_value": null
+    },
+    {
+      "case_id": "G07-G-0145",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0145#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "get_learner_identity",
+      "old_arg": "student_id",
+      "old_tool": "get_complete_learner_profile",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0014"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0014"
+    },
+    {
+      "case_id": "G07-G-0145",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0145#argument_pair_01",
+      "new_arg": "student_id",
+      "new_tool": "get_learner_program",
+      "old_arg": "student_id",
+      "old_tool": "get_complete_learner_profile",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0014"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0014"
+    },
+    {
+      "case_id": "G07-G-0146",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0146#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "get_course_instructor",
+      "old_arg": "course_code",
+      "old_tool": "get_course_faculty_record",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-014"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-014"
+    },
+    {
+      "case_id": "G07-G-0146",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0146#argument_pair_01",
+      "new_arg": "course_code",
+      "new_tool": "get_course_department",
+      "old_arg": "course_code",
+      "old_tool": "get_course_faculty_record",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-014"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-014"
+    },
+    {
+      "case_id": "G07-G-0147",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0147#argument_pair_00",
+      "new_arg": "assessment_id",
+      "new_tool": "get_assessment_definition",
+      "old_arg": "assessment_id",
+      "old_tool": "get_assessment_record",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ASM-018"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ASM-018"
+    },
+    {
+      "case_id": "G07-G-0147",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0147#argument_pair_01",
+      "new_arg": "assessment_id",
+      "new_tool": "get_recorded_assessment_result",
+      "old_arg": "assessment_id",
+      "old_tool": "get_assessment_record",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ASM-018"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ASM-018"
+    },
+    {
+      "case_id": "G07-G-0148",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0148#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "get_learner_identity",
+      "old_arg": "student_id",
+      "old_tool": "get_complete_learner_profile",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0005"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0005"
+    },
+    {
+      "case_id": "G07-G-0148",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0148#argument_pair_01",
+      "new_arg": "student_id",
+      "new_tool": "get_learner_program",
+      "old_arg": "student_id",
+      "old_tool": "get_complete_learner_profile",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0005"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0005"
+    },
+    {
+      "case_id": "G07-G-0149",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0149#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "get_course_instructor",
+      "old_arg": "course_code",
+      "old_tool": "get_course_faculty_record",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-005"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-005"
+    },
+    {
+      "case_id": "G07-G-0149",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0149#argument_pair_01",
+      "new_arg": "course_code",
+      "new_tool": "get_course_department",
+      "old_arg": "course_code",
+      "old_tool": "get_course_faculty_record",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-005"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-005"
+    },
+    {
+      "case_id": "G07-G-0150",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0150#argument_pair_00",
+      "new_arg": "assessment_id",
+      "new_tool": "get_assessment_definition",
+      "old_arg": "assessment_id",
+      "old_tool": "get_assessment_record",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ASM-015"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ASM-015"
+    },
+    {
+      "case_id": "G07-G-0150",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0150#argument_pair_01",
+      "new_arg": "assessment_id",
+      "new_tool": "get_recorded_assessment_result",
+      "old_arg": "assessment_id",
+      "old_tool": "get_assessment_record",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ASM-015"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ASM-015"
+    },
+    {
+      "case_id": "G07-G-0151",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0151#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "get_learner_identity",
+      "old_arg": "student_id",
+      "old_tool": "get_complete_learner_profile",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0002"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0002"
+    },
+    {
+      "case_id": "G07-G-0151",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0151#argument_pair_01",
+      "new_arg": "student_id",
+      "new_tool": "get_learner_program",
+      "old_arg": "student_id",
+      "old_tool": "get_complete_learner_profile",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0002"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0002"
+    },
+    {
+      "case_id": "G07-G-0152",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0152#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "get_course_instructor",
+      "old_arg": "course_code",
+      "old_tool": "get_course_faculty_record",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-008"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-008"
+    },
+    {
+      "case_id": "G07-G-0152",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0152#argument_pair_01",
+      "new_arg": "course_code",
+      "new_tool": "get_course_department",
+      "old_arg": "course_code",
+      "old_tool": "get_course_faculty_record",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-008"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-008"
+    },
+    {
+      "case_id": "G07-G-0153",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0153#argument_pair_00",
+      "new_arg": "assessment_id",
+      "new_tool": "get_assessment_definition",
+      "old_arg": "assessment_id",
+      "old_tool": "get_assessment_record",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ASM-013"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ASM-013"
+    },
+    {
+      "case_id": "G07-G-0153",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0153#argument_pair_01",
+      "new_arg": "assessment_id",
+      "new_tool": "get_recorded_assessment_result",
+      "old_arg": "assessment_id",
+      "old_tool": "get_assessment_record",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ASM-013"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ASM-013"
+    },
+    {
+      "case_id": "G07-G-0154",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0154#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "get_learner_identity",
+      "old_arg": "student_id",
+      "old_tool": "get_complete_learner_profile",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0006"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0006"
+    },
+    {
+      "case_id": "G07-G-0154",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0154#argument_pair_01",
+      "new_arg": "student_id",
+      "new_tool": "get_learner_program",
+      "old_arg": "student_id",
+      "old_tool": "get_complete_learner_profile",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0006"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0006"
+    },
+    {
+      "case_id": "G07-G-0155",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0155#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "get_course_instructor",
+      "old_arg": "course_code",
+      "old_tool": "get_course_faculty_record",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-025"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-025"
+    },
+    {
+      "case_id": "G07-G-0155",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0155#argument_pair_01",
+      "new_arg": "course_code",
+      "new_tool": "get_course_department",
+      "old_arg": "course_code",
+      "old_tool": "get_course_faculty_record",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-025"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-025"
+    },
+    {
+      "case_id": "G07-G-0156",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0156#argument_pair_00",
+      "new_arg": "assessment_id",
+      "new_tool": "get_assessment_definition",
+      "old_arg": "assessment_id",
+      "old_tool": "get_assessment_record",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ASM-013"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ASM-013"
+    },
+    {
+      "case_id": "G07-G-0156",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0156#argument_pair_01",
+      "new_arg": "assessment_id",
+      "new_tool": "get_recorded_assessment_result",
+      "old_arg": "assessment_id",
+      "old_tool": "get_assessment_record",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ASM-013"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ASM-013"
+    },
+    {
+      "case_id": "G07-G-0157",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0157#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "get_learner_identity",
+      "old_arg": "student_id",
+      "old_tool": "get_complete_learner_profile",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0016"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0016"
+    },
+    {
+      "case_id": "G07-G-0157",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0157#argument_pair_01",
+      "new_arg": "student_id",
+      "new_tool": "get_learner_program",
+      "old_arg": "student_id",
+      "old_tool": "get_complete_learner_profile",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0016"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0016"
+    },
+    {
+      "case_id": "G07-G-0158",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0158#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "get_course_instructor",
+      "old_arg": "course_code",
+      "old_tool": "get_course_faculty_record",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-014"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-014"
+    },
+    {
+      "case_id": "G07-G-0158",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0158#argument_pair_01",
+      "new_arg": "course_code",
+      "new_tool": "get_course_department",
+      "old_arg": "course_code",
+      "old_tool": "get_course_faculty_record",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-014"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-014"
+    },
+    {
+      "case_id": "G07-G-0159",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0159#argument_pair_00",
+      "new_arg": "assessment_id",
+      "new_tool": "get_assessment_definition",
+      "old_arg": "assessment_id",
+      "old_tool": "get_assessment_record",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ASM-006"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ASM-006"
+    },
+    {
+      "case_id": "G07-G-0159",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "one_old_to_multiple_new",
+      "item_id": "G07-G-0159#argument_pair_01",
+      "new_arg": "assessment_id",
+      "new_tool": "get_recorded_assessment_result",
+      "old_arg": "assessment_id",
+      "old_tool": "get_assessment_record",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ASM-006"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ASM-006"
+    },
+    {
+      "case_id": "G07-G-0163",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0163#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "get_course_summary_generalized",
+      "old_arg": "course_code",
+      "old_tool": "get_course_title",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-010",
+        "CRS-010"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-010"
+    },
+    {
+      "case_id": "G07-G-0163",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0163#argument_pair_01",
+      "new_arg": "course_code",
+      "new_tool": "get_course_summary_generalized",
+      "old_arg": "course_code",
+      "old_tool": "get_course_credits",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-010",
+        "CRS-010"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-010"
+    },
+    {
+      "case_id": "G07-G-0164",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0164#argument_pair_00",
+      "new_arg": "invoice_id",
+      "new_tool": "get_invoice_summary_generalized",
+      "old_arg": "invoice_id",
+      "old_tool": "get_invoice_amount",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-012",
+        "INV-012"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-012"
+    },
+    {
+      "case_id": "G07-G-0164",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0164#argument_pair_01",
+      "new_arg": "invoice_id",
+      "new_tool": "get_invoice_summary_generalized",
+      "old_arg": "invoice_id",
+      "old_tool": "get_invoice_state",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-012",
+        "INV-012"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-012"
+    },
+    {
+      "case_id": "G07-G-0165",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0165#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "get_student_summary_generalized",
+      "old_arg": "student_id",
+      "old_tool": "get_student_name",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0006",
+        "STU-0006"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0006"
+    },
+    {
+      "case_id": "G07-G-0165",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0165#argument_pair_01",
+      "new_arg": "student_id",
+      "new_tool": "get_student_summary_generalized",
+      "old_arg": "student_id",
+      "old_tool": "get_student_program",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0006",
+        "STU-0006"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0006"
+    },
+    {
+      "case_id": "G07-G-0166",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0166#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "get_course_summary_generalized",
+      "old_arg": "course_code",
+      "old_tool": "get_course_title",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-027",
+        "CRS-027"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-027"
+    },
+    {
+      "case_id": "G07-G-0166",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0166#argument_pair_01",
+      "new_arg": "course_code",
+      "new_tool": "get_course_summary_generalized",
+      "old_arg": "course_code",
+      "old_tool": "get_course_credits",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-027",
+        "CRS-027"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-027"
+    },
+    {
+      "case_id": "G07-G-0167",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0167#argument_pair_00",
+      "new_arg": "invoice_id",
+      "new_tool": "get_invoice_summary_generalized",
+      "old_arg": "invoice_id",
+      "old_tool": "get_invoice_amount",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-019",
+        "INV-019"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-019"
+    },
+    {
+      "case_id": "G07-G-0167",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0167#argument_pair_01",
+      "new_arg": "invoice_id",
+      "new_tool": "get_invoice_summary_generalized",
+      "old_arg": "invoice_id",
+      "old_tool": "get_invoice_state",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-019",
+        "INV-019"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-019"
+    },
+    {
+      "case_id": "G07-G-0168",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0168#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "get_student_summary_generalized",
+      "old_arg": "student_id",
+      "old_tool": "get_student_name",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0018",
+        "STU-0018"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0018"
+    },
+    {
+      "case_id": "G07-G-0168",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0168#argument_pair_01",
+      "new_arg": "student_id",
+      "new_tool": "get_student_summary_generalized",
+      "old_arg": "student_id",
+      "old_tool": "get_student_program",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0018",
+        "STU-0018"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0018"
+    },
+    {
+      "case_id": "G07-G-0169",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0169#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "get_course_summary_generalized",
+      "old_arg": "course_code",
+      "old_tool": "get_course_title",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-023",
+        "CRS-023"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-023"
+    },
+    {
+      "case_id": "G07-G-0169",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0169#argument_pair_01",
+      "new_arg": "course_code",
+      "new_tool": "get_course_summary_generalized",
+      "old_arg": "course_code",
+      "old_tool": "get_course_credits",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-023",
+        "CRS-023"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-023"
+    },
+    {
+      "case_id": "G07-G-0170",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0170#argument_pair_00",
+      "new_arg": "invoice_id",
+      "new_tool": "get_invoice_summary_generalized",
+      "old_arg": "invoice_id",
+      "old_tool": "get_invoice_amount",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-013",
+        "INV-013"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-013"
+    },
+    {
+      "case_id": "G07-G-0170",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0170#argument_pair_01",
+      "new_arg": "invoice_id",
+      "new_tool": "get_invoice_summary_generalized",
+      "old_arg": "invoice_id",
+      "old_tool": "get_invoice_state",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-013",
+        "INV-013"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-013"
+    },
+    {
+      "case_id": "G07-G-0171",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0171#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "get_student_summary_generalized",
+      "old_arg": "student_id",
+      "old_tool": "get_student_name",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0007",
+        "STU-0007"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0007"
+    },
+    {
+      "case_id": "G07-G-0171",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0171#argument_pair_01",
+      "new_arg": "student_id",
+      "new_tool": "get_student_summary_generalized",
+      "old_arg": "student_id",
+      "old_tool": "get_student_program",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0007",
+        "STU-0007"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0007"
+    },
+    {
+      "case_id": "G07-G-0172",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0172#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "get_course_summary_generalized",
+      "old_arg": "course_code",
+      "old_tool": "get_course_title",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-005",
+        "CRS-005"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-005"
+    },
+    {
+      "case_id": "G07-G-0172",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0172#argument_pair_01",
+      "new_arg": "course_code",
+      "new_tool": "get_course_summary_generalized",
+      "old_arg": "course_code",
+      "old_tool": "get_course_credits",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-005",
+        "CRS-005"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-005"
+    },
+    {
+      "case_id": "G07-G-0173",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0173#argument_pair_00",
+      "new_arg": "invoice_id",
+      "new_tool": "get_invoice_summary_generalized",
+      "old_arg": "invoice_id",
+      "old_tool": "get_invoice_amount",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-020",
+        "INV-020"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-020"
+    },
+    {
+      "case_id": "G07-G-0173",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0173#argument_pair_01",
+      "new_arg": "invoice_id",
+      "new_tool": "get_invoice_summary_generalized",
+      "old_arg": "invoice_id",
+      "old_tool": "get_invoice_state",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-020",
+        "INV-020"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-020"
+    },
+    {
+      "case_id": "G07-G-0174",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0174#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "get_student_summary_generalized",
+      "old_arg": "student_id",
+      "old_tool": "get_student_name",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0017",
+        "STU-0017"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0017"
+    },
+    {
+      "case_id": "G07-G-0174",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0174#argument_pair_01",
+      "new_arg": "student_id",
+      "new_tool": "get_student_summary_generalized",
+      "old_arg": "student_id",
+      "old_tool": "get_student_program",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0017",
+        "STU-0017"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0017"
+    },
+    {
+      "case_id": "G07-G-0175",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0175#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "get_course_summary_generalized",
+      "old_arg": "course_code",
+      "old_tool": "get_course_title",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-017",
+        "CRS-017"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-017"
+    },
+    {
+      "case_id": "G07-G-0175",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0175#argument_pair_01",
+      "new_arg": "course_code",
+      "new_tool": "get_course_summary_generalized",
+      "old_arg": "course_code",
+      "old_tool": "get_course_credits",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-017",
+        "CRS-017"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-017"
+    },
+    {
+      "case_id": "G07-G-0176",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0176#argument_pair_00",
+      "new_arg": "invoice_id",
+      "new_tool": "get_invoice_summary_generalized",
+      "old_arg": "invoice_id",
+      "old_tool": "get_invoice_amount",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-020",
+        "INV-020"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-020"
+    },
+    {
+      "case_id": "G07-G-0176",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0176#argument_pair_01",
+      "new_arg": "invoice_id",
+      "new_tool": "get_invoice_summary_generalized",
+      "old_arg": "invoice_id",
+      "old_tool": "get_invoice_state",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "INV-020",
+        "INV-020"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "INV-020"
+    },
+    {
+      "case_id": "G07-G-0177",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0177#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "get_student_summary_generalized",
+      "old_arg": "student_id",
+      "old_tool": "get_student_name",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0004",
+        "STU-0004"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0004"
+    },
+    {
+      "case_id": "G07-G-0177",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "multiple_old_to_one_new",
+      "item_id": "G07-G-0177#argument_pair_01",
+      "new_arg": "student_id",
+      "new_tool": "get_student_summary_generalized",
+      "old_arg": "student_id",
+      "old_tool": "get_student_program",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0004",
+        "STU-0004"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0004"
+    },
+    {
+      "case_id": "G07-G-0181",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "semantic_near_collision",
+      "item_id": "G07-G-0181#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "lookup_exact_course",
+      "old_arg": "course_code",
+      "old_tool": "find_exact_course",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-026"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-026"
+    },
+    {
+      "case_id": "G07-G-0182",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "semantic_near_collision",
+      "item_id": "G07-G-0182#argument_pair_00",
+      "new_arg": "room_code",
+      "new_tool": "lookup_exact_room",
+      "old_arg": "room_code",
+      "old_tool": "find_exact_room",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ROOM-007"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ROOM-007"
+    },
+    {
+      "case_id": "G07-G-0183",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "semantic_near_collision",
+      "item_id": "G07-G-0183#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "lookup_exact_learner",
+      "old_arg": "student_id",
+      "old_tool": "find_exact_learner",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0002"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0002"
+    },
+    {
+      "case_id": "G07-G-0184",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "semantic_near_collision",
+      "item_id": "G07-G-0184#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "lookup_exact_course",
+      "old_arg": "course_code",
+      "old_tool": "find_exact_course",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-002"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-002"
+    },
+    {
+      "case_id": "G07-G-0185",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "semantic_near_collision",
+      "item_id": "G07-G-0185#argument_pair_00",
+      "new_arg": "room_code",
+      "new_tool": "lookup_exact_room",
+      "old_arg": "room_code",
+      "old_tool": "find_exact_room",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ROOM-002"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ROOM-002"
+    },
+    {
+      "case_id": "G07-G-0186",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "semantic_near_collision",
+      "item_id": "G07-G-0186#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "lookup_exact_learner",
+      "old_arg": "student_id",
+      "old_tool": "find_exact_learner",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0017"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0017"
+    },
+    {
+      "case_id": "G07-G-0187",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "semantic_near_collision",
+      "item_id": "G07-G-0187#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "lookup_exact_course",
+      "old_arg": "course_code",
+      "old_tool": "find_exact_course",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-015"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-015"
+    },
+    {
+      "case_id": "G07-G-0188",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "semantic_near_collision",
+      "item_id": "G07-G-0188#argument_pair_00",
+      "new_arg": "room_code",
+      "new_tool": "lookup_exact_room",
+      "old_arg": "room_code",
+      "old_tool": "find_exact_room",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ROOM-012"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ROOM-012"
+    },
+    {
+      "case_id": "G07-G-0189",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "semantic_near_collision",
+      "item_id": "G07-G-0189#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "lookup_exact_learner",
+      "old_arg": "student_id",
+      "old_tool": "find_exact_learner",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0007"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0007"
+    },
+    {
+      "case_id": "G07-G-0190",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "semantic_near_collision",
+      "item_id": "G07-G-0190#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "lookup_exact_course",
+      "old_arg": "course_code",
+      "old_tool": "find_exact_course",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-014"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-014"
+    },
+    {
+      "case_id": "G07-G-0191",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "semantic_near_collision",
+      "item_id": "G07-G-0191#argument_pair_00",
+      "new_arg": "room_code",
+      "new_tool": "lookup_exact_room",
+      "old_arg": "room_code",
+      "old_tool": "find_exact_room",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ROOM-011"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ROOM-011"
+    },
+    {
+      "case_id": "G07-G-0192",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "semantic_near_collision",
+      "item_id": "G07-G-0192#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "lookup_exact_learner",
+      "old_arg": "student_id",
+      "old_tool": "find_exact_learner",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0012"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0012"
+    },
+    {
+      "case_id": "G07-G-0193",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "semantic_near_collision",
+      "item_id": "G07-G-0193#argument_pair_00",
+      "new_arg": "course_code",
+      "new_tool": "lookup_exact_course",
+      "old_arg": "course_code",
+      "old_tool": "find_exact_course",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "CRS-022"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "CRS-022"
+    },
+    {
+      "case_id": "G07-G-0194",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "semantic_near_collision",
+      "item_id": "G07-G-0194#argument_pair_00",
+      "new_arg": "room_code",
+      "new_tool": "lookup_exact_room",
+      "old_arg": "room_code",
+      "old_tool": "find_exact_room",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "ROOM-015"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "ROOM-015"
+    },
+    {
+      "case_id": "G07-G-0195",
+      "derivation": {
+        "kind": "identity"
+      },
+      "family": "semantic_near_collision",
+      "item_id": "G07-G-0195#argument_pair_00",
+      "new_arg": "student_id",
+      "new_tool": "lookup_exact_learner",
+      "old_arg": "student_id",
+      "old_tool": "find_exact_learner",
+      "reason": "target equals a visible source value",
+      "source_values": [
+        "STU-0004"
+      ],
+      "status": "REACHABLE",
+      "target_field_declared": true,
+      "target_value": "STU-0004"
+    }
+  ],
+  "rights_schema": "gate19.information_rights.v1",
+  "schema": "gate19.oracle_reachability_audit.v1"
+}
