@@ -8,6 +8,10 @@ waiting at the owner decision checkpoint B3 before any live generation request.
 - Frozen protocol: `gates/baselines/GATE_15_PROTOCOL.json`.
 - Protocol freeze commit: `ce26941`.
 - Protocol SHA-256: `6feb4d7cbd5bf38b44adde252bda9adc8075dcfd3efef51cd4c0e839c5f20c0e`.
+- Phase A/source checkpoint commit: `99328d4` (local HEAD
+  `99328d44baa85530b3b2640088dfc2fc4fb1a885`).
+- Two bounded OpenSSL push attempts failed with exit code 1 and no output;
+  `origin/main` remains `86dd77d5ce58857d9330b19df8f8d3e1cacd44e1`.
 - Entry HEAD and `origin/main`: `86dd77d5ce58857d9330b19df8f8d3e1cacd44e1`.
 - Entry overlay: exactly 25 pre-existing paths; Git index empty.
 - Interpreter: `.venv\Scripts\python.exe`.
