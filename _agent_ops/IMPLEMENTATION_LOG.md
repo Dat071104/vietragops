@@ -3627,3 +3627,44 @@ RISK-0026 first and preserve the frozen provider-pinned research lane.
   made.
 - Final full suite after B4 instrumentation passed `603 passed, 3 warnings` in
   `407.69` seconds with an external `--basetemp`.
+
+## 2026-09-10 — Gate 16 generation tuning and fallback policy repair
+
+- Entry protocol `GATE_16_PROTOCOL.json` was frozen and committed as `5cbc9ce`
+  before any live provider call. Its canonical SHA-256 is
+  `sha256:b84668c11c100309d7f7e3e91112143a3947e13813859565d16e6bf5c139e869`.
+  Entry HEAD and `origin/main` matched `6124dfed`; the pre-existing overlay was
+  exactly 25 paths and the index was empty. The external-basetemp baseline was
+  `603 passed, 3 warnings` in `529.06s`.
+- Offline token analysis measured Gate 12-V completion p95/max `5407/5941` and
+  reasoning p95/max `2382/4552`; all 17 B4 length finishes were exactly
+  `completion_tokens=2048`. The pre-registered cap candidate was `8192`.
+- Current OpenRouter documentation and live model metadata were read. Nemotron
+  advertised reasoning with `supported_efforts=[medium, low]`,
+  `supports_max_tokens=true`, and `mandatory=false`; cfg3's explicit
+  `effort=none` was accepted with zero observed reasoning tokens.
+- G3 used 45 accounted POSTs: one aborted sparse-fallback request plus 44
+  scored requests. The four pre-registered configurations included Gemma as a
+  primary for the first time. cfg3 won the frozen ranking: zero length finishes,
+  `8/8` schema, `6/8` hand correctness, reasoning p95 zero, and p95 latency
+  `26292ms`; Gemma issued 16 rate-limited requests and served zero.
+- Source/test repair was committed as `7e7da2c`; focused provider tests passed
+  `35 passed, 1 warning`. The repair adds explicit reasoning configuration,
+  upstream-only model fallback, same-model rate-limit retry, a process-global
+  20-RPM governor, and dispatch-counted daily accounting. The recorder's G5
+  mode was committed as `4a20e41`.
+- Fresh G5 protocol `GATE_16_G5_PROTOCOL.json` was frozen and committed as
+  `35cf218`, canonical SHA-256
+  `sha256:c846d24a757c1b28c726b2f8a04bb0accbbb14dbbe6becda8e68006ff429f826`.
+  The exact 40-question Gate 12-V sample was reused. G5 issued 38 POSTs, total
+  Gate 16 accounting was `83/200`, and all requests were free.
+- G5 carried `max_tokens=8192` and `reasoning={effort:none}` on `38/38` POSTs,
+  produced `0/38` length finishes, `38/38` first-attempt schema, p50/p95
+  latency `11624.887/30508.479ms`, raw 502/429 `0/0`, and no fallback request.
+  Nemotron served 38 and Gemma served 0. Hand adjudication was `26 correct`,
+  `0 partial`, `4 wrong`, `6 refused`; frozen and corrected automated binary
+  correctness were both `13/36`, with `15/36` disagreement.
+- Mechanical verdict is NO-GO: grounding precision `15/51`, grounding recall
+  `15/37`, frozen correctness `13/36`, and p95 latency `30508.479ms` fail the
+  unchanged thresholds. No deployment, GCP action, secret mutation, research
+  write, dataset edit, or push occurred.

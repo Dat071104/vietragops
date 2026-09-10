@@ -1683,3 +1683,57 @@ Gemma served zero because every fallback request was rate-limited. The lower
 502 count reflects a healthier Nemotron sample, not a stable product property.
 Metric correction changed interpretation and hand truth but not the `.45`
 automated binary count (`11/36`). No stronger causal attribution is claimed.
+
+## DEC-0041 — Select measured Gate 16 generation configuration
+
+**Date:** 2026-09-10
+**Status:** ADOPTED — Gate 16 G3/G5
+**Gate:** 16
+
+### Decision
+
+Carry `nvidia/nemotron-3-super-120b-a12b:free` with
+`reasoning={"effort":"none"}` and `max_tokens=8192` as the OpenRouter
+generation candidate for any separately authorized follow-on validation. This
+is a measured candidate, not a deployment approval.
+
+### Evidence
+
+The cap was derived before live calls from Gate 12-V completion p95 `5407` and
+maximum `5941`, with B4's `17/64` length finishes all at the `2048` boundary.
+On the pre-registered eight-question probe, cfg3 had `0/8` length finishes,
+`8/8` first-attempt schema, hand correctness `6/8`, reasoning p95 `0`, and
+latency p95 `26292ms`; cfg1 retained `2/9` length finishes, cfg2 had `5/8`
+hand correctness and live rate-limited fallback attempts, and Gemma cfg4 had
+`16` rate-limited POSTs and zero served answers. The frozen 40-question rerun
+carried the setting on `38/38` POSTs and produced `0/38` length finishes.
+
+### Boundary
+
+G5 remains NO-GO because grounding, frozen automated correctness, and p95
+latency still fail. The healthier G5 provider pool prevents attributing all
+quality/latency deltas to the configuration alone.
+
+## DEC-0042 — Restrict model fallback to upstream provider errors
+
+**Date:** 2026-09-10
+**Status:** ADOPTED — Gate 16 G4/G5
+**Gate:** 16
+
+### Decision
+
+Switch models only for typed upstream provider errors: HTTP 5xx or the observed
+HTTP-200 embedded upstream overload envelope. Do not switch models for account
+rate limits. On HTTP 429 or `Retry-After`/`X-RateLimit-*`, wait and retry the
+same model. Count every primary, fallback, and retry POST in both the global
+20-RPM governor and the daily ledger.
+
+### Evidence
+
+The exact 502 envelope triggers a fallback in offline tests. The exact 429 plus
+`Retry-After` shape retries the same model and issues no fallback. The global
+governor count includes both classes of extra request, and non-free fallback
+slugs fail closed. G3 observed two cfg2 upstream 502s followed by two Gemma
+requests that were rate-limited, while cfg4's sixteen Gemma 429s produced no
+fallback. G5 had no 502/429, so live fallback serving was not required and
+Gemma remained unserved.
