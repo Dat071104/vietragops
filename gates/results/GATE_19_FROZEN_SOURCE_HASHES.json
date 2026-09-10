@@ -1,0 +1,812 @@
+{
+  "captured_at_utc": "2026-09-10T19:11:32.748859+00:00",
+  "file_count": 134,
+  "files": [
+    {
+      "path": "gates/artifacts/gate07/llm/results_v2.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "eb715f9de50a207d3745b319c8c7f885fe73f5d9f7a445789fb020dabbc54946",
+      "size_bytes": 814063
+    },
+    {
+      "path": "gates/artifacts/gate07/llm_metrics_preview_v2.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "17cde95e467979970de7af857da09e01dba058f488aecc7c467686353b05ae03",
+      "size_bytes": 711887
+    },
+    {
+      "path": "gates/artifacts/gate07/metrics_preview_v2.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "1934d8afaf44af9e54d5e39f18efc25585d2f67084a7a2b030825f92bb75a7d4",
+      "size_bytes": 1177109
+    },
+    {
+      "path": "gates/artifacts/gate07/offline/cross_encoder.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "d45ca52187cea9b8bdc24ba730e7b0b511dfb2f8d45049c8877c572e4664ce78",
+      "size_bytes": 135137
+    },
+    {
+      "path": "gates/artifacts/gate07/offline/cross_encoder_v2.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "d45ca52187cea9b8bdc24ba730e7b0b511dfb2f8d45049c8877c572e4664ce78",
+      "size_bytes": 135137
+    },
+    {
+      "path": "gates/artifacts/gate07/offline/embedding.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "b13d46c2cc6f828b97a2cb5f0a3f552889b36183e31937abcd742b8dd9289fa6",
+      "size_bytes": 266284
+    },
+    {
+      "path": "gates/artifacts/gate07/offline/embedding_v2.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "b13d46c2cc6f828b97a2cb5f0a3f552889b36183e31937abcd742b8dd9289fa6",
+      "size_bytes": 266284
+    },
+    {
+      "path": "gates/artifacts/gate07/offline/lexical.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "1d8b043d95a91b6e0fdfc8353976603f395f0f770686357851096163dd2cca4a",
+      "size_bytes": 242905
+    },
+    {
+      "path": "gates/artifacts/gate07/offline/lexical_v2.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "1d8b043d95a91b6e0fdfc8353976603f395f0f770686357851096163dd2cca4a",
+      "size_bytes": 242905
+    },
+    {
+      "path": "gates/artifacts/gate07/offline_metrics.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "ecf480e3f03f8f85bac18b13338a41a2f3e2c08e4bb8c8b7dd99ce534c979592",
+      "size_bytes": 431915
+    },
+    {
+      "path": "gates/artifacts/gate07/public_tasks.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "3f0ca2a84d8ea085306309da6358b9ee3675d53caf94af4549ffa17833671fce",
+      "size_bytes": 921753
+    },
+    {
+      "path": "gates/artifacts/gate07/raw/phase74_cross_encoder.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "dfe69ae0e5dd8a426cf4d4d6f3059648c487e055daa051d402cab98dcb991c22",
+      "size_bytes": 1317578
+    },
+    {
+      "path": "gates/artifacts/gate07/raw/phase74_cross_encoder_v2.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "a604cfa2f7c59a571f1597bed4ba31c93fb7138fe105bf9b6d10ae4c79586e6e",
+      "size_bytes": 1292948
+    },
+    {
+      "path": "gates/artifacts/gate07/raw/phase74_embedding.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "56e7a00d5f61993dc58574f8301275f47092c781f95f4bfbb9aa3795549f646f",
+      "size_bytes": 2631045
+    },
+    {
+      "path": "gates/artifacts/gate07/raw/phase74_embedding_v2.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "39236c695197e8e6acbd9c4e9053b3c56d7e5d08da699db14dcefd088c7f048c",
+      "size_bytes": 2581785
+    },
+    {
+      "path": "gates/artifacts/gate07/raw/phase74_lexical.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "6d2c18c9c2e9cee20fe5ced4e3f44df426ab6553c85ed06163e94c652a5fab47",
+      "size_bytes": 2608437
+    },
+    {
+      "path": "gates/artifacts/gate07/raw/phase74_lexical_v2.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "0b78fbeec97b739821be632f6eb95fe58d8ce8a7fdc8ab12af741fa790101189",
+      "size_bytes": 2559154
+    },
+    {
+      "path": "gates/artifacts/gate07/raw/phase75_llm_v2.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "728e5c19ca1f95213e90b8f2e67d2d3cd251be7a875a884d0e3895da07144e4d",
+      "size_bytes": 9068265
+    },
+    {
+      "path": "gates/artifacts/gate07/request_ledger_v2.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "b5e15d9ef55b425fcd7b3ea6e3dac7dbd41b9a5e792a89f678425ce413a09469",
+      "size_bytes": 241582
+    },
+    {
+      "path": "gates/artifacts/gate07/router_state_v2.sqlite3",
+      "role": "frozen_raw_artifact",
+      "sha256": "2280cd528f3920a243bea80e8c1eb84f276c9ab7e42da2a6913949fe74712f9e",
+      "size_bytes": 122880
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/REPO_MAP_r10.md",
+      "role": "frozen_raw_artifact",
+      "sha256": "ee910dd06cc1c4ccbdf8dec2ca0fa20276450131539930b68dd026ba16d49e5a",
+      "size_bytes": 5509
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/ambiguity_agy_annotations.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "8775da78be186aaef9ca459b64af8046ec39845c7a6243923417ecf9077b4ecf",
+      "size_bytes": 3570
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/ambiguity_evaluator_index.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "b5d3803639404f95e2a3d66b94c11c9cb73da3aeeeb61f59d26d5f63e8aca0a9",
+      "size_bytes": 20456
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/ambiguity_public_sample.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "ef89d49833ec9e90ba8c83aeb3f6bf16e4b692472066f7ebf2612ef49a77f013",
+      "size_bytes": 379500
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/code_index_r10.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "300b4dc8067f3bc9479139a2fe30e8b942052cc3e30d8393ef74c2a033b01534",
+      "size_bytes": 836855
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/dataset/frozen_manifest.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "a55f66811456e71435b80b897cf6927204efcc841d236a4343bd6dcb0f473e76",
+      "size_bytes": 773145
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/dataset/public_manifest.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "e15c6cdc78a3ea11505b5130ebb3fd07d3319a7fbec1cd50d28bca70bf75f7fa",
+      "size_bytes": 73454
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/llm_results.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "6d010ba9222c11ac46eeaddfddc9b15238d80eb0fb52ca099f96b1ffd20974a1",
+      "size_bytes": 20052
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/llm_results_batch1_corrected.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "98ba2ee4aa9d614fe20ab4f604cdb976407572f799b6f0e4d36c7e3e47dca3e3",
+      "size_bytes": 814289
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/metrics_r10_recompute.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "489af74bb048e9434236c5898e3b4ae19ef76a35ef09d9b3d9c361d9736006ca",
+      "size_bytes": 1522767
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/metrics_r8.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "489af74bb048e9434236c5898e3b4ae19ef76a35ef09d9b3d9c361d9736006ca",
+      "size_bytes": 1522767
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/metrics_r8_repeat.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "489af74bb048e9434236c5898e3b4ae19ef76a35ef09d9b3d9c361d9736006ca",
+      "size_bytes": 1522767
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/offline_cross_encoder.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "bc90a1a67a04184cad7a2f7e328dfc6511177c456df6e1b09b8036136fd6eff0",
+      "size_bytes": 134184
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/offline_embedding.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "d3cf2d5b7ab7ece3d4fee28a904e2e8397e6d00299c2f2f2b0abacb95da29adf",
+      "size_bytes": 267145
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/offline_lexical.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "3e0b88ecfeaeb8eba98cfc883457eee5749ed65de7b4eccb34f61c396ce88c34",
+      "size_bytes": 242652
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/offline_metrics_v3.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "30bb3d9e8b5797788e1a53a9b09bdbc29af675f1bffc3112535532df3dc6c9d8",
+      "size_bytes": 462641
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/public_tasks.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "18073e1b13f4c6ac0bc0c1e157e554f08016e527da84ca454ff6a099a7f86d1d",
+      "size_bytes": 941766
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/public_tasks_batch_20260828.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "e6271aadc652da9473110aa09dcd4c4437edc7abe7f1792c6315ff330742213f",
+      "size_bytes": 35669
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/raw/llm.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "bd893ddc81267bb50775a98fc294231bc7254631f4860046afe7374a9e39fc4f",
+      "size_bytes": 345842
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/raw/llm_batch1_corrected.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "12e56f456984232dc81751172be6a76231652b3181ffb498adc37c65901cd07c",
+      "size_bytes": 9265927
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/raw/offline_cross_encoder.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "8baf15a3761bf09f5b6f0f0a32b5eb1c1c4e24f95095f124cb0dd659962ec855",
+      "size_bytes": 1312540
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/raw/offline_embedding.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "0751831da49003c28a5f93abcdc59a893e956b54da37fa12601f7b46cb98ac15",
+      "size_bytes": 2624121
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/raw/offline_lexical.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "2865de7eddfdc6ffc226e9098ec7c7d0787f7742bee5b6628841bd49dfe8fdb0",
+      "size_bytes": 2600169
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/raw/repro_offline_lexical.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "a4787fec87d6e7c8c936c27fa0667e70260610a6e889d3f0d7ffe3c171599963",
+      "size_bytes": 2600180
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/repro_offline_lexical.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "3e0b88ecfeaeb8eba98cfc883457eee5749ed65de7b4eccb34f61c396ce88c34",
+      "size_bytes": 242652
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/request_ledger.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "398c4b2e389bb18e349315dc285753ac78b13b2a80069658160cb45a48fa3b3f",
+      "size_bytes": 242145
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/request_ledger_setup_diagnostics.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "0cb6747d0752c44224aab5a6eef54d69b6958d7a2eeff271badbeed2b7d52d6d",
+      "size_bytes": 19179
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/retrieval_smoke_r6.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "e41f6e089c11a56ce9d9241f938c4c5648bf8eb139f21104bbf9f4522920310b",
+      "size_bytes": 302211
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/router_state.sqlite3",
+      "role": "frozen_raw_artifact",
+      "sha256": "d01eb6d5e338420ad29d9a07874083b9908551ee5940bffd5f1a2703349d7a59",
+      "size_bytes": 122880
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/router_state_setup_diagnostics.sqlite3",
+      "role": "frozen_raw_artifact",
+      "sha256": "77e2dd09cf500a094bdc43ceab7d4a04fb81adcd7354dd90fc39f53f542f82b6",
+      "size_bytes": 20480
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/candidate_order_oracle.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "9944f7be6f060e6afe869409aa2a5c9828d4cb060c8bb3525cf7dc8c6b6ff9e0",
+      "size_bytes": 30099
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "c25e760841574ffa0eac2abb5fe7717e71f91533d2ab5be146f0c0794c17f599",
+      "size_bytes": 1977154
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/metrics_repeat.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "cda1fcc184f39c114a112a0369556ccfd251942029ee5b232529ca53d992ba5f",
+      "size_bytes": 2033086
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/metrics_v4_1_run1.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "71aa32cf654814e9492caaded8dcd9895bb1a4712a001885731be366981c9dfc",
+      "size_bytes": 2361100
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/metrics_v4_1_run2.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "71aa32cf654814e9492caaded8dcd9895bb1a4712a001885731be366981c9dfc",
+      "size_bytes": 2361100
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/offline_controls.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "fe26c48dc2ef7c321cf6a560acc86df622e78c56909b493c314b6ec268c38d3a",
+      "size_bytes": 157024
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/offline_cross_encoder.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "a7f6fe1a328a8e493c7f8e5cc9ea24a73a2a3619b70dd94d627e9958899d8aed",
+      "size_bytes": 213729
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/offline_embedding.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "4035de9f7510ef2192c075843dd288680dce9a2bc9230729168eec29db622ee4",
+      "size_bytes": 419153
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/offline_lexical.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "ad325a53d4c07464a06b6a19cfdbb96ae55d45f3155c9c62ab783a9fd8065ee6",
+      "size_bytes": 404211
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/public_tasks.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "2e1f5339a09f1adc2639288d02ed1543f675956dcabdd10810271140f8081dd2",
+      "size_bytes": 941766
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/raw/llm.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "b324e50a8428ff3c684226341584276470197b4cd24a725d73bd513895959200",
+      "size_bytes": 19526741
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/raw/offline_controls.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "e0f019fdb8209eaa259da0a955e10991d27ed5c8c1abf7b5ab3c9e2e13dc4e68",
+      "size_bytes": 2508782
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/raw/offline_cross_encoder.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "ab81d5f2a39cedd386da3e2bfae705c219a860a5f691389f339a2c844aab0f18",
+      "size_bytes": 1406833
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/raw/offline_embedding.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "2958c6b548dd3a97987de39625323349ee228cb16896a1cb4a4e7470ef84a3b2",
+      "size_bytes": 2806138
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/raw/offline_lexical.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "0db295ebe621c3e656111e3f51b24ee62b3fc03decb46691e4caa81705f9459d",
+      "size_bytes": 2791547
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/request_ledger.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "fd1d53158f10e25bcd039e7546e9425ef4d12933101adbc68f6faa9deb117a52",
+      "size_bytes": 441430
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/router_state.sqlite3",
+      "role": "frozen_raw_artifact",
+      "sha256": "70c91e14174898f8a767b009bda8e487d6bbdfdb890cb40c99b34e666141beba",
+      "size_bytes": 221184
+    },
+    {
+      "path": "gates/artifacts/gate08/calibration_tasks.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "0018b0e368f798449524bfb062506652a0c43fb791373645564305f79f7981da",
+      "size_bytes": 187998
+    },
+    {
+      "path": "gates/artifacts/gate08/decisions.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "ddbd0a43e50c492a570c28982d32d44cb1a04d102918969bf17edce79eb96d35",
+      "size_bytes": 1139332
+    },
+    {
+      "path": "gates/artifacts/gate08/eval_tasks.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "7ea1eeb43d4be659bfa75cee18f89794d20ac86bda319a402d97af9db7b0f83f",
+      "size_bytes": 236774
+    },
+    {
+      "path": "gates/artifacts/gate08/metrics.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "aa83de2c8ed6bc32e52b98b8f20c3729e613bb4f81ba17a77d048856aeb2d96e",
+      "size_bytes": 2123074
+    },
+    {
+      "path": "gates/artifacts/gate08/metrics_run1.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "7fd06b63dbc79a9bf79e7c9ed064f55af53c069ef0be1b455e76ad9637394b09",
+      "size_bytes": 2124758
+    },
+    {
+      "path": "gates/artifacts/gate08/metrics_run2.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "7fd06b63dbc79a9bf79e7c9ed064f55af53c069ef0be1b455e76ad9637394b09",
+      "size_bytes": 2124758
+    },
+    {
+      "path": "gates/artifacts/gate08/raw/signatures.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "e1740b3519b856efa47fe6b6559e5d077dc4284a7eb0702b326a267c80e713f3",
+      "size_bytes": 2533170
+    },
+    {
+      "path": "gates/artifacts/gate08/request_ledger.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "7be305af91e2baca7f1b7e60d0323d5f875a5f6cfe3ae18514e58a29fd947094",
+      "size_bytes": 111927
+    },
+    {
+      "path": "gates/artifacts/gate08/result_tables.md",
+      "role": "frozen_raw_artifact",
+      "sha256": "96ceb35d2915ec11cfcc5fdc3f71523e558b22b970a146e01dfe70f6f8c2087d",
+      "size_bytes": 15126
+    },
+    {
+      "path": "gates/artifacts/gate08/router_state.sqlite3",
+      "role": "frozen_raw_artifact",
+      "sha256": "492674fdcbcf95b4a71baeb8ab9ff2831966706e3e43b73ca293a2a9fad3f663",
+      "size_bytes": 65536
+    },
+    {
+      "path": "gates/artifacts/gate08/signature_run_1.err",
+      "role": "frozen_raw_artifact",
+      "sha256": "4e5ddeb82589b08b2ef0e424ff0b9825dd5b56f40d6fe3c9b6698c4d477d0f6c",
+      "size_bytes": 1022
+    },
+    {
+      "path": "gates/artifacts/gate08/signature_run_1.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "c081a3d04c3abf8383780e0b2ae22ec1575c7cdf39336afeb8ba2d1245a6831f",
+      "size_bytes": 1333
+    },
+    {
+      "path": "gates/artifacts/gate08/signature_run_2.err",
+      "role": "frozen_raw_artifact",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "gates/artifacts/gate08/signature_run_2.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "eda82e2024162ab2c1a4c171a6d9a65f952affa8246b4f3b2876f300295cb650",
+      "size_bytes": 1329
+    },
+    {
+      "path": "gates/artifacts/gate08/signature_run_3.err",
+      "role": "frozen_raw_artifact",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "gates/artifacts/gate08/signature_run_3.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "1226bf9269cebb856927a0b69d69cf8c6829e5125625cb7227f1680b4bc6a9ed",
+      "size_bytes": 1330
+    },
+    {
+      "path": "gates/artifacts/gate08/signature_run_4.err",
+      "role": "frozen_raw_artifact",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "gates/artifacts/gate08/signature_run_4.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "c616e5bff3830e441736732ef96da2e30611b02c102f3039c3e95b195d34dfca",
+      "size_bytes": 1316
+    },
+    {
+      "path": "gates/artifacts/gate08/signatures.jsonl",
+      "role": "frozen_raw_artifact",
+      "sha256": "5a7f27314432c833711bbc06b15a81ad333a9e246d2a4a693d5084e9ca66df34",
+      "size_bytes": 707356
+    },
+    {
+      "path": "gates/artifacts/gate08/thresholds.json",
+      "role": "frozen_raw_artifact",
+      "sha256": "71b0b5d724f1ea1949bdd27b8d4f79c74f45b9d0a86fb1b262ca661ac030f7ed",
+      "size_bytes": 6727
+    },
+    {
+      "path": "gates/baselines/GATE_07_AMBIGUITY_AUDIT_V3.json",
+      "role": "frozen_protocol_or_result",
+      "sha256": "7e1dcc61542d87fff015b19e9659bf1dc48e84a692def73378c08a18587e6b7b",
+      "size_bytes": 4668
+    },
+    {
+      "path": "gates/baselines/GATE_07_DATASET_V3.json",
+      "role": "frozen_protocol_or_result",
+      "sha256": "2ad3dba7306ce89ecafd1f9e1ceb6a8ba96b84e492536f7f984d9360dd2d2f6f",
+      "size_bytes": 2504
+    },
+    {
+      "path": "gates/baselines/GATE_07_LLM_RESULTS_V3.json",
+      "role": "frozen_protocol_or_result",
+      "sha256": "f91ee40f33a91afc1c97fbe83344817af5ab1b156668375a639742024257badd",
+      "size_bytes": 4566
+    },
+    {
+      "path": "gates/baselines/GATE_07_METRICS.json",
+      "role": "frozen_protocol_or_result",
+      "sha256": "489af74bb048e9434236c5898e3b4ae19ef76a35ef09d9b3d9c361d9736006ca",
+      "size_bytes": 1522767
+    },
+    {
+      "path": "gates/baselines/GATE_07_METRICS_V4.json",
+      "role": "frozen_protocol_or_result",
+      "sha256": "cda1fcc184f39c114a112a0369556ccfd251942029ee5b232529ca53d992ba5f",
+      "size_bytes": 2033086
+    },
+    {
+      "path": "gates/baselines/GATE_07_OFFLINE_RESULTS_V3.json",
+      "role": "frozen_protocol_or_result",
+      "sha256": "6cb04d13ac13caa2b5d52bea9330ed6b38134be168359981264ac4a483086d0f",
+      "size_bytes": 5433
+    },
+    {
+      "path": "gates/baselines/GATE_07_PROTOCOL.json",
+      "role": "frozen_protocol_or_result",
+      "sha256": "560d09a43acc739f2189e435d5bab098a376457400567146e50df1f6dab5a7c7",
+      "size_bytes": 16512
+    },
+    {
+      "path": "gates/baselines/GATE_07_PROTOCOL_V2.json",
+      "role": "frozen_protocol_or_result",
+      "sha256": "f8c2e7ded531cdc68d34067f27b20656126c24497fcd32fb940df96875cc4465",
+      "size_bytes": 17186
+    },
+    {
+      "path": "gates/baselines/GATE_07_PROTOCOL_V3.json",
+      "role": "frozen_protocol_or_result",
+      "sha256": "c9b27e936be76ee1070db70714d9e75509c1f22d637160138db890bf1cc4b1f9",
+      "size_bytes": 17633
+    },
+    {
+      "path": "gates/baselines/GATE_07_PROTOCOL_V4.json",
+      "role": "frozen_protocol_or_result",
+      "sha256": "7a35301f22c780756893470c92034eb882e06b6d48fd0e7b0447776486a94cb1",
+      "size_bytes": 24208
+    },
+    {
+      "path": "gates/baselines/GATE_07_PROTOCOL_V4_1_ADDENDUM.json",
+      "role": "frozen_protocol_or_result",
+      "sha256": "df13ee0791222fdf19f456bae09fc6f4d338b549a45de09ed2b4edff0f1e3d0a",
+      "size_bytes": 3025
+    },
+    {
+      "path": "gates/baselines/GATE_07_PROTOCOL_V4_FREEZE_LEDGER.json",
+      "role": "frozen_protocol_or_result",
+      "sha256": "c757a1a305935a90ae6020b32815c285fe14d55cffd349ed05c63b37e347ac5c",
+      "size_bytes": 2232
+    },
+    {
+      "path": "gates/baselines/GATE_08_PROTOCOL.json",
+      "role": "frozen_protocol_or_result",
+      "sha256": "ee5bfadfb1fd863ba9ccfdb050df1eea282491c0b81739cc9efd854e8279a036",
+      "size_bytes": 9194
+    },
+    {
+      "path": "gates/results/GATE_07_FIX_PROMPT.md",
+      "role": "frozen_protocol_or_result",
+      "sha256": "6e2ca01a93c357d7c16fbc9133307bc24dc980653af01180397261f2f6f0e2d3",
+      "size_bytes": 14492
+    },
+    {
+      "path": "gates/results/GATE_07_RESULT.md",
+      "role": "frozen_protocol_or_result",
+      "sha256": "e0746f3316eb4f5a6200c60f44746cfb42968bde9bad9e65b3b21d541f2ed461",
+      "size_bytes": 40742
+    },
+    {
+      "path": "gates/results/GATE_07_V4_CLOSURE_RECEIPT.md",
+      "role": "frozen_protocol_or_result",
+      "sha256": "e66a039e7a46c2dc012fab77c7efed3848feed7b6a5ea59e6b4746be4f93ae4b",
+      "size_bytes": 2720
+    },
+    {
+      "path": "gates/results/GATE_08_RESULT.md",
+      "role": "frozen_protocol_or_result",
+      "sha256": "b2de815baaf6e76fe74e081db195c6649236e7492c1a03e9a1cb028651ef442a",
+      "size_bytes": 34033
+    },
+    {
+      "path": "research/gate0/contracts/__init__.py",
+      "role": "frozen_code_surface",
+      "sha256": "9b96d6e19828abb3aab760cbd124c0522cf3c3657ad618661439e6b6979ca292",
+      "size_bytes": 377
+    },
+    {
+      "path": "research/gate0/contracts/contract.py",
+      "role": "frozen_code_surface",
+      "sha256": "ecf92e8bdcd18bb1cdfbf0f2777268e13db88b4ce206a0a80e2761f4a269d66a",
+      "size_bytes": 7896
+    },
+    {
+      "path": "research/gate0/evaluator/__init__.py",
+      "role": "frozen_code_surface",
+      "sha256": "1c1c149e9d16110f6d78dda4a6de07090cbb67facb994549bd0c6ed1e6058e3a",
+      "size_bytes": 455
+    },
+    {
+      "path": "research/gate0/evaluator/capability.py",
+      "role": "frozen_code_surface",
+      "sha256": "b0db5846c2a03baa972c169aaaf3e4fd8e7bf9e9d38532de6bcdab30ebe5ea31",
+      "size_bytes": 628
+    },
+    {
+      "path": "research/gate0/evaluator/evaluator.py",
+      "role": "frozen_code_surface",
+      "sha256": "200092fdddcef1bfd4981e017ab9e3386646ffd54793469af72d780e14e8c447",
+      "size_bytes": 9178
+    },
+    {
+      "path": "research/gate07/dataset/__init__.py",
+      "role": "frozen_code_surface",
+      "sha256": "df516fbd3d42b6cf55e5d93acfad2b5564b69c91aafc5353d0145f90627a9ebd",
+      "size_bytes": 516
+    },
+    {
+      "path": "research/gate07/dataset/generator.py",
+      "role": "frozen_code_surface",
+      "sha256": "b51e1822357e5e264fd4de85560295a9806e536c54c232968badfc3169bd144b",
+      "size_bytes": 3301
+    },
+    {
+      "path": "research/gate07/dataset/models.py",
+      "role": "frozen_code_surface",
+      "sha256": "0f415cf47cd858847b78e9e69780a59d8fe0c88b3b201fffe32df0acbf5a8fad",
+      "size_bytes": 2842
+    },
+    {
+      "path": "research/gate07/dataset/operators.py",
+      "role": "frozen_code_surface",
+      "sha256": "1d911c5fcf4dbf6f59beaa222279318ae55eeeee610e38473ad7e0312bd0b2b2",
+      "size_bytes": 13917
+    },
+    {
+      "path": "research/gate07/harness/__init__.py",
+      "role": "frozen_code_surface",
+      "sha256": "b8c9132c34fdfee48b0610ab7308a24e2f32d765485d606533117c2b07863e14",
+      "size_bytes": 197
+    },
+    {
+      "path": "research/gate07/harness/method_facing.py",
+      "role": "frozen_code_surface",
+      "sha256": "66b5ac5795ab9f09fcc0bea852db46b9290fe51f2a93a528ea05d878080ef416",
+      "size_bytes": 3029
+    },
+    {
+      "path": "research/gate07/harness/serialization.py",
+      "role": "frozen_code_surface",
+      "sha256": "43fec21aab2edd50ef25b5bf960e9850757bcb5f9590e8deec0c3c07196930a4",
+      "size_bytes": 895
+    },
+    {
+      "path": "research/gate07/metrics/__init__.py",
+      "role": "frozen_code_surface",
+      "sha256": "b30cda3a5f72c1e701a56c1ffc7fcbeec26e702f54660af4e5b0a79bddefabc1",
+      "size_bytes": 334
+    },
+    {
+      "path": "research/gate07/metrics/execution.py",
+      "role": "frozen_code_surface",
+      "sha256": "6818494f38163833f2e1f045bf6fabaac9da4ae5e6697d2b14db7d5725287659",
+      "size_bytes": 8877
+    },
+    {
+      "path": "research/gate07/metrics/report.py",
+      "role": "frozen_code_surface",
+      "sha256": "0501cf3a8c93f634cb2246c1a3665fade35d35743a5e47b74b23e219dfa1ebd1",
+      "size_bytes": 21956
+    },
+    {
+      "path": "research/gate07/metrics/scoring.py",
+      "role": "frozen_code_surface",
+      "sha256": "08aebe667ebb71fdbd4dbe187c3c64a7c46c952b1b51196d6c1c0b8596ed346c",
+      "size_bytes": 7121
+    },
+    {
+      "path": "research/gate07/oracle/__init__.py",
+      "role": "frozen_code_surface",
+      "sha256": "7c275a4ffceb09c5b7e5065ca788e9e01ffd3eb08a44aa1c619f3489859f0a43",
+      "size_bytes": 284
+    },
+    {
+      "path": "research/gate07/oracle/ground_truth.py",
+      "role": "frozen_code_surface",
+      "sha256": "aba1a9e6fad07ad786428f943d151cc3365bfd1067b3591a811c30d41843e72a",
+      "size_bytes": 2858
+    },
+    {
+      "path": "research/gate07/sandbox/__init__.py",
+      "role": "frozen_code_surface",
+      "sha256": "7031898b0293f88ac80a2f03686a390f5a278111c25f2cf571ec85528e8f3b1b",
+      "size_bytes": 396
+    },
+    {
+      "path": "research/gate07/sandbox/api.py",
+      "role": "frozen_code_surface",
+      "sha256": "b45f259c9446aa2da8c89754ac8431ed5cd465653a31ef41ab0a4b9d1d419cba",
+      "size_bytes": 1542
+    },
+    {
+      "path": "research/gate07/sandbox/catalog.py",
+      "role": "frozen_code_surface",
+      "sha256": "e84267129cee20f279a006cf3f325c7eb425d293f4432dbc14b5acfba53d9f4a",
+      "size_bytes": 26153
+    },
+    {
+      "path": "research/gate07/sandbox/models.py",
+      "role": "frozen_code_surface",
+      "sha256": "f09614e02cfff473f2aad8be88301c2f4b6f481c32e6a0954ee123ac12a9464d",
+      "size_bytes": 944
+    },
+    {
+      "path": "research/gate07/sandbox/operations.py",
+      "role": "frozen_code_surface",
+      "sha256": "45d6d4c05b8424a5d5dfb545fe7d14a67aec86860c395bb994d6f76574496959",
+      "size_bytes": 13719
+    },
+    {
+      "path": "research/gate07/sandbox/store.py",
+      "role": "frozen_code_surface",
+      "sha256": "e92dea10bce4eb8a2009d040b35c48d8083c4da85835c25b3e81a29bd9fd9a7e",
+      "size_bytes": 5171
+    },
+    {
+      "path": "research/gate07/traces/__init__.py",
+      "role": "frozen_code_surface",
+      "sha256": "cf181dbb4d2e0e9b2cf1a9c0edc3557b45090448b0880ad240282853167f688a",
+      "size_bytes": 229
+    },
+    {
+      "path": "research/gate07/traces/capture.py",
+      "role": "frozen_code_surface",
+      "sha256": "187d1bb18762e6d09d39eb4691dc79edff4c37a6f6578917a7df9b6180033c3b",
+      "size_bytes": 1292
+    },
+    {
+      "path": "research/gate07/traces/models.py",
+      "role": "frozen_code_surface",
+      "sha256": "22c7790fadd24417f9d0d574d2d65cc42beba45b6b87f770c2f2fecff719705b",
+      "size_bytes": 409
+    },
+    {
+      "path": "research/gate08/metrics/__init__.py",
+      "role": "frozen_code_surface",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "research/gate08/metrics/diagnostics.py",
+      "role": "frozen_code_surface",
+      "sha256": "5e2ff38689b1fc12563d356fdbd89515370d703412ab2e2d677c994ef662f7e8",
+      "size_bytes": 2295
+    },
+    {
+      "path": "research/gate08/metrics/report.py",
+      "role": "frozen_code_surface",
+      "sha256": "e021c60a81528841362d81a5b408536d89effe69d7de424afa60a8126d70f012",
+      "size_bytes": 10464
+    }
+  ],
+  "root": "D:\\Project cua Dat\\VietRAGOps\\ROOT\\VietRagOps",
+  "schema": "gate19.frozen_source_hashes.v1"
+}
