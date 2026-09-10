@@ -98,7 +98,7 @@ class StubProviderRouterInvalidCitation:
     def current_provider(self) -> str:
         return self.provider
 
-    def generate_json(self, prompt: str) -> ProviderInvocation:
+    def generate_json(self, prompt: str, **kwargs) -> ProviderInvocation:
         return ProviderInvocation(
             provider=self.provider,
             model=self.model,

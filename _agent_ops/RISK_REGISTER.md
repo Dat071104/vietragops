@@ -52,6 +52,14 @@ wording above.
 | RISK-0036 | Production has been sparse-only since Gate 09R because the deployed requirements/image carried no ML runtime. The prior dense code path therefore never executed in production. | Keep the sparse fallback loud; require the ONNX artifact manifest, model identity, vector hash, and a separate deployment gate before shipping the product artifact. | Open pending deployment gate |
 | RISK-0037 | Precomputed corpus embeddings are coupled to model identity, revision, dimension, normalization, chunk order, and chunk-store content. A stale or mismatched vector file can produce confident nonsense, and every corpus change now requires re-embedding. | Persist model/vector metadata and hashes; refuse vector-space mismatches and degrade loudly; re-materialize vectors after each approved corpus release. | Open (new Gate 14-R coupling) |
 
+## Gate 15 updates (2026-09-10)
+
+| Risk ID | Gate 15 measured update | Current mitigation/status |
+| --- | --- | --- |
+| RISK-0030 | Source repair now reads `RAG_MAX_OUTPUT_TOKENS` with a code default of `2048` and passes `max_tokens` from `AnswerGenerator` through `ProviderRouter` to Groq, OpenRouter, DeepSeek, and Ollama wire bodies. The old `RAG_MAX_INPUT_TOKENS_SOFT` name is no longer treated as an enforced cap; it is a compatibility alias for the explicitly advisory `RAG_INPUT_TOKEN_BUDGET_ADVISORY`, which emits a warning when the estimated prompt exceeds the budget. | Offline wire tests pass for all four clients; live provider propagation and adequacy of the 2048 reasoning-aware budget remain unmeasured until Phase B. Open pending fresh live validation. |
+| RISK-0033 | The OpenRouter client now sends the primary model in one request and, on a typed retryable failure including the observed HTTP-200 embedded `502` envelope, sends a separate fallback-model request. Each request is reserved/settled independently in the daily ledger and `Retry-After` is honored. | Exact envelope and two-request ledger accounting are covered by offline tests; real fallback serving remains unmeasured until Phase B. Open pending fresh live validation. |
+| RISK-0038 | Equal RRF fusion can discard relevant chunks that already exist in the component union: sparse hybrid raw top-50 `107/116`, dense hybrid `104/116`, union `110/116`; six sparse-found rows were lost and three other rows were recovered by dense. | Retain RRF `k=60` because same-set alternatives did not improve ceiling; do not claim unbiased weight tuning. A held-out fusion/candidate-coverage gate is required before changing the fusion policy. Open. |
+
 ## Web Import Scope Correction (Gate 03)
 
 RISK-0010's mitigation ("keep localhost-only and configuration-validated")

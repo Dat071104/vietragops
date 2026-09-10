@@ -3518,3 +3518,45 @@ RISK-0026 first and preserve the frozen provider-pinned research lane.
   remote `origin/main` remains
   `31a69c02fee68ab004c14a4ecd85eca563ae728f`; credentials must be restored
   before the local release can be pushed.
+
+## 2026-09-10 — Gate 15 Phase A and offline Phase B repair
+
+- Froze `gates/baselines/GATE_15_PROTOCOL.json` before measurement in commit
+  `ce26941`; working-tree SHA-256 is
+  `6feb4d7cbd5bf38b44adde252bda9adc8075dcfd3efef51cd4c0e839c5f20c0e`.
+  Entry HEAD and `origin/main` matched `86dd77d`; the pre-existing overlay was
+  exactly 25 paths and the index was empty. The external-basetemp baseline
+  reproduced `598 passed, 3 warnings` in `389.80` seconds.
+- Verified the old top-k premises: `RAG_MAX_INPUT_TOKENS_SOFT` has no consumer
+  in product/eval code and was checked only by name presence; OpenRouter's
+  frozen catalog records context length `262144` for both Nemotron and Gemma.
+  Dense E5 prompt token measurements were k5 mean/p95 `3080.61/3552`, k8
+  `4786.65/5745`, k10 `5900.53/7186`, and k12 `7052.17/8700`.
+- Re-ran the retrieval-only frozen set at k=5/8/10/12. Dense E5 int8 reached
+  `73/116`, `83/116`, `88/116`, and `91/116`; curriculum_structure was `3/15`,
+  `6/15`, `7/15`, and `8/15`. The registered Phase A bar passed at top-10:
+  `88/116`, curriculum `7/15`, and raw top-50 `104/116`.
+- Measured raw product fusion: sparse hybrid `107/116`, dense hybrid `104/116`,
+  and component union `110/116`. Six sparse-found questions were lost by
+  dense fusion and three sparse misses were recovered by dense, explaining the
+  net loss of three. RRF k60, RRF k10, normalized dense-weight .25, and .75
+  produced top-10 ceilings `88/116`, `85/116`, `85/116`, and `88/116`.
+  RRF k60 remains the unbiased-by-default choice; same-set fusion selection is
+  explicitly treated as optimistic.
+- Adopted product `/ask` top_k=10 in commit `c6395df` and pinned it with a
+  focused test. The current ContextBuilder still retrieves 50 candidates; the
+  change is selection-side only.
+- Implemented offline-only generation repairs: output-token configuration with
+  default `2048` now reaches all four client wire formats; the former input
+  soft-cap name is a compatibility alias for a clearly advisory budget that
+  logs over-budget prompts; OpenRouter now makes an independent fallback POST
+  after typed retryable primary failures and accounts both requests. Exact
+  HTTP-200 embedded 502 fallback and budget-wire tests passed with the focused
+  provider slice: `79 passed, 1 warning` in `0.53` seconds. No provider or
+  GCP request was made.
+- Phase B B3 remains an owner checkpoint: choose accept-no-Groq-control, obtain
+  a higher-limit single-key Groq control, or use another explicitly approved
+  control provider. No live generation call is authorized before that choice.
+- Final post-repair full suite passed `603 passed, 3 warnings` in `433.08`
+  seconds with an external `--basetemp`; the five-test increase over the 598
+  entry baseline is accounted for by the Gate 15 top-k/fallback/wire tests.

@@ -1549,3 +1549,47 @@ BGE reranker lift fail. The real BGE row is active and corrects Gate 13-D's
 LexicalReranker-only evidence, but adds only `1/116` at top-10. Generated ONNX
 and vector binaries remain local ignored artifacts with hash-bound metadata;
 deployment packaging is deferred to the deployment gate blocked by RISK-0026.
+
+## DEC-0037 — Adopt top-k 10 and retain untuned RRF while deferring fusion tuning
+
+**Date:** 2026-09-10
+**Status:** ADOPTED — Gate 15 Phase A
+**Gate:** 15 (Retrieval tuning, then generation repair and re-run)
+
+### Decision
+
+Change the product `/ask` default from `top_k=5` to `top_k=10`. Retain the
+existing equal-component reciprocal-rank fusion with `rrf_k=60` for this gate;
+do not ship a dense/sparse weight selected on the same frozen evaluation set.
+
+### Evidence
+
+On the frozen 116-answerable-question product evaluation, dense E5-small int8
+reached `73/116` at top-5, `83/116` at top-8, `88/116` at top-10, and `91/116`
+at top-12. Top-10 therefore adds `15/116` over the current default and `5/116`
+over top-8. Top-12 adds only `3/116` over top-10 while increasing prompt size
+from mean `5900.53` / p95 `7186` to mean `7052.17` / p95 `8700` tokens and
+lowering macro precision from `.077586` to `.066810`. The configured
+`RAG_MAX_INPUT_TOKENS_SOFT=3000` is not enforced; the generation context window
+is `262144` for both configured OpenRouter models, so the prior top-5 rationale
+does not bind. The input budget is now an explicit advisory in code, with a
+renamed `RAG_INPUT_TOKEN_BUDGET_ADVISORY` setting and the old name retained only
+as a compatibility alias.
+
+At raw depth 50, sparse hybrid found `107/116`, dense E5 hybrid found `104/116`,
+and the union found `110/116`. Six questions were present in sparse but absent
+from dense fusion; dense simultaneously recovered three sparse misses, producing
+the net `107 -> 104` loss. Current RRF `k=60` produced `88/116` at product
+top-10. RRF `k=10` and normalized weighted fusion with dense weights `.25` and
+`.75` produced `85/116`, `85/116`, and `88/116` respectively; weighted `.75`
+raised MRR and the curriculum slice but did not raise the ceiling. These are
+same-set comparisons and any selection among them is optimistic without a
+separately frozen tuning/holdout split.
+
+### Consequence
+
+The registered Phase A bar passed: selected default ceiling `88/116 >= 83/116`,
+`curriculum_structure` `7/15 >= 7/15`, and raw top-50 `104/116 >= 104/116`.
+Phase B is permitted by the protocol, but live generation remains blocked until
+the owner chooses the Groq control posture in B3. No provider request is
+authorized by this decision.

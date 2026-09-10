@@ -34,7 +34,7 @@ class DeepSeekClient:
     def available(self) -> bool:
         return bool(self.api_key)
 
-    def generate_json(self, prompt: str) -> dict[str, Any]:
+    def generate_json(self, prompt: str, *, max_tokens: int | None = None) -> dict[str, Any]:
         if not self.available():
             raise RuntimeError("DEEPSEEK_API_KEY is not set.")
         payload = {
@@ -43,6 +43,8 @@ class DeepSeekClient:
             "response_format": {"type": "json_object"},
             "messages": [{"role": "user", "content": prompt}],
         }
+        if max_tokens is not None:
+            payload["max_tokens"] = max_tokens
         raw_request = request.Request(
             self.endpoint,
             data=json.dumps(payload).encode("utf-8"),

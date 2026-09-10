@@ -489,26 +489,29 @@ class OpenRouterClient:
             remaining,
         )
 
-    def generate_json(self, prompt: str, **kwargs: Any) -> dict[str, Any]:
-        """Generate JSON after the free catalog guard and daily reservation."""
-        if not self.available():
-            raise RuntimeError("OPENROUTER_API_KEY is not set.")
-        model_chain = self._model_chain(kwargs.get("model"))
-        self._guard_before_completion(model_chain)
-        self.last_usage = None
-        self.last_provider_error_body = None
-        self.last_http_status = None
-        self.last_served_model = None
-        self.last_served_provider = None
-        self.last_error_kind = None
+    @staticmethod
+    def _client_fallback_eligible(exc: OpenRouterRequestError) -> bool:
+        return (
+            not exc.local_budget
+            and exc.failure_kind in {"rate_limited", "timeout", "provider_error", "network_failure"}
+        )
+
+    def _generate_json_for_model(
+        self,
+        prompt: str,
+        *,
+        model: str,
+        temperature: Any,
+        max_tokens: Any,
+    ) -> dict[str, Any]:
         payload: dict[str, Any] = {
-            "models": model_chain,
-            "temperature": kwargs.get("temperature", 0.1),
+            "models": [model],
+            "temperature": temperature,
             "response_format": {"type": "json_object"},
             "messages": [{"role": "user", "content": prompt}],
         }
-        if "max_tokens" in kwargs:
-            payload["max_tokens"] = kwargs["max_tokens"]
+        if max_tokens is not None:
+            payload["max_tokens"] = max_tokens
         attempts = max(1, self.max_retries + 1)
         last_exception: Exception | None = None
         for attempt in range(attempts):
@@ -535,7 +538,7 @@ class OpenRouterClient:
                 self._record_response(body, status_code)
                 if isinstance(body.get("error"), Mapping):
                     raise self._error_from_body(body, status_code=status_code)
-                choices = body.get("choices") if isinstance(body, Mapping) else None
+                choices = body.get("choices")
                 choice = choices[0] if isinstance(choices, list) and choices else None
                 if not isinstance(choice, Mapping):
                     raise OpenRouterProviderError(
@@ -630,6 +633,39 @@ class OpenRouterClient:
                 )
                 raise current
         raise _classify_exhausted_request_error(last_exception or RuntimeError("unknown"), attempts)
+
+    def generate_json(self, prompt: str, **kwargs: Any) -> dict[str, Any]:
+        """Generate JSON with an explicit client-side primary/fallback sequence."""
+        if not self.available():
+            raise RuntimeError("OPENROUTER_API_KEY is not set.")
+        model_chain = self._model_chain(kwargs.get("model"))
+        self._guard_before_completion(model_chain)
+        self.last_usage = None
+        self.last_provider_error_body = None
+        self.last_http_status = None
+        self.last_served_model = None
+        self.last_served_provider = None
+        self.last_error_kind = None
+        for index, model in enumerate(model_chain):
+            try:
+                return self._generate_json_for_model(
+                    prompt,
+                    model=model,
+                    temperature=kwargs.get("temperature", 0.1),
+                    max_tokens=kwargs.get("max_tokens"),
+                )
+            except OpenRouterRequestError as exc:
+                has_fallback = index + 1 < len(model_chain)
+                if not has_fallback or not self._client_fallback_eligible(exc):
+                    raise
+                logger.warning(
+                    "OpenRouter primary model failed; trying configured fallback model; kind=%s status=%s",
+                    exc.failure_kind,
+                    exc.status_code,
+                )
+                if exc.retry_after is not None:
+                    self._sleep(self._retry_delay(0, exc.retry_after))
+        raise OpenRouterProviderError("OpenRouter model chain was exhausted.")
 
     def status(self) -> dict[str, Any]:
         ledger = self.ledger.snapshot()

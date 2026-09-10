@@ -134,7 +134,8 @@ def test_openrouter_status_shape_is_non_secret():
 
 def test_answer_generator_default_path_uses_configured_router(monkeypatch):
     class ConfiguredRouter:
-        def generate_json(self, prompt):
+        def generate_json(self, prompt, **kwargs):
+            assert kwargs["max_tokens"] == generator.config.max_output_tokens
             return ProviderInvocation(
                 provider="openrouter",
                 model=PRIMARY,

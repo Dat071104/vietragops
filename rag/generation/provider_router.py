@@ -237,9 +237,9 @@ class ProviderRouter:
         if provider == "groq":
             return self._generate_json_groq(prompt, model=model, temperature=temperature, max_tokens=max_tokens)
         if provider == "ollama":
-            return self._generate_json_ollama(prompt, primary_attempt=None)
+            return self._generate_json_ollama(prompt, primary_attempt=None, max_tokens=max_tokens)
         if provider == "deepseek":
-            return self._generate_json_deepseek(prompt)
+            return self._generate_json_deepseek(prompt, max_tokens=max_tokens)
         if provider == "openrouter":
             return self._generate_json_openrouter(prompt, model=model, temperature=temperature, max_tokens=max_tokens)
         return ProviderInvocation(provider="mock", model=self.current_model(), fallback_used=True, mode=self.mode)
@@ -255,7 +255,7 @@ class ProviderRouter:
         model = model or self.groq_client.model
         if not self.groq_client.available():
             primary = {"provider": "groq", "model": model, "error": "Groq is not configured.", "failure_kind": "config_error"}
-            return self._resolve_groq_failure(prompt, primary)
+            return self._resolve_groq_failure(prompt, primary, max_tokens=max_tokens)
         try:
             request_kwargs: dict[str, Any] = {}
             if model != self.groq_client.model:
@@ -281,7 +281,7 @@ class ProviderRouter:
                 "provider_error_body": getattr(exc, "provider_error_body", None),
                 "usage": getattr(exc, "usage", None),
             }
-            return self._resolve_groq_failure(prompt, primary)
+            return self._resolve_groq_failure(prompt, primary, max_tokens=max_tokens)
         except Exception as exc:  # unexpected, non-typed failure -- still surfaced, never silently swallowed
             primary = {
                 "provider": "groq",
@@ -292,9 +292,15 @@ class ProviderRouter:
                 or getattr(self.groq_client, "last_provider_error_body", None),
                 "usage": getattr(self.groq_client, "last_usage", None),
             }
-            return self._resolve_groq_failure(prompt, primary)
+            return self._resolve_groq_failure(prompt, primary, max_tokens=max_tokens)
 
-    def _resolve_groq_failure(self, prompt: str, primary: dict[str, Any]) -> ProviderInvocation:
+    def _resolve_groq_failure(
+        self,
+        prompt: str,
+        primary: dict[str, Any],
+        *,
+        max_tokens: int | None = None,
+    ) -> ProviderInvocation:
         if self.mode not in FALLBACK_ELIGIBLE_MODES:
             if self.mode == "cloud":
                 return ProviderInvocation(
@@ -320,9 +326,15 @@ class ProviderRouter:
                 usage=primary.get("usage"),
                 provider_error_body=primary.get("provider_error_body"),
             )
-        return self._generate_json_ollama(prompt, primary_attempt=primary)
+        return self._generate_json_ollama(prompt, primary_attempt=primary, max_tokens=max_tokens)
 
-    def _generate_json_ollama(self, prompt: str, primary_attempt: dict[str, Any] | None) -> ProviderInvocation:
+    def _generate_json_ollama(
+        self,
+        prompt: str,
+        primary_attempt: dict[str, Any] | None,
+        *,
+        max_tokens: int | None = None,
+    ) -> ProviderInvocation:
         is_fallback = primary_attempt is not None
         ollama_status = self.ollama_client.status()
         if not ollama_status.available:
@@ -346,7 +358,10 @@ class ProviderRouter:
                 primary_attempt=primary_attempt,
             )
         try:
-            payload = self.ollama_client.generate_json(prompt)
+            if max_tokens is None:
+                payload = self.ollama_client.generate_json(prompt)
+            else:
+                payload = self.ollama_client.generate_json(prompt, max_tokens=max_tokens)
             return ProviderInvocation(
                 provider="ollama",
                 model=self.ollama_client.model,
@@ -366,7 +381,7 @@ class ProviderRouter:
                 primary_attempt=primary_attempt,
             )
 
-    def _generate_json_deepseek(self, prompt: str) -> ProviderInvocation:
+    def _generate_json_deepseek(self, prompt: str, *, max_tokens: int | None = None) -> ProviderInvocation:
         model = self.deepseek_client.model
         if not self.deepseek_client.available():
             return ProviderInvocation(
@@ -379,7 +394,10 @@ class ProviderRouter:
             )
 
         try:
-            payload = self.deepseek_client.generate_json(prompt)
+            if max_tokens is None:
+                payload = self.deepseek_client.generate_json(prompt)
+            else:
+                payload = self.deepseek_client.generate_json(prompt, max_tokens=max_tokens)
             return ProviderInvocation(provider="deepseek", model=model, payload=payload, mode=self.mode)
         except Exception as exc:
             return ProviderInvocation(

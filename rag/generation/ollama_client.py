@@ -67,10 +67,12 @@ class OllamaClient:
         except httpx.HTTPError as exc:
             raise OllamaClientError(f"Ollama chat request failed: {exc}") from exc
 
-    def generate_json(self, prompt: str) -> dict[str, Any]:
+    def generate_json(self, prompt: str, *, max_tokens: int | None = None) -> dict[str, Any]:
+        options = {"num_predict": max_tokens} if max_tokens is not None else None
         response = self.chat(
             messages=[{"role": "user", "content": prompt}],
             response_format="json",
+            options=options,
         )
         content = response.get("message", {}).get("content", "")
         try:

@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import json
+import logging
 import os
 from time import perf_counter
 import re
@@ -19,11 +20,38 @@ from rag.generation.provider_router import ProviderRouter
 from rag.retrieval.base import normalize_text, tokenize
 
 
+logger = logging.getLogger(__name__)
+
+
+def _positive_env_int(names: tuple[str, ...], default: int) -> int:
+    for name in names:
+        raw_value = os.environ.get(name, "").strip()
+        if not raw_value:
+            continue
+        try:
+            value = int(raw_value)
+        except ValueError:
+            logger.warning("Invalid integer configuration %s; using the next configured/default value", name)
+            continue
+        if value > 0:
+            return value
+        logger.warning("Non-positive integer configuration %s; using the next configured/default value", name)
+    return default
+
+
 @dataclass(frozen=True)
 class AnswerGeneratorConfig:
     top_k: int = 10
     max_citations: int = 3
     use_groq_when_available: bool = True
+    max_output_tokens: int = field(
+        default_factory=lambda: _positive_env_int(("RAG_MAX_OUTPUT_TOKENS",), 2048)
+    )
+    input_token_budget_advisory: int = field(
+        default_factory=lambda: _positive_env_int(
+            ("RAG_INPUT_TOKEN_BUDGET_ADVISORY", "RAG_MAX_INPUT_TOKENS_SOFT"), 3000
+        )
+    )
 
 
 class AnswerGenerator:
@@ -176,8 +204,15 @@ class AnswerGenerator:
         )
 
     def _generate_response(self, question: str, prompt: str, context_bundle) -> tuple[dict[str, Any], dict[str, Any]]:
+        estimated_input_tokens = len(prompt.split())
+        if estimated_input_tokens > self.config.input_token_budget_advisory:
+            logger.warning(
+                "Generation prompt exceeds advisory input budget: estimated_tokens=%s budget=%s; no provider-side input truncation is applied",
+                estimated_input_tokens,
+                self.config.input_token_budget_advisory,
+            )
         if self.provider_router is not None:
-            invocation = self.provider_router.generate_json(prompt)
+            invocation = self.provider_router.generate_json(prompt, max_tokens=self.config.max_output_tokens)
             if invocation.payload is not None:
                 return self._coerce_schema(invocation.payload), self._provider_meta(
                     provider=invocation.provider,
@@ -203,7 +238,7 @@ class AnswerGenerator:
             )
         if self.groq_client.available() and self.config.use_groq_when_available:
             try:
-                raw = self.groq_client.generate_json(prompt)
+                raw = self.groq_client.generate_json(prompt, max_tokens=self.config.max_output_tokens)
                 return self._coerce_schema(raw), self._provider_meta(provider="groq", model=self.groq_client.model)
             except Exception:
                 return self._deterministic_answer(question, context_bundle), self._provider_meta(

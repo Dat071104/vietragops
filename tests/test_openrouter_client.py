@@ -88,7 +88,7 @@ def test_success_parse_uses_catalog_guard_and_models_array(monkeypatch):
 
     assert client.generate_json("synthetic prompt") == {"ok": True}
     payload, timeout = captured[0]
-    assert payload["models"] == [PRIMARY, FALLBACK]
+    assert payload["models"] == [PRIMARY]
     assert payload["response_format"] == {"type": "json_object"}
     assert timeout == 90
     assert client.last_served_provider == "TestUpstream"
@@ -106,7 +106,7 @@ def test_measured_primary_is_in_default_routing_array(monkeypatch):
     client = make_client()
 
     assert client.generate_json("synthetic prompt") == {"ok": True}
-    assert captured[0]["models"] == [PRIMARY, FALLBACK]
+    assert captured[0]["models"] == [PRIMARY]
     assert client.status()["model"] == PRIMARY
     assert client.status()["routing_models"] == [PRIMARY, FALLBACK]
     assert "unverified_primary_enabled" not in client.status()
@@ -152,8 +152,32 @@ def test_finish_length_is_typed_before_content_json_parse(monkeypatch):
     with pytest.raises(OpenRouterProviderError, match="finish_reason=length"):
         client.generate_json("synthetic prompt")
 
-    assert captured[0]["models"] == [PRIMARY, FALLBACK]
+    assert captured[0]["models"] == [PRIMARY]
     assert client.status()["last_error_kind"] == "provider_error"
+
+
+def test_exact_http_200_nvidia_error_envelope_triggers_client_side_fallback(monkeypatch):
+    primary_error = {
+        "error": {
+            "message": "Upstream error from Nvidia: Service temporarily overloaded",
+            "code": 502,
+        }
+    }
+    responses = [FakeResponse(primary_error), FakeResponse(success_body(FALLBACK))]
+    captured = []
+
+    def fake_urlopen(raw_request, timeout):
+        captured.append(json.loads(raw_request.data.decode("utf-8")))
+        return responses.pop(0)
+
+    monkeypatch.setattr("rag.generation.openrouter_client.request.urlopen", fake_urlopen)
+    client = make_client(max_retries=0)
+
+    assert client.generate_json("synthetic prompt", max_tokens=2048) == {"ok": True}
+    assert [item["models"] for item in captured] == [[PRIMARY], [FALLBACK]]
+    assert [item["max_tokens"] for item in captured] == [2048, 2048]
+    assert client.status()["daily_requests_used"] == 2
+    assert client.last_served_model == FALLBACK
 
 
 @pytest.mark.parametrize(
