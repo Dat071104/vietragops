@@ -37,6 +37,19 @@
     ],
     "overlay_paths_before": 25,
     "index_paths_before": 0,
+    "initial_git_snapshot": {
+      "head": "ed4c9d68c3856b00cb78b7a272c792761def5740",
+      "origin_main": "ed4c9d68c3856b00cb78b7a272c792761def5740",
+      "observed_before_protocol_commit": true
+    },
+    "concurrent_remote_reconciliation": {
+      "detected_before_gcp_mutation": true,
+      "origin_main_after_external_push": "dae57bcd1017ae6e97ce88dcb5728091b61536bd",
+      "gate18_protocol_commit": "e0a0507f0063a804aa6ca3878e21e69d35d86385",
+      "protocol_commit_parent": "dae57bcd1017ae6e97ce88dcb5728091b61536bd",
+      "diff_from_initial_snapshot": "_agent_ops/RESEARCH_PLAN_PAPER.md added only; no product source/configuration change",
+      "handling": "Preserved the user-owned docs commit; no reset, rebase, overwrite, or push."
+    },
     "overlay_policy": "The exact pre-existing 25 paths below remain unstaged and untouched.",
     "overlay_path_list": [
       "AGENTS.md",
