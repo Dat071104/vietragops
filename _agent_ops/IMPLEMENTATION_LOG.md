@@ -3722,4 +3722,98 @@ RISK-0026 first and preserve the frozen provider-pinned research lane.
   active GCS release contained 698.
 - Gate 18 is NO-GO. No promotion occurred; traffic was restored to
   vietragops-api-00009-w5j at 100%. DEC-0044 and RISK-0043 record the
-  artifact-delivery decision and required re-embedding boundary.
+ artifact-delivery decision and required re-embedding boundary.
+
+## 2026-09-11 — Gate 18-R corpus reconciliation, guard, and promotion
+
+### Scope and entry
+
+- Gate 18-R protocol `gates/baselines/GATE_18R_PROTOCOL.json` was frozen and
+  committed as `f22748d` before any provider, build, deployment, or traffic
+  action. Canonical SHA-256 is
+  `sha256:edf957a3f970342317afe6b3c679467461ae85282aa512f86415f1b845ddf961`;
+  file SHA-256 is `dad24d30b7271b9c0eacb83d014de1c158832f06d8e0175a411ccce3476a7155`.
+- Entry `HEAD` and `origin/main` both matched
+  `c337120cabc86011a75a1c857483b15d73462a1c`. The exact 25-path user-owned
+  overlay and empty index were preserved.
+- R0 full suite was `607 passed, 2 warnings` in `542.48s` with external
+  basetemp. The prior 3-warning report is reconciled as a host ACL warning
+  that did not recur; no warning was invented.
+
+### Corpus and evaluation evidence
+
+- Read-only GCS registry resolution selected active release
+  `release-614e820190314e5d8cda4a9ac0308dee` with 698 chunks and 38 documents.
+  Its chunk hash/content hash is
+  `db15b93e533b4a8806b50fed14198f0eb58ff4f84a5dbb25f3e67b2f5ab26e70`.
+- The local input and old artifact each contained the same 695 ordered IDs and
+  hash `0510c68876fc4b9295ba9ffff86bd1816432233f9b265b272e6e26613ba7e130`.
+  The exact GCS-only set is
+  `cloud-policy_s001_c001`, `cloud-policy_s002_c001`, and
+  `cloud-policy_s003_c001`; artifact-only set is empty; shared ordering is
+  identical. The three rows are from valid parsed/reviewed/published
+  `cloud-policy.pdf` content in the release, not content edited to fix a count.
+- None of the 116 golden rows references those IDs. The prior Gate 14-R/15/16
+  measurements used the 695-row local input. A temporary authoritative-set
+  retrieval-only run through the Gate 14-R ContextBuilder reproduced E5 int8
+  RRF `k=60`, top-10 `88/116` and `curriculum_structure=7/15`, so no generation
+  rerun was authorized or needed.
+
+### Implementation and local validation
+
+- Added release-bundle validation and changed
+  `scripts/compute_corpus_embeddings.py` to require an explicit verified
+  release directory plus immutable model revision. The rebuilt metadata records
+  release ID/object hashes, 698 rows, model
+  `intfloat/multilingual-e5-small` revision
+  `614241f622f53c4eeff9890bdc4f31cfecc418b3`, dimension 384, L2 normalization,
+  and int8 precision.
+- Rebuilt artifact: 6 files, `136,499,031` bytes, embedding hash
+  `7d890f48c17645aacd33fb87973a14b8a61f9b8993e8ba5822d3c6197061e82d`, full
+  command wall-clock `189.313s`. The raw local DenseRetriever status is
+  `state=active`, backend
+  `onnx:intfloat/multilingual-e5-small:int8_dynamic_weight`,
+  `degradation_reason=null`.
+- Added `scripts/verify_vector_artifact.py` and the mandatory Dockerfile guard;
+  the verifier invokes the existing DenseRetriever vector-space contract rather
+  than duplicating it. Host check time was `1.935s`. Five offline tests passed
+  in `0.11s`, covering match, count, ordering, content hash, and model identity
+  mismatch.
+- Added `scripts/prepare_api_build_context.py` and documented explicit
+  `.gcloudignore` handling. The first Cloud Build
+  `ff211adb-3bed-45b9-a7b7-f20ad3c2f6dd` failed closed because gcloud excluded
+  the ignored artifact. The corrected context upload contained 540 files,
+  including all six artifact files and all three release files.
+- Source/test/docs commit is `c32be31f5d08e74106ce134aaec8cd3f6dd98645`.
+  Post-change full suite was `612 passed, 2 warnings` in `536.41s`; the five
+  additional passes are the new contract tests.
+
+### Deployment and production proof
+
+- Successful Cloud Build `213d7506-f91d-4c82-88fb-637896ffea1b` passed the
+  Dockerfile guard and produced API digest
+  `sha256:a1a62f4b66e920b67e4d038ce037f066550678d9afc889c00a0124e43136074e`.
+  Registry image size was `646,840,968` bytes versus `646,295,489` before,
+  delta `545,479` bytes / `0.520 MiB`.
+- Revision `vietragops-api-00021-teb` was deployed at 0% with tag `gate18r4`.
+  Direct `/health` returned active ONNX and null degradation reason; raw
+  `/health/ready` returned 698 chunks and 38 documents. ContainerHealthy was
+  `13.64s`; first direct health request was `551.22ms`.
+- Three grounded direct `/ask` probes returned HTTP 200, valid citations, and
+  active ONNX; one privacy/unanswerable row returned HTTP 200,
+  `refusal=true`, zero citations, and `insufficient_evidence`. MCP missing and
+  wrong Origin returned 403; canonical Host plus exact web Origin passed
+  initialize, tools/list, and authorized retrieve_context.
+- Cloud logs recorded exactly four free Nemotron HTTP-200 requests with ledger
+  remaining `999`, `998`, `997`, `996`; the first three were direct API probes
+  and the fourth was the public UI probe. Observed ending ledger is `4/1000`
+  used and `996` remaining. No fallback, Gemma serving, or paid spend occurred.
+- After all 0% checks, traffic moved to `00021-teb=100%` in `5.843s`. Canonical
+  API health/readiness remained green. The public web UI rendered live API mode,
+  a grounded answer, confidence 100%, and three citation cards.
+- `DEC-0045` records the authoritative-corpus/build-guard decision. RISK-0043
+  is closed by the rebuild/guard/0%-proof evidence. RISK-0044 remains open for
+  release coupling and records chunk-ID-keyed embeddings as future work only.
+- No corpus, manifest, golden set, secret, IAM, scaling, quota, budget, billing,
+  or research artifact was changed. No push occurred; the owner must push
+  explicitly if desired.

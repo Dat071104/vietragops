@@ -1803,3 +1803,49 @@ VectorSpaceMismatchError; this is the required loud degradation behavior.
 Promotion was refused and traffic was restored to
 vietragops-api-00009-w5j. A future re-embedding/redeployment requires a
 separate approved artifact-generation step.
+
+## DEC-0045 — Make the active GCS release authoritative and gate builds on it
+
+**Date:** 2026-09-11
+**Status:** ADOPTED — Gate 18-R PASS
+**Gate:** 18-R
+
+### Decision
+
+Treat the active GCS release
+`release-614e820190314e5d8cda4a9ac0308dee` as the production-authoritative
+corpus. Rebuild the ONNX E5-small int8 artifact only from an explicit,
+hash-verified release bundle, and require the existing vector-space contract at
+the host pre-build boundary and again inside the Docker build.
+
+The three GCS-only chunks are retained. They belong to the valid
+`cloud-policy.pdf` document in the active release; this gate did not remove or
+edit corpus content.
+
+### Evidence
+
+The old local corpus and artifact contained 695 identical ordered IDs. The GCS
+release contained those 695 plus exactly
+`cloud-policy_s001_c001`, `cloud-policy_s002_c001`, and
+`cloud-policy_s003_c001`; no artifact-only ID or shared-order divergence was
+found. The local artifact hash was
+`0510c68876fc4b9295ba9ffff86bd1816432233f9b265b272e6e26613ba7e130`, while
+the active release hash was
+`db15b93e533b4a8806b50fed14198f0eb58ff4f84a5dbb25f3e67b2f5ab26e70`.
+None of the 116 golden rows referenced the three IDs. An authoritative-set
+retrieval-only rerun reproduced `88/116` and `curriculum_structure=7/15`.
+
+The rebuilt artifact records the release ID and object hashes, 698 rows, model
+ID/revision, dimension 384, L2 normalization, and int8 precision. The host
+guard took `1.935s`; five offline tests cover matching, count, ordering,
+content-hash, and model-identity cases. Cloud Build passed the same guard, and
+the promoted revision's raw health reported an active ONNX backend with no
+degradation reason.
+
+### Boundary
+
+This decision does not authorize corpus edits, manifest/golden-set changes,
+retrieval or generation tuning, scaling changes, IAM/Secret Manager changes,
+quota/budget/billing changes, or a push. Keying vectors by `chunk_id` instead
+of positional array remains a future recommendation recorded in RISK-0044,
+not an implementation in this deployment gate.
