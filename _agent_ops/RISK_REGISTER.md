@@ -73,6 +73,13 @@ wording above.
 | RISK-0041 | The B1 repair made `max_tokens` reach the wire but introduced a new truncation defect by selecting `2048` without checking the already-observed completion distribution: B4 then produced `17/64` length finishes, all at 2048. | Add the measured-distribution check to every future parameter repair; Gate 16's 8192/effort-none candidate reduced this specific defect, but the product lane remains NO-GO. Open pending a passing deployment gate. |
 | RISK-0042 | Provider availability varies enough to confound causal attribution: B4 had 2 embedded 502 and 16 fallback 429 responses, while G5 had 0 502/429 and 38 Nemotron successes. | Report raw availability counts beside every quality delta; require repeated or availability-stratified evidence before crediting a configuration with stable quality or latency gains. Open. |
 
+## Gate 17 updates (2026-09-10)
+
+| Risk ID | Gate 17 measured update | Current mitigation/status |
+| --- | --- | --- |
+| RISK-0040 | The Gate 16 G5 grounding audit measured the annotation gap directly on 26 hand-correct answers: 47 unique cited IDs were counted per-row, 32 were absent from `relevant_chunk_ids`, 31 of those 32 supported the answer text, and 1 was a genuine grounding failure. Twenty of 26 correct answers had at least one supporting citation omitted from the annotation. On the audited surface, corrected precision is `46/47` and corrected recall is `46/58`; the original all-36 `15/51` and `15/37` values remain historical annotation-bound measurements. | Keep golden fields unchanged. Treat annotation-bound retrieval/grounding values as conservative lower bounds, retain hand-audited support as the current measurement reference, and require a separately frozen full-sample exhaustiveness audit before claiming an all-36 corrected rate. Open. |
+| RISK-0039 | Gate 17 confirms that Gate 15-B0's corrected numeric/prefix recipe was only a diagnostic correction: Gate 16 mean F1 moved `0.353517 -> 0.353705`, but binary correctness stayed `13/36`; disagreement with hand labels is `15/36`, including one false positive. | Keep hand adjudication as the corpus reference; automated F1/containment remain diagnostic until a semantic metric is separately validated. Open. |
+
 ## Web Import Scope Correction (Gate 03)
 
 RISK-0010's mitigation ("keep localhost-only and configuration-validated")

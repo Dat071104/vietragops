@@ -1737,3 +1737,43 @@ slugs fail closed. G3 observed two cfg2 upstream 502s followed by two Gemma
 requests that were rate-limited, while cfg4's sixteen Gemma 429s produced no
 fallback. G5 had no 502/429, so live fallback serving was not required and
 Gemma remained unserved.
+
+## DEC-0043 — Use hand-audited grounding and hand correctness as the Gate 17 reference
+
+**Date:** 2026-09-10
+**Status:** ADOPTED — Gate 17 zero-provider metric audit
+**Gate:** 17
+
+### Decision
+
+For this corpus, treat hand adjudication as the correctness reference and use
+manual chunk-text support rather than `relevant_chunk_ids` membership as the
+grounding reference on the audited 26 hand-correct Gate 16 answers. Keep the
+original Gate 12-V and Gate 16 mechanical columns unchanged as historical,
+annotation-bound measurements. Do not change thresholds or production code.
+
+### Evidence
+
+The shipped grounding implementation counts only unique cited-ID membership:
+`cited ∩ relevant_chunk_ids`; it never reads chunk text or quoted evidence. On
+the 26 hand-correct rows, 32 of 47 cited IDs were outside the annotation. Manual
+reading found 31 supporting IDs and one genuine failure, changing the audited
+surface to `46/47 = 97.9%` precision and `46/58 = 79.3%` recall.
+
+The Gate 15-B0 corrected token recipe was applied as a diagnostic re-score of
+the frozen Gate 16 strings. It changed mean F1 from `0.353517` to `0.353705`
+but not the binary count: both frozen and corrected metrics are `13/36`.
+Against `26/36` hand-correct rows, disagreement is `15/36 = 41.7%`, with 14
+false negatives and one false positive. The automated metric is therefore not
+viable as the corpus reference.
+
+The p95 miss of `508.479 ms` is compatible with sampling noise: a deterministic
+38-row bootstrap interval is `16,672.136–37,275.189 ms`, containing the
+30,000 ms bar. Gate 17 therefore records **CONDITIONAL-GO for the corrected
+audited measurement surface**, not deployment authorization. RISK-0026 remains
+open pending the owner's least-privilege IAM decision.
+
+### Boundary
+
+This decision does not authorize provider calls, threshold revision, source or
+dataset edits, deployment, IAM mutation, or a full all-36 corrected rescore.

@@ -310,3 +310,22 @@ expected-token containment recall. Containment is not accepted as ground truth
 yet because it overcredits verbose wrong answers; human adjudication remains
 the validation target. Gate 15 B0 therefore pauses before B4 and asks the owner
 to resolve the threshold/generation-quality decision.
+
+## Addendum — Gate 17 grounding audit (2026-09-10)
+
+This addendum preserves the frozen Gate 12-V run and does not edit its original
+all-40/all-36 metric values. Gate 17 audited the later Gate 16 G5 artifact,
+which reused the same 40-question sample, because RISK-0040 made annotation
+membership an unverified proxy for answer-supporting evidence.
+
+On the 26 hand-correct Gate 16 answers, 31 of 32 cited IDs absent from
+`relevant_chunk_ids` nevertheless had chunk text supporting the answer; one was
+a genuine grounding failure. The corrected audited-surface counts are
+`46/47 = 97.9%` precision and `46/58 = 79.3%` recall. These counts are scoped
+to the audited 26-row surface and must not be substituted into this result's
+frozen Gate 12-V tables without a new, full-sample protocol.
+
+The original Gate 12-V NO-GO remains the historical mechanical verdict for its
+frozen annotation-bound run. Gate 17 records a conditional corrected
+measurement conclusion only; it changes no threshold, golden field, corpus,
+retrieval setting, provider configuration, or deployment state.

@@ -287,3 +287,31 @@ The research lane, golden QA fields, corpus, manifest, chunk store, retrieval
 settings, and `.env` were not modified. Raw provider artifacts remain outside
 the tracked tree. No deployment or push occurred.
 
+## Addendum — Gate 17 metric audit (2026-09-10)
+
+Gate 17 read the existing G5 `cfg3.json` artifact without a provider call and
+does not rewrite the original Gate 16 result. On the 26 hand-correct G5 rows,
+the frozen annotation-membership grounding arithmetic is `15/47` precision
+and `15/27` recall. Manual reading of the cited chunk text found 31 of the 32
+outside-annotation cited IDs genuinely support the answer; one is a genuine
+support failure. With the 31 confirmed supporting IDs added to the per-row
+reference set, the corrected audited-surface values are `46/47 = 97.9%`
+precision and `46/58 = 79.3%` recall. These are not an extrapolated all-36
+rescore; the original all-36 `15/51` and `15/37` columns remain historical
+Gate 16 measurements.
+
+Gate 15-B0's corrected correctness recipe was applied to the existing G5
+answer strings as a side diagnostic, not wired into the production scorer.
+Numeric normalization and boilerplate removal changed the mean symmetric F1
+from `0.353517` to `0.353705` and containment mean to `0.571149`, but the
+binary result remained `13/36 = 36.1%`. The corrected metric disagrees with
+the hand labels on `15/36 = 41.7%` (14 false negatives and one false positive),
+so hand adjudication remains the reference for this corpus.
+
+The p95 `30,508.479 ms` remains the registered point estimate. A deterministic
+38-row bootstrap gives a 95% interval of `16,672.136–37,275.189 ms`, which
+contains the 30,000 ms bar; the miss is noise-compatible at this sample size.
+The named tail is three slow provider responses, not a tuning defect.
+
+Gate 17's corrected measurement conclusion is **CONDITIONAL-GO**, not
+deployment authorization. RISK-0026 remains the owner-controlled IAM blocker.

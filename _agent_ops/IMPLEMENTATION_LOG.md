@@ -3668,3 +3668,36 @@ RISK-0026 first and preserve the frozen provider-pinned research lane.
   `15/37`, frozen correctness `13/36`, and p95 latency `30508.479ms` fail the
   unchanged thresholds. No deployment, GCP action, secret mutation, research
   write, dataset edit, or push occurred.
+
+## 2026-09-10 — Gate 17 zero-provider audit of grounding, correctness, and latency
+
+- Frozen `gates/baselines/GATE_17_PROTOCOL.json` before metric implementation
+  analysis and committed it as `1f4c695a7e16869eb11d7814f96eca9a2046bedd`.
+  File SHA-256 is `0a0eb13e5334c8ff6c1327171c3846e94041a29cde118b7235d6194e2a7b1c2f`.
+  Entry HEAD and `origin/main` were both `9b47b20f`; the pre-existing overlay
+  remained 25 paths and the index was empty.
+- Read the existing Gate 16 G5 `cfg3.json` artifact only; no provider/GCP
+  call, deployment, secret access, source change, corpus change, golden-set
+  edit, retrieval change, or prompt change occurred.
+- Reproduced the full suite with `.venv\Scripts\python.exe` and external
+  `--basetemp`: `607 passed, 3 warnings` in `334.04s`. The warnings are the
+  known websockets deprecations and the host pytest-cache ACL warning.
+- Read `evals/metrics/gate12v_metrics.py`: grounding is exact per-row set
+  membership of cited IDs against `relevant_chunk_ids`, with no chunk-text or
+  quote-support check. On the 26 hand-correct Gate 16 rows, `32/47` cited IDs
+  were outside the annotation; 31 support the answer and one fails. Corrected
+  audited-surface grounding is `46/47` precision and `46/58` recall.
+- Reapplied Gate 15-B0's numeric-run/prefix correction offline to the existing
+  answers. Mean F1 changed `0.353517 -> 0.353705`, containment is `0.571149`,
+  and binary correctness remains `13/36`; hand correctness is `26/36` with
+  `15/36` disagreement (14 false negatives, one false positive). Automation
+  remains diagnostic; hand adjudication is the corpus reference.
+- Recomputed the existing latency distribution. Provider-attempted `n=38`
+  has p50 `11641.421ms`, p90 `18004.007ms`, p95 `30508.479ms`, max
+  `37275.189ms`; the registered p95 miss is noise-compatible under the frozen
+  20,000-resample bootstrap (`16672.136–37275.189ms`). The named tail is three
+  slow provider responses; no tuning was made.
+- Gate 17 records CONDITIONAL-GO for the corrected audited measurement surface,
+  not deployment authorization. RISK-0026 remains open for the owner's
+  least-privilege IAM decision. Gate 16 and Gate 12-V findings remain preserved
+  with addenda rather than rewritten.
