@@ -1,0 +1,134 @@
+{
+  "gate": "15",
+  "title": "Retrieval tuning, then generation repair and re-run",
+  "protocol_version": "1.0",
+  "status": "FROZEN_BEFORE_PHASE_A_MEASUREMENT",
+  "frozen_at": "2026-09-10",
+  "scope": {
+    "purpose": "Re-examine top_k and dense/sparse fusion without provider calls, then permit a bounded generation repair and paired live re-run only if the retrieval path clears the pre-registered Phase A bar.",
+    "working_directory": "D:\\Project cua Dat\\VietRAGOps\\ROOT\\VietRagOps",
+    "interpreter": ".venv\\Scripts\\python.exe",
+    "entry_head": "86dd77d5ce58857d9330b19df8f8d3e1cacd44e1",
+    "entry_origin_main": "86dd77d5ce58857d9330b19df8f8d3e1cacd44e1",
+    "entry_overlay_paths": 25,
+    "entry_index_paths": 0,
+    "entry_suite": {
+      "passed": 598,
+      "warnings": 3,
+      "command": ".\\.venv\\Scripts\\python.exe -m pytest -q --basetemp <external-temp-path>",
+      "source": "Gate 14-R closure receipt; A0 reproduction is required before Phase A conclusions"
+    }
+  },
+  "boundaries": {
+    "phase_a_provider_generation_calls": false,
+    "phase_b_free_models_only": true,
+    "phase_b_max_live_generation_requests": 200,
+    "phase_b_rate_limit_rpm": 20,
+    "paid_spend": false,
+    "gcp_or_cloud_run_calls": false,
+    "deployment": false,
+    "secret_reads_or_edits": false,
+    "research_lane_writes": false,
+    "golden_set_corpus_manifest_chunk_store_writes": false,
+    "gate_09_or_gate_10": false,
+    "runtime_ml_boundary": "The ONNX product path remains the shipped design; torch, transformers, and sentence-transformers are not added to requirements.txt or Dockerfile.",
+    "frozen_research_artifacts": "Gate 07 and Gate 08 protocols, baselines, metrics, datasets, research code, and measured artifacts remain read-only."
+  },
+  "inputs": {
+    "qa_path": "evals/datasets/golden_qa.jsonl",
+    "qa_sha256": "71f66f3fd39143f2f918d654306918fcf92424e3b51fb008446dd03fe2152ab4",
+    "chunk_path": "data/chunks/chunks_500.jsonl",
+    "chunk_sha256": "0510c68876fc4b9295ba9ffff86bd1816432233f9b265b272e6e26613ba7e130",
+    "question_count": 120,
+    "answerable_question_count": 116,
+    "unanswerable_question_count": 4,
+    "answerable_question_id_sha256": "04e9fd2ab2e9ef86073c38bc173de6e364be333bf5d247b9a2fa0e11c342fed3",
+    "frozen_set_rule": "Reuse the Gate 13-D/Gate 14-R answerable 116-question set and the same relevant_chunk_ids; do not modify the dataset or chunk store."
+  },
+  "pre_registered_phase_a": {
+    "current_default_reference": {
+      "name": "dense_e5_small_int8_top_k_5",
+      "answerable_ceiling": "73/116",
+      "value": 0.629310,
+      "source": "Gate 14-R retrieval-only measurement"
+    },
+    "original_sparse_reference": {
+      "name": "sparse_top_k_5",
+      "answerable_ceiling": "71/116",
+      "value": 0.612069,
+      "source": "Gate 13-D retrieval-only control"
+    },
+    "recommended_default_bar": {
+      "minimum_answerable_ceiling": "83/116",
+      "minimum_answerable_ceiling_value": 0.715517,
+      "minimum_gain_over_current_default": "10/116 (+8.62 percentage points)",
+      "rationale": "A Phase A tuning result must recover at least the sparse top_k=10 control ceiling while adding dense retrieval/fusion, and must be materially above the current dense top_k=5 product default before spending provider requests."
+    },
+    "curriculum_structure_floor": {
+      "minimum_question_hits": "7/15",
+      "rationale": "The selected default must retain the Gate 14-R dense top_k=10 rescue of this worst slice; a regression would not justify generation work."
+    },
+    "raw_top_50_floor": {
+      "minimum_question_hits": "104/116",
+      "rationale": "The selected path must not regress the current dense raw top-50 ceiling while fusion is being changed."
+    },
+    "phase_b_entry_condition": "Proceed to Phase B only if one explicitly selected, tested default configuration meets all three bars: answerable ceiling >=83/116, curriculum_structure hits >=7/15, and raw top-50 hits >=104/116. Otherwise stop after Phase A and do not issue provider requests.",
+    "control_reproduction": "The sparse top_k=5 row must reproduce 71/116 before lever conclusions are drawn."
+  },
+  "phase_a_measurements": {
+    "top_k_values": [5, 8, 10, 12],
+    "candidate_depth": 50,
+    "required_rows": [
+      "sparse_top_k_5_control",
+      "sparse_top_k_8",
+      "sparse_top_k_10",
+      "sparse_top_k_12",
+      "dense_e5_small_int8_top_k_5",
+      "dense_e5_small_int8_top_k_8",
+      "dense_e5_small_int8_top_k_10",
+      "dense_e5_small_int8_top_k_12"
+    ],
+    "fusion_diagnostics": [
+      "sparse_only_top_50",
+      "dense_only_top_50",
+      "current_hybrid_top_50",
+      "weighted_hybrid_alternative_top_50",
+      "reciprocal_rank_fusion_alternative_top_50"
+    ],
+    "metrics": {
+      "answerable_ceiling": "question hits/116; report raw numerator and denominator",
+      "recall_at_k": "macro recall over the 116 answerable rows",
+      "precision_at_k": "macro precision over the 116 answerable rows",
+      "mrr": "mean reciprocal rank over the 116 answerable rows",
+      "wilson": "95% Wilson interval for question-hit and micro binary proportions",
+      "prompt_tokens": "mean and p95 for the current PromptBuilder/context selection path",
+      "latency": "wall-clock and per-question distribution for local retrieval-only runs"
+    },
+    "category_slice": "Report curriculum_structure as n=15 with raw hits, recall, precision, MRR, and Wilson interval for each top_k and selected fusion row.",
+    "union_test": "Measure the union of dense-only and sparse-only top-50 candidate IDs per question and compare it with fused top-50; identify all sparse-found/fused-lost questions.",
+    "tuning_disclosure": "Alternative fusion rows are diagnostic comparisons on the frozen evaluation set. Selecting a setting using these same rows is optimistic; an unbiased tuning claim would require a separately frozen held-out tuning set and a fresh evaluation set."
+  },
+  "phase_b_protocol_requirements": {
+    "fresh_protocol_commit_before_first_generation_call": true,
+    "frozen_question_sample": "Reuse Gate 12-V's closed 40-question sample and metric definitions without rescoring its old outputs.",
+    "providers": [
+      "OpenRouter primary nvidia/nemotron-3-super-120b-a12b:free",
+      "OpenRouter fallback google/gemma-4-31b-it:free"
+    ],
+    "groq_control": "No Groq rotation. Present the owner with accept-no-control, obtain-a-higher-limit-key, or different-control-provider options and wait for a decision before live measurement.",
+    "request_budget": "At most 200 live requests total, free slugs only, paced to 20 RPM; report a running count, actual served model, and zero paid spend.",
+    "required_repairs": [
+      "Propagate RAG_MAX_OUTPUT_TOKENS to every provider wire body.",
+      "Make RAG_MAX_INPUT_TOKENS_SOFT enforceable or explicitly rename/document it as advisory.",
+      "Fallback on typed OpenRouter HTTP-200 embedded error envelopes, including the observed 502 payload, without crossing into Groq, Ollama, or DeepSeek."
+    ]
+  },
+  "measurement_restrictions": {
+    "no_threshold_changes_after_observation": true,
+    "no_research_artifact_recomputation": true,
+    "no_input_mutation": true,
+    "no_secret_output": true,
+    "no_overlay_staging": true,
+    "no_generation_before_phase_a_bar_and_groq_decision": true
+  }
+}
