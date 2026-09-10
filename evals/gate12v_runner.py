@@ -676,6 +676,13 @@ def _provider_client_snapshot(router: Any, provider: str) -> dict[str, Any]:
     return router.groq_client.stats()
 
 
+def _artifact_path_display(path: Path) -> str:
+    try:
+        return str(path.relative_to(ROOT)).replace("\\", "/")
+    except ValueError:
+        return str(path)
+
+
 def _clear_product_caches() -> Any:
     from app.core import config
 
@@ -837,8 +844,8 @@ def _run_provider(
         "generation_post_count_total_budget": shared_budget["count"],
         "pacing_sleep_seconds": round(recorder.pacing_sleep_seconds, 3),
         "provider_client_snapshot": _provider_client_snapshot(router, provider),
-        "raw_path": str(raw_path.relative_to(ROOT)).replace("\\", "/"),
-        "records_path": str(records_path.relative_to(ROOT)).replace("\\", "/"),
+        "raw_path": _artifact_path_display(raw_path),
+        "records_path": _artifact_path_display(records_path),
         "paid_spend": 0,
         "secret_values_recorded": False,
     }
