@@ -108,8 +108,9 @@ the local oracle. Gate 20 remains unauthorized; Gate 10 remains blocked.
 ## O0 — Entry, freeze, and integrity
 
 - Entry `HEAD` and `origin/main`: `{ENTRY_HEAD}`.
-- Final local `HEAD`: `{args.final_head}`. No push occurred; `origin/main`
-  remains `{FINAL_REMOTE}`.
+- Result was generated from the final local Gate 19 lineage; the exact local
+  `HEAD` is reported in the closure receipt and final handoff below. No push
+  occurred; `origin/main` remains `{FINAL_REMOTE}`.
 - Entry overlay: exactly 25 pre-existing paths; index empty. No overlay path
   was staged by Gate 19.
 - Full suite: **612 passed, 2 warnings** in pytest `489.44s`, using
