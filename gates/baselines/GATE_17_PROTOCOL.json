@@ -1,0 +1,79 @@
+{
+  "schema": "gate17.protocol.v1",
+  "title": "Offline audit of Gate 16 grounding, correctness, and latency metrics",
+  "gate": "17",
+  "created_utc": "2026-09-10T00:00:00Z",
+  "scope": {
+    "zero_provider_calls": true,
+    "gcp_calls": false,
+    "deployment": false,
+    "secret_access": false,
+    "production_source_change": false,
+    "dataset_change": false,
+    "golden_set_change": false,
+    "corpus_change": false,
+    "chunk_store_change": false,
+    "retrieval_or_generation_change": false,
+    "push": false
+  },
+  "entry": {
+    "git_root": "D:/Project cua Dat/VietRAGOps/ROOT/VietRagOps",
+    "expected_head": "9b47b20f69f6a2f696442e7355226363c75b1747",
+    "expected_origin_main": "9b47b20f69f6a2f696442e7355226363c75b1747",
+    "expected_overlay_paths": 25,
+    "expected_index_paths": 0,
+    "interpreter": ".venv/Scripts/python.exe",
+    "pytest_basetemp": "external directory outside the Git root",
+    "baseline_suite": "607 passed, 3 warnings"
+  },
+  "frozen_input": {
+    "gate16_result": "gates/results/GATE_16_RESULT.md",
+    "gate16_artifact": "existing Gate 16 G5 cfg3 artifact; read-only",
+    "sample_size": 40,
+    "answerable_rows": 36,
+    "hand_correct_rows": 26,
+    "question_id_sha256": "170d3201cf97f796732d8d462367d224033b08bdf45bc3cd4036c853dcd79c49",
+    "provider_calls_allowed": 0
+  },
+  "metric_defect_preregistration": {
+    "grounding": {
+      "operational_frozen_definition": "Use the implementation's exact unique-cited-id numerator and denominator after the implementation is read. For the audit, a cited chunk is manually grounded when its stored text supports the answer; membership in relevant_chunk_ids is not required.",
+      "annotation_false_negative_is_numeric": "At least 1 cited chunk on a hand-correct answer is implementation-ungrounded solely because it is absent from relevant_chunk_ids, and manual adjudication marks it supporting.",
+      "metric_defective_if": "The annotation false-negative count is at least 1 and the manually corrected precision or recall changes by at least 1 percentage point, or the unchanged Gate 12-V verdict changes.",
+      "correction_scope": "Audit all cited unique chunk ids on the 26 hand-correct rows. Report the 26-row hand-audited counts separately from any all-36-row Gate 16 re-application; do not infer un-audited rows as corrected.",
+      "genuine_failure": "A cited chunk whose stored text does not support the hand-correct answer, including a citation that is only topically related or supports a different claim."
+    },
+    "correctness": {
+      "hand_reference": "The 36 Gate 16 answerable rows and the frozen hand labels recorded in the Gate 16 result.",
+      "metric_defective_if": "The automated label disagrees with the hand label on at least 1 of 36 answerable rows; report disagreement as a raw count and rate, and classify false negatives versus false positives.",
+      "viability_rule": "Recommend the automated metric as viable only if it has zero hand-label disagreements on this frozen corpus; otherwise hand adjudication remains the reference for this corpus."
+    },
+    "latency": {
+      "sample": "The existing Gate 16 G5 end-to-end latency values for the 38 provider-attempted rows.",
+      "bootstrap": {
+        "replicates": 20000,
+        "seed": 20260910,
+        "statistic": "p95 using the registered floor((n-1)*p) index rule",
+        "interval": "percentile 95% interval"
+      },
+      "noise_rule": "Call the 508.479 ms miss measurement-noise-compatible when 30000 ms lies inside the pre-registered 95% bootstrap interval for p95; otherwise name the observed tail cause and do not call it noise."
+    }
+  },
+  "thresholds": {
+    "answer_correctness_min": 0.7,
+    "citation_grounding_precision_min": 0.9,
+    "citation_grounding_recall_min": 0.75,
+    "p95_latency_ms_max": 30000,
+    "reapply_unchanged_gate": "12-V"
+  },
+  "outputs": [
+    "gates/results/GATE_17_RESULT.md",
+    "addendum to gates/results/GATE_16_RESULT.md when a Gate 16 number is corrected",
+    "addendum to gates/results/GATE_12V_RESULT.md when a Gate 12-V number is corrected",
+    "DEC-0043",
+    "RISK-0040 update",
+    "dated _agent_ops/IMPLEMENTATION_LOG.md entry",
+    "Closure Receipt"
+  ],
+  "protocol_sha256": "computed after commit over the canonical file bytes"
+}
