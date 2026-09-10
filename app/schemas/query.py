@@ -37,7 +37,7 @@ class AskRequest(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     question: str
-    top_k: int = Field(default=5, ge=1, le=20)
+    top_k: int = Field(default=10, ge=1, le=20)
     debug: bool = Field(default=False, alias="return_debug")
     use_reranker: bool = False
     use_guardrail: bool = True

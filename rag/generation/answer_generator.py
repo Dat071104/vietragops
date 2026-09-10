@@ -21,7 +21,7 @@ from rag.retrieval.base import normalize_text, tokenize
 
 @dataclass(frozen=True)
 class AnswerGeneratorConfig:
-    top_k: int = 5
+    top_k: int = 10
     max_citations: int = 3
     use_groq_when_available: bool = True
 
