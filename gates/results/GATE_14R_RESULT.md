@@ -1,7 +1,8 @@
 # Gate 14-R — Restore dense retrieval and re-measure grounding
 
-**Status:** COMPLETE — product-lane ONNX retrieval selected; retrieval-only
-ceiling improved, generation remains a separate gate.
+**Status:** COMPLETE LOCALLY — product-lane ONNX retrieval selected; retrieval-only
+ceiling improved. Push is blocked by host Git credentials, so the remote release
+is not yet complete. Generation remains a separate gate.
 
 ## Protocol and entry receipts
 
@@ -290,6 +291,8 @@ this is an addendum, not a rewrite.
 ## Closure
 
 - Full suite: `598 passed, 3 warnings`.
-- Final local release HEAD and remote verification are recorded in the closure
-  receipt and `_agent_ops/SESSION_BRIEF.md`.
+- Final local release HEAD is `bcd924a020ba3d302721d8a2442063baebe04172`.
+  Two bounded `git -c http.sslBackend=openssl push origin main` attempts failed
+  with exit 1 and no output; `origin/main` remains
+  `31a69c02fee68ab004c14a4ecd85eca563ae728f`. No remote release claim is made.
 - The pre-existing 25-path overlay was not staged.

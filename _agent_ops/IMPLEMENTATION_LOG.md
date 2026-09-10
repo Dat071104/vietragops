@@ -3513,3 +3513,8 @@ RISK-0026 first and preserve the frozen provider-pinned research lane.
   GCP, deployment, secret, research, corpus, manifest, chunk-store, or golden
   dataset mutation occurred. The 25-path overlay remained unstaged and the
   index remained empty.
+- Release follow-up: two bounded OpenSSL Git push attempts failed with exit 1
+  and no output. Local HEAD is `bcd924a020ba3d302721d8a2442063baebe04172`,
+  remote `origin/main` remains
+  `31a69c02fee68ab004c14a4ecd85eca563ae728f`; credentials must be restored
+  before the local release can be pushed.
