@@ -202,6 +202,183 @@ The full suite after the B0 audit artifacts passed `603 passed, 3 warnings` in
 Gate 15 Phase B baseline. B0 changed documentation and audit artifacts only;
 no production source or test behavior changed.
 
+## B4 — Paired OpenRouter re-run
+
+### Protocol and accounting
+
+- Fresh protocol: `gates/baselines/GATE_15B_PROTOCOL.json`.
+- Protocol freeze commits: `548bc6a`, `a613412`, and `f0c778d`.
+- Final protocol SHA-256: `sha256:149267d11811f86c5c4af39a3a35daf43eb160ff9a1b6e69ec6219054a3cdf8c`.
+- Exact Gate 12-V sample reused: 40 questions, 36 answerable, 4 unanswerable;
+  question-ID SHA-256 `170d3201cf97f796732d8d462367d224033b08bdf45bc3cd4036c853dcd79c49`.
+- Valid retry pass: 40/40 questions, 64 generation POSTs, external artifact
+  root `C:\Users\ADMIN\AppData\Local\Temp\vietragops-gate15b-retry-artifacts-20260910`.
+- A first pass used 61 POSTs but its JSONL records were corrupted by two
+  interleaved record lines and five interleaved raw lines after the external
+  artifact-root transition. It is discarded for scoring, retained only in the
+  request accounting, and is not mixed with the valid retry pass. Total gate
+  generation POST accounting is therefore `61 + 64 = 125/200`.
+- Paid spend: `0`; all requests used the two configured `:free` slugs. No GCP,
+  deployment, secret, research, dataset, corpus, or manifest action occurred.
+
+### Direct B1/B2 repair tests
+
+| direct observation | Gate 12-V | B4 valid retry |
+|---|---:|---:|
+| `max_tokens` present | 0/58 | 64/64 |
+| `max_tokens` value | absent | 2048 on all 64 |
+| successful-response timestamps | 0/58 | 64/64 |
+| actual Gemma-served questions | 0/32 primary failures | 0 |
+| separate fallback requests | server-side array only | 16 |
+| actual Gemma response bodies | 0 | 0 |
+
+B2 activated the client-side fallback path 16 times, but every fallback request
+was rate-limited (`429`). The repair was exercised; provider availability still
+prevented a Gemma answer.
+
+### Serving and raw provider behavior
+
+- Primary requests: 48; fallback requests: 16.
+- HTTP-200 embedded `502` envelopes: 2 in the valid pass, versus 32 in the
+  closed Gate 12-V run. Fallback `429` responses: 16.
+- Actual served response bodies: 46 Nemotron, 0 Gemma, 18 unserved/error.
+- Actual served question rows: 36 Nemotron, 0 Gemma; 4 rows had no served
+  model, including two unanswerable guardrail rows and two answerable provider
+  failure rows.
+- `finish_reason=length`: 17/64 (`26.6%`), despite the repaired
+  `max_tokens=2048` wire value.
+- Completion usage was observed on 46 calls; 35 completions exceeded 1024
+  tokens. Reasoning usage was observed on 46 calls.
+
+The valid pass therefore caught a healthier Nemotron pool than Gate 12-V on
+the raw 502 count, but it did not establish stable availability: the fallback
+pool returned no served Gemma and the fallback requests were rate-limited.
+
+### Metrics side by side
+
+| metric | Gate 12-V original | Gate 12-V corrected/addendum | B4 valid retry |
+|---|---:|---:|---:|
+| answer correctness, frozen token-F1 | 7/36 = 19.4% | 7/36 = 19.4% | 11/36 = 30.6% |
+| answer correctness, hand adjudication | 18/36 = 50.0% | 18/36 = 50.0% | 20/36 = 55.6% |
+| normalized token-F1 mean | 0.223210 | 0.228619 | 0.283374 |
+| containment-recall mean | 0.500659 | 0.500659 | 0.578505 |
+| first-attempt schema validity | 18/38 = 47.4% | unchanged | 24/36 = 66.7% |
+| citation validity | 40/40 = 100.0% | unchanged | 40/40 = 100.0% |
+| grounding precision | 11/46 = 23.9% | unchanged | 13/49 = 26.5% |
+| grounding recall | 11/37 = 29.7% | unchanged | 13/37 = 35.1% |
+| answerable refusal count | 12/36 | hand baseline | 11/36 |
+| p95 end-to-end latency | 90,590 ms | missing per-POST baseline | 122,820 ms |
+
+B4 automated frozen/corrected disagreement is `13/36 = 36.1%`: 9 automated
+positives are hand-correct, 2 are hand-partial, and 11 hand-correct answers
+remain below the `.45` threshold. This is worse than the B0 baseline
+disagreement of `11/36 = 30.6%`, so the corrected metric is not yet validated
+as an automated proxy on fresh data.
+
+### B4 hand adjudication
+
+| question_id | adjudication |
+|---|---|
+| dev_q002 | refused |
+| dev_q003 | correct |
+| dev_q006 | correct |
+| dev_q008 | correct |
+| dev_q012 | correct |
+| dev_q014 | partial |
+| dev_q016 | correct |
+| dev_q017 | refused |
+| dev_q018 | correct |
+| gold_academic_schedule_007 | refused |
+| gold_credit_requirement_001 | correct |
+| gold_credit_requirement_023 | wrong |
+| gold_credit_requirement_058 | correct |
+| gold_credit_requirement_085 | correct |
+| gold_credit_requirement_096 | correct |
+| gold_curriculum_structure_006 | partial |
+| gold_curriculum_structure_011 | correct |
+| gold_curriculum_structure_013 | refused |
+| gold_curriculum_structure_020 | correct |
+| gold_curriculum_structure_049 | correct |
+| gold_manual_002 | refused |
+| gold_manual_003 | correct |
+| gold_policy_exception_012 | partial |
+| gold_student_account_001 | refused |
+| gold_training_regulation_052 | refused |
+| gold_training_regulation_067 | refused |
+| gold_training_regulation_068 | refused |
+| gold_training_regulation_070 | correct |
+| gold_training_regulation_071 | correct |
+| gold_training_regulation_104 | correct |
+| gold_training_regulation_153 | correct |
+| gold_training_regulation_163 | wrong |
+| gold_training_regulation_197 | correct |
+| gold_training_regulation_222 | refused |
+| gold_training_regulation_233 | refused |
+| gold_training_regulation_237 | correct |
+
+Totals: `20 correct`, `3 partial`, `2 wrong`, `11 refused`. The B4 retrieval
+cross-tab against the frozen `relevant_chunk_ids` was:
+
+| | correct | partial | wrong | refused | total |
+|---|---:|---:|---:|---:|---:|
+| relevant chunk retrieved | 19 | 2 | 0 | 8 | 29 |
+| not retrieved | 1 | 1 | 2 | 3 | 7 |
+
+This is a conservative diagnostic only: B0 already established that five
+human-correct answers can occur without the annotated relevant chunk, so the
+retrieval annotation is not exhaustive.
+
+### Refusal and attribution analysis
+
+- 11/36 answerable rows refused; all 11 had an actual Nemotron response and are
+  evidence/guardrail refusals, not provider-availability refusals.
+- 4/4 unanswerable rows refused correctly.
+- Two answerable rows had provider errors with no actual served model and ended
+  in non-refusal deterministic outputs; this is provider-availability failure,
+  not an evidence-based refusal.
+- The top_k change clearly increased annotated retrieval hits in this 40-row
+  sample (`21` Gate 12-V baseline rows with a relevant hit versus `29` B4
+  rows), but answer changes are not isolated from model/provider variance.
+- B1 is directly proven on the wire (`64/64`), but the 17 length truncations
+  prevent crediting it with a quality improvement.
+- B2 is directly exercised (`16` fallback requests) but produced `0` Gemma
+  responses, so no answer-quality gain can be attributed to fallback serving.
+- The B4 pool was healthier than Gate 12-V on raw 502 count, so the observed
+  answer delta is partly provider-availability variance. It is not evidence of
+  stable Nemotron reliability or successful fallback repair.
+- Metric correction changes interpretation and hand truth, not the automated
+  binary count on this sample: normalized F1 remains `11/36` at `.45`.
+
+## B5 — Mechanical verdict
+
+The unchanged thresholds produce **NO-GO**:
+
+- first-attempt schema validity `24/36 = 66.7%` < `90%`;
+- grounding precision `26.5%` < `90%` and recall `35.1%` < `75%`;
+- frozen answer correctness `30.6%` < `70%`; hand correctness `55.6%` < `70%`;
+- p95 latency `122.820s` > `30s`;
+- finish-length rate `26.6%` > `5%`;
+- fallback activation by actual Gemma serving `0/36`, although 16 fallback
+  requests were attempted.
+
+The OpenRouter product lane is **NO-GO for deployment**. The failed result is
+not caused by a single defect: top-k improved annotated retrieval coverage,
+B1 reached the wire but remained too small for many reasoning responses,
+B2 issued fallback requests but the fallback pool rate-limited all of them,
+and the run benefited from a healthier Nemotron pool than Gate 12-V. No causal
+claim stronger than those observations is justified.
+
+Instrumentation/source commits for B4 are `476633c` (response end timestamps)
+and `facedf0` (external artifact receipt paths). The final full suite after all
+B4 source changes passed `603 passed, 3 warnings` in `407.69` seconds with an
+external `--basetemp`, reconciling exactly to the Gate 15 baseline.
+
+## Remaining unmeasured / open
+
+Multi-turn behavior, concurrency, cloud mode, MCP, the agent path, authenticated
+API access (RISK-0026), the `88 -> 110` retrieval ranking gap, and exhaustiveness
+of `relevant_chunk_ids` remain unmeasured. Deployment remains blocked.
+
 ## Scope not measured
 
 No fresh provider availability, fallback activation, live latency, served-model

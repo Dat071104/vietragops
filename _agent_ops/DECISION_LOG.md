@@ -1654,3 +1654,32 @@ retrieval ceiling makes `70%` reachable only under near-perfect generation
 (`75.86%` theoretical ceiling), while the observed conversion projects about
 `24.1%`. The owner must choose whether to stop for a generation-quality gate or
 authorize a written, committed threshold revision before a fresh B4 protocol.
+
+## DEC-0040 — Gate 15-B NO-GO; thresholds unchanged
+
+**Date:** 2026-09-10
+**Status:** ADOPTED — Gate 15-B B5
+**Gate:** 15-B
+
+### Decision
+
+Apply the original Gate 12-V thresholds mechanically and mark the OpenRouter
+product lane **NO-GO** for deployment. Do not revise thresholds retroactively.
+
+The valid B4 retry used the exact 40-question sample and produced 64 POSTs,
+with `max_tokens=2048` present on all 64 requests and 16 separate fallback
+requests. No Gemma response served, 17/64 responses ended with
+`finish_reason=length`, first-attempt schema validity was `24/36`, frozen token-
+F1 correctness was `11/36`, hand correctness was `20/36`, and p95 latency was
+`122.820s`. The unchanged schema, grounding, answer-quality, latency, and
+finish-length thresholds therefore fail mechanically.
+
+### Attribution boundary
+
+Top-k improved annotated retrieval hits from 21 to 29 in the 40-row sample,
+but exact answer deltas are confounded by provider availability. B1 reached the
+wire but did not prevent 17 truncations. B2 issued 16 fallback requests but
+Gemma served zero because every fallback request was rate-limited. The lower
+502 count reflects a healthier Nemotron sample, not a stable product property.
+Metric correction changed interpretation and hand truth but not the `.45`
+automated binary count (`11/36`). No stronger causal attribution is claimed.

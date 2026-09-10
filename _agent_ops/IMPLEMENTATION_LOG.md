@@ -3602,3 +3602,28 @@ RISK-0026 first and preserve the frozen provider-pinned research lane.
 - Full suite after the B0 audit artifacts passed `603 passed, 3 warnings` in
   `478.60` seconds with an external `--basetemp`; no source/test behavior
   changed in B0.
+
+## 2026-09-10 — Gate 15-B B4/B5 paired OpenRouter run
+
+- Frozen B4 protocol `gates/baselines/GATE_15B_PROTOCOL.json` before live
+  requests. Final protocol SHA-256 is
+  `sha256:149267d11811f86c5c4af39a3a35daf43eb160ff9a1b6e69ec6219054a3cdf8c`;
+  protocol commits are `548bc6a`, `a613412`, and `f0c778d`.
+- The valid retry reused the exact Gate 12-V 40-question sample and issued 64
+  POSTs; a discarded first artifact pass issued 61 POSTs before record-file
+  corruption was detected. Total accounting is `125/200`; paid spend is zero.
+- B1 wire proof: `max_tokens=2048` present on `64/64` requests; successful end
+  timestamps and per-POST latency present on `64/64`. B2 proof: 16 fallback
+  requests were issued, but Gemma served `0`; all fallback responses were
+  rate-limited. Primary raw HTTP-200 502 count was 2 in the valid pass.
+- B4 metrics: frozen token-F1 correctness `11/36`, hand correctness `20/36`,
+  first-attempt schema validity `24/36`, citation validity `40/40`, grounding
+  precision `13/49`, grounding recall `13/37`, p95 end-to-end latency
+  `122820.192ms`, finish-length `17/64`, and `46` actual Nemotron response
+  bodies / `0` Gemma.
+- Hand disagreement rose to `13/36 = 36.1%` on the new run; the corrected
+  metric remains unvalidated as an automated proxy. The unchanged thresholds
+  mechanically produce NO-GO, recorded in DEC-0040. No deployment or push was
+  made.
+- Final full suite after B4 instrumentation passed `603 passed, 3 warnings` in
+  `407.69` seconds with an external `--basetemp`.
