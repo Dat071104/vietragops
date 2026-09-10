@@ -1,0 +1,1438 @@
+{
+  "cases": [
+    {
+      "case_id": "G19-P-SANDBOX-01",
+      "gold_separator": "::",
+      "left": "L000",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L000' and term_id='R000'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R000",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-02",
+      "gold_separator": "::",
+      "left": "L001",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L001' and term_id='R001'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R001",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-03",
+      "gold_separator": "::",
+      "left": "L002",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L002' and term_id='R002'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R002",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-04",
+      "gold_separator": "::",
+      "left": "L003",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L003' and term_id='R003'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R003",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-05",
+      "gold_separator": "::",
+      "left": "L004",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L004' and term_id='R004'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R004",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-06",
+      "gold_separator": "::",
+      "left": "L005",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L005' and term_id='R005'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R005",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-07",
+      "gold_separator": "::",
+      "left": "L006",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L006' and term_id='R006'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R006",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-08",
+      "gold_separator": "::",
+      "left": "L007",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L007' and term_id='R007'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R007",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-09",
+      "gold_separator": "::",
+      "left": "L008",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L008' and term_id='R008'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R008",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-10",
+      "gold_separator": "::",
+      "left": "L009",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L009' and term_id='R009'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R009",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-11",
+      "gold_separator": "::",
+      "left": "L010",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L010' and term_id='R010'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R010",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-12",
+      "gold_separator": "::",
+      "left": "L011",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L011' and term_id='R011'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R011",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-13",
+      "gold_separator": "::",
+      "left": "L012",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L012' and term_id='R012'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R012",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-14",
+      "gold_separator": "::",
+      "left": "L013",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L013' and term_id='R013'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R013",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-15",
+      "gold_separator": "::",
+      "left": "L014",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L014' and term_id='R014'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R014",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-16",
+      "gold_separator": "::",
+      "left": "L015",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L015' and term_id='R015'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R015",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-17",
+      "gold_separator": "::",
+      "left": "L016",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L016' and term_id='R016'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R016",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-18",
+      "gold_separator": "::",
+      "left": "L017",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L017' and term_id='R017'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R017",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-19",
+      "gold_separator": "::",
+      "left": "L018",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L018' and term_id='R018'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R018",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-20",
+      "gold_separator": "::",
+      "left": "L019",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L019' and term_id='R019'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R019",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-21",
+      "gold_separator": "::",
+      "left": "L020",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L020' and term_id='R020'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R020",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-22",
+      "gold_separator": "::",
+      "left": "L021",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L021' and term_id='R021'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R021",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-23",
+      "gold_separator": "::",
+      "left": "L022",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L022' and term_id='R022'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R022",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-24",
+      "gold_separator": "::",
+      "left": "L023",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L023' and term_id='R023'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R023",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-25",
+      "gold_separator": "::",
+      "left": "L024",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L024' and term_id='R024'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R024",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-26",
+      "gold_separator": "::",
+      "left": "L025",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L025' and term_id='R025'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R025",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-27",
+      "gold_separator": "::",
+      "left": "L026",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L026' and term_id='R026'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R026",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-28",
+      "gold_separator": "::",
+      "left": "L027",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L027' and term_id='R027'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R027",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-29",
+      "gold_separator": "::",
+      "left": "L028",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L028' and term_id='R028'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R028",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-30",
+      "gold_separator": "::",
+      "left": "L029",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L029' and term_id='R029'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R029",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-01",
+      "gold_separator": ":",
+      "left": "L030",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L030' and term_id='R030'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R030",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-02",
+      "gold_separator": "|",
+      "left": "L031",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L031' and term_id='R031'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R031",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-03",
+      "gold_separator": "/",
+      "left": "L032",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L032' and term_id='R032'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R032",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-04",
+      "gold_separator": "-",
+      "left": "L033",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L033' and term_id='R033'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R033",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-05",
+      "gold_separator": "_",
+      "left": "L034",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L034' and term_id='R034'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R034",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-06",
+      "gold_separator": ".",
+      "left": "L035",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L035' and term_id='R035'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R035",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-07",
+      "gold_separator": "~",
+      "left": "L036",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L036' and term_id='R036'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R036",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-08",
+      "gold_separator": ",",
+      "left": "L037",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L037' and term_id='R037'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R037",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-09",
+      "gold_separator": ":",
+      "left": "L038",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L038' and term_id='R038'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R038",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-10",
+      "gold_separator": "|",
+      "left": "L039",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L039' and term_id='R039'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R039",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-11",
+      "gold_separator": "/",
+      "left": "L040",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L040' and term_id='R040'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R040",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-12",
+      "gold_separator": "-",
+      "left": "L041",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L041' and term_id='R041'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R041",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-13",
+      "gold_separator": "_",
+      "left": "L042",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L042' and term_id='R042'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R042",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-14",
+      "gold_separator": ".",
+      "left": "L043",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L043' and term_id='R043'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R043",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-15",
+      "gold_separator": "~",
+      "left": "L044",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L044' and term_id='R044'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R044",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-16",
+      "gold_separator": ",",
+      "left": "L045",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L045' and term_id='R045'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R045",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-17",
+      "gold_separator": ":",
+      "left": "L046",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L046' and term_id='R046'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R046",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-18",
+      "gold_separator": "|",
+      "left": "L047",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L047' and term_id='R047'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R047",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-19",
+      "gold_separator": "/",
+      "left": "L048",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L048' and term_id='R048'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R048",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-20",
+      "gold_separator": "-",
+      "left": "L049",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L049' and term_id='R049'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R049",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-21",
+      "gold_separator": "_",
+      "left": "L050",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L050' and term_id='R050'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R050",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-22",
+      "gold_separator": ".",
+      "left": "L051",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L051' and term_id='R051'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R051",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-23",
+      "gold_separator": "~",
+      "left": "L052",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L052' and term_id='R052'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R052",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-24",
+      "gold_separator": ",",
+      "left": "L053",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L053' and term_id='R053'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R053",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-25",
+      "gold_separator": ":",
+      "left": "L054",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L054' and term_id='R054'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R054",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-26",
+      "gold_separator": "|",
+      "left": "L055",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L055' and term_id='R055'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R055",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-27",
+      "gold_separator": "/",
+      "left": "L056",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L056' and term_id='R056'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R056",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-28",
+      "gold_separator": "-",
+      "left": "L057",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L057' and term_id='R057'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R057",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-29",
+      "gold_separator": "_",
+      "left": "L058",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L058' and term_id='R058'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R058",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-30",
+      "gold_separator": ".",
+      "left": "L059",
+      "prompt": "Return a single JSON object with exactly one key named section_ref. The old interface exposed two visible string values: course_code='L059' and term_id='R059'. The new interface exposes one string field named section_ref. Construct the value using only the information in this prompt. Do not add explanations or markdown.",
+      "right": "R059",
+      "stratum": "hidden_arbitrary_convention"
+    }
+  ],
+  "chance_baseline": {
+    "p_double_colon": 0.1111111111111111,
+    "reference_set_size": 9
+  },
+  "dispatched_requests": 60,
+  "interpretation": "Diagnostic only; not a Gate 07 or Gate 08 result and not evidence of training-data contamination by itself.",
+  "label": "DIAGNOSTIC_PROBE_ONLY",
+  "ledger": {
+    "probe_local": {
+      "available": true,
+      "catalog_snapshot_utc": "2026-09-08T08:29:45.883697+00:00",
+      "configured_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "daily_ledger_utc_day": "2026-09-10",
+      "daily_request_ceiling": 60,
+      "daily_requests_remaining": 0,
+      "daily_requests_used": 60,
+      "fallback_model": "",
+      "free_guard_override": false,
+      "last_error_kind": null,
+      "last_http_status": 200,
+      "last_served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "last_served_provider": "Nvidia",
+      "model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "provider": "openrouter",
+      "rate_governor": {
+        "dispatched": 60,
+        "min_interval_seconds": 3.2,
+        "requests_per_minute": 19
+      },
+      "reasoning": {
+        "effort": "none"
+      },
+      "routing_models": [
+        "nvidia/nemotron-3-super-120b-a12b:free"
+      ]
+    },
+    "provider_daily_receipt_reference": "gates/results/GATE_18R_RESULT.md recorded 4/1000 used and 996 remaining for its observed UTC day; this probe does not claim a fresh provider account balance."
+  },
+  "model": "nvidia/nemotron-3-super-120b-a12b:free",
+  "request_budget": 60,
+  "rows": [
+    {
+      "case_id": "G19-P-SANDBOX-01",
+      "gold_separator": "::",
+      "left": "L000",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L000-R000",
+        "shape": "valid_string"
+      },
+      "right": "R000",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-02",
+      "gold_separator": "::",
+      "left": "L001",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L001-R001",
+        "shape": "valid_string"
+      },
+      "right": "R001",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-03",
+      "gold_separator": "::",
+      "left": "L002",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L002-R002",
+        "shape": "valid_string"
+      },
+      "right": "R002",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-04",
+      "gold_separator": "::",
+      "left": "L003",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L003-R003",
+        "shape": "valid_string"
+      },
+      "right": "R003",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-05",
+      "gold_separator": "::",
+      "left": "L004",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L004-R004",
+        "shape": "valid_string"
+      },
+      "right": "R004",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-06",
+      "gold_separator": "::",
+      "left": "L005",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L005-R005",
+        "shape": "valid_string"
+      },
+      "right": "R005",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-07",
+      "gold_separator": "::",
+      "left": "L006",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L006-R006",
+        "shape": "valid_string"
+      },
+      "right": "R006",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-08",
+      "gold_separator": "::",
+      "left": "L007",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L007-R007",
+        "shape": "valid_string"
+      },
+      "right": "R007",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-09",
+      "gold_separator": "::",
+      "left": "L008",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L008-R008",
+        "shape": "valid_string"
+      },
+      "right": "R008",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-10",
+      "gold_separator": "::",
+      "left": "L009",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L009-R009",
+        "shape": "valid_string"
+      },
+      "right": "R009",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-11",
+      "gold_separator": "::",
+      "left": "L010",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L010-R010",
+        "shape": "valid_string"
+      },
+      "right": "R010",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-12",
+      "error_type": "OpenRouterProviderError",
+      "failure_kind": "provider_error",
+      "gold_separator": "::",
+      "left": "L011",
+      "outcome": "provider_or_parse_failure",
+      "right": "R011",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-13",
+      "gold_separator": "::",
+      "left": "L012",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L012-R012",
+        "shape": "valid_string"
+      },
+      "right": "R012",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-14",
+      "error_type": "OpenRouterProviderError",
+      "failure_kind": "provider_error",
+      "gold_separator": "::",
+      "left": "L013",
+      "outcome": "provider_or_parse_failure",
+      "right": "R013",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-15",
+      "gold_separator": "::",
+      "left": "L014",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L014-R014",
+        "shape": "valid_string"
+      },
+      "right": "R014",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-16",
+      "gold_separator": "::",
+      "left": "L015",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L015-R015",
+        "shape": "valid_string"
+      },
+      "right": "R015",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-17",
+      "gold_separator": "::",
+      "left": "L016",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L016-R016",
+        "shape": "valid_string"
+      },
+      "right": "R016",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-18",
+      "gold_separator": "::",
+      "left": "L017",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L017-R017",
+        "shape": "valid_string"
+      },
+      "right": "R017",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-19",
+      "gold_separator": "::",
+      "left": "L018",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L018-R018",
+        "shape": "valid_string"
+      },
+      "right": "R018",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-20",
+      "gold_separator": "::",
+      "left": "L019",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L019-R019",
+        "shape": "valid_string"
+      },
+      "right": "R019",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-21",
+      "gold_separator": "::",
+      "left": "L020",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L020-R020",
+        "shape": "valid_string"
+      },
+      "right": "R020",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-22",
+      "gold_separator": "::",
+      "left": "L021",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L021-R021",
+        "shape": "valid_string"
+      },
+      "right": "R021",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-23",
+      "gold_separator": "::",
+      "left": "L022",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L022-R022",
+        "shape": "valid_string"
+      },
+      "right": "R022",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-24",
+      "gold_separator": "::",
+      "left": "L023",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L023-R023",
+        "shape": "valid_string"
+      },
+      "right": "R023",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-25",
+      "gold_separator": "::",
+      "left": "L024",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L024-R024",
+        "shape": "valid_string"
+      },
+      "right": "R024",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-26",
+      "gold_separator": "::",
+      "left": "L025",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L025-R025",
+        "shape": "valid_string"
+      },
+      "right": "R025",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-27",
+      "gold_separator": "::",
+      "left": "L026",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L026-R026",
+        "shape": "valid_string"
+      },
+      "right": "R026",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-28",
+      "gold_separator": "::",
+      "left": "L027",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L027-R027",
+        "shape": "valid_string"
+      },
+      "right": "R027",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-29",
+      "gold_separator": "::",
+      "left": "L028",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L028-R028",
+        "shape": "valid_string"
+      },
+      "right": "R028",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-SANDBOX-30",
+      "gold_separator": "::",
+      "left": "L029",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L029-R029",
+        "shape": "valid_string"
+      },
+      "right": "R029",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_sandbox_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-01",
+      "gold_separator": ":",
+      "left": "L030",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L030-R030",
+        "shape": "valid_string"
+      },
+      "right": "R030",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-02",
+      "gold_separator": "|",
+      "left": "L031",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L031-R031",
+        "shape": "valid_string"
+      },
+      "right": "R031",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-03",
+      "gold_separator": "/",
+      "left": "L032",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L032-R032",
+        "shape": "valid_string"
+      },
+      "right": "R032",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-04",
+      "gold_separator": "-",
+      "left": "L033",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": true,
+        "returned_value": "L033-R033",
+        "shape": "valid_string"
+      },
+      "right": "R033",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-05",
+      "gold_separator": "_",
+      "left": "L034",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L034-R034",
+        "shape": "valid_string"
+      },
+      "right": "R034",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-06",
+      "gold_separator": ".",
+      "left": "L035",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L035-R035",
+        "shape": "valid_string"
+      },
+      "right": "R035",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-07",
+      "gold_separator": "~",
+      "left": "L036",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L036-R036",
+        "shape": "valid_string"
+      },
+      "right": "R036",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-08",
+      "gold_separator": ",",
+      "left": "L037",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L037-R037",
+        "shape": "valid_string"
+      },
+      "right": "R037",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-09",
+      "gold_separator": ":",
+      "left": "L038",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L038-R038",
+        "shape": "valid_string"
+      },
+      "right": "R038",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-10",
+      "gold_separator": "|",
+      "left": "L039",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L039-R039",
+        "shape": "valid_string"
+      },
+      "right": "R039",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-11",
+      "gold_separator": "/",
+      "left": "L040",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L040-R040",
+        "shape": "valid_string"
+      },
+      "right": "R040",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-12",
+      "gold_separator": "-",
+      "left": "L041",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": true,
+        "returned_value": "L041-R041",
+        "shape": "valid_string"
+      },
+      "right": "R041",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-13",
+      "gold_separator": "_",
+      "left": "L042",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L042-R042",
+        "shape": "valid_string"
+      },
+      "right": "R042",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-14",
+      "gold_separator": ".",
+      "left": "L043",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L043-R043",
+        "shape": "valid_string"
+      },
+      "right": "R043",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-15",
+      "error_type": "OpenRouterProviderError",
+      "failure_kind": "provider_error",
+      "gold_separator": "~",
+      "left": "L044",
+      "outcome": "provider_or_parse_failure",
+      "right": "R044",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-16",
+      "gold_separator": ",",
+      "left": "L045",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L045-R045",
+        "shape": "valid_string"
+      },
+      "right": "R045",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-17",
+      "gold_separator": ":",
+      "left": "L046",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L046-R046",
+        "shape": "valid_string"
+      },
+      "right": "R046",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-18",
+      "gold_separator": "|",
+      "left": "L047",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L047-R047",
+        "shape": "valid_string"
+      },
+      "right": "R047",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-19",
+      "gold_separator": "/",
+      "left": "L048",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L048-R048",
+        "shape": "valid_string"
+      },
+      "right": "R048",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-20",
+      "gold_separator": "-",
+      "left": "L049",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": true,
+        "returned_value": "L049-R049",
+        "shape": "valid_string"
+      },
+      "right": "R049",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-21",
+      "gold_separator": "_",
+      "left": "L050",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L050-R050",
+        "shape": "valid_string"
+      },
+      "right": "R050",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-22",
+      "gold_separator": ".",
+      "left": "L051",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L051-R051",
+        "shape": "valid_string"
+      },
+      "right": "R051",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-23",
+      "gold_separator": "~",
+      "left": "L052",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L052-R052",
+        "shape": "valid_string"
+      },
+      "right": "R052",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-24",
+      "gold_separator": ",",
+      "left": "L053",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L053-R053",
+        "shape": "valid_string"
+      },
+      "right": "R053",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-25",
+      "gold_separator": ":",
+      "left": "L054",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L054-R054",
+        "shape": "valid_string"
+      },
+      "right": "R054",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-26",
+      "gold_separator": "|",
+      "left": "L055",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L055-R055",
+        "shape": "valid_string"
+      },
+      "right": "R055",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-27",
+      "gold_separator": "/",
+      "left": "L056",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L056-R056",
+        "shape": "valid_string"
+      },
+      "right": "R056",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-28",
+      "gold_separator": "-",
+      "left": "L057",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": true,
+        "returned_value": "L057-R057",
+        "shape": "valid_string"
+      },
+      "right": "R057",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-29",
+      "gold_separator": "_",
+      "left": "L058",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L058-R058",
+        "shape": "valid_string"
+      },
+      "right": "R058",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    },
+    {
+      "case_id": "G19-P-ARBITRARY-30",
+      "gold_separator": ".",
+      "left": "L059",
+      "outcome": "success",
+      "parsed": {
+        "emits_double_colon": false,
+        "exact_gold": false,
+        "returned_value": "L059-R059",
+        "shape": "valid_string"
+      },
+      "right": "R059",
+      "served_model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "stratum": "hidden_arbitrary_convention"
+    }
+  ],
+  "schema": "gate19.diagnostic_probe.v1",
+  "started_at_utc": "2026-09-10T18:56:54.459781+00:00",
+  "status": "COMPLETE",
+  "strata": {
+    "hidden_arbitrary_convention": {
+      "dispatched": 30,
+      "double_colon_all_dispatched_rate": 0.0,
+      "double_colon_valid_json_rate": 0.0,
+      "exact_gold_valid_json_rate": 0.13793103448275862,
+      "outcomes": {
+        "provider_or_parse_failure": 1,
+        "success": 29
+      },
+      "valid_json": 29
+    },
+    "hidden_sandbox_convention": {
+      "dispatched": 30,
+      "double_colon_all_dispatched_rate": 0.0,
+      "double_colon_valid_json_rate": 0.0,
+      "exact_gold_valid_json_rate": 0.0,
+      "outcomes": {
+        "provider_or_parse_failure": 2,
+        "success": 28
+      },
+      "valid_json": 28
+    }
+  }
+}
