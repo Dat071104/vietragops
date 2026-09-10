@@ -1,0 +1,208 @@
+{
+  "schema": "gate18.protocol.v1",
+  "title": "Close RISK-0026 and deploy the repaired product lane",
+  "gate": "18",
+  "created_utc": "2026-09-10T11:41:06.6474650Z",
+  "scope": {
+    "project": "vietragops-evolve-20260831",
+    "region": "asia-southeast1",
+    "git_root": "D:/Project cua Dat/VietRAGOps/ROOT/VietRagOps",
+    "approved_mutations": [
+      "one roles/iam.serviceAccountTokenCreator binding on vietragops-web-runtime@vietragops-evolve-20260831.iam.gserviceaccount.com for the owner's principal",
+      "write and bind Secret Manager secret OPENROUTER_API_KEY without exposing its value",
+      "build and deploy Cloud Run revisions",
+      "Cloud Run traffic splits"
+    ],
+    "forbidden_mutations": [
+      "scaling, quotas, budgets, billing exports, new services, or other IAM grants",
+      "retrieval or generation source/configuration changes outside the validated build",
+      "golden set, corpus, manifest, chunk store, or research-lane changes",
+      "paid models, paid spend, Groq rotation, .env edits, push, reset, stash, clean, amend, rebase, or force-push"
+    ],
+    "secret_policy": "No secret value, identity token, or billing identifier is written to this artifact or logs."
+  },
+  "entry": {
+    "expected_head": "ed4c9d68c3856b00cb78b7a272c792761def5740",
+    "expected_origin_main": "ed4c9d68c3856b00cb78b7a272c792761def5740",
+    "observed_head": "ed4c9d68c3856b00cb78b7a272c792761def5740",
+    "observed_origin_main": "ed4c9d68c3856b00cb78b7a272c792761def5740",
+    "interpreter": ".venv/Scripts/python.exe",
+    "pytest_command": ".venv\\Scripts\\python.exe -B -m pytest -q --basetemp D:\\Research\\vietragops_gate18_d0_20260910_02",
+    "pytest_basetemp": "D:/Research/vietragops_gate18_d0_20260910_02",
+    "suite_observed": "607 passed, 3 warnings in 532.08s",
+    "warnings_observed": [
+      "websockets.legacy deprecation",
+      "websockets.server.WebSocketServerProtocol deprecation",
+      "pytest cache path WinError 5 ACL warning"
+    ],
+    "overlay_paths_before": 25,
+    "index_paths_before": 0,
+    "overlay_policy": "The exact pre-existing 25 paths below remain unstaged and untouched.",
+    "overlay_path_list": [
+      "AGENTS.md",
+      "PROJECT_STATE.md",
+      "_agent_ops/PROJECT_CONTEXT_CARD.md",
+      "_agent_ops/REPO_MAP.md",
+      "_agent_ops/THIRD_PARTY_TOOLING.md",
+      "skills/implementation-logger/scripts/append_log.py",
+      "skills/project-context-cards/scripts/new_phase_card.py",
+      "skills/rag-eval-harness/scripts/compute_retrieval_metrics.py",
+      "skills/release-quality-gate/scripts/check_required_files.py",
+      "skills/zone-brain/scripts/scan_deps.py",
+      "_agent_ops/archive/",
+      "_agent_ops/env_templates/",
+      "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_03.md",
+      "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_04.md",
+      "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_07.md",
+      "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_07_EXECUTION_PROMPT.md",
+      "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_07_REPAIR_PROMPT.md",
+      "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_08.md",
+      "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_09.md",
+      "_agent_ops/phase_context_cards/evolve_2026_08_26/GATE_10.md",
+      "_agent_ops/tools/check_repo_hygiene.py",
+      "_agent_ops/tools/generate_context_card.py",
+      "_agent_ops/tools/scan_deps.py",
+      "_agent_ops/tools/summarize_implementation_log.py",
+      "gates/results/GATE_07_FIX_PROMPT.md"
+    ]
+  },
+  "live_state_before_mutation": {
+    "observation_boundary": "Read-only Cloud Run, Secret Manager, and IAM observations completed before this protocol commit.",
+    "api": {
+      "service": "vietragops-api",
+      "url": "https://vietragops-api-ohtmo6zgoq-as.a.run.app",
+      "latest_ready_revision": "vietragops-api-rbk09r",
+      "traffic": [
+        {
+          "revision": "vietragops-api-00009-w5j",
+          "percent": 100,
+          "tag": "healthy",
+          "tag_url": "https://healthy---vietragops-api-ohtmo6zgoq-as.a.run.app",
+          "image": "asia-southeast1-docker.pkg.dev/vietragops-evolve-20260831/vietragops/api@sha256:f037b8189c01c13f5c686079c8d3abe86381dcddc0f28950d2b99af4eb816e96",
+          "rollback_digest": "sha256:f037b8189c01c13f5c686079c8d3abe86381dcddc0f28950d2b99af4eb816e96"
+        },
+        {
+          "revision": "vietragops-api-rbk09r",
+          "percent": 0,
+          "tag": "rollbackcandidate",
+          "tag_url": "https://rollbackcandidate---vietragops-api-ohtmo6zgoq-as.a.run.app",
+          "image": "asia-southeast1-docker.pkg.dev/vietragops-evolve-20260831/vietragops/api@sha256:f037b8189c01c13f5c686079c8d3abe86381dcddc0f28950d2b99af4eb816e96"
+        }
+      ],
+      "runtime_shape_observed": {
+        "minScale": 0,
+        "maxScale": 1,
+        "containerConcurrency": 1,
+        "timeoutSeconds": 300,
+        "execution_environment": "gen2"
+      },
+      "env_names": [
+        "GOOGLE_CLOUD_PROJECT",
+        "VIETRAGOPS_STORAGE_BACKEND",
+        "VIETRAGOPS_GCS_BUCKET",
+        "VIETRAGOPS_GCS_BOOTSTRAP_RELEASE",
+        "VIETRAGOPS_GCS_REGISTRY_OBJECT",
+        "VIETRAGOPS_GCS_CACHE_ROOT",
+        "LLM_PROVIDER",
+        "PROVIDER_MODE",
+        "FIRECRAWL_ALLOWED_DOMAINS",
+        "MCP_HOST",
+        "MCP_ALLOWED_HOSTS",
+        "MCP_ALLOWED_ORIGINS",
+        "MCP_CLOUD_IAM",
+        "MCP_REQUIRE_ORIGIN",
+        "MCP_ENABLE_PROTECTED_PROBE_TOOL",
+        "PYTHON_DOTENV_DISABLED",
+        "GROQ_API_KEY",
+        "FIRECRAWL_API_KEY"
+      ],
+      "secret_bindings": [
+        {
+          "env": "GROQ_API_KEY",
+          "secret": "GROQ_API_KEY",
+          "version": "1"
+        },
+        {
+          "env": "FIRECRAWL_API_KEY",
+          "secret": "FIRECRAWL_API_KEY",
+          "version": "1"
+        }
+      ]
+    },
+    "web": {
+      "service": "vietragops-web",
+      "url": "https://vietragops-web-ohtmo6zgoq-as.a.run.app",
+      "latest_ready_revision": "vietragops-web-00002-wp9",
+      "traffic": [
+        {
+          "revision": "vietragops-web-00002-wp9",
+          "percent": 100,
+          "tag": null,
+          "image": "asia-southeast1-docker.pkg.dev/vietragops-evolve-20260831/vietragops/web@sha256:6b7a68f20c17b47321cb94a37dcec13af01a39d9915652c9547efdb37eeb7d4f",
+          "rollback_digest": "sha256:6b7a68f20c17b47321cb94a37dcec13af01a39d9915652c9547efdb37eeb7d4f"
+        }
+      ],
+      "runtime_shape_observed": {
+        "minScale": 0,
+        "maxScale": 2,
+        "containerConcurrency": 1,
+        "timeoutSeconds": 120,
+        "execution_environment": "gen2"
+      },
+      "env_names": [
+        "VIETRAGOPS_API_BASE_URL",
+        "VIETRAGOPS_API_AUTH_MODE",
+        "VIETRAGOPS_DEMO_MODE",
+        "STREAMLIT_SERVER_HEADLESS",
+        "STREAMLIT_BROWSER_GATHER_USAGE_STATS",
+        "PYTHON_DOTENV_DISABLED"
+      ],
+      "secret_bindings": []
+    },
+    "secret_manager_before": {
+      "OPENROUTER_API_KEY": "NOT_FOUND",
+      "GROQ_API_KEY": "version 1 enabled; value not read",
+      "FIRECRAWL_API_KEY": "version 1 enabled; value not read"
+    },
+    "web_runtime_iam_policy_before": "no bindings returned"
+  },
+  "artifact_delivery": {
+    "planned_mechanism": "bake_into_image",
+    "reason": "Dockerfile uses COPY . /app and .dockerignore does not exclude data/chunks/embeddings; this avoids a new startup fetch path and keeps the validated ONNX/vector contract local to the immutable image.",
+    "gcloud_context_constraint": "No .gcloudignore exists and .gitignore excludes data/chunks/embeddings/active, so the build must use an explicit temporary ignore file outside the repository and prove the uploaded file list before build.",
+    "active_artifact_directory": "data/chunks/embeddings/active",
+    "observed_active_artifact_file_count": 6,
+    "observed_active_artifact_bytes": 136493803,
+    "expected_model_id": "intfloat/multilingual-e5-small",
+    "expected_dimension": 384,
+    "expected_normalization": "l2",
+    "expected_chunk_count": 695,
+    "expected_chunk_store_sha256": "0510c68876fc4b9295ba9ffff86bd1816432233f9b265b272e6e26613ba7e130",
+    "expected_embedding_sha256": "9b9fdfb36951a7f0aef4c1ccf0cf4f914533d7cb41b7e0e62a1f52d72cbcc976"
+  },
+  "rollback": {
+    "api_revision": "vietragops-api-00009-w5j",
+    "api_digest": "sha256:f037b8189c01c13f5c686079c8d3abe86381dcddc0f28950d2b99af4eb816e96",
+    "web_revision": "vietragops-web-00002-wp9",
+    "web_digest": "sha256:6b7a68f20c17b47321cb94a37dcec13af01a39d9915652c9547efdb37eeb7d4f",
+    "rollback_commands": [
+      "gcloud run services update-traffic vietragops-api --project=vietragops-evolve-20260831 --region=asia-southeast1 --to-revisions=vietragops-api-00009-w5j=100",
+      "gcloud run services update-traffic vietragops-web --project=vietragops-evolve-20260831 --region=asia-southeast1 --to-revisions=vietragops-web-00002-wp9=100"
+    ],
+    "rule": "If any 0-percent verification or post-promotion check fails, route traffic back before any forward fix."
+  },
+  "planned_validation": {
+    "iam_member": "user:thanhvu.dat@gmail.com",
+    "iam_role": "roles/iam.serviceAccountTokenCreator",
+    "iam_resource": "vietragops-web-runtime@vietragops-evolve-20260831.iam.gserviceaccount.com",
+    "api_checks": ["/health", "/health/ready", "three grounded /ask questions", "one unanswerable /ask refusal"],
+    "mcp_checks": ["authenticated stateless JSON transport", "missing Origin rejected", "wrong Origin rejected", "approved Origin accepted"],
+    "deployment_checks": ["new revisions at 0%", "ONNX dense backend active", "vector-space contract active", "three grounded answers", "one refusal", "latency", "public web end to end"],
+    "provider_policy": "OpenRouter free-only primary/fallback, one key, 1000 UTC-day ledger, fallback only for upstream provider errors and never for 429; research lane unreachable.",
+    "paid_spend_target": "zero"
+  },
+  "protocol_commit": {
+    "commit_required_before_mutation": true,
+    "sha256": "TO_BE_FILLED_AFTER_COMMIT"
+  }
+}
