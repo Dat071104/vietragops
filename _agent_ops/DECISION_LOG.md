@@ -1593,3 +1593,64 @@ The registered Phase A bar passed: selected default ceiling `88/116 >= 83/116`,
 Phase B is permitted by the protocol, but live generation remains blocked until
 the owner chooses the Groq control posture in B3. No provider request is
 authorized by this decision.
+
+## DEC-0038 — Use no Groq control and stop at the B0 metric checkpoint
+
+**Date:** 2026-09-10
+**Status:** ADOPTED — Gate 15 Phase B0 checkpoint
+**Gate:** 15-B
+
+### Decision
+
+Do not obtain a Groq key and do not substitute another control provider. The
+Gate 12-V OpenRouter run is the before/after reference: the same 40 questions,
+the same metric definitions, the same provider, and the same configured models.
+
+The Groq lane cannot run: a single free key produced 67 rate-limit errors in 108
+requests under organization-level OTPM/ITPM limits, and key rotation is
+permanently ruled out (RISK-0009, DEC-0033). It is therefore not a real product
+alternative, and comparing against a lane that cannot serve answers a question
+nobody is asking.
+
+The correct control is **Gate 12-V's own frozen OpenRouter run** — same 40
+questions, same metric definitions, same provider, same models. That is a
+within-provider before/after, which isolates exactly what this arc changed
+(retrieval `top_k` 5->10, the `max_tokens` repair, the client-side fallback
+repair) far more cleanly than a cross-provider comparison ever could.
+
+No Groq spot-check was run; it would not be a control and would not resolve the
+B0 metric or arithmetic checkpoint.
+
+### Consequence
+
+No B4 generation request is authorized yet. The metric audit found a `30.6%`
+disagreement rate between the frozen `token_f1 >= 0.45` decision and strict
+human adjudication (`18/36` human-correct versus `7/36` automated-correct).
+The owner must choose whether to stop for a generation-quality gate or approve
+a declared, committed threshold revision before a fresh B4 protocol.
+
+## DEC-0039 — Propose metric correction; defer threshold revision to owner
+
+**Date:** 2026-09-10
+**Status:** PROPOSED — awaiting owner decision before B4
+**Gate:** 15-B
+
+### Proposed correction
+
+For future generation evaluation, canonicalize numeric runs (`07 -> 7`), strip
+the observed model boilerplate prefix `Theo ngữ cảnh đã truy xuất,`, and report
+both symmetric normalized token-F1 and expected-token containment recall. Use
+hand adjudication as the validation target; do not accept containment alone
+because it overcredits verbose wrong answers.
+
+The B0 audit found `18/36` human-correct, `2/36` partial, `4/36` wrong, and
+`12/36` refused, versus frozen token-F1 correctness `7/36`. The strict human
+rate is `50.0%` versus the original `19.4%`, with `11/36` disagreement.
+
+### Threshold status
+
+No pre-registered Gate 12-V threshold is silently changed here. The new
+retrieval ceiling makes `70%` reachable only under near-perfect generation
+(`75.86%` theoretical ceiling), while the observed conversion projects about
+`24.1%`. The owner must choose whether to stop for a generation-quality gate or
+authorize a written, committed threshold revision before a fresh B4 protocol.

@@ -3564,3 +3564,38 @@ RISK-0026 first and preserve the frozen provider-pinned research lane.
   Two bounded `git -c http.sslBackend=openssl push origin main` attempts
   returned exit 1 with no output; `ls-remote` confirms remote remains
   `86dd77d5ce58857d9330b19df8f8d3e1cacd44e1`. No further retry was made.
+
+## 2026-09-10 — Gate 15 B0 metric audit and no-control decision
+
+- Recorded DEC-0038: no Groq key and no alternate control provider. Gate 12-V's
+  frozen OpenRouter run is the within-provider before/after reference. No Groq
+  spot-check and no generation request were made.
+- Read the exact frozen metric: NFKC + whitespace collapse + casefold + Unicode
+  `\\w+` tokenization, multiset token-F1, threshold `0.45`. Vietnamese
+  diacritics are retained; numeric padding is not normalized.
+- On the 36 answerable rows, 28 contain a number in the answer or expectation;
+  `token_f1('07','7')` and `token_f1('02','2')` are both `0.0`, while numeric
+  canonicalization makes both `1.0`. Ten rows begin with the exact
+  `Theo ngữ cảnh đã truy xuất,` prefix; stripping it changes mean F1 by only
+  `+0.006638` on those rows. Numeric normalization changes the all-row mean
+  from `0.223210` to `0.226775`; both corrections together produce
+  normalized-F1 mean `0.228619`.
+- Verbosity is materially confounded: among 24 non-empty answers, Pearson
+  correlation between answer token length and raw token-F1 is `-0.686026`.
+  Mean raw F1 by increasing length bins (n=6 each) is `.561286`, `.455518`,
+  `.219279`, `.103174`.
+- Hand-adjudicated all 36 answerable rows: `18 correct`, `2 partial`, `4 wrong`,
+  `12 refused`. The frozen automated decision is `7/36`; all seven are
+  human-correct, but 11 human-correct rows fall below `0.45`, producing
+  disagreement `11/36 = 30.6%` and zero false positives.
+- Proposed corrected audit metric, written before applying it: canonicalize
+  numeric runs (`07 -> 7`) and strip the exact boilerplate prefix, then report
+  both symmetric normalized token-F1 and expected-token containment recall.
+  Containment is diagnostic only until validated: it overcredits verbose wrong
+  answers such as `dev_q008` and `gold_credit_requirement_023`.
+- Arithmetic checkpoint: perfect generation cannot exceed the dense top-10
+  retrieval ceiling `88/116 = 75.86%`, which is above the frozen `70%` bar in
+  principle. Applying the observed Gate 12-V conversion ratio
+  `0.194444/0.612069 = 31.8%` projects only `24.1%` at the new ceiling;
+  Nemotron served-only correctness was independently `6/25 = 24.0%`. B4 is
+  therefore not expected to reach `70%` under observed provider behavior.

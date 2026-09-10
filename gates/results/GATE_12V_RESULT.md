@@ -278,3 +278,35 @@ Final unchanged-suite receipt after the gate-owned runner/metrics and records:
 `.venv\Scripts\python.exe -m pytest -q --basetemp=<external dir>` returned
 **591 passed, 3 warnings** in **658.03s**. Production behavior remained
 unchanged.
+
+## Addendum — Gate 15 B0 metric-validity audit (2026-09-10)
+
+This addendum preserves the original Gate 12-V result and does not rescore or
+rewrite its frozen run. The full audit is recorded in
+`gates/results/GATE_15B_RESULT.md`, under Gate 15 protocol SHA-256
+`6feb4d7cbd5bf38b44adde252bda9adc8075dcfd3efef51cd4c0e839c5f20c0e`.
+
+The exact `token_f1` implementation is multiset F1 over NFKC-normalized,
+whitespace-collapsed, casefolded Unicode `\w+` tokens. Vietnamese diacritics
+are retained and numeric zero-padding is not normalized. On the 36 answerable
+OpenRouter rows, 28 contain a number in the answer or expectation; `07` vs `7`
+and `02` vs `2` score `0.0` under the frozen metric. Ten answers begin with
+`Theo ngữ cảnh đã truy xuất,`; stripping that model-generated prefix improves
+their mean F1 by `0.006638`. Among 24 non-empty answers, answer length and F1
+have Pearson correlation `-0.686026`.
+
+Hand adjudication of all 36 rows gives `18/36` correct, `2/36` partial, `4/36`
+wrong, and `12/36` refused. The frozen automated threshold gives `7/36 =
+19.4%`; all seven are human-correct, but it misses 11 human-correct answers.
+Disagreement is `11/36 = 30.6%` (zero false positives). The corrected,
+human-validated OpenRouter correctness is therefore `18/36 = 50.0%` (Wilson
+95% `0.344741–0.655259`) versus the original `19.4%` (Wilson
+`0.097530–0.350284`). This is a measurement correction, not a change to the
+dataset or the original Gate 12-V decision.
+
+The proposed automated follow-up metric canonicalizes digit runs and strips
+the observed prefix, then reports symmetric normalized F1 alongside
+expected-token containment recall. Containment is not accepted as ground truth
+yet because it overcredits verbose wrong answers; human adjudication remains
+the validation target. Gate 15 B0 therefore pauses before B4 and asks the owner
+to resolve the threshold/generation-quality decision.
