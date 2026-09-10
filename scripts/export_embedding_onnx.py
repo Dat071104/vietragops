@@ -12,6 +12,7 @@ from datetime import datetime, timezone
 import json
 from pathlib import Path
 import shutil
+import time
 from typing import Any
 
 
@@ -101,7 +102,11 @@ def _write_metadata(
         "schema_version": 1,
         "model_id": args.model,
         "model_revision": args.revision,
-        "dimension": int(model.get_sentence_embedding_dimension()),
+        "dimension": int(
+            model.get_embedding_dimension()
+            if hasattr(model, "get_embedding_dimension")
+            else model.get_sentence_embedding_dimension()
+        ),
         "max_seq_length": int(model.max_seq_length),
         "pooling": "mean",
         "normalized": True,
@@ -135,6 +140,7 @@ def _size(path: Path) -> int:
 
 def main(argv: list[str] | None = None) -> None:
     args = parse_args(argv)
+    started = time.perf_counter()
     output_root = Path(args.output_dir)
     output_root.mkdir(parents=True, exist_ok=True)
     model = _load_sentence_transformer(args.model, args.revision)
@@ -158,6 +164,7 @@ def main(argv: list[str] | None = None) -> None:
         "model_id": args.model,
         "dimension": fp32_metadata["dimension"],
         "max_seq_length": max_seq_length,
+        "export_wall_clock_seconds": None,
         "fp32": {"directory": str(fp32_dir), "model_bytes": _size(fp32_path)},
     }
     if args.quantize:
@@ -175,6 +182,7 @@ def main(argv: list[str] | None = None) -> None:
             tokenizer_metadata=tokenizer_metadata,
         )
         result["int8"] = {"directory": str(int8_dir), "model_bytes": _size(int8_path)}
+    result["export_wall_clock_seconds"] = round(time.perf_counter() - started, 3)
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 

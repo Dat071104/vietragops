@@ -4,7 +4,7 @@ import pytest
 
 from rag.retrieval import BM25Retriever, ChunkIndexStore, DenseRetriever, HybridRetriever
 import rag.retrieval.dense_retriever as dense_retriever_module
-from rag.retrieval.dense_retriever import VectorSpaceMismatchError
+from rag.retrieval.dense_retriever import DenseConfig, PRODUCT_MODEL_NAME, VectorSpaceMismatchError
 
 
 def make_store() -> ChunkIndexStore:
@@ -70,6 +70,10 @@ def test_dense_retriever_fallback_returns_semanticish_match():
     results = retriever.retrieve("Đăng nhập email trường bằng tài khoản sinh viên", top_k=2)
     assert results
     assert results[0].chunk_id == "student_email_chunk"
+
+
+def test_dense_default_model_is_the_registered_gate14r_winner():
+    assert DenseConfig().model_name == PRODUCT_MODEL_NAME == "intfloat/multilingual-e5-small"
 
 
 def test_dense_backend_available_is_selected_and_reported(monkeypatch):

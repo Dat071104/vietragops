@@ -20,11 +20,13 @@ logger = logging.getLogger(__name__)
 
 _DENSE_BACKEND_FAILURES = (ImportError, OSError, RuntimeError, TypeError, ValueError)
 DEFAULT_ONNX_ARTIFACT_DIR = Path("data/chunks/embeddings/active")
+INCUMBENT_MODEL_NAME = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+PRODUCT_MODEL_NAME = "intfloat/multilingual-e5-small"
 
 
 @dataclass(frozen=True)
 class DenseConfig:
-    model_name: str = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+    model_name: str = PRODUCT_MODEL_NAME
     local_files_only: bool = True
     onnx_artifact_dir: str | Path | None = None
     model_revision: str | None = None
