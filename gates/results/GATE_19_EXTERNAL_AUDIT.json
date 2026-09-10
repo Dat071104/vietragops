@@ -1,0 +1,407 @@
+{
+  "audit": {
+    "criterion": "Target and every construction step must be derivable from the declared information rights.",
+    "families": {
+      "external_mcp_version_pairs": {
+        "case_count": 20,
+        "convention_case_count": 0,
+        "convention_case_ids": [],
+        "convention_case_share": 0.0,
+        "max_attainable_recall": 1.0,
+        "pairs": 20,
+        "status_counts": {
+          "REACHABLE": 20,
+          "UNREACHABLE-CONVENTION-UNOBSERVABLE": 0,
+          "UNREACHABLE-TARGET-ABSENT": 0
+        },
+        "unreachable_pairs": 0,
+        "unreachable_share": 0.0
+      }
+    },
+    "item_count": 20,
+    "items": [
+      {
+        "case_id": "MCP-S-001",
+        "derivation": {
+          "kind": "visible_literal"
+        },
+        "family": "external_mcp_version_pairs",
+        "item_id": "MCP-S-001",
+        "new_arg": "nextThoughtNeeded",
+        "new_tool": "sequentialthinking",
+        "old_arg": null,
+        "old_tool": null,
+        "reason": "target literal is present in the method-visible surface",
+        "source_values": [],
+        "status": "REACHABLE",
+        "target_field_declared": true,
+        "target_value": "required"
+      },
+      {
+        "case_id": "MCP-S-002",
+        "derivation": {
+          "reason": "The changed output construction is visible in the public source diff and tests.",
+          "status": "observable"
+        },
+        "family": "external_mcp_version_pairs",
+        "item_id": "MCP-S-002",
+        "new_arg": "output_record_fields",
+        "new_tool": "git_log",
+        "old_arg": null,
+        "old_tool": null,
+        "reason": "The changed output construction is visible in the public source diff and tests.",
+        "source_values": [],
+        "status": "REACHABLE",
+        "target_field_declared": true,
+        "target_value": [
+          "Commit",
+          "Author",
+          "Date",
+          "Message"
+        ]
+      },
+      {
+        "case_id": "MCP-S-003",
+        "derivation": {
+          "reason": "Both the nesting change and removed field are explicit in the public diff.",
+          "status": "observable"
+        },
+        "family": "external_mcp_version_pairs",
+        "item_id": "MCP-S-003",
+        "new_arg": "params.task",
+        "new_tool": "sampling/createMessage",
+        "old_arg": null,
+        "old_tool": null,
+        "reason": "Both the nesting change and removed field are explicit in the public diff.",
+        "source_values": [],
+        "status": "REACHABLE",
+        "target_field_declared": true,
+        "target_value": "ttl-only task metadata"
+      },
+      {
+        "case_id": "MCP-S-004",
+        "derivation": {
+          "reason": "The coercion implementation and accepted values are directly visible in the public source.",
+          "status": "observable"
+        },
+        "family": "external_mcp_version_pairs",
+        "item_id": "MCP-S-004",
+        "new_arg": "input_coercion",
+        "new_tool": "sequentialthinking",
+        "old_arg": null,
+        "old_tool": null,
+        "reason": "The coercion implementation and accepted values are directly visible in the public source.",
+        "source_values": [],
+        "status": "REACHABLE",
+        "target_field_declared": true,
+        "target_value": [
+          "thoughtNumber",
+          "totalThoughts",
+          "nextThoughtNeeded"
+        ]
+      },
+      {
+        "case_id": "MCP-S-005",
+        "derivation": {
+          "reason": "The new contract literal is in the public source and the public structure document is updated.",
+          "status": "observable"
+        },
+        "family": "external_mcp_version_pairs",
+        "item_id": "MCP-S-005",
+        "new_arg": "tool_annotations",
+        "new_tool": "get-annotated-message",
+        "old_arg": null,
+        "old_tool": null,
+        "reason": "The new contract literal is in the public source and the public structure document is updated.",
+        "source_values": [],
+        "status": "REACHABLE",
+        "target_field_declared": true,
+        "target_value": [
+          "readOnlyHint",
+          "destructiveHint",
+          "idempotentHint",
+          "openWorldHint"
+        ]
+      },
+      {
+        "case_id": "MCP-S-006",
+        "derivation": {
+          "kind": "visible_literal"
+        },
+        "family": "external_mcp_version_pairs",
+        "item_id": "MCP-S-006",
+        "new_arg": "tool_registration",
+        "new_tool": "trigger-sampling-request-async",
+        "old_arg": null,
+        "old_tool": null,
+        "reason": "target literal is present in the method-visible surface",
+        "source_values": [],
+        "status": "REACHABLE",
+        "target_field_declared": true,
+        "target_value": "trigger-sampling-request-async"
+      },
+      {
+        "case_id": "MCP-S-007",
+        "derivation": {
+          "kind": "visible_literal"
+        },
+        "family": "external_mcp_version_pairs",
+        "item_id": "MCP-S-007",
+        "new_arg": "tool_registration",
+        "new_tool": "trigger-elicitation-request-async",
+        "old_arg": null,
+        "old_tool": null,
+        "reason": "target literal is present in the method-visible surface",
+        "source_values": [],
+        "status": "REACHABLE",
+        "target_field_declared": true,
+        "target_value": "trigger-elicitation-request-async"
+      },
+      {
+        "case_id": "MCP-S-008",
+        "derivation": {
+          "kind": "visible_literal"
+        },
+        "family": "external_mcp_version_pairs",
+        "item_id": "MCP-S-008",
+        "new_arg": "tool_registration",
+        "new_tool": "simulate-research-query",
+        "old_arg": null,
+        "old_tool": null,
+        "reason": "target literal is present in the method-visible surface",
+        "source_values": [],
+        "status": "REACHABLE",
+        "target_field_declared": true,
+        "target_value": "simulate-research-query"
+      },
+      {
+        "case_id": "MCP-S-009",
+        "derivation": {
+          "kind": "visible_literal"
+        },
+        "family": "external_mcp_version_pairs",
+        "item_id": "MCP-S-009",
+        "new_arg": "resource_registration",
+        "new_tool": "memory_resource",
+        "old_arg": null,
+        "old_tool": null,
+        "reason": "target literal is present in the method-visible surface",
+        "source_values": [],
+        "status": "REACHABLE",
+        "target_field_declared": true,
+        "target_value": "knowledge-graph resource"
+      },
+      {
+        "case_id": "MCP-S-010",
+        "derivation": {
+          "reason": "The metadata literals are present in the public source diff.",
+          "status": "observable"
+        },
+        "family": "external_mcp_version_pairs",
+        "item_id": "MCP-S-010",
+        "new_arg": "tool_annotations",
+        "new_tool": "knowledge_graph_tools",
+        "old_arg": null,
+        "old_tool": null,
+        "reason": "The metadata literals are present in the public source diff.",
+        "source_values": [],
+        "status": "REACHABLE",
+        "target_field_declared": true,
+        "target_value": [
+          "readOnlyHint",
+          "destructiveHint",
+          "idempotentHint",
+          "openWorldHint"
+        ]
+      },
+      {
+        "case_id": "MCP-S-011",
+        "derivation": {
+          "reason": "The new annotation is a public contract literal in the changed source.",
+          "status": "observable"
+        },
+        "family": "external_mcp_version_pairs",
+        "item_id": "MCP-S-011",
+        "new_arg": "openWorldHint",
+        "new_tool": "filesystem_tools",
+        "old_arg": null,
+        "old_tool": null,
+        "reason": "The new annotation is a public contract literal in the changed source.",
+        "source_values": [],
+        "status": "REACHABLE",
+        "target_field_declared": true,
+        "target_value": true
+      },
+      {
+        "case_id": "MCP-S-012",
+        "derivation": {
+          "reason": "The output object shape and tests are explicit in the public new source.",
+          "status": "observable"
+        },
+        "family": "external_mcp_version_pairs",
+        "item_id": "MCP-S-012",
+        "new_arg": "content_type",
+        "new_tool": "read_media_file",
+        "old_arg": null,
+        "old_tool": null,
+        "reason": "The output object shape and tests are explicit in the public new source.",
+        "source_values": [],
+        "status": "REACHABLE",
+        "target_field_declared": true,
+        "target_value": "MCP image/audio content item"
+      },
+      {
+        "case_id": "MCP-S-013",
+        "derivation": {
+          "reason": "The full description text is visible in the old/new source pair.",
+          "status": "observable"
+        },
+        "family": "external_mcp_version_pairs",
+        "item_id": "MCP-S-013",
+        "new_arg": "description",
+        "new_tool": "get_current_time",
+        "old_arg": null,
+        "old_tool": null,
+        "reason": "The full description text is visible in the old/new source pair.",
+        "source_values": [],
+        "status": "REACHABLE",
+        "target_field_declared": true,
+        "target_value": "updated description literal"
+      },
+      {
+        "case_id": "MCP-S-014",
+        "derivation": {
+          "reason": "The changed error policy is explicit in source and regression tests.",
+          "status": "observable"
+        },
+        "family": "external_mcp_version_pairs",
+        "item_id": "MCP-S-014",
+        "new_arg": "destination_collision_policy",
+        "new_tool": "move_file",
+        "old_arg": null,
+        "old_tool": null,
+        "reason": "The changed error policy is explicit in source and regression tests.",
+        "source_values": [],
+        "status": "REACHABLE",
+        "target_field_declared": true,
+        "target_value": "reject_existing_destination"
+      },
+      {
+        "case_id": "MCP-S-015",
+        "derivation": {
+          "reason": "The changed batch behavior is explicit in public source and tests.",
+          "status": "observable"
+        },
+        "family": "external_mcp_version_pairs",
+        "item_id": "MCP-S-015",
+        "new_arg": "duplicate_policy",
+        "new_tool": "create_entities",
+        "old_arg": null,
+        "old_tool": null,
+        "reason": "The changed batch behavior is explicit in public source and tests.",
+        "source_values": [],
+        "status": "REACHABLE",
+        "target_field_declared": true,
+        "target_value": "skip_duplicate_entities_and_relations"
+      },
+      {
+        "case_id": "MCP-S-016",
+        "derivation": {
+          "reason": "The constant and schema constraint are explicit in the new source.",
+          "status": "observable"
+        },
+        "family": "external_mcp_version_pairs",
+        "item_id": "MCP-S-016",
+        "new_arg": "query.maxLength",
+        "new_tool": "search_nodes",
+        "old_arg": null,
+        "old_tool": null,
+        "reason": "The constant and schema constraint are explicit in the new source.",
+        "source_values": [],
+        "status": "REACHABLE",
+        "target_field_declared": true,
+        "target_value": 2048
+      },
+      {
+        "case_id": "MCP-S-017",
+        "derivation": {
+          "reason": "The validation and skip behavior is explicit in the new source and tests.",
+          "status": "observable"
+        },
+        "family": "external_mcp_version_pairs",
+        "item_id": "MCP-S-017",
+        "new_arg": "invalid_entry_policy",
+        "new_tool": "read_graph",
+        "old_arg": null,
+        "old_tool": null,
+        "reason": "The validation and skip behavior is explicit in the new source and tests.",
+        "source_values": [],
+        "status": "REACHABLE",
+        "target_field_declared": true,
+        "target_value": "skip_invalid_entries"
+      },
+      {
+        "case_id": "MCP-S-018",
+        "derivation": {
+          "reason": "The response fields and README wording are explicit in the new source.",
+          "status": "observable"
+        },
+        "family": "external_mcp_version_pairs",
+        "item_id": "MCP-S-018",
+        "new_arg": "deletion_report",
+        "new_tool": "delete_entities",
+        "old_arg": null,
+        "old_tool": null,
+        "reason": "The response fields and README wording are explicit in the new source.",
+        "source_values": [],
+        "status": "REACHABLE",
+        "target_field_declared": true,
+        "target_value": "matched_and_not_found_report"
+      },
+      {
+        "case_id": "MCP-S-019",
+        "derivation": {
+          "reason": "The path rule and tests are explicit in the public new source.",
+          "status": "observable"
+        },
+        "family": "external_mcp_version_pairs",
+        "item_id": "MCP-S-019",
+        "new_arg": "MEMORY_FILE_PATH",
+        "new_tool": "memory_configuration",
+        "old_arg": null,
+        "old_tool": null,
+        "reason": "The path rule and tests are explicit in the public new source.",
+        "source_values": [],
+        "status": "REACHABLE",
+        "target_field_declared": true,
+        "target_value": "leading_tilde_expansion"
+      },
+      {
+        "case_id": "MCP-S-020",
+        "derivation": {
+          "reason": "The validation conditions, error type, and tests are explicit in the public diff.",
+          "status": "observable"
+        },
+        "family": "external_mcp_version_pairs",
+        "item_id": "MCP-S-020",
+        "new_arg": "argument_validation",
+        "new_tool": "git_log",
+        "old_arg": null,
+        "old_tool": null,
+        "reason": "The validation conditions, error type, and tests are explicit in the public diff.",
+        "source_values": [],
+        "status": "REACHABLE",
+        "target_field_declared": true,
+        "target_value": "reject_leading_dash_values"
+      }
+    ],
+    "rights_schema": "gate19.information_rights.v1",
+    "schema": "gate19.oracle_reachability_audit.v1"
+  },
+  "limitation": "This is a hand-verified source-pair sample, not a claim about prevalence across all MCP servers. A zero unreachable count does not validate the local defect externally; it records that this sample did not reproduce it under the declared naive rights.",
+  "pair_count": 20,
+  "register": "gates/baselines/GATE_19_EXTERNAL_MCP_PAIRS.json",
+  "register_sha256": "bcb05f2f2c1d08a6c24fda2f2322108567b2e8c726a962ada406078f0e2166dc",
+  "repository": "https://github.com/modelcontextprotocol/servers",
+  "schema": "gate19.external_mcp_audit.v1"
+}
