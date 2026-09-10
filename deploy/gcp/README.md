@@ -135,6 +135,47 @@ python scripts/gcs_bootstrap.py `
 
 The API must not start in GCS mode until this release exists.
 
+## Corpus-bound build gate
+
+The API image must be built from the same immutable corpus release that the
+service reads from GCS. A bare local `data/chunks/chunks_500.jsonl` is not an
+acceptable build input. The host-side check below is mandatory and must pass
+before `gcloud builds submit` is invoked:
+
+```powershell
+$releaseId = "<active-release-id>"
+$releaseDir = "D:\Research\vietragops_release_$releaseId"
+New-Item -ItemType Directory -Path $releaseDir
+gcloud storage cp "gs://vietragops-evolve-20260831-vietragops-data/releases/$releaseId/release.json" "$releaseDir\release.json"
+gcloud storage cp "gs://vietragops-evolve-20260831-vietragops-data/releases/$releaseId/manifest.csv" "$releaseDir\manifest.csv"
+gcloud storage cp "gs://vietragops-evolve-20260831-vietragops-data/releases/$releaseId/chunks_500.jsonl" "$releaseDir\chunks_500.jsonl"
+
+& .venv\Scripts\python.exe -B -m scripts.verify_vector_artifact `
+  --artifact-dir data\chunks\embeddings\active `
+  --release-dir $releaseDir `
+  --model-id intfloat/multilingual-e5-small `
+  --model-revision 614241f622f53c4eeff9890bdc4f31cfecc418b3
+```
+
+Prepare a new external context from the committed `HEAD`; this injects the
+verified release and rebuilt artifact without staging the repository's dirty
+overlay:
+
+```powershell
+$contextDir = "D:\Research\vietragops_api_build_context_$sourceCommit"
+& .venv\Scripts\python.exe -B -m scripts.prepare_api_build_context `
+  --source-root (Get-Location) `
+  --release-dir $releaseDir `
+  --artifact-dir data\chunks\embeddings\active `
+  --output-dir $contextDir `
+  --model-id intfloat/multilingual-e5-small `
+  --model-revision 614241f622f53c4eeff9890bdc4f31cfecc418b3
+```
+
+`Dockerfile` repeats the same verification and fails closed when the release
+bundle is absent or mismatched. Therefore skipping the host-side command is
+not silent: an ordinary repository context cannot pass the image build.
+
 ## Build and deploy
 
 Build from the exact validated source commit. Use an immutable Git tag and
@@ -142,7 +183,7 @@ record the resulting image digest. Do not use `latest`:
 
 ```powershell
 $image = "$region-docker.pkg.dev/$projectId/vietragops/api:git-$sourceCommit"
-gcloud builds submit --project $projectId --tag $image .
+gcloud builds submit --project $projectId --tag $image $contextDir
 gcloud artifacts docker tags add $image `
   "$region-docker.pkg.dev/$projectId/vietragops/web:git-$sourceCommit"
 gcloud artifacts docker images describe $image --format="value(image_summary.digest)"

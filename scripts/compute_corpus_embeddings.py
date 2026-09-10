@@ -19,12 +19,19 @@ import numpy as np
 import onnxruntime as ort
 from tokenizers import Tokenizer
 
+from rag.retrieval.release_bundle import load_corpus_release
+
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Compute normalized corpus vectors with an ONNX encoder.")
-    parser.add_argument("--chunks", required=True)
+    parser.add_argument(
+        "--release-dir",
+        required=True,
+        help="Verified local copy of one immutable release.json/manifest.csv/chunks_500.jsonl bundle.",
+    )
     parser.add_argument("--encoder-dir", required=True, help="Self-contained fp32 or int8 export directory.")
     parser.add_argument("--output-dir", required=True)
+    parser.add_argument("--model-revision", required=True, help="Immutable model snapshot revision used by the encoder.")
     parser.add_argument("--batch-size", type=int, default=32)
     return parser.parse_args(argv)
 
@@ -65,12 +72,23 @@ def _encode_batch(
 
 def main(argv: list[str] | None = None) -> None:
     args = parse_args(argv)
-    chunks_path = Path(args.chunks)
+    total_started = time.perf_counter()
+    release = load_corpus_release(args.release_dir)
+    chunks_path = release.chunks_path
     encoder_dir = Path(args.encoder_dir)
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     metadata = json.loads((encoder_dir / "metadata.json").read_text(encoding="utf-8"))
+    if not isinstance(args.model_revision, str) or not args.model_revision.strip():
+        raise ValueError("--model-revision must be a non-empty immutable model revision")
+    encoder_revision = metadata.get("model_revision")
+    if encoder_revision not in (None, args.model_revision):
+        raise ValueError(
+            f"encoder metadata model revision {encoder_revision!r} does not match --model-revision {args.model_revision!r}"
+        )
     chunks = _load_chunks(chunks_path)
+    if len(chunks) != len(release.store):
+        raise ValueError("release chunk rows changed between validation and embedding materialization")
 
     tokenizer = Tokenizer.from_file(str(encoder_dir / metadata["tokenizer_file"]))
     tokenizer.enable_truncation(max_length=int(metadata["max_seq_length"]))
@@ -104,11 +122,18 @@ def main(argv: list[str] | None = None) -> None:
         "embeddings_file": "embeddings.npy",
         "chunk_ids_file": "chunk_ids.json",
         "chunk_count": len(chunks),
-        "chunk_store_sha256": _sha256(chunks_path),
+        "corpus_release_id": release.release_id,
+        "corpus_release_metadata_sha256": _sha256(release.metadata_path),
+        "corpus_chunks_object": release.metadata["chunks_object"],
+        "corpus_manifest_object": release.metadata["manifest_object"],
+        "corpus_manifest_sha256": release.manifest_sha256,
+        "model_revision": args.model_revision,
+        "chunk_store_sha256": release.chunks_sha256,
         "chunk_ids_sha256": hashlib.sha256("\n".join(chunk_ids).encode("utf-8")).hexdigest(),
         "embedding_sha256": _sha256(output_dir / "embeddings.npy"),
         "materialized_at": datetime.now(timezone.utc).isoformat(),
         "materialization_seconds": round(time.perf_counter() - started, 3),
+        "wall_clock_seconds": round(time.perf_counter() - total_started, 3),
     }
     (output_dir / "metadata.json").write_text(
         json.dumps(result_metadata, ensure_ascii=False, indent=2) + "\n",
@@ -121,9 +146,13 @@ def main(argv: list[str] | None = None) -> None:
                 "model_id": result_metadata["model_id"],
                 "precision": result_metadata["precision"],
                 "dimension": result_metadata["dimension"],
+                "model_revision": result_metadata["model_revision"],
+                "corpus_release_id": result_metadata["corpus_release_id"],
+                "chunk_store_sha256": result_metadata["chunk_store_sha256"],
                 "chunk_count": len(chunks),
                 "embedding_bytes": (output_dir / "embeddings.npy").stat().st_size,
                 "wall_clock_seconds": result_metadata["materialization_seconds"],
+                "total_wall_clock_seconds": result_metadata["wall_clock_seconds"],
             },
             ensure_ascii=False,
             indent=2,

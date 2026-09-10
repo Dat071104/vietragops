@@ -22,6 +22,7 @@ _DENSE_BACKEND_FAILURES = (ImportError, OSError, RuntimeError, TypeError, ValueE
 DEFAULT_ONNX_ARTIFACT_DIR = Path("data/chunks/embeddings/active")
 INCUMBENT_MODEL_NAME = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 PRODUCT_MODEL_NAME = "intfloat/multilingual-e5-small"
+PRODUCT_MODEL_REVISION = "614241f622f53c4eeff9890bdc4f31cfecc418b3"
 
 
 @dataclass(frozen=True)
@@ -29,7 +30,7 @@ class DenseConfig:
     model_name: str = PRODUCT_MODEL_NAME
     local_files_only: bool = True
     onnx_artifact_dir: str | Path | None = None
-    model_revision: str | None = None
+    model_revision: str | None = PRODUCT_MODEL_REVISION
 
 
 class VectorSpaceMismatchError(ValueError):
