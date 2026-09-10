@@ -1,0 +1,140 @@
+{
+  "schema": "gate15b.protocol.v1",
+  "gate": "15-B",
+  "title": "Within-provider OpenRouter paired re-run after retrieval, token-budget, and client-fallback repairs",
+  "created_at_utc": "2026-09-10",
+  "parent_gate15_protocol_sha256": "6feb4d7cbd5bf38b44adde252bda9adc8075dcfd3efef51cd4c0e839c5f20c0e",
+  "gate12v_protocol_sha256": "sha256:f6c2993b9f437095e7d65a69bac9997a66a515f1ec8cee25f557b3f81b3344f9",
+  "entry": {
+    "head": "eb1b0d3f69548474b332ec457f18e837183c9b03",
+    "origin_main": "eb1b0d3f69548474b332ec457f18e837183c9b03",
+    "overlay_paths": 25,
+    "index_paths": 0,
+    "suite_baseline": "603 passed, 3 warnings",
+    "interpreter": ".venv\\Scripts\\python.exe",
+    "pytest_policy": "Always use an external --basetemp."
+  },
+  "scope": {
+    "provider": "openrouter only",
+    "groq_control": false,
+    "control": "Gate 12-V frozen OpenRouter run: same 40 questions, same provider, same configured models.",
+    "paid_models": false,
+    "gcp_calls": false,
+    "deployment": false,
+    "secret_reads_or_edits": false,
+    "research_lane_invoked": false,
+    "dataset_corpus_manifest_chunk_store_mutation": false,
+    "agent_mcp_path": false
+  },
+  "b3_decision": {
+    "status": "ADOPTED",
+    "reasoning": "The Groq lane cannot run: a single free key produced 67 rate-limit errors in 108 requests under organization-level OTPM/ITPM limits, and key rotation is permanently ruled out (RISK-0009, DEC-0033). It is therefore not a real product alternative, and comparing against a lane that cannot serve answers a question nobody is asking. The correct control is Gate 12-V's own frozen OpenRouter run — same 40 questions, same metric definitions, same provider, same models. That is a within-provider before/after, which isolates exactly what this arc changed (retrieval top_k 5→10, the max_tokens repair, the client-side fallback repair) far more cleanly than a cross-provider comparison ever could.",
+    "spot_check": "Skipped; no Groq request is a control in this protocol."
+  },
+  "sample": {
+    "source_protocol": "gates/baselines/GATE_12V_PROTOCOL.json",
+    "source_sample_size": 40,
+    "question_ids_sha256": "170d3201cf97f796732d8d462367d224033b08bdf45bc3cd4036c853dcd79c49",
+    "question_ids": [
+      "dev_q002", "dev_q003", "dev_q006", "dev_q008", "dev_q012", "dev_q014", "dev_q016", "dev_q017", "dev_q018", "dev_q019", "dev_q020",
+      "gold_academic_schedule_007", "gold_credit_requirement_001", "gold_credit_requirement_023", "gold_credit_requirement_058", "gold_credit_requirement_085", "gold_credit_requirement_096",
+      "gold_curriculum_structure_006", "gold_curriculum_structure_011", "gold_curriculum_structure_013", "gold_curriculum_structure_020", "gold_curriculum_structure_049",
+      "gold_manual_002", "gold_manual_003", "gold_manual_004", "gold_manual_005", "gold_policy_exception_012", "gold_student_account_001",
+      "gold_training_regulation_052", "gold_training_regulation_067", "gold_training_regulation_068", "gold_training_regulation_070", "gold_training_regulation_071", "gold_training_regulation_104",
+      "gold_training_regulation_153", "gold_training_regulation_163", "gold_training_regulation_197", "gold_training_regulation_222", "gold_training_regulation_233", "gold_training_regulation_237"
+    ],
+    "expected_answer_used_before_run": false,
+    "unanswerable_count": 4,
+    "answerable_count": 36
+  },
+  "product_path": {
+    "entrypoint": "app.api.routes_query.ask",
+    "top_k": 10,
+    "retriever": "ONNX E5-small int8 product path",
+    "guardrails": true,
+    "debug": true,
+    "research_mode": false,
+    "no_agent_or_mcp_path": true
+  },
+  "provider_configuration": {
+    "primary": "nvidia/nemotron-3-super-120b-a12b:free",
+    "fallback": "google/gemma-4-31b-it:free",
+    "temperature": 0.1,
+    "max_output_tokens": 2048,
+    "allow_paid_models": false,
+    "free_only": true,
+    "no_provider_substitution": true
+  },
+  "request_budget": {
+    "max_total_generation_posts": 200,
+    "pace_seconds_between_openrouter_posts": 3.1,
+    "nominal_questions": 40,
+    "request_budget_includes_primary_retries_and_fallback_posts": true,
+    "zero_paid_spend_required": true,
+    "stop_before_exceeding_budget": true
+  },
+  "repairs_under_test": [
+    "top_k selection changed from 5 to 10",
+    "RAG_MAX_OUTPUT_TOKENS now reaches the provider wire as max_tokens=2048",
+    "OpenRouter typed primary failures trigger a separate fallback request; each request is ledger-counted and Retry-After is honored"
+  ],
+  "metrics": {
+    "frozen_token_f1": {
+      "implementation": "evals.metrics.generation_metrics.token_f1",
+      "normalization": "NFKC, whitespace collapse, casefold, Unicode \\w+ tokens, multiset symmetric F1",
+      "correctness_threshold": 0.45,
+      "continuity": "Report side by side with Gate 12-V original."
+    },
+    "corrected_metric": {
+      "numeric_normalization": "Canonicalize digit runs to integer form, e.g. 07 -> 7 and 02 -> 2.",
+      "preamble_normalization": "Strip only the observed leading phrase Theo ngữ cảnh đã truy xuất,.",
+      "score": "Report normalized symmetric token-F1 and expected-token containment recall.",
+      "binary_continuity_threshold": 0.45,
+      "validation_boundary": "The corrected automated score is not assumed to be validated; hand-adjudicate all 36 answerable rows and report disagreement."
+    },
+    "hand_adjudication": "For every answerable row, record correct, partial, wrong, or refused against the question and expected answer; report counts and disagreement against both automated metrics.",
+    "citation_and_system_metrics": "Reuse Gate 12-V definitions and Wilson 95% intervals; report raw numerators/denominators.",
+    "availability": "Report primary 502 count, fallback activation count, served model per request, provider-availability refusals versus evidence-based refusals.",
+    "wire_audit": "For every captured generation POST report max_tokens_present and value; retain successful-response end timestamps and per-POST latency."
+  },
+  "corrected_arithmetic": {
+    "source": "B0 hand adjudication and frozen Gate 12-V records; no golden fields edited",
+    "cross_tab_relevant_chunk_retrieved": {"correct": 13, "partial": 1, "wrong": 2, "refused": 5, "total": 21},
+    "cross_tab_relevant_chunk_not_retrieved": {"correct": 5, "partial": 1, "wrong": 2, "refused": 7, "total": 15},
+    "retrieved_and_provider_served_correct": "13/16 = 81.3%",
+    "baseline_adjudicated_correct": "18/36 = 50.0%",
+    "refused_total": "12/36 = 33.3%",
+    "fallback_projection": "B2 fallback repair can recover five refused-but-retrieved rows at the observed 13/16 served-and-retrieved quality; seven refused-and-not-retrieved rows have a conservative 5/8 recovery estimate. This yields approximately 26/36 before the additional top_k effect.",
+    "retrieval_ceiling_interpretation": "The 88/116 and 104/116 figures are conservative lower bounds, not exhaustive upper bounds: five answerable rows were human-correct despite the annotated relevant_chunk_ids not being retrieved. Relevant-chunk annotations are not exhaustive."
+  },
+  "thresholds": {
+    "unchanged_from_gate12v": true,
+    "openrouter_schema_validity_first_attempt_min": 0.90,
+    "openrouter_citation_validity_min": 0.90,
+    "openrouter_citation_grounding_precision_min": 0.90,
+    "openrouter_citation_grounding_recall_min": 0.75,
+    "openrouter_false_answer_rate_unanswerable_max": 0.05,
+    "openrouter_must_cite_compliance_min": 0.90,
+    "openrouter_answer_correctness_rate_min": 0.70,
+    "openrouter_answer_token_f1_min": 0.45,
+    "openrouter_p95_latency_ms_max": 30000,
+    "openrouter_finish_length_rate_max": 0.05,
+    "openrouter_fallback_activation_rate_max": 0.50,
+    "quality_gap_openrouter_minus_groq_min": "not applicable under DEC-0038; no Groq control",
+    "all_40_questions_completed_required": true,
+    "threshold_revision": false
+  },
+  "attribution_policy": {
+    "retrieval": "Attribute only retrieval/top_k changes to retrieved IDs and refusal differences; the 88->110 annotation/ranking gap remains open.",
+    "max_tokens": "Attribute only wire presence, completion lengths, finish_reason=length, and usage changes; do not infer answer correctness causality without isolation.",
+    "fallback": "Attribute availability recovery only when a primary typed failure is followed by a separately captured Gemma request and served model.",
+    "metric": "Report frozen and corrected scores side by side; hand adjudication is the validation target.",
+    "provider_variance": "Report raw 502 and served-model counts; do not call a healthy Nemotron sample a stable reliability result."
+  },
+  "artifacts": {
+    "raw_root": "gates/artifacts/gate15b/ (ignored)",
+    "tracked_result": "gates/results/GATE_15B_RESULT.md",
+    "gate12v_result_addendum": "gates/results/GATE_12V_RESULT.md",
+    "no_prompts_in_tracked_files": true
+  }
+}
