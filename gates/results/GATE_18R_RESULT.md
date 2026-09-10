@@ -442,8 +442,9 @@ Gate 18-R task-owned commits:
 2. `c32be31` — release-bound embedding CLI, provenance loader, build verifier,
    Docker backstop, context preparation, model revision pin, documentation,
    and five offline contract tests;
-3. the result/ops closure commit is created after this artifact is written and
-   verified; no push follows.
+3. `5070b2a` — result plus tracked decision/risk/implementation-log closure;
+   the ignored local `CURRENT_TASK.md` and `SESSION_BRIEF.md` pointers were
+   updated locally but intentionally not staged. No push follows.
 
 Final closure must re-check the exact 25-path overlay and empty index after the
 closure commit. The user-owned `_agent_ops/PROJECT_CONTEXT_CARD.md` and
