@@ -1,0 +1,53 @@
+{
+  "schema": "gate19.external_evidence.v1",
+  "path_a": [
+    {
+      "name": "MCPEvol-Bench",
+      "paper": "https://arxiv.org/abs/2607.14642",
+      "pdf": "https://arxiv.org/pdf/2607.14642",
+      "code": "https://github.com/Octobrist/MCPEvol-Bench",
+      "data": "https://huggingface.co/datasets/anonymous2233/evol-servers",
+      "paper_observation": "The paper describes 11 mutation operators over 123 MCP servers and documents its broader collection process.",
+      "release_observation": "The public repository contains source code and a 15.1 MB test_cases.json file; its README points to a 3.4 GB Hugging Face server archive.",
+      "retrieved_test_cases": {
+        "url": "https://raw.githubusercontent.com/Octobrist/MCPEvol-Bench/main/src/custom/data/test_cases/test_cases.json",
+        "size_bytes": 15847946,
+        "sha256": "b51d09d93aef94b08a67281a95ee8b4c7d69953816adf6769a996e26274bb023",
+        "record_count": 393,
+        "observed_keys": ["answer", "eval_result", "exceeded", "idx", "question", "response", "servers", "stop", "tool_calls", "trajectory_messages"],
+        "bulk_copy_committed": false
+      },
+      "license_observation": "The Hugging Face dataset page labels evol-servers Apache-2.0. The GitHub repository page did not expose a top-level license file; the raw LICENSE URL returned 404. The repository license status is therefore not assumed from the dataset label.",
+      "o3_result": "NOT_APPLICABLE_WITH_OBTAINED_REGISTER",
+      "o3_reason": "The obtained task file contains trajectories and evaluation records, not a per-item old-contract/new-contract ground-truth correspondence. The server archive that may contain versioned implementations was not downloaded because it is 3.4 GB and no small auditable contract register was exposed."
+    },
+    {
+      "name": "DynamicMCPBench",
+      "paper": "https://arxiv.org/abs/2607.20531",
+      "pdf": "https://arxiv.org/pdf/2607.20531",
+      "code": "https://github.com/ITMO-NSS-team/DynamicMCPBench",
+      "data": "https://huggingface.co/datasets/TokenWasteGroup/DynamicMCPBench",
+      "paper_observation": "The paper explicitly links the code and dataset and defines effect-scored replay over live MCP tasks.",
+      "release_observation": "The dataset page reports 1,845 specs and 2,051 traces across 121 servers; specs use effect checkpoints, equivalence sets, minefields, and partial ordering, with explicit tool names stripped from prompts.",
+      "license_observation": "The GitHub code repository is Apache-2.0 and the Hugging Face dataset is CC BY 4.0.",
+      "bulk_copy_committed": false,
+      "o3_result": "NOT_APPLICABLE",
+      "o3_reason": "This benchmark intentionally scores path-agnostic effects rather than fixed tool paths and does not expose old/new contract pairs with a migration target. Its design avoids the exact fixed-oracle surface required by the Gate 19 auditor."
+    }
+  ],
+  "path_b": {
+    "register": "gates/baselines/GATE_19_EXTERNAL_MCP_PAIRS.json",
+    "audit": "gates/results/GATE_19_EXTERNAL_AUDIT.json",
+    "repository": "https://github.com/modelcontextprotocol/servers",
+    "sample_size": 20,
+    "license": "Repository LICENSE states Apache-2.0 for new code, with applicable legacy MIT contributions and CC-BY-4.0 documentation provisions.",
+    "hand_verification": "Each pair records a parent/new commit, changed public tool or contract surface, old/new observable description, and a manual reachability judgement. A local clone verified all 20 commit objects and changed paths.",
+    "audit_counts": {
+      "REACHABLE": 20,
+      "UNREACHABLE-TARGET-ABSENT": 0,
+      "UNREACHABLE-CONVENTION-UNOBSERVABLE": 0
+    },
+    "limitation": "This is a purposive 20-pair sample from one official repository, not a prevalence estimate. It provides an external negative control for the auditor, not external confirmation that unreachable oracles occur in the field."
+  },
+  "overall_external_validation": "NOT_ESTABLISHED"
+}
