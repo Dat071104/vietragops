@@ -1,0 +1,207 @@
+{
+  "schema": "gate19.protocol.v1",
+  "gate": "Gate 19",
+  "title": "Oracle reachability: criterion, repair, guess-rate, external evidence",
+  "status": "FROZEN",
+  "frozen_on": "2026-09-11",
+  "repository": {
+    "working_directory": "D:/Project cua Dat/VietRAGOps/ROOT/VietRagOps",
+    "expected_head_at_entry": "bfdbb60a6bed118d058712ccc63471c16c16ecd2",
+    "expected_origin_main_at_entry": "bfdbb60a6bed118d058712ccc63471c16c16ecd2",
+    "overlay_policy": "Preserve the exactly 25 pre-existing user-owned paths; stage no overlay path.",
+    "frozen_artifact_policy": "Gate 07 and Gate 08 protocols, datasets, baselines, metrics, raw outputs, and results are read-only inputs. No frozen artifact may be edited, moved, regenerated, rescored, or overwritten.",
+    "production_change_policy": "Read-only production source and deployment scope. No GCP call, deployment, traffic, IAM, Secret Manager, corpus, manifest, chunk store, embedding, or golden-set change.",
+    "future_gate_policy": "No Gate 20 baseline campaign and no Gate 10 paper work is authorized by this protocol."
+  },
+  "scope": {
+    "deliverables": [
+      "A reusable, checkable oracle-reachability criterion under declared information rights.",
+      "An additive, separately versioned tool_replacement oracle repair or explicit exclusion set.",
+      "A frozen-artifact measurement and bounded diagnostic measurement of unobservable-convention guessing.",
+      "External evidence audit, or an explicit evidence-unavailable result with its limitation."
+    ],
+    "non_goals": [
+      "A new Gate 07 or Gate 08 score.",
+      "A new baseline campaign.",
+      "A claim that the criterion detects semantic correctness.",
+      "A claim of field-level prevalence when no independently verified external item is obtainable."
+    ]
+  },
+  "criterion": {
+    "name": "oracle_reachability_under_declared_information_rights",
+    "statement": "For an agent-migration benchmark, declare the information rights R granted to the method. A ground-truth item is REACHABLE if and only if its target value is derivable from R alone. An item that is not derivable is an UNREACHABLE ORACLE and must be repaired or excluded before it is scored.",
+    "derivability_rule": {
+      "required": "Every target field, target value, and value-construction operation must be supported by explicit contents of R.",
+      "forbidden": [
+        "Evaluator-only ground truth or case identifiers.",
+        "Sandbox implementation details not exposed in R.",
+        "Hidden separators, encodings, orderings, units, defaults, or format conventions.",
+        "A migration map, a new-version reference trajectory, or a pre-execution probe when those are outside R."
+      ],
+      "semantic_limit": "A target that is derivable from R but semantically wrong still passes this criterion; semantic validity requires a separate adjudication."
+    },
+    "statuses": [
+      {
+        "status": "REACHABLE",
+        "definition": "The target field/value and every required construction step are derivable from R without hidden information."
+      },
+      {
+        "status": "UNREACHABLE-TARGET-ABSENT",
+        "definition": "The target names a field or target component absent from every method-visible new contract and no declared R transform supplies it."
+      },
+      {
+        "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+        "definition": "The target field exists or its components are visible, but the target requires a separator, format, encoding, ordering, default, unit, or other construction convention absent from R."
+      }
+    ],
+    "classification_precedence": "If both target absence and an unobservable convention are observed, record UNREACHABLE-TARGET-ABSENT as the primary status and retain the convention as a secondary reason."
+  },
+  "information_rights": {
+    "canonical_plan_source": "_agent_ops/RESEARCH_PLAN_PAPER.md#6.1",
+    "method_setting": "pre-execution cross-version tool alignment",
+    "allowed": [
+      {
+        "id": "old_schema",
+        "artifact": "old tool contracts",
+        "fields": ["tool name", "description", "input schema", "declared input fields", "declared field types and descriptions", "declared effects/preconditions where exposed"]
+      },
+      {
+        "id": "old_trace",
+        "artifact": "verified old-version traces",
+        "fields": ["visible old tool calls", "visible old argument names and values", "visible outputs/effects included in the method-facing trace"]
+      },
+      {
+        "id": "new_schema",
+        "artifact": "new tool inventory/contracts",
+        "fields": ["candidate tool names", "descriptions", "input schemas", "declared input fields", "declared field types and descriptions", "declared effects/preconditions where exposed"]
+      },
+      {
+        "id": "task_context",
+        "artifact": "method-facing task description",
+        "fields": ["task prose supplied to the method", "old tool identity supplied by the task", "candidate inventory supplied by the task"]
+      }
+    ],
+    "forbidden": [
+      "Evaluator-only ground truth and hidden repair annotations.",
+      "Sandbox source, internal operations code, storage implementation, and test code unless explicitly included in the method-facing payload.",
+      "Migration map or explicit old-to-new correspondence.",
+      "New-version reference trajectory or post-migration trace.",
+      "Pre-execution probing or execution feedback.",
+      "Candidate-order oracle, scoring code, and any Gate 08 evaluator capability."
+    ],
+    "machine_readable_declaration": "The auditor will consume this declaration plus the method-facing task records and will fail closed when a required field is not declared."
+  },
+  "audit_inputs": {
+    "frozen_sources": [
+      "gates/baselines/GATE_07_PROTOCOL_V4.json",
+      "gates/baselines/GATE_07_PROTOCOL_V4_1_ADDENDUM.json",
+      "gates/baselines/GATE_07_METRICS_V4.json",
+      "gates/baselines/GATE_08_PROTOCOL.json",
+      "gates/results/GATE_07_RESULT.md",
+      "gates/results/GATE_08_RESULT.md",
+      "research/gate07/dataset/",
+      "research/gate07/oracle/",
+      "research/gate07/harness/",
+      "research/gate07/sandbox/",
+      "research/gate08/metrics/diagnostics.py",
+      "gates/artifacts/gate07/v4/",
+      "gates/artifacts/gate08/"
+    ],
+    "hash_policy": "Record SHA-256 for every frozen file actually read or analyzed at O0 and re-verify every recorded hash at O7. Do not hash or copy secrets.",
+    "reproduction_requirements": [
+      "Independently enumerate all 35 tool_replacement argument pairs and classify each.",
+      "Independently count argument_split unreachable pairs and report the observed count.",
+      "Independently identify the 5 graded tool_replacement cases requiring the hidden join convention.",
+      "Resolve any disagreement with the existing Gate 08 diagnostic rather than assuming either register is correct."
+    ]
+  },
+  "repair_or_exclude_policy": {
+    "pre_registration": "This policy is frozen before the Gate 19 auditor, repair manifest, or any repaired-set number is computed.",
+    "classes": {
+      "UNREACHABLE-TARGET-ABSENT": {
+        "action": "EXCLUDE",
+        "justification": "No target field or component can be justified from R, so inventing a replacement would silently change ground truth.",
+        "downstream_accounting": "Exclude the pair from repaired pair-level denominators. Exclude a case-level evaluation item if its required call depends on the excluded pair. Never restate a Gate 07 or Gate 08 number here."
+      },
+      "UNREACHABLE-CONVENTION-UNOBSERVABLE": {
+        "action": "EXCLUDE",
+        "justification": "The required construction convention is outside R; retaining the hidden convention would score a guess, while choosing a new convention would be an unregistered ground-truth change.",
+        "downstream_accounting": "Exclude the pair from repaired pair-level denominators. Exclude a case-level evaluation item if its required call depends on the excluded pair. Never restate a Gate 07 or Gate 08 number here."
+      },
+      "REACHABLE": {
+        "action": "RETAIN",
+        "justification": "The target and construction are derivable from R; this criterion does not assert semantic correctness.",
+        "downstream_accounting": "Retain in the new versioned dataset."
+      }
+    },
+    "dataset_rule": "Create a new versioned dataset and per-item manifest that preserves each original target, primary status, action, reason, frozen source reference, and source SHA-256. The frozen files remain untouched.",
+    "maximum_attainable_recall": "Report both the original frozen denominator ceiling and the retained repaired-set ceiling. The retained set is eligible for a maximum of 1.0 only if every retained target is REACHABLE; any remaining unreachable target lowers the ceiling."
+  },
+  "guess_rate": {
+    "frozen_artifact_measurement": "Read-only extraction from frozen Gate 07 baseline outputs on the five affected graded cases; zero new provider requests.",
+    "probe_label": "DIAGNOSTIC_PROBE_ONLY",
+    "budget": {
+      "maximum_total_new_requests": 60,
+      "maximum_rpm": 20,
+      "minimum_inter_dispatch_seconds": 3.1,
+      "paid_requests": 0,
+      "allowed_model_policy": "Only a catalog-qualified :free slug may be used; no paid fallback, automatic provider fallback, or random model rotation.",
+      "research_configuration": "Do not use or write the frozen Gate 07/Gate 08 research configuration, ledgers, caches, or raw-artifact paths.",
+      "accounting": "Count every dispatched primary or fallback request in the Gate 19 diagnostic ledger. If a provider failure consumes a request, count it."
+    },
+    "chance_baseline": {
+      "plausible_separator_set": ["::", ":", "|", "/", "-", "_", ".", "~", ","],
+      "selection_rule": "Fixed before reading baseline outputs: common delimiter candidates spanning paired punctuation, single punctuation, path-like, dash/underscore, dot, tilde, and comma forms; no post-hoc addition or removal.",
+      "prior": "Uniform selection among the nine candidates gives P(::)=1/9 = 0.1111. This is a reference chance baseline, not a claim about model priors."
+    },
+    "held_out_probe_design": {
+      "strata": [
+        {
+          "id": "hidden_sandbox_convention",
+          "target_convention": "::",
+          "information_rights": "The two component values and target field are visible, but the separator is omitted from R.",
+          "planned_cases": 30
+        },
+        {
+          "id": "hidden_arbitrary_convention",
+          "target_convention": "One of : | / - _ . ~ ,",
+          "information_rights": "The two component values and target field are visible, but the separator is omitted from R.",
+          "planned_cases": 30
+        }
+      ],
+      "primary_contrast": "Compare the rate at which the same fixed free model emits :: in the two held-out strata. A materially higher :: rate in the hidden_sandbox_convention stratum than in the hidden_arbitrary_convention stratum is diagnostic evidence consistent with a convention prior or contamination; it is not proof of either cause.",
+      "secondary_contrast": "Compare exact target-separator recovery against the nine-way chance baseline. Because the separator is not in R, exact recovery is not evidence of derivation.",
+      "stopping": "Stop at 60 dispatched requests, at the first paid/non-free guard failure, at any secret exposure, or when the free catalog cannot be verified. Report NOT_RUN or INCONCLUSIVE instead of filling missing rows."
+    },
+    "interpretation": "This probe is diagnostic and not a Gate 07/Gate 08 result. It cannot establish training-data contamination from a small sample; it can only quantify an observed output tendency under the frozen probe design."
+  },
+  "external_evidence": {
+    "path_order": ["A_public_benchmark_audit", "B_real_version_pairs"],
+    "path_a": {
+      "targets": ["MCPEvol-Bench (arXiv:2607.14642)", "DynamicMCPBench (arXiv:2607.20531)"],
+      "required_checks": ["Full PDF", "linked repository or dataset", "authors' public pages", "license or access terms", "method-visible inputs and ground truth"],
+      "availability_rule": "If the data or a legally usable derived subset is not obtainable, record unavailable and move to Path B. Never describe inaccessible data as audited.",
+      "evidence_threshold": "At least one independently source-verified item classified by the O3 auditor, with raw count and per-item provenance, is required before claiming external validation."
+    },
+    "path_b": {
+      "target_sample_size": "20-50 carefully verified public API/tool version-change pairs; stop below 20 if evidence quality would require padding.",
+      "sources": ["MCP server repository history", "release notes", "OpenAPI diffs", "public versioned tool contracts"],
+      "required_fields": ["source repository", "old tag or commit", "new tag or commit", "change type", "old observable information", "new observable information", "hand-verified correspondence", "license/access note", "source hash or identifier"],
+      "judgment_rule": "Documents may be collected automatically, but correspondence and reachability must be human-judged and recorded per pair.",
+      "corpus_rule": "Store identifiers, hashes, and derived annotations only; do not commit large third-party corpora."
+    },
+    "tier_rule": {
+      "field_level_measurement_contribution": "Supported only if an external path yields independently verified unreachable-oracle items under the same criterion and the local result is reported with limitations.",
+      "single_system_case_study_with_reusable_criterion": "Supported if the local criterion/auditor/repair is sound but external validation is unavailable, too small, or not independently verifiable.",
+      "neither": "Use when the auditor or integrity proof fails, or when evidence is insufficient even for the local case study."
+    }
+  },
+  "integrity_and_release": {
+    "protocol_commit_required_before_analysis": true,
+    "reverify_frozen_hashes_at_closure": true,
+    "suite_command": ".venv/Scripts/python.exe -B -m pytest -q -p no:cacheprovider --basetemp <external writable path>",
+    "stage_policy": "Stage explicit Gate 19 filenames only; never git add . or git add -A; do not stage any pre-existing overlay path.",
+    "push_policy": "Do not push. The owner pushes.",
+    "closure_receipt": "Follow _agent_ops/SESSION_PROTOCOL.md. With no push, mark the SESSION_BRIEF Last Verified Commit row not needed and report local HEAD plus remote mismatch if any."
+  }
+}
