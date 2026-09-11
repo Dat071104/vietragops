@@ -1,0 +1,157 @@
+{
+  "gate": "19-C",
+  "kind": "C0-hash-addendum",
+  "reason": "Frozen Gate 07 raw paths were discovered from the already-hashed Gate 07 metadata after protocol commit; all files were hashed before content extraction.",
+  "files": [
+    {
+      "path": "gates/artifacts/gate07/v3/ambiguity_agy_annotations.json",
+      "sha256": "8775da78be186aaef9ca459b64af8046ec39845c7a6243923417ecf9077b4ecf",
+      "bytes": 3570
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/ambiguity_evaluator_index.json",
+      "sha256": "b5d3803639404f95e2a3d66b94c11c9cb73da3aeeeb61f59d26d5f63e8aca0a9",
+      "bytes": 20456
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/ambiguity_public_sample.json",
+      "sha256": "ef89d49833ec9e90ba8c83aeb3f6bf16e4b692472066f7ebf2612ef49a77f013",
+      "bytes": 379500
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/code_index_r10.json",
+      "sha256": "300b4dc8067f3bc9479139a2fe30e8b942052cc3e30d8393ef74c2a033b01534",
+      "bytes": 836855
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/dataset/frozen_manifest.json",
+      "sha256": "a55f66811456e71435b80b897cf6927204efcc841d236a4343bd6dcb0f473e76",
+      "bytes": 773145
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/dataset/public_manifest.json",
+      "sha256": "e15c6cdc78a3ea11505b5130ebb3fd07d3319a7fbec1cd50d28bca70bf75f7fa",
+      "bytes": 73454
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/llm_results_batch1_corrected.jsonl",
+      "sha256": "98ba2ee4aa9d614fe20ab4f604cdb976407572f799b6f0e4d36c7e3e47dca3e3",
+      "bytes": 814289
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/llm_results.jsonl",
+      "sha256": "6d010ba9222c11ac46eeaddfddc9b15238d80eb0fb52ca099f96b1ffd20974a1",
+      "bytes": 20052
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/metrics_r10_recompute.json",
+      "sha256": "489af74bb048e9434236c5898e3b4ae19ef76a35ef09d9b3d9c361d9736006ca",
+      "bytes": 1522767
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/metrics_r8_repeat.json",
+      "sha256": "489af74bb048e9434236c5898e3b4ae19ef76a35ef09d9b3d9c361d9736006ca",
+      "bytes": 1522767
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/metrics_r8.json",
+      "sha256": "489af74bb048e9434236c5898e3b4ae19ef76a35ef09d9b3d9c361d9736006ca",
+      "bytes": 1522767
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/offline_cross_encoder.jsonl",
+      "sha256": "bc90a1a67a04184cad7a2f7e328dfc6511177c456df6e1b09b8036136fd6eff0",
+      "bytes": 134184
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/offline_embedding.jsonl",
+      "sha256": "d3cf2d5b7ab7ece3d4fee28a904e2e8397e6d00299c2f2f2b0abacb95da29adf",
+      "bytes": 267145
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/offline_lexical.jsonl",
+      "sha256": "3e0b88ecfeaeb8eba98cfc883457eee5749ed65de7b4eccb34f61c396ce88c34",
+      "bytes": 242652
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/offline_metrics_v3.json",
+      "sha256": "30bb3d9e8b5797788e1a53a9b09bdbc29af675f1bffc3112535532df3dc6c9d8",
+      "bytes": 462641
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/public_tasks_batch_20260828.json",
+      "sha256": "e6271aadc652da9473110aa09dcd4c4437edc7abe7f1792c6315ff330742213f",
+      "bytes": 35669
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/public_tasks.json",
+      "sha256": "18073e1b13f4c6ac0bc0c1e157e554f08016e527da84ca454ff6a099a7f86d1d",
+      "bytes": 941766
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/raw/llm_batch1_corrected.jsonl",
+      "sha256": "12e56f456984232dc81751172be6a76231652b3181ffb498adc37c65901cd07c",
+      "bytes": 9265927
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/raw/llm.jsonl",
+      "sha256": "bd893ddc81267bb50775a98fc294231bc7254631f4860046afe7374a9e39fc4f",
+      "bytes": 345842
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/raw/offline_cross_encoder.jsonl",
+      "sha256": "8baf15a3761bf09f5b6f0f0a32b5eb1c1c4e24f95095f124cb0dd659962ec855",
+      "bytes": 1312540
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/raw/offline_embedding.jsonl",
+      "sha256": "0751831da49003c28a5f93abcdc59a893e956b54da37fa12601f7b46cb98ac15",
+      "bytes": 2624121
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/raw/offline_lexical.jsonl",
+      "sha256": "2865de7eddfdc6ffc226e9098ec7c7d0787f7742bee5b6628841bd49dfe8fdb0",
+      "bytes": 2600169
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/raw/repro_offline_lexical.jsonl",
+      "sha256": "a4787fec87d6e7c8c936c27fa0667e70260610a6e889d3f0d7ffe3c171599963",
+      "bytes": 2600180
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/REPO_MAP_r10.md",
+      "sha256": "ee910dd06cc1c4ccbdf8dec2ca0fa20276450131539930b68dd026ba16d49e5a",
+      "bytes": 5509
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/repro_offline_lexical.jsonl",
+      "sha256": "3e0b88ecfeaeb8eba98cfc883457eee5749ed65de7b4eccb34f61c396ce88c34",
+      "bytes": 242652
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/request_ledger_setup_diagnostics.jsonl",
+      "sha256": "0cb6747d0752c44224aab5a6eef54d69b6958d7a2eeff271badbeed2b7d52d6d",
+      "bytes": 19179
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/request_ledger.jsonl",
+      "sha256": "398c4b2e389bb18e349315dc285753ac78b13b2a80069658160cb45a48fa3b3f",
+      "bytes": 242145
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/retrieval_smoke_r6.json",
+      "sha256": "e41f6e089c11a56ce9d9241f938c4c5648bf8eb139f21104bbf9f4522920310b",
+      "bytes": 302211
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/router_state_setup_diagnostics.sqlite3",
+      "sha256": "77e2dd09cf500a094bdc43ceab7d4a04fb81adcd7354dd90fc39f53f542f82b6",
+      "bytes": 20480
+    },
+    {
+      "path": "gates/artifacts/gate07/v3/router_state.sqlite3",
+      "sha256": "d01eb6d5e338420ad29d9a07874083b9908551ee5940bffd5f1a2703349d7a59",
+      "bytes": 122880
+    }
+  ]
+}
