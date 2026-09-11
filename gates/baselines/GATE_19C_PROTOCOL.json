@@ -1,0 +1,570 @@
+{
+  "gate": "19-C",
+  "title": "Resolve the register contradiction, size the scoreable surface, decide Gate 20",
+  "protocol_version": "1.0",
+  "frozen_on": "2026-09-11",
+  "scope": {
+    "purpose": "Frozen-artifact analysis only; resolve RISK-0022, audit every drift family, perform pre-registered power analysis, and mechanically recommend Gate 20 GO or CANCEL.",
+    "provider_calls": 0,
+    "cloud_calls": 0,
+    "production_source_changes": false,
+    "frozen_data_mutation": false,
+    "gate_20_campaign_run": false
+  },
+  "c0_entry_receipt": {
+    "head": "d80959824ee2059d0d0eb1cbfcb0f90681147e2d",
+    "origin_main": "d80959824ee2059d0d0eb1cbfcb0f90681147e2d",
+    "overlay_path_count": 25,
+    "index_empty": true,
+    "suite_command": ".venv\\Scripts\\python.exe -m pytest --basetemp <external-temp-directory>",
+    "suite_result": "612 passed, 2 warnings",
+    "suite_basetemp_policy": "External basetemp required by RISK-0027; exact temp directory is not part of the scientific artifact."
+  },
+  "analysis_plan": {
+    "c1": {
+      "raw_cases": [
+        "G07-G-0127",
+        "G07-G-0130",
+        "G07-G-0133",
+        "G07-G-0136",
+        "G07-G-0139"
+      ],
+      "compare_each_baseline_arm": true,
+      "inspect_scoring_code": "research/gate07/metrics/scoring.py",
+      "preserve_register_history": true
+    },
+    "c2": {
+      "enumerate_all_drift_families_from_frozen_auditor_oracle": true,
+      "report_fields": [
+        "total_pairs",
+        "total_graded_cases",
+        "reachable",
+        "unreachable_target_absent",
+        "unreachable_convention_unobservable",
+        "retained_after_repair"
+      ],
+      "hidden_required_field_defaults": "Classify each as item-unreachable or derivable from declared information rights without editing frozen artifacts."
+    },
+    "c3": {
+      "metric": "first-attempt success proportion",
+      "planned_surfaces": {
+        "argument_split": 40,
+        "tool_replacement": 15,
+        "pooled_retained": 55
+      }
+    }
+  },
+  "power_analysis": {
+    "test": "Two-sided two-sample normal-approximation test for independent proportions with equal n per arm and no continuity correction.",
+    "alpha": 0.05,
+    "target_power": 0.8,
+    "practically_meaningful_absolute_difference": 0.2,
+    "baseline_definition": "For each family/surface, p_bar is the observed pooled first-attempt success rate across the two frozen Gate 07 baseline arms on the retained scoreable cases; the same deterministic rule applies to the pooled retained set.",
+    "alternative_definition": "For an absolute difference d, evaluate p_low=p_bar-d/2 and p_high=p_bar+d/2 when both are in [0,1].",
+    "mde_definition": "Smallest d in [0,1] whose calculated two-sided power reaches target_power, reported as an absolute proportion-point difference.",
+    "required_n_definition": "Smallest integer n per arm whose power reaches target_power for the pre-registered 0.20 absolute difference.",
+    "confidence_interval": "95% Wilson interval for each observed arm rate and the pooled rate; report full width and half-width.",
+    "decision_rule": {
+      "go": "GO only if argument_split and tool_replacement each have retained n > 0, each has MDE <= 0.20 and required n per arm <= its retained n, and the pooled retained set also satisfies the same MDE/required-n thresholds.",
+      "cancel": "CANCEL if any planned family or the pooled retained set fails the GO conditions, or if a required surface has n=0.",
+      "interpretation": "The pooled surface cannot rescue a family-level failure; n=15 is judged against the pre-registered 0.20 practical effect band."
+    }
+  },
+  "hash_inventory": [
+    {
+      "path": "gates/baselines/GATE_07_AMBIGUITY_AUDIT_V3.json",
+      "sha256": "7e1dcc61542d87fff015b19e9659bf1dc48e84a692def73378c08a18587e6b7b",
+      "bytes": 4668
+    },
+    {
+      "path": "gates/baselines/GATE_07_DATASET_V3.json",
+      "sha256": "2ad3dba7306ce89ecafd1f9e1ceb6a8ba96b84e492536f7f984d9360dd2d2f6f",
+      "bytes": 2504
+    },
+    {
+      "path": "gates/baselines/GATE_07_LLM_RESULTS_V3.json",
+      "sha256": "f91ee40f33a91afc1c97fbe83344817af5ab1b156668375a639742024257badd",
+      "bytes": 4566
+    },
+    {
+      "path": "gates/baselines/GATE_07_METRICS_V4.json",
+      "sha256": "cda1fcc184f39c114a112a0369556ccfd251942029ee5b232529ca53d992ba5f",
+      "bytes": 2033086
+    },
+    {
+      "path": "gates/baselines/GATE_07_METRICS.json",
+      "sha256": "489af74bb048e9434236c5898e3b4ae19ef76a35ef09d9b3d9c361d9736006ca",
+      "bytes": 1522767
+    },
+    {
+      "path": "gates/baselines/GATE_07_OFFLINE_RESULTS_V3.json",
+      "sha256": "6cb04d13ac13caa2b5d52bea9330ed6b38134be168359981264ac4a483086d0f",
+      "bytes": 5433
+    },
+    {
+      "path": "gates/baselines/GATE_07_PROTOCOL_V2.json",
+      "sha256": "f8c2e7ded531cdc68d34067f27b20656126c24497fcd32fb940df96875cc4465",
+      "bytes": 17186
+    },
+    {
+      "path": "gates/baselines/GATE_07_PROTOCOL_V3.json",
+      "sha256": "c9b27e936be76ee1070db70714d9e75509c1f22d637160138db890bf1cc4b1f9",
+      "bytes": 17633
+    },
+    {
+      "path": "gates/baselines/GATE_07_PROTOCOL_V4_1_ADDENDUM.json",
+      "sha256": "df13ee0791222fdf19f456bae09fc6f4d338b549a45de09ed2b4edff0f1e3d0a",
+      "bytes": 3025
+    },
+    {
+      "path": "gates/baselines/GATE_07_PROTOCOL_V4_FREEZE_LEDGER.json",
+      "sha256": "c757a1a305935a90ae6020b32815c285fe14d55cffd349ed05c63b37e347ac5c",
+      "bytes": 2232
+    },
+    {
+      "path": "gates/baselines/GATE_07_PROTOCOL_V4.json",
+      "sha256": "7a35301f22c780756893470c92034eb882e06b6d48fd0e7b0447776486a94cb1",
+      "bytes": 24208
+    },
+    {
+      "path": "gates/baselines/GATE_07_PROTOCOL.json",
+      "sha256": "560d09a43acc739f2189e435d5bab098a376457400567146e50df1f6dab5a7c7",
+      "bytes": 16512
+    },
+    {
+      "path": "gates/baselines/GATE_08_PROTOCOL.json",
+      "sha256": "ee5bfadfb1fd863ba9ccfdb050df1eea282491c0b81739cc9efd854e8279a036",
+      "bytes": 9194
+    },
+    {
+      "path": "gates/baselines/GATE_19_EXTERNAL_MCP_PAIRS.json",
+      "sha256": "bcb05f2f2c1d08a6c24fda2f2322108567b2e8c726a962ada406078f0e2166dc",
+      "bytes": 17794
+    },
+    {
+      "path": "gates/baselines/GATE_19_PROTOCOL.json",
+      "sha256": "1933f88e543cec81fc5f3625ffcdb6a11f717fea836a623be30cf98a666dede2",
+      "bytes": 14577
+    },
+    {
+      "path": "gates/baselines/GATE_19_TOOL_REPLACEMENT_ORACLE_V1_MANIFEST.json",
+      "sha256": "5c64bb8965431dfd53cacca81e2dbfe01b0259dfd171de38b14d01859de98d62",
+      "bytes": 31369
+    },
+    {
+      "path": "gates/baselines/GATE_19_TOOL_REPLACEMENT_ORACLE_V1.json",
+      "sha256": "1a5131bf9a79dfb5baf4439e834193b6cc136ddafc0c2483c88cce3d8bc29173",
+      "bytes": 6369
+    },
+    {
+      "path": "gates/results/GATE_07_RESULT.md",
+      "sha256": "e0746f3316eb4f5a6200c60f44746cfb42968bde9bad9e65b3b21d541f2ed461",
+      "bytes": 40742
+    },
+    {
+      "path": "gates/results/GATE_07_V4_CLOSURE_RECEIPT.md",
+      "sha256": "e66a039e7a46c2dc012fab77c7efed3848feed7b6a5ea59e6b4746be4f93ae4b",
+      "bytes": 2720
+    },
+    {
+      "path": "gates/results/GATE_08_RESULT.md",
+      "sha256": "b2de815baaf6e76fe74e081db195c6649236e7492c1a03e9a1cb028651ef442a",
+      "bytes": 34033
+    },
+    {
+      "path": "gates/results/GATE_19_AUDIT.json",
+      "sha256": "4ff5db197eb995ce0ec00de4e4c1a3f82cc7ad3193fa9785259bbc6e289c7d22",
+      "bytes": 196422
+    },
+    {
+      "path": "gates/results/GATE_19_DIAGNOSTIC_PROBE.json",
+      "sha256": "20dc923eec98f0c661b444902eb0807c7fd31d70c213d8bb75859e2b0571923b",
+      "bytes": 59800
+    },
+    {
+      "path": "gates/results/GATE_19_EXTERNAL_AUDIT.json",
+      "sha256": "412ec8edf0aac7cfcd1c54041068baa0cfa72461f0fe8eceb159f5d35a972b0a",
+      "bytes": 14868
+    },
+    {
+      "path": "gates/results/GATE_19_EXTERNAL_EVIDENCE.json",
+      "sha256": "b16bfa1e1c19d663689e6e535fa3e10bc0031c58560157f5677223aa0cb9f4b9",
+      "bytes": 3969
+    },
+    {
+      "path": "gates/results/GATE_19_FROZEN_CONVENTION_AUDIT.json",
+      "sha256": "34d54c3ffd110bf2c49b4e9e0bd0ce9927f6b100e77bca0d7db8893d30b3898b",
+      "bytes": 56732
+    },
+    {
+      "path": "gates/results/GATE_19_FROZEN_SOURCE_HASHES.json",
+      "sha256": "e2e7ed915e55e8d2eb57378a3b53ebf106bc8d3c4141c7b6791d652c5c86e115",
+      "bytes": 30894
+    },
+    {
+      "path": "gates/results/GATE_19_REQUIRED_FIELD_AUDIT.json",
+      "sha256": "71bc809825f3bd79f998d2a8b31b4dee93132be2e06a4bb81128852a1cf559f1",
+      "bytes": 29802
+    },
+    {
+      "path": "gates/results/GATE_19_RESULT.md",
+      "sha256": "ba01a4dfcaf649693b17f1cd3fa63f029cb587441616e54b5f2ce34760b34509",
+      "bytes": 18931
+    },
+    {
+      "path": "research/gate07/__init__.py",
+      "sha256": "fc83abf817af36df786610d6454640890e48c70cedba4223205d5c982fdca318",
+      "bytes": 67
+    },
+    {
+      "path": "research/gate07/baselines/__init__.py",
+      "sha256": "9e129f976d562e83041b0dc785afbcf7791a65a3df84e9da04d347e821154da5",
+      "bytes": 294
+    },
+    {
+      "path": "research/gate07/baselines/base.py",
+      "sha256": "e817933cbba4f1adb605b6a6d3c0124be293f6dc529774ad178334302c478676",
+      "bytes": 3028
+    },
+    {
+      "path": "research/gate07/baselines/controls.py",
+      "sha256": "708559ffea49fd5edf59422931ae231bf637efd3adc37e1929573146c1b178cd",
+      "bytes": 1296
+    },
+    {
+      "path": "research/gate07/baselines/llm.py",
+      "sha256": "348a9428ad5bde53cbdf246f907e0061f086c3f9556b69df14666baa2ed5feb5",
+      "bytes": 9895
+    },
+    {
+      "path": "research/gate07/baselines/models.py",
+      "sha256": "74b7a105eb22814167dc3647f98033b55135aca3ee945545eada901fffc71e2f",
+      "bytes": 1718
+    },
+    {
+      "path": "research/gate07/baselines/offline_runner.py",
+      "sha256": "aecfee667d7497fb51b7fbc2f0934e1cd4d136b5137c9a6ac923c4400e104d93",
+      "bytes": 5812
+    },
+    {
+      "path": "research/gate07/baselines/offline.py",
+      "sha256": "63b3fe5ad4282ba2e035246da9463540f596309346ff5001617910f799c6e4a0",
+      "bytes": 8844
+    },
+    {
+      "path": "research/gate07/dataset/__init__.py",
+      "sha256": "df516fbd3d42b6cf55e5d93acfad2b5564b69c91aafc5353d0145f90627a9ebd",
+      "bytes": 516
+    },
+    {
+      "path": "research/gate07/dataset/frozen_manifest.json",
+      "sha256": "a55f66811456e71435b80b897cf6927204efcc841d236a4343bd6dcb0f473e76",
+      "bytes": 773145
+    },
+    {
+      "path": "research/gate07/dataset/generator.py",
+      "sha256": "b51e1822357e5e264fd4de85560295a9806e536c54c232968badfc3169bd144b",
+      "bytes": 3301
+    },
+    {
+      "path": "research/gate07/dataset/models.py",
+      "sha256": "0f415cf47cd858847b78e9e69780a59d8fe0c88b3b201fffe32df0acbf5a8fad",
+      "bytes": 2842
+    },
+    {
+      "path": "research/gate07/dataset/operators.py",
+      "sha256": "1d911c5fcf4dbf6f59beaa222279318ae55eeeee610e38473ad7e0312bd0b2b2",
+      "bytes": 13917
+    },
+    {
+      "path": "research/gate07/dataset/public_manifest.json",
+      "sha256": "e15c6cdc78a3ea11505b5130ebb3fd07d3319a7fbec1cd50d28bca70bf75f7fa",
+      "bytes": 73454
+    },
+    {
+      "path": "research/gate07/harness/__init__.py",
+      "sha256": "b8c9132c34fdfee48b0610ab7308a24e2f32d765485d606533117c2b07863e14",
+      "bytes": 197
+    },
+    {
+      "path": "research/gate07/harness/method_facing.py",
+      "sha256": "66b5ac5795ab9f09fcc0bea852db46b9290fe51f2a93a528ea05d878080ef416",
+      "bytes": 3029
+    },
+    {
+      "path": "research/gate07/harness/serialization.py",
+      "sha256": "43fec21aab2edd50ef25b5bf960e9850757bcb5f9590e8deec0c3c07196930a4",
+      "bytes": 895
+    },
+    {
+      "path": "research/gate07/metrics/__init__.py",
+      "sha256": "b30cda3a5f72c1e701a56c1ffc7fcbeec26e702f54660af4e5b0a79bddefabc1",
+      "bytes": 334
+    },
+    {
+      "path": "research/gate07/metrics/execution.py",
+      "sha256": "6818494f38163833f2e1f045bf6fabaac9da4ae5e6697d2b14db7d5725287659",
+      "bytes": 8877
+    },
+    {
+      "path": "research/gate07/metrics/report.py",
+      "sha256": "0501cf3a8c93f634cb2246c1a3665fade35d35743a5e47b74b23e219dfa1ebd1",
+      "bytes": 21956
+    },
+    {
+      "path": "research/gate07/metrics/scoring.py",
+      "sha256": "08aebe667ebb71fdbd4dbe187c3c64a7c46c952b1b51196d6c1c0b8596ed346c",
+      "bytes": 7121
+    },
+    {
+      "path": "research/gate07/oracle/__init__.py",
+      "sha256": "7c275a4ffceb09c5b7e5065ca788e9e01ffd3eb08a44aa1c619f3489859f0a43",
+      "bytes": 284
+    },
+    {
+      "path": "research/gate07/oracle/ground_truth.py",
+      "sha256": "aba1a9e6fad07ad786428f943d151cc3365bfd1067b3591a811c30d41843e72a",
+      "bytes": 2858
+    },
+    {
+      "path": "research/gate07/protocol/__init__.py",
+      "sha256": "36a4b477adc78143c99f044bc677bc8ed7a4175ffa2d74ddab9504ab81fe8976",
+      "bytes": 471
+    },
+    {
+      "path": "research/gate07/protocol/freeze.py",
+      "sha256": "90dd0b575732970b3cf7201c729faf6ea6dbfefbdabdb1b1028377eb3b8549df",
+      "bytes": 29708
+    },
+    {
+      "path": "research/gate07/protocol/prompts.py",
+      "sha256": "d8746070542499168311b68e7112bcb83a35fb6b5e26fe74aadc05af6d0ee7f6",
+      "bytes": 5066
+    },
+    {
+      "path": "research/gate07/runner/__init__.py",
+      "sha256": "0545b43a7a726c63820ca8109eee53d075349c78195e0de285355ed74d519ff7",
+      "bytes": 143
+    },
+    {
+      "path": "research/gate07/runner/artifacts.py",
+      "sha256": "1ecdddf1711d456f619d63b0c8b7c607882557c0803ad860dc48b655cddd38c6",
+      "bytes": 713
+    },
+    {
+      "path": "research/gate07/runner/llm.py",
+      "sha256": "ed6cdaa0a9f18a89a1d65875ca62cae1ff4271527deb2b98fba5c35e7203a1ad",
+      "bytes": 17294
+    },
+    {
+      "path": "research/gate07/runner/rate_ledger.py",
+      "sha256": "99bc981560828eff659ff4c6a71411b6c740057ec3144bba07a92ad24625e5ea",
+      "bytes": 7509
+    },
+    {
+      "path": "research/gate07/sandbox/__init__.py",
+      "sha256": "7031898b0293f88ac80a2f03686a390f5a278111c25f2cf571ec85528e8f3b1b",
+      "bytes": 396
+    },
+    {
+      "path": "research/gate07/sandbox/api.py",
+      "sha256": "b45f259c9446aa2da8c89754ac8431ed5cd465653a31ef41ab0a4b9d1d419cba",
+      "bytes": 1542
+    },
+    {
+      "path": "research/gate07/sandbox/catalog.py",
+      "sha256": "e84267129cee20f279a006cf3f325c7eb425d293f4432dbc14b5acfba53d9f4a",
+      "bytes": 26153
+    },
+    {
+      "path": "research/gate07/sandbox/models.py",
+      "sha256": "f09614e02cfff473f2aad8be88301c2f4b6f481c32e6a0954ee123ac12a9464d",
+      "bytes": 944
+    },
+    {
+      "path": "research/gate07/sandbox/operations.py",
+      "sha256": "45d6d4c05b8424a5d5dfb545fe7d14a67aec86860c395bb994d6f76574496959",
+      "bytes": 13719
+    },
+    {
+      "path": "research/gate07/sandbox/store.py",
+      "sha256": "e92dea10bce4eb8a2009d040b35c48d8083c4da85835c25b3e81a29bd9fd9a7e",
+      "bytes": 5171
+    },
+    {
+      "path": "research/gate07/traces/__init__.py",
+      "sha256": "cf181dbb4d2e0e9b2cf1a9c0edc3557b45090448b0880ad240282853167f688a",
+      "bytes": 229
+    },
+    {
+      "path": "research/gate07/traces/capture.py",
+      "sha256": "187d1bb18762e6d09d39eb4691dc79edff4c37a6f6578917a7df9b6180033c3b",
+      "bytes": 1292
+    },
+    {
+      "path": "research/gate07/traces/models.py",
+      "sha256": "22c7790fadd24417f9d0d574d2d65cc42beba45b6b87f770c2f2fecff719705b",
+      "bytes": 409
+    },
+    {
+      "path": "research/gate08/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "research/gate08/ablations.py",
+      "sha256": "bf027e813967b19227275aa8f7f6f2cb8f4e95ca76cf46e8d10a9fbbee446c02",
+      "bytes": 2646
+    },
+    {
+      "path": "research/gate08/harness.py",
+      "sha256": "ebeaf1d8ec23661211cae75bf5ec96009a064b25054ca8498bf2a3ce98c45801",
+      "bytes": 1821
+    },
+    {
+      "path": "research/gate08/method/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "research/gate08/method/alignment.py",
+      "sha256": "cdf47b93cd832f39c82968fdb69d0da972abf1b3d56ab625403bb817ba2f9fa0",
+      "bytes": 9458
+    },
+    {
+      "path": "research/gate08/method/calibration.py",
+      "sha256": "b16dceca36f60ea6eaab55e4af3d0ec485aa8db853378d36dd9b188807c46701",
+      "bytes": 2379
+    },
+    {
+      "path": "research/gate08/method/correspondence.py",
+      "sha256": "360c9e5c08d4a69b194e29cb1f0efd20a678c2dc89aa8b2ed42d1842be57615d",
+      "bytes": 5281
+    },
+    {
+      "path": "research/gate08/method/models.py",
+      "sha256": "a88a074856d8bbd92d11286006bdf3fb54be36b1741626dd8060ae369f122cd8",
+      "bytes": 8566
+    },
+    {
+      "path": "research/gate08/method/pipeline.py",
+      "sha256": "a752230d041fc10ed3078d7bceb64e4a075552f39cb86237b519df1f17b315fe",
+      "bytes": 6765
+    },
+    {
+      "path": "research/gate08/method/prompts.py",
+      "sha256": "888eb6c390912e101700978df262e4b30f14a23c7f4d9fc15b69a0106e311c46",
+      "bytes": 5629
+    },
+    {
+      "path": "research/gate08/method/signature.py",
+      "sha256": "ac6ae42b41938f453c6fcf13255d28303f438c8876aa299719a12af14a001fcc",
+      "bytes": 11095
+    },
+    {
+      "path": "research/gate08/metrics/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "research/gate08/metrics/diagnostics.py",
+      "sha256": "5e2ff38689b1fc12563d356fdbd89515370d703412ab2e2d677c994ef662f7e8",
+      "bytes": 2295
+    },
+    {
+      "path": "research/gate08/metrics/report.py",
+      "sha256": "e021c60a81528841362d81a5b408536d89effe69d7de424afa60a8126d70f012",
+      "bytes": 10464
+    },
+    {
+      "path": "research/gate08/protocol/__init__.py",
+      "sha256": "52d620c5b5e84c036c534816bd3c81d6bdbf823fc849cefb15088870d6c46718",
+      "bytes": 443
+    },
+    {
+      "path": "research/gate08/protocol/build.py",
+      "sha256": "2ca22ac7eff309b8e96211d8079673ac3fe07ce8b741c6626428d6e222922576",
+      "bytes": 1432
+    },
+    {
+      "path": "research/gate08/protocol/freeze.py",
+      "sha256": "6384e00cb858becdd2c1e8870ff6497cd918ae0a6232389e2f1ab5733c2e7dd6",
+      "bytes": 10384
+    },
+    {
+      "path": "research/gate08/runner/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "research/gate08/runner/calibrate.py",
+      "sha256": "124da703e6ae2a999c0eaf062c88317340420eba0e5c1f7f2ae6b449406f5d84",
+      "bytes": 5118
+    },
+    {
+      "path": "research/gate08/runner/decide.py",
+      "sha256": "37b9bbea127b12093b3f831473db8c525bae67ea912cc67fa5d830c213e20a93",
+      "bytes": 5527
+    },
+    {
+      "path": "research/gate08/runner/signatures.py",
+      "sha256": "654e8c0e92f775d3b203b19320aa11516b17e4ed60bfad127edfaa015a41d208",
+      "bytes": 14672
+    },
+    {
+      "path": "research/gate08/runner/store.py",
+      "sha256": "3b67370211a0311ad0ae6bb7c7edbdb7a7a49be31562e3bbc21a5d246c409da3",
+      "bytes": 5024
+    },
+    {
+      "path": "research/gate19/__init__.py",
+      "sha256": "9d5866b6e3071934463cf87da885fb655162517e664bb4509ee7af7048c7b217",
+      "bytes": 70
+    },
+    {
+      "path": "research/gate19/auditor.py",
+      "sha256": "4be5a726dce0b881b81c28a52a3ff830fa90c302eb5b7246e50ed21e6df8fec4",
+      "bytes": 15622
+    },
+    {
+      "path": "research/gate19/build_repaired_oracle.py",
+      "sha256": "15150901ad24ad4a13d20e92b9c9afbac5805ba69d4bb7d63db6d577c9241e4d",
+      "bytes": 4336
+    },
+    {
+      "path": "research/gate19/build_result.py",
+      "sha256": "3837003efc02d25a88a60e260f18a41b26ab0767c281a20aaa497f39d1f02eac",
+      "bytes": 16767
+    },
+    {
+      "path": "research/gate19/diagnostic_probe.py",
+      "sha256": "8aa867aa0d21420469d79b407ef2c2cc4c45ba32c85392c1915a871a084f1bdc",
+      "bytes": 8521
+    },
+    {
+      "path": "research/gate19/external_audit.py",
+      "sha256": "7b16f2e4a04c293d1ff0a53404c22c578c8ea8d5b94aa7057302827c2f2cf64a",
+      "bytes": 3533
+    },
+    {
+      "path": "research/gate19/frozen_outputs.py",
+      "sha256": "b24d28e509f13cc577709b3fd4bcb81deec76b0c64e7021a39906a9909cfbb39",
+      "bytes": 6305
+    },
+    {
+      "path": "research/gate19/information_rights.json",
+      "sha256": "a6dedc5211fc4a2a80b9bf44acfca52b9fbbe0d11ed395c2f1a0b1451f03fa63",
+      "bytes": 3609
+    },
+    {
+      "path": "research/gate19/source_hashes.py",
+      "sha256": "4efbfdbabbe7e587b638ee14f7b743c99c2735a2387912f0fcacc57563163e44",
+      "bytes": 4472
+    },
+    {
+      "path": "research/gate19/tests.py",
+      "sha256": "3fe0bf5412265fa4294e65835df770608c239236782da46c8806da53a724d230",
+      "bytes": 2936
+    }
+  ]
+}
