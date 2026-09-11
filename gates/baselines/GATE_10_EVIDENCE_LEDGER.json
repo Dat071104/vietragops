@@ -635,6 +635,28 @@
       "artifact_sha256": "734050d98af345f15da80ba8f5340ab32daeab0a7460329399501fc8b23fe450",
       "gate": "Gate 18-R",
       "locator": "candidate /health/ready raw response and post-promotion identity"
+    },
+    {
+      "id": "C043",
+      "value": "10/35 target-absent tool_replacement pair findings",
+      "status": "observed",
+      "paper_locations": ["contribution 1", "results"],
+      "artifact_path": "gates/results/GATE_19_RESULT.md",
+      "artifact_commit": "d80959824ee2059d0d0eb1cbfcb0f90681147e2d",
+      "artifact_sha256": "ba01a4dfcaf649693b17f1cd3fa63f029cb587441616e54b5f2ce34760b34509",
+      "gate": "Gate 19",
+      "locator": "O1 auditor summary"
+    },
+    {
+      "id": "C044",
+      "value": "5/15 graded tool_replacement cases requiring an unobservable :: join",
+      "status": "observed",
+      "paper_locations": ["contribution 1", "secondary finding", "results"],
+      "artifact_path": "gates/results/GATE_19_RESULT.md",
+      "artifact_commit": "d80959824ee2059d0d0eb1cbfcb0f90681147e2d",
+      "artifact_sha256": "ba01a4dfcaf649693b17f1cd3fa63f029cb587441616e54b5f2ce34760b34509",
+      "gate": "Gate 19",
+      "locator": "O2 hidden-convention characterization"
     }
   ],
   "coverage": {
