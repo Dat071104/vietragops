@@ -1151,6 +1151,19 @@ Recorded provider spend `$0.20574795` under a `$1.20` cap. Full suite
 **Gate 09 is not authorized**; it requires a separately approved plan. See
 `gates/results/GATE_08_RESULT.md`.
 
+**Gate 10 current paper state (2026-09-11):** Gate 10 was re-scoped and
+authorized under DEC-0048 to write the tier-(b) measurement and
+benchmark-validity preprint. The adopted title is *Unreachable Oracles:
+Ground-Truth Derivability in Synthetic Tool-Drift Benchmarks for LLM Agents*.
+The frozen protocol is `8a9cc4a`; the machine-readable evidence ledger is
+`d456a5d`; the substantive paper package is described at
+`4da7371fe7d414ba0e4f0064983c71e8c458fa8a`. The package contains the LaTeX
+source, three figures, verified related work, adversarial review, and an arXiv
+preparation checklist. The paper is ready for owner review, not submission;
+author list, final license, and category selection remain owner actions. Gate 09
+remains unauthorized, Gate 20 remains cancelled, and no provider/GCP/deployment
+or push action occurred.
+
 **Gate 19 result (2026-09-11, single-system case-study tier):** The new
 `research/gate19` auditor formalizes oracle reachability under declared
 information rights and independently reproduces `tool_replacement=10/35`

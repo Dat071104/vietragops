@@ -3915,3 +3915,51 @@ RISK-0026 first and preserve the frozen provider-pinned research lane.
   cloud call, deployment, secret, production source, corpus, manifest,
   chunk-store, embedding, golden-set, Gate 07/08/19 frozen-artifact, Gate 20,
   or Gate 10 paper action occurred. No push occurred.
+
+## 2026-09-11 — Gate 10 re-scoped measurement paper and arXiv preparation
+
+### Scope and frozen protocol
+
+- The owner re-scoped Gate 10 under `DEC-0048`: the original `BLOCKED BY GATE
+  09 PASS` condition was written for a full evaluation, while this paper is a
+  measurement and benchmark-validity paper. Gate 09 remains unauthorized and
+  Gate 20 remains cancelled; neither was reopened.
+- The superseded alignment title and rationale were preserved. The adopted title
+  is `Unreachable Oracles: Ground-Truth Derivability in Synthetic Tool-Drift
+  Benchmarks for LLM Agents`.
+- `gates/baselines/GATE_10_PROTOCOL.json` was frozen and committed as `8a9cc4a`;
+  its SHA-256 is recorded in the evidence ledger. The machine-readable ledger
+  was completed with 44 claim entries and 20 artifact entries and committed as
+  `d456a5d`.
+
+### Paper and verification
+
+- Related-work metadata and URL checks were recorded in
+  `paper/REFERENCES_VERIFIED.json` at `1cc3e27`; the set covers evolving tool
+  agents, tool/schema adaptation, API migration/software evolution, and MCP
+  evaluation.
+- The LaTeX source, inline bibliography, three generated PNG figures, hostile
+  self-review, README, and arXiv preparation checklist were committed in the
+  paper package at `4da7371`; the package pointer was then pinned in the
+  documentation commit `4ad1baf`.
+- The external-directory LaTeX check produced an 11-page PDF with figures and
+  no fatal errors or unresolved citations after the second pass. The generated
+  PDF and auxiliary files were not added to the repository.
+- Final repository suite: `612 passed, 2 warnings` in `367.58s` using
+  `.venv\Scripts\python.exe` and external basetemp
+  `D:\Temp\vietragops-gate10-basetemp-20260911-02`.
+
+### Integrity and hygiene boundary
+
+- The claim-to-artifact audit returned `CLAIMS=44`, `ARTIFACTS=20`,
+  `CLAIM_ERRORS=0`, and `ARTIFACT_ERRORS=0`; all listed artifact SHA-256 values
+  and last-touch commits matched the ledger.
+- The repository hygiene checker found pre-existing tracked public-corpus/data
+  and generated-artifact policy debt, plus 1,254 filesystem findings; no cleanup
+  was authorized. A filename-only secret-token/private-key pattern scan found
+  zero matches. Email-shaped strings occur in pre-existing public data/code/ops
+  files, so no categorical claim of global private-data absence is made beyond
+  the Gate 10 package and its no-new-private-data boundary.
+- No provider, GCP, deployment, IAM, Secret Manager, corpus, manifest,
+  chunk-store, embedding, golden-set, frozen-artifact, reset, stash, clean,
+  rebase, amend, force-push, or push action occurred.
