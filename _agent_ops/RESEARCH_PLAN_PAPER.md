@@ -1,9 +1,9 @@
 # Research Plan — arXiv Paper (Gate 10 track)
 
-**Status:** PLAN. Not authorized to execute. Gate 10 remains blocked.
+**Status:** AUTHORIZED — RE-SCOPED MEASUREMENT PAPER (`DEC-0048`).
 **Owner decision:** narrow, research-first paper. VietRAGOps Evolve is the deployed
 case study and artifact, not the contribution.
-**Recorded:** 2026-09-10.
+**Recorded:** 2026-09-11.
 
 This file is durable project memory. It records the paper direction the owner
 chose, the blocking prerequisites that must be cleared before any result can be
@@ -14,8 +14,19 @@ claimed, and the gate sequence that gets there. It supersedes nothing; the thin
 
 ## 1. Working title
 
-> **Pre-Execution Cross-Version Tool Alignment for LLM Agents under In-Place API
-> Schema Drift**
+> **Unreachable Oracles: Ground-Truth Derivability in Synthetic Tool-Drift
+> Benchmarks for LLM Agents**
+
+This title is adopted under `DEC-0048`. It names the phenomenon and the
+synthetic LLM-agent benchmark scope without claiming an alignment method, a new
+benchmark, SOTA, external validation, or generalization beyond the measured
+surface. It remains accurate if the reported values move by 10%.
+
+**Superseded 2026-09-11 (`DEC-0048`):** *Pre-Execution Cross-Version Tool
+Alignment for LLM Agents under In-Place API Schema Drift.* The title is
+superseded because Gate 08 closed RQ3 **NEGATIVE** (`DEC-0023`) and Gate 19-C
+cancelled the campaign that could have reopened that alignment claim by power
+analysis (`DEC-0047`). The old title is retained here as historical record.
 
 Do **not** use "Invariant Tool-Intent ..." as a title until an ablation shows an
 explicit intent representation produces a clear gain. The word *invariant* is a
@@ -23,28 +34,33 @@ claim, and it is currently unproven.
 
 ## 2. Scientific thesis — one sentence
 
-> Can previously verified tool behavior be transferred to an unseen API version by
-> inferring semantic tool and argument correspondence, **without** a migration map,
-> a new-version reference trajectory, or pre-execution probing?
+> Can a declared-information-rights criterion and auditor determine whether
+> ground-truth targets in synthetic tool-drift benchmarks for LLM agents are
+> derivable, and what measurement and statistical-power consequences follow when
+> they are not?
 
-Every section must serve this sentence. Anything that does not goes to the
-appendix or to a separate project technical report.
+Every section must serve this sentence. The cross-version alignment setting is
+the context in which the benchmark defect was found, not the claim of a new
+alignment method.
 
-Formally, given `(T^old, E^old, T^new_inventory, q)` produce
-`M(T_i^old) ∈ T^new ∪ {∅}` and an argument correspondence `B(a_r^old, a_s^new)`,
-then measure **first-attempt task success**, not mapping accuracy alone.
+Formally, for declared information rights `I` and an oracle target `g`, define
+`Reachable(g | I) = 1` iff the target is derivable from `I`. An item that requires
+an absent target field, an unobservable construction convention, or another
+unstated value is an unreachable oracle and must be repaired or excluded before
+it is used for a capability claim.
 
 ## 3. Research questions
 
 | RQ | Question |
 |---|---|
-| **RQ1 — Failure** | How much does in-place API/schema drift reduce first-attempt task success when the migration mapping is hidden and probing is disallowed? |
-| **RQ2 — Value of history** | Do verified old successful traces carry information beyond old + new schemas alone? |
-| **RQ3 — Method** | Does explicit tool-intent + argument correspondence beat strong direct-LLM and semantic-matching baselines? |
-| **RQ4 — Safety** | Does calibrated alignment distinguish semantic near-collisions and `NO_EQUIVALENT` cases from valid replacements, on unseen tools and drift families? |
+| **RQ1 — Criterion** | Can oracle reachability under declared information rights be checked mechanically and independently reproduced? |
+| **RQ2 — Measurement** | How often are ground-truth items unreachable across the 12 synthetic drift families, and which mutation families account for the failures? |
+| **RQ3 — Control** | Does the same audit find unreachable targets in a hand-verified sample of real MCP/API version pairs? |
+| **RQ4 — Validity** | How do repair/exclusion choices change the scoreable sample and its minimum detectable effect, and what does the raw evidence say about the project's prior `::` mechanism claim? |
 
-RQ2 is load-bearing. If historical traces add nothing, the central story collapses
-and the paper must be reframed (see §9, Case C).
+The earlier alignment-method RQ3 remains a pre-registered **NEGATIVE** result in
+Gate 08 (`DEC-0023`). It is disclosed as historical evidence and is not reopened
+by this paper.
 
 ## 4. Blocking prerequisites — read before planning any experiment
 
@@ -268,7 +284,7 @@ renames is leakage.
 
 ---
 
-## 9. Outcome cases — decide the paper by the result, not before
+## 9. Outcome cases — historical method-plan routing
 
 | Case | Result | What to write |
 |---|---|---|
@@ -277,17 +293,17 @@ renames is leakage.
 | **C** | Method does not win, but a clear discovery (e.g. history helps split/merge and no-equivalent but not simple renames) | Reframe: *"When Do Historical Tool Traces Help? A Controlled Study of LLM Agents under API Schema Drift"*. Still real value. |
 | **D** | Baselines saturate at 97–99% | Do not write a method paper. Write the systems/measurement report or change the question. This is a correct scientific outcome. |
 
-Given §4.1, **Case C is the current prior**. Plan for it and be pleasantly
-surprised, rather than planning for Case A and rationalizing afterwards.
+These cases belong to the earlier Gate-20-dependent algorithmic plan. They are
+not active Gate 10 branches: Gate 20 was cancelled by `DEC-0047`, and Gate 08's
+alignment-method result is already **NEGATIVE** under `DEC-0023`.
 
 ### Gate 19-C routing outcome (2026-09-11)
 
 This arc lands in **Case Study B / tier (b)**: a single-system measurement case
-study with a reusable reachability criterion. It is not one of the Gate-20-
-dependent algorithmic Cases A–D above, because Gate 20 was cancelled before any
-new comparative campaign. The paper route is therefore the measurement-report
-branch: do not claim an algorithmic win, and do not turn the frozen Gate 07/08
-numbers into repaired-lane evidence.
+study with a reusable reachability criterion. The paper route is therefore the
+measurement-report branch. It must not claim an algorithmic win, a new
+benchmark, SOTA, external validation, or repaired-lane performance, and it must
+not turn the frozen Gate 07/08 numbers into repaired-lane evidence.
 
 ## 10. Paper structure and page budget
 
@@ -313,27 +329,34 @@ cross-version alignment → argument translation → confidence/abstain → firs
 execution. **Figure 2** is the information-rights table. Firecrawl, MarkItDown,
 Cloud Run and MCP architecture diagrams belong in the appendix.
 
-## 11. Contributions — exactly three
+## 11. Contributions — exactly four
 
-> **First**, we formulate **pre-execution cross-version tool alignment**, where an
-> agent transfers previously verified tool behavior to an evolved interface without
-> an explicit migration map, new-version reference trajectory, or pre-adaptation
-> environment probing.
+> **First**, we provide a checkable criterion and auditor: **oracle reachability
+> under declared information rights**. A ground-truth item is reachable iff its
+> target is derivable from the information the method is granted. The auditor is
+> implemented, tested, and independently reproduces the `10/35` and `5/15`
+> findings it was built to test.
 
-> **Second**, we evaluate the setting under structural and semantic drift,
-> including argument restructuring, semantic near-collisions, and cases where no
-> valid equivalent exists, separating correspondence accuracy from actual
-> first-attempt execution — and we introduce an oracle-reachability criterion that
-> exposes ground-truth items not derivable from the method's declared information
-> rights.
+> **Second**, we measure unreachability in a synthetic benchmark: across 12 drift
+> families and 310 pair items, 260 are reachable and 50 are unreachable (16.1%).
+> The `argument_merge` family is `0/30`, `tool_replacement` retains `15/35`, and
+> `argument_split` is `40/40`.
 
-> **Third**, we study whether explicit intent- and argument-level alignment with
-> calibrated abstention improves safe first-attempt adaptation over schema-only,
-> history-aware LLM, semantic-matching, and oracle comparators.
+> **Third**, we observe that synthetic drift generation introduces unreachable
+> oracles that real API evolution does not in the measured control: 20
+> hand-verified real MCP/API version pairs yielded `0/20` unreachable items.
 
-Use "we study whether" for the third until results exist. A fourth contribution
-about independently sourced real API/MCP version pairs may be added **only if
-Tier C actually exists**.
+> **Fourth**, we show that repairing an unreachable oracle can shrink a benchmark
+> below its own statistical power. After repair, the minimum detectable
+> differences are `0.2975` (`argument_split`, `n=40`), `0.4348`
+> (`tool_replacement`, `n=15`), and `0.2503` pooled, all above the pre-registered
+> meaningful effect of `0.20`.
+
+The paper must also report the required secondary finding, which is not counted
+as a fifth contribution: the project's RISK-0022 mechanism claim is contradicted
+by the raw frozen artifacts. They show `0/85` literal `::` constructions and `0`
+first-attempt successes in the five affected cases; the prior mechanism
+attribution was unverified inference.
 
 ## 12. Limitations to disclose
 
@@ -376,13 +399,13 @@ intervals are wide; RISK-0020 through RISK-0023 as stated in §4.
 | **Gate 18** | Close RISK-0026, deploy the repaired product lane | approved, next |
 | **Gate 19** | Oracle repair (RISK-0021/0022) + reachability audit of a public benchmark (§6.2) + guess-rate measurement (§6.3) | **complete — single-system case-study tier; external validation not established** |
 | **Gate 20** | Hostile baseline campaign B0–B7 under the repaired oracle and a frozen protocol | **CANCELLED — DEC-0047; underpowered scoreable surface** |
-| **Gate 10** | Freeze, write, submit | **recommended next route for tier (b), still blocked/not authorized** |
+| **Gate 10** | Freeze and write the re-scoped measurement paper; prepare but do not submit | **AUTHORIZED — RE-SCOPED by DEC-0048; Gate 09 remains unauthorized** |
 
 The highest-value next research action is **not writing and not adding features**.
 It is Gate 19: repair the oracle, audit an external benchmark with the
 reachability criterion, and quantify the unobservable-convention guess rate. That
-result determines whether this is an 8/10 algorithmic paper or a 6/10 measurement
-preprint — and either is publishable if reported honestly.
+result established the tier-(b) measurement route. No new campaign is authorized
+to strengthen the paper; the frozen evidence is to be reported honestly.
 
 ### Gate 19 outcome (2026-09-11)
 
@@ -412,8 +435,8 @@ measurement contribution and not an algorithmic paper.
 Gate 20 is cancelled by DEC-0047. The retained surfaces have MDE `0.2975` at
 `n=40` for `argument_split`, `0.4348` at `n=15` for `tool_replacement`, and
 `0.2503` at pooled `n=55`, all above the pre-registered 0.20 practical effect;
-the required per-arm sizes are `90`, `76`, and `87`. Gate 10 is the recommended
-replacement route once separately authorized: write only the tier (b) paper,
-preserve the original Gate 07/08 numbers as historical, and disclose that Path
-B is a 20-pair negative control rather than external validation. Gate 10 remains
-blocked in this gate; no paper prose is executed here.
+the required per-arm sizes are `90`, `76`, and `87`. Under `DEC-0048`, Gate 10
+is the authorized replacement route: write only the tier (b) paper, preserve
+the original Gate 07/08 numbers as historical, and disclose that Path B is a
+20-pair negative control rather than external validation. Gate 09 and Gate 20
+remain unauthorized for this route.

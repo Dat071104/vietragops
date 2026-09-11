@@ -1,0 +1,71 @@
+{
+  "gate": "Gate 10",
+  "protocol_version": "1.0",
+  "date": "2026-09-11",
+  "status": "AUTHORIZED_RE_SCOPED",
+  "entry_commit": "f7f5d37d7a5539cc99657f557e18086a21034ed7",
+  "entry_remote_main": "f7f5d37d7a5539cc99657f557e18086a21034ed7",
+  "decision": {
+    "id": "DEC-0048",
+    "scope": "Re-scope Gate 10 to a measurement and benchmark-validity paper.",
+    "gate_09": "Remains unauthorized and is not a prerequisite for this paper.",
+    "gate_20": "Remains cancelled and is not authorized by this protocol.",
+    "case_study_boundary": "VietRAGOps Evolve is a deployed single-system case study, not the scientific result."
+  },
+  "title": "Unreachable Oracles: Ground-Truth Derivability in Synthetic Tool-Drift Benchmarks for LLM Agents",
+  "superseded_title": {
+    "title": "Pre-Execution Cross-Version Tool Alignment for LLM Agents under In-Place API Schema Drift",
+    "date_superseded": "2026-09-11",
+    "reason": "Gate 08 closed RQ3 NEGATIVE under DEC-0023, and Gate 19-C cancelled the campaign that could have reopened the alignment claim under DEC-0047."
+  },
+  "scope": {
+    "paper_type": "measurement and benchmark-validity preprint",
+    "tier": "(b) single-system case study with a reusable criterion",
+    "phenomenon": "oracle unreachability and ground-truth derivability under declared information rights",
+    "setting": "synthetic tool-drift benchmarks for LLM agents, with a hand-verified real MCP/API version-pair control",
+    "claims_excluded": [
+      "new alignment method",
+      "new benchmark",
+      "SOTA",
+      "external validation",
+      "generalization beyond the measured scope"
+    ],
+    "submission": "Prepare arXiv materials only; do not submit."
+  },
+  "contributions": [
+    "A checkable criterion and auditor for oracle reachability under declared information rights; independently reproduces 10/35 and 5/15 findings.",
+    "Measured unreachability in a synthetic benchmark: 12 drift families, 310 pair items, 260 reachable, 50 unreachable (16.1%); argument_merge 0/30, tool_replacement 15/35 retained, argument_split 40/40.",
+    "Synthetic drift generation introduces unreachable oracles that real API evolution does not in the measured control: 0/20 unreachable across 20 hand-verified real MCP/API version pairs.",
+    "Repairing an unreachable oracle can shrink a benchmark below its own statistical power: MDE 0.2975 at argument_split n=40, 0.4348 at tool_replacement n=15, and 0.2503 pooled, all above the pre-registered 0.20 effect."
+  ],
+  "mandatory_disclosures": [
+    "Gate 08 pre-registered NEGATIVE result under DEC-0023.",
+    "RISK-0023 design-time exposure of three graded cases.",
+    "RISK-0020 narrow-claim boundary: Wilson upper bound 0.9333 against a 0.90 bar.",
+    "Small sample sizes and uncertainty intervals.",
+    "Single-system scope and tier-(b) case-study status.",
+    "Self-authored nature of the synthetic sandbox.",
+    "Gate 19 Path A was not audit-compatible; Path B found 0/20 unreachable and is a negative control, not external prevalence validation.",
+    "RISK-0022 raw-artifact contradiction: 0/85 literal :: constructions and 0 first-attempt successes in the five affected cases.",
+    "Gate 20 was cancelled by DEC-0047 after the pre-registered power analysis.",
+    "An arXiv submission is a preprint and must not be described as peer-reviewed."
+  ],
+  "traceability_rule": {
+    "rule": "Every numeric claim in the paper must have exactly one evidence-ledger entry with value, artifact path, artifact commit SHA, and producing gate.",
+    "unledgered_numbers": "Cut from the paper; no exceptions.",
+    "artifact_integrity": "Record SHA-256 for every cited artifact before prose and re-verify every hash at closure.",
+    "frozen_inputs": "Gate 07, Gate 08, Gate 19, and Gate 19-C artifacts remain byte-identical; no edit, move, regeneration, rescoring, or overwrite.",
+    "repository_commit": "The paper names the public repository and the final local commit that contains the paper, auditor, manifest, protocols, and ledger."
+  },
+  "operational_controls": {
+    "provider_calls": 0,
+    "gcp_calls": 0,
+    "deployment": false,
+    "secrets": false,
+    "corpus_manifest_chunk_store_embedding_golden_set_mutation": false,
+    "push": false,
+    "overlay_paths_staged": 0,
+    "paper_language": "English",
+    "reporting_language": "Vietnamese"
+  }
+}

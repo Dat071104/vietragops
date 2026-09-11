@@ -1944,3 +1944,57 @@ or Gate 10 paper action is authorized by this decision. The replacement
 recommendation is to seek separate Gate 10 authorization for the tier (b)
 single-system measurement paper; Gate 20 is not a prerequisite for that narrow
 paper claim. Gate 08 `DEC-0023` remains final and negative.
+
+## DEC-0048 — Re-scope Gate 10 to the measurement and benchmark-validity paper
+
+**Date:** 2026-09-11
+**Status:** ADOPTED — owner decision
+**Gate:** 10
+
+### Decision
+
+Re-scope Gate 10 to write a measurement and benchmark-validity paper under the
+existing tier-(b) boundary: a single-system case study with a reusable
+oracle-reachability criterion and auditor. Gate 09's original full-evaluation
+precondition is removed for this re-scoped paper only.
+
+The `BLOCKED BY GATE 09 PASS` precondition was written when Gate 10 was expected
+to report a full evaluation. This paper reports measurement and benchmark
+validity; VietRAGOps Evolve is a deployed case study, not the scientific result.
+Gate 09 is therefore not a genuine prerequisite for this paper. Gate 09 remains
+unauthorized and unchanged. This decision does not authorize Gate 09, Gate 20,
+any provider or cloud call, deployment, data mutation, or rescoring of frozen
+artifacts.
+
+### Title decision
+
+The superseded working title was:
+
+> **Pre-Execution Cross-Version Tool Alignment for LLM Agents under In-Place API
+> Schema Drift**
+
+It is superseded as of 2026-09-11 because Gate 08 closed RQ3 **NEGATIVE** under
+`DEC-0023`, and Gate 19-C cancelled the campaign that could have reopened that
+alignment claim under power analysis (`DEC-0047`).
+
+Candidate titles were reviewed against four requirements: name oracle
+unreachability or ground-truth derivability; name synthetic tool-drift or
+tool-migration benchmarks for LLM agents; make no alignment-method, new-
+benchmark, or SOTA claim; and remain valid under a 10% movement in the reported
+numbers. The shorter candidates did not state the LLM-agent benchmark scope
+explicitly enough. The adopted title is:
+
+> **Unreachable Oracles: Ground-Truth Derivability in Synthetic Tool-Drift
+> Benchmarks for LLM Agents**
+
+This title is descriptive rather than method- or ranking-oriented. It does not
+claim an alignment method, a new benchmark, SOTA, external validation, or
+generalization beyond the measured scope.
+
+### Boundary and consequence
+
+Gate 10 may proceed only on the re-scoped measurement-paper route. The paper
+must disclose the Gate 08 negative result, the Gate 19/19-C evidence boundary,
+the cancelled Gate 20 campaign, the RISK-0022 correction, and all mandatory
+limitations in the approved Gate 10 prompt. No Gate 09 or Gate 20 work is
+authorized by this decision.
