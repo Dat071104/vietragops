@@ -12,9 +12,10 @@ the owner's separate action.
 - Cross-lists: `cs.CL` (Computation and Language) for LLM-agent/tool-use readership and `cs.AI` (Artificial Intelligence) for agent evaluation and planning context.
 - Alternative: use `cs.CL` as primary if the owner wants NLP/LLM review context to dominate; this does not change the paper's scope or claims.
 - ACM/MSC classification: not required for this paper; leave blank unless the owner has a venue-specific reason to add one.
-- Comments field: `Measurement and benchmark-validity preprint; artifact commit 4da7371fe7d414ba0e4f0064983c71e8c458fa8a.`
+- Comments field: `Measurement and benchmark-validity preprint; citable artifact tag gate10-paper-v1-20260911.`
 - Artifact URL: `https://github.com/Dat071104/vietragops`
 - License recommendation: `CC BY 4.0`, subject to the authors' funder and future-journal checks.
+- Citable manuscript identifier: annotated tag `gate10-paper-v1-20260911`; later repository commits may refine the source.
 
 ## Endorsement
 
@@ -53,7 +54,7 @@ Official source: <https://info.arxiv.org/help/license/index.html>.
 - [ ] Replace the author placeholder in `main.tex`.
 - [ ] Confirm title and the 183-word abstract match the metadata exactly.
 - [ ] Select `cs.SE` primary, `cs.CL` and `cs.AI` cross-lists, or record the owner's approved alternative.
-- [x] Confirm the paper-package commit: `4da7371fe7d414ba0e4f0064983c71e8c458fa8a`.
+- [x] Confirm the citable manuscript tag: `gate10-paper-v1-20260911` (create only after the final content commit; do not push it from this gate).
 - [ ] Confirm `CC BY 4.0` or record the owner's approved license.
 - [ ] Upload `main.tex`, `figures/*.png`, and any required source files; do not upload private/raw artifacts.
 - [ ] Use arXiv's `Check Files` step and verify the detected top-level TeX file is `main.tex`.

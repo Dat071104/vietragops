@@ -60,7 +60,7 @@ The scope is deliberately narrow. Gate 08's preregistered alignment-method resul
 
 The required secondary finding is not counted as a fifth contribution. The project's RISK-0022 mechanism claim asserted that baselines guessed an unstated ``::'' convention. The frozen raw rows instead contain 0/85 literal ``::'' constructions and 0 first-attempt successes in the five affected cases. The evidence supports an audit-trail and scorer-attribution error, not hidden-convention capability.\ledger{C020--C022}
 
-All result numbers are linked to the committed evidence ledger \artifact{gates/baselines/GATE_10_EVIDENCE_LEDGER.json}, commit \sha{d456a5d} (full SHA in the reproducibility appendix), whose claim-level records are citable.\ledger{C003--C044}
+All result numbers are linked to the committed evidence ledger \artifact{gates/baselines/GATE_10_EVIDENCE_LEDGER.json}, commit \sha{653aa81} (full SHA in the reproducibility appendix), whose claim-level records are citable.\ledger{C003--C045}
 
 \section{Related Work}
 
@@ -221,9 +221,9 @@ The case study is intentionally short. Firecrawl, MarkItDown, MCP plumbing, Clou
 
 \section{Reproducibility and Traceability}
 
-The public repository is \url{https://github.com/Dat071104/vietragops}. The paper package described here is commit \sha{4da7371fe7d414ba0e4f0064983c71e8c458fa8a}. The protocol and evidence ledger are committed artifacts; the ledger maps every numeric result used here to a file, commit, producing gate, and locator. The current protocol commit is \sha{8a9cc4a}; the ledger commit is \sha{d456a5d} and its full SHA is recorded in Appendix~\ref{app:traceability}. The paper package is prepared for arXiv but is not submitted by this gate.
+The public repository is \url{https://github.com/Dat071104/vietragops}. The citable identifier for this manuscript is the annotated git tag \texttt{gate10-paper-v1-20260911}; it resolves to the final content commit for this version. Later commits may refine the repository without changing what this tag denotes. The protocol and evidence ledger are committed artifacts; the ledger maps every numeric result used here to a file, commit, producing gate, and locator. The current protocol commit is \sha{8a9cc4a}; the ledger commit is \sha{653aa81} and its full SHA is recorded in Appendix~\ref{app:traceability}. The paper package is prepared for arXiv but is not submitted by this gate.
 
-The frozen-input integrity manifest \artifact{gates/results/GATE_19_FROZEN_SOURCE_HASHES.json}, commit \sha{a434d53}, was rechecked in Gate 19-C: all 146 recorded hashes were unchanged, with 0 changed and 0 missing.\ledger{C028} Gate 07, Gate 08, Gate 19, and Gate 19-C artifacts remain frozen; no source, corpus, manifest, chunk store, embedding artifact, or golden set was modified for this manuscript.
+The Gate 19 frozen-input manifest \artifact{gates/results/GATE_19_FROZEN_SOURCE_HASHES.json}, commit \sha{a434d53}, contains \texttt{file\_count=134} and 134 entries in its \texttt{files} array.\ledger{C045} Separately, the Gate 19-C C0/C5 integrity receipt \artifact{gates/results/GATE_19C_RESULT.md}, commit \sha{90d9282}, reports a distinct 146-file C0 inventory: UNCHANGED=146, CHANGED=0, MISSING=0.\ledger{C028} These are two different integrity checks and must not be combined. Gate 07, Gate 08, Gate 19, and Gate 19-C artifacts remain frozen; no source, corpus, manifest, chunk store, embedding artifact, or golden set was modified for this manuscript.
 
 \section{Conclusion}
 
@@ -247,7 +247,7 @@ The procedure is additive. The original Gate 07 and Gate 08 artifacts are not re
 \section{Artifact Provenance}
 \label{app:traceability}
 
-The following table lists the committed evidence files directly cited by the paper. Full SHA-256 values and claim-level locators are in \artifact{gates/baselines/GATE_10_EVIDENCE_LEDGER.json}, commit \sha{d456a5d}.
+The following table lists the committed evidence files directly cited by the paper. Full SHA-256 values and claim-level locators are in \artifact{gates/baselines/GATE_10_EVIDENCE_LEDGER.json}, commit \sha{653aa81}.
 
 \begingroup
 \tiny
@@ -278,9 +278,10 @@ Artifact path & Gate & Commit SHA \\
 \artifact{gates/baselines/GATE_19C_PROTOCOL.json} & Gate 19-C & \sha{4e7a58f} \\
 \artifact{gates/results/GATE_19C_RESULT.md} & Gate 19-C & \sha{90d9282} \\
 \artifact{gates/results/GATE_08_RESULT.md} & Gate 08 & \sha{e43c932} \\
+\artifact{_agent_ops/RISK_REGISTER.md} & Gate 07/10 & \sha{90d9282} \\
 \artifact{gates/baselines/GATE_08_PROTOCOL.json} & Gate 08 & \sha{0e2aab7} \\
 \artifact{gates/results/GATE_18R_RESULT.md} & Gate 18-R & \sha{bfdbb60} \\
-\artifact{gates/baselines/GATE_10_EVIDENCE_LEDGER.json} & Gate 10 & \sha{d456a5d} \\
+\artifact{gates/baselines/GATE_10_EVIDENCE_LEDGER.json} & Gate 10 & \sha{653aa81} \\
 \bottomrule
 \end{longtable}
 \endgroup

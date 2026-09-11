@@ -36,14 +36,14 @@ The frozen protocol is:
 The machine-readable backbone is:
 
 - path: `gates/baselines/GATE_10_EVIDENCE_LEDGER.json`
-- commit: `d456a5dc487173bc43dac60fb2ca8026a1afa370`
-- SHA-256: `6a71719d7256cffa13cad5ea20e27682120f556e9cb14580feb9b39cbd3a7489`
-- coverage: 44 claim entries, 20 artifact entries
+- commit: `653aa81fde9a9f8ad24bd8ebe634e5dbca780474`
+- SHA-256: `d9ec96bedcd28c1b0339c0e29534ecd50d893fa6e6714b46419b802434f229f6`
+- coverage: 45 claim entries, 21 artifact entries
 
 The ledger-to-filesystem audit returned:
 
 ```text
-CLAIMS=44 ARTIFACTS=20
+CLAIMS=45 ARTIFACTS=21
 CLAIM_ERRORS=0
 ARTIFACT_ERRORS=0
 ```
@@ -54,7 +54,15 @@ derived. The ledger contains all-family reachability, the `10/35` and `5/15`
 auditor findings, `260/310` and `50/310`, `0/30`, `15/35`, `40/40`, `0/20`,
 `0/85`, zero first-attempt success, the diagnostic probe, the `P(::)=1/9`
 baseline, the 146-hash integrity check, the power analysis, Wilson intervals,
-and the RAG case-study figures.
+and the RAG case-study figures, plus the separate 134-entry Gate 19 manifest
+and 146-file Gate 19-C C0 integrity checks.
+
+A post-correction source audit opened the cited artifact for each of the 45
+ledgered numeric claims: all 45 were supported by the cited file or by a
+derivation from its recorded table/array. Two original attribution defects were
+corrected: the manuscript had assigned the Gate 19-C count of 146 to the
+Gate 19 manifest, and C039 had assigned the RISK-0020 values to the Gate 08
+result instead of `_agent_ops/RISK_REGISTER.md`. No result value changed.
 
 ## Paper and related work
 
@@ -100,11 +108,15 @@ generalization beyond the measured scope.
 ## Reproducibility and integrity
 
 The public repository is `https://github.com/Dat071104/vietragops`. The
-substantive paper package is reachable at commit
-`4da7371fe7d414ba0e4f0064983c71e8c458fa8a`; the documentation pin and current
-pre-closure checkout are `4ad1baf0b52e2f742b11318e1bc0116ec7b55206`.
+citable manuscript identifier is the annotated tag
+`gate10-paper-v1-20260911`, created after the final content commit. Earlier
+package commits `4da7371fe7d414ba0e4f0064983c71e8c458fa8a` and
+`4ad1baf0b52e2f742b11318e1bc0116ec7b55206` remain historical build milestones;
+later commits may refine the repository without changing the tag.
 
-The frozen Gate 07/08/19/19-C input manifest was reverified by Gate 19-C as:
+The Gate 19 frozen-source manifest at commit `a434d53` contains 134 entries.
+Separately, Gate 19-C's C0/C5 receipt at commit `90d9282` reverified its
+distinct 146-file C0 inventory as:
 
 ```text
 recorded hashes: 146
