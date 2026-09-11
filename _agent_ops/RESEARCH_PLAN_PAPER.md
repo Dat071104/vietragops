@@ -75,17 +75,23 @@ explicitly exclude the unreachable pairs **before** any baseline campaign.
 
 ### 4.3 Five graded cases require an unobservable convention (RISK-0022)
 
-Five of 15 graded `tool_replacement` cases require an argument built by joining
-two old values with `::`. That separator exists **only in the sandbox's internal
-operations code** and appears in no contract, description, schema, or trace any
-method is permitted to see. Gate 08's pre-registered policy reported the
-correspondence and constructed no value, producing an unconstructible call — and
-**the frozen Gate 07 baselines that "succeeded" there guessed an unstated
-convention.**
+**Superseded historical claim (2026-09-11):** five of 15 graded
+`tool_replacement` cases require an argument built by joining two old values with
+`::`, and the frozen Gate 07 baselines that "succeeded" there guessed an
+unstated convention. The original wording is retained in RISK-0022's history.
 
-**Consequence:** on those cases, reported success is not evidence of capability,
-and reported abstention is not evidence of failure. Both directions of the metric
-are wrong at once.
+**Gate 19-C correction:** the first clause is confirmed, but the mechanism claim
+was not. The frozen V4/V4.1 extraction contains 85 effective rows for these five
+cases: `0` literal `::` constructions, `3` different-separator constructions,
+`82` no-join outputs, and `0` first-attempt successes. Gate 07's family-level
+successes therefore occurred on the other cases. Its argument-mapping scorer
+compares exact field quadruples, while its first-attempt executor compares the
+produced argument dictionary with the frozen expected inputs.
+
+**Consequence:** the audit trail carried an unverified attribution from a
+family-level success rate to the hidden cases. Pair-mapping credit must be
+reported separately from value construction and first-attempt execution; neither
+direction supports a hidden-convention capability claim.
 
 ### 4.4 Design-time oracle exposure is on record (RISK-0023)
 
@@ -274,6 +280,15 @@ renames is leakage.
 Given §4.1, **Case C is the current prior**. Plan for it and be pleasantly
 surprised, rather than planning for Case A and rationalizing afterwards.
 
+### Gate 19-C routing outcome (2026-09-11)
+
+This arc lands in **Case Study B / tier (b)**: a single-system measurement case
+study with a reusable reachability criterion. It is not one of the Gate-20-
+dependent algorithmic Cases A–D above, because Gate 20 was cancelled before any
+new comparative campaign. The paper route is therefore the measurement-report
+branch: do not claim an algorithmic win, and do not turn the frozen Gate 07/08
+numbers into repaired-lane evidence.
+
 ## 10. Paper structure and page budget
 
 Main text 10–12 pages plus appendix.
@@ -360,8 +375,8 @@ intervals are wide; RISK-0020 through RISK-0023 as stated in §4.
 |---|---|---|
 | **Gate 18** | Close RISK-0026, deploy the repaired product lane | approved, next |
 | **Gate 19** | Oracle repair (RISK-0021/0022) + reachability audit of a public benchmark (§6.2) + guess-rate measurement (§6.3) | **complete — single-system case-study tier; external validation not established** |
-| **Gate 20** | Hostile baseline campaign B0–B7 under the repaired oracle and a frozen protocol | not yet authorized |
-| **Gate 10** | Freeze, write, submit | blocked |
+| **Gate 20** | Hostile baseline campaign B0–B7 under the repaired oracle and a frozen protocol | **CANCELLED — DEC-0047; underpowered scoreable surface** |
+| **Gate 10** | Freeze, write, submit | **recommended next route for tier (b), still blocked/not authorized** |
 
 The highest-value next research action is **not writing and not adding features**.
 It is Gate 19: repair the oracle, audit an external benchmark with the
@@ -394,8 +409,11 @@ therefore **not established**. The evidence supports **Case Study B / tier (b):
 a single-system case study with a reusable criterion**, not a field-level
 measurement contribution and not an algorithmic paper.
 
-Gate 20 remains unauthorized. If it is later authorized, it must freeze a new
-protocol over the additive V1 oracle, keep excluded target/convention/default
-items out of scoring or explicitly type their missingness, and preserve the
-original Gate 07/08 numbers as historical. Gate 10 remains blocked; no paper
-prose is authorized by Gate 19.
+Gate 20 is cancelled by DEC-0047. The retained surfaces have MDE `0.2975` at
+`n=40` for `argument_split`, `0.4348` at `n=15` for `tool_replacement`, and
+`0.2503` at pooled `n=55`, all above the pre-registered 0.20 practical effect;
+the required per-arm sizes are `90`, `76`, and `87`. Gate 10 is the recommended
+replacement route once separately authorized: write only the tier (b) paper,
+preserve the original Gate 07/08 numbers as historical, and disclose that Path
+B is a 20-pair negative control rather than external validation. Gate 10 remains
+blocked in this gate; no paper prose is executed here.

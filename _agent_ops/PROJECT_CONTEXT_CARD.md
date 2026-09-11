@@ -1095,3 +1095,86 @@ See `gates/results/GATE_03_RESULT.md` for the full record, including two
 residual risks (DNS-rebinding/TOCTOU against Firecrawl's own fetch;
 `credits_used`/`firecrawl_action_id` unconfirmed field names) also logged
 in `RISK_REGISTER.md`.
+
+**Gate 07 historical v2 record (2026-08-27, BLOCKED):** Gate 07 built a
+separate 39-tool, in-memory synthetic education sandbox with 216 deterministic
+cases (180 graded, 36 held-out), all twelve drift families, explicit
+one-to-many and many-to-one shapes, public-task redaction, and capability-gated
+evaluator records. The v2 seed-leak amendment was not committed before the v2
+offline/LLM reruns; those v2 artifacts remain preserved and disqualified.
+
+**Gate 07 V4.1 current result (2026-08-29, GO — narrow):** The unchanged V4
+case/prompt/model surface was recollected through the committed
+`GATE_07_PROTOCOL_V4_1_ADDENDUM.json`. The append-only LLM artifacts contain
+2,584 rows resolving to 1,800 logical keys: 1,775 success, 13 parse failures,
+and 12 provider errors; no `client_throttled` rows and zero held-out cases.
+The recorded fresh cost is `$0.23893425` under the `$1.20` cap. Metrics were
+regenerated twice with matching SHA
+`71aa32cf654814e9492caaded8dcd9895bb1a4712a001885731be366981c9dfc`.
+The narrow GO covers `argument_split` and `tool_replacement`; it is not a
+broad alignment-method result and does not authorize Gate 08. See
+`gates/results/GATE_07_RESULT.md`, DEC-0021/0022, and the V4.1 closure receipt.
+The operational/code commits are `42de730`, `beef195`, `234e852`, and final
+closure `b27fcae`; `39d3861` records the later agent-ops reconciliation. The
+committed pre-provider preflight passed with the V4
+dataset/oracle digests, and the final local index is empty. The V4.1 result,
+raw, request-ledger, addendum, and repeated-metrics hashes are recorded in the
+result and closure receipt. A first sandboxed response preceded an artifact
+write permission failure and was retried; its bounded unrecorded-cost risk is
+tracked as RISK-0019 and DEC-0022.
+
+**Gate 08 result (2026-08-29, NEGATIVE — method not adopted):** The
+cross-version alignment method specified by Gate 08 was built, frozen, run, and
+ablated under Gate 07's narrow V4.1 GO, on a pre-registered surface of 15 graded
+`argument_split`, 15 graded `tool_replacement`, and 15 graded `no_equivalent`
+control cases, with the 36 held-out cases as the calibration split. Gate 07's
+frozen baselines were re-scored on that surface, never re-run; the surface
+digests are byte-identical to `GATE_07_PROTOCOL_V4.json`.
+
+The method loses to the frozen Gate 07 baselines on every compared metric in all
+three families: `argument_split` Argument F1 `0.6000` vs `0.6889` and
+first-attempt `0.5333` vs `0.7333`; `tool_replacement` Argument F1 `0.1333` vs
+`0.3867` and first-attempt `0.0000` vs `0.5333`; `no_equivalent` accuracy
+`0.8000` vs `1.0000`. False alignment is `0.0000` on both sides. The decisive
+ablation is `no_intent_abstraction`: a deterministic pipeline with no LLM call
+matches or beats the full method on `argument_split`, so the two-sided intent
+abstraction — the mechanism's whole claim to novelty — is not earning its place.
+Calibration is the one component that works.
+
+Two dataset findings qualify Gate 07 itself and are logged as RISK-0021 and
+RISK-0022: 10 of 35 `tool_replacement` ground-truth argument pairs name a field
+absent from the new contract (maximum attainable recall `0.7143`), and the `::`
+merge separator required by five cases is in no method's information rights.
+
+Recorded provider spend `$0.20574795` under a `$1.20` cap. Full suite
+`540 passed, 2 warnings`; compileall exit 0. DEC-0023 records the decision.
+**Gate 09 is not authorized**; it requires a separately approved plan. See
+`gates/results/GATE_08_RESULT.md`.
+
+**Gate 19 result (2026-09-11, single-system case-study tier):** The new
+`research/gate19` auditor formalizes oracle reachability under declared
+information rights and independently reproduces `tool_replacement=10/35`
+target-absent pairs, `tool_replacement=5/15` hidden-`::` cases, and
+`argument_split=0/40`. An additive `GATE_19_TOOL_REPLACEMENT_ORACLE_V1`
+retains 15 reachable argument-pair items and excludes 20 items with a
+per-item manifest; no Gate 07/08 number was rescored. The same hidden `::`
+convention also appears in frozen `argument_merge` (30/30 pairs across 15/15
+cases), and a separate required-field scan found unadvertised boolean/literal
+requirements. A 60-request free-only diagnostic probe produced zero `::` in
+both hidden strata, so it is inconclusive/negative for a convention prior.
+Path A public benchmark review was not audit-compatible; Path B hand-verified
+20 MCP version pairs yielded 20 reachable and 0 unreachable. Gate 20 remains
+unauthorized and Gate 10 remains blocked. See `gates/results/GATE_19_RESULT.md`
+and DEC-0046.
+
+**Gate 19-C closure (2026-09-11):** RISK-0022 is corrected against the frozen
+raw rows: the five hidden-join cases have `0/85` literal `::` constructions and
+`0` first-attempt successes; the prior Gate 08 mechanism attribution was not
+verified, and Gate 07's argument-mapping scorer is weaker than its exact-input
+first-attempt executor. The all-family pair audit retains `260/310` reachable
+items; `argument_merge` is `0/30`, `tool_replacement` is `15/35`, and hidden
+required defaults leave `0/15` strict complete-call cases for both
+`added_required_field` and `tool_replacement`. The pre-registered power result
+is under the 0.20 effect bar (`n=40` MDE `0.2975`; `n=15` MDE `0.4348`; pooled
+`n=55` MDE `0.2503`), so Gate 20 is cancelled by DEC-0047. Gate 10 remains a
+separately authorized, blocked tier-(b) paper route.

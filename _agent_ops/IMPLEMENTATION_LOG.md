@@ -3860,3 +3860,58 @@ RISK-0026 first and preserve the frozen provider-pinned research lane.
 - Frozen-input hash manifest `GATE_19_FROZEN_SOURCE_HASHES.json` covers 134
   Gate 07/Gate 08 protocol, result, raw-artifact, and code-surface files.
   Closure re-verification returned `UNCHANGED=134`, `CHANGED=0`, `MISSING=0`.
+
+## 2026-09-11 — Gate 19-C contradiction resolution, scoreable surface, and Gate 20 cancellation
+
+### Scope and integrity
+
+- Gate 19-C protocol `gates/baselines/GATE_19C_PROTOCOL.json` was committed as
+  `4e7a58f` before analysis. Its pre-registered test is a two-sided equal-size
+  two-proportion normal approximation with alpha `0.05`, target power `0.80`,
+  and practically meaningful absolute difference `0.20`. Gate 07 V3/V4 raw
+  references were discovered and hashed in C0 addenda before extraction; the
+  frozen Gate 07/08/19 inputs were not changed.
+- C0 reverified HEAD/origin at
+  `d80959824ee2059d0d0eb1cbfcb0f90681147e2d`, exactly 25 overlay paths, an
+  empty index, and `612 passed, 2 warnings` with the `.venv` interpreter and
+  an external `--basetemp`.
+
+### Scientific analysis
+
+- The Gate 19 auditor was rerun over all 310 argument-pair items and all 45
+  required-field items; both family summaries and item records matched the
+  frozen Gate 19 audit artifacts exactly. Across the 12 families, `260/310`
+  pair items are reachable. `argument_split` is `40/40`; `tool_replacement`
+  is `15/35`; `argument_merge` is `0/30`.
+- The required-field audit classifies `consent_ack=true`, `honor_code=true`,
+  and `payment_ack=true` as unobservable in 15/15 `added_required_field`
+  cases, and `approval_status="approved"` as unobservable in 5/25
+  `tool_replacement` required-field items. The argument-split required fields
+  are derivable. Strict complete-call retention is `0/15` for both affected
+  full-call families.
+- The five RISK-0022 cases have frozen targets
+  `CRS-021::TERM-01`, `CRS-005::TERM-03`, `CRS-007::TERM-02`,
+  `CRS-007::TERM-02`, and `CRS-020::TERM-03`. Across 85 effective V4/V4.1
+  rows there are zero literal `::` constructions, three different-separator
+  constructions, 82 no-join rows, and zero first-attempt successes. The raw
+  evidence supports the corrected explanation that Gate 08 attributed
+  family-level successes to these cases without checking the raw rows; it does
+  not support a `::` guessing claim.
+- Power results under the committed rule are: `argument_split` retained `n=40`,
+  MDE `0.2975`, power at `0.20` `0.4578`, required `n=90`;
+  `tool_replacement` retained `n=15`, MDE `0.4348`, power `0.2300`, required
+  `n=76`; pooled retained `n=55`, MDE `0.2503`, power `0.6029`, required
+  `n=87`. The Gate 20 GO predicate fails all three surfaces.
+
+### Decision and closure boundary
+
+- DEC-0047 cancels Gate 20. The replacement recommendation is a separately
+  authorized Gate 10 tier-(b) measurement paper with the reachability
+  criterion/auditor, synthetic-benchmark unreachability evidence contrasted
+  with Path B `20/20` reachability, and the corrected RISK-0022 finding.
+- Post-change final suite reproduced `612 passed, 2 warnings` in `528.54s` with
+  the `.venv` interpreter and an external basetemp, reconciling the C0 count.
+- RQ3 remains pre-registered NEGATIVE under DEC-0023. No provider generation,
+  cloud call, deployment, secret, production source, corpus, manifest,
+  chunk-store, embedding, golden-set, Gate 07/08/19 frozen-artifact, Gate 20,
+  or Gate 10 paper action occurred. No push occurred.

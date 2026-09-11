@@ -1899,3 +1899,48 @@ not produce an audit-compatible per-item old/new oracle; a hand-verified sample
 of 20 real MCP version pairs produced `20 reachable / 0 unreachable`, so
 external validation of the local defect is **not established**. Gate 20 remains
 unauthorized and Gate 10 remains blocked.
+
+## DEC-0047 — Cancel Gate 20 on the pre-registered scoreable-surface power analysis
+
+**Date:** 2026-09-11
+**Status:** ADOPTED — Gate 19-C
+**Gate:** 19-C
+
+### Decision
+
+Cancel the Gate 20 B0–B7 campaign. The decision is mechanical under the
+committed `GATE_19C_PROTOCOL.json` rule: GO required every planned scoreable
+surface and the pooled retained set to detect an absolute 0.20 arm difference
+with two-sided alpha `0.05` and power `0.80`.
+
+The frozen-artifact analysis gives:
+
+| Surface | Retained n/arm | MDE | Power at 0.20 | Required n/arm |
+|---|---:|---:|---:|---:|
+| `argument_split` | 40 | 0.2975 | 0.4578 | 90 |
+| `tool_replacement` | 15 pair items; 0 strict complete-call cases | 0.4348 | 0.2300 | 76 |
+| pooled retained | 55 | 0.2503 | 0.6029 | 87 |
+
+### Evidence and consequence
+
+Gate 19-C resolved RISK-0022 as an audit-trail/mechanism attribution error,
+not a demonstrated `::` guessing success: the five affected cases have zero
+literal `::` constructions and zero first-attempt successes in 85 effective
+frozen rows; the Gate 07 family-level successes are on other cases. The
+argument-mapping scorer compares exact field quadruples, while the first-attempt
+executor compares the produced argument dictionary with the frozen expected
+inputs.
+
+The pair-level audit covers `260/310` reachable items. `argument_merge` is
+`0/30` retained and `tool_replacement` is `15/35`; hidden required-field
+defaults reduce strict complete-call retention to `0/15` for both
+`added_required_field` and `tool_replacement`. Path B remains a negative control
+with `20/20` reachable real MCP version pairs, not external prevalence evidence.
+
+### Boundary and replacement
+
+No provider, cloud, deployment, secret, dataset, Gate 07/08/19 frozen artifact,
+or Gate 10 paper action is authorized by this decision. The replacement
+recommendation is to seek separate Gate 10 authorization for the tier (b)
+single-system measurement paper; Gate 20 is not a prerequisite for that narrow
+paper claim. Gate 08 `DEC-0023` remains final and negative.
