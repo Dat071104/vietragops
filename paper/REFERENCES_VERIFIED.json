@@ -1,0 +1,115 @@
+{
+  "schema": "gate10.references_verified.v1",
+  "verified_on": "2026-09-11",
+  "verification_rule": "Each entry was checked against the linked primary publisher, proceedings, ACL Anthology, arXiv, or DOI record for title, authors, venue/status, year, and resolving URL.",
+  "references": [
+    {
+      "key": "chen2025toolevo",
+      "group": "evolving tool agents",
+      "title": "Learning Evolving Tools for Large Language Models",
+      "authors": ["Guoxin Chen", "Zhong Zhang", "Xin Cong", "Fangda Guo", "Yesai Wu", "Yankai Lin", "Wenzheng Feng", "Yasheng Wang"],
+      "venue": "International Conference on Learning Representations (ICLR)",
+      "year": 2025,
+      "status": "conference paper",
+      "url": "https://proceedings.iclr.cc/paper_files/paper/2025/hash/d8d1d325f822e07d16866780cc23deb2-Abstract-Conference.html",
+      "verification": "Official ICLR proceedings page opened; title, author list, ICLR 2025 venue, and abstract confirmed."
+    },
+    {
+      "key": "wu2026contda",
+      "group": "evolving tool agents",
+      "title": "Beyond Static Toolsets: Self-Evolving LLM Tool Agents via Continual Documentation Adaptation",
+      "authors": ["Bin Wu", "Edgar Meij", "Emine Yilmaz"],
+      "venue": "Findings of the Association for Computational Linguistics: ACL 2026",
+      "year": 2026,
+      "status": "conference proceedings paper",
+      "url": "https://aclanthology.org/2026.findings-acl.1082/",
+      "verification": "ACL Anthology record opened; title, author list, venue, year, pages, DOI, and abstract confirmed."
+    },
+    {
+      "key": "assidiqi2026referencefree",
+      "group": "tool/schema adaptation and benchmark validity",
+      "title": "Benchmarking Reference-Free LLM Agent Robustness Under Schema, Policy, and Toolset Drift",
+      "authors": ["Mohammad Hasbi Assidiqi", "Daniyal Alghazzawi", "Suaad Alarifi", "Li Cheng"],
+      "venue": "IEEE Access, 14, 79662--79672",
+      "year": 2026,
+      "status": "journal article",
+      "doi": "10.1109/ACCESS.2026.3696096",
+      "url": "https://doi.org/10.1109/ACCESS.2026.3696096",
+      "resolved_redirect": "https://ieeexplore.ieee.org/document/11534189/",
+      "verification": "DOI resolved with HTTP 302 to the IEEE Xplore document; title, authors, IEEE Access venue, volume/pages, and 2026 metadata confirmed by the indexed record."
+    },
+    {
+      "key": "jin2026toolprimitives",
+      "group": "tool/schema adaptation",
+      "title": "Harness Engineering in LLM Tool Use via Agent-Native Reusable Tool Primitives",
+      "authors": ["Haibo Jin", "Suijin Wang", "Xucheng Yu", "Haojing Luo", "Haohan Wang"],
+      "venue": "arXiv preprint arXiv:2609.01736",
+      "year": 2026,
+      "status": "preprint; not described as peer-reviewed",
+      "url": "https://arxiv.org/abs/2609.01736",
+      "verification": "arXiv record opened; title, author list, identifier, date, and abstract confirmed."
+    },
+    {
+      "key": "liu2026mcpevol",
+      "group": "MCP evaluation",
+      "title": "MCPEvol-Bench: Benchmarking LLM Agent Performance Across Dynamic Evolutions of MCP Servers",
+      "authors": ["Huanxi Liu", "Kun Hu", "Jiaqi Liao", "Qiang Wang", "Pengfei Qian", "YuanZhao Zhai", "Dawei Feng", "Bo Ding", "Huaimin Wang"],
+      "venue": "arXiv preprint arXiv:2607.14642",
+      "year": 2026,
+      "status": "preprint; not described as peer-reviewed",
+      "url": "https://arxiv.org/abs/2607.14642",
+      "verification": "arXiv record opened; title, author list, identifier, date, and abstract confirmed."
+    },
+    {
+      "key": "kaminski2026dynamicmcpbench",
+      "group": "MCP evaluation",
+      "title": "DynamicMCPBench: A Trace-Grounded, Effect-Scored Benchmark for LLM Agents over Live MCP Servers",
+      "authors": ["Jerzy Kamiński", "Ilya Galyukshev", "Artem Kuznetsov", "Sergey Chuprin", "Kirill Redko", "Aidar Shumbalov", "Anna Kalyuzhnaya"],
+      "venue": "arXiv preprint arXiv:2607.20531",
+      "year": 2026,
+      "status": "preprint; not described as peer-reviewed",
+      "url": "https://arxiv.org/abs/2607.20531",
+      "verification": "arXiv record opened; title, author list, identifier, date, and abstract confirmed."
+    },
+    {
+      "key": "dig2006api",
+      "group": "API migration and software evolution",
+      "title": "How do APIs evolve? A story of refactoring",
+      "authors": ["Danny Dig"],
+      "venue": "Journal of Software Maintenance and Evolution: Research and Practice, 18(2), 83--107",
+      "year": 2006,
+      "status": "journal article",
+      "doi": "10.1002/smr.328",
+      "url": "https://doi.org/10.1002/smr.328",
+      "verification": "Wiley record opened; title, author, journal, volume/issue/pages, year, and DOI confirmed; DOI redirect resolved before the publisher returned an access-denied response to automated retrieval."
+    },
+    {
+      "key": "almeida2024librarymigration",
+      "group": "API migration and software evolution",
+      "title": "Automatic Library Migration Using Large Language Models: First Results",
+      "authors": ["Aylton Almeida", "Laerte Xavier", "Marco Tulio Valente"],
+      "venue": "Proceedings of the 18th ACM/IEEE International Symposium on Empirical Software Engineering and Measurement (ESEM '24)",
+      "year": 2024,
+      "status": "conference proceedings paper",
+      "doi": "10.1145/3674805.3690746",
+      "url": "https://arxiv.org/abs/2408.16151",
+      "verification": "arXiv record opened and its embedded publication metadata confirmed the ESEM '24 venue, year, authors, title, and DOI."
+    },
+    {
+      "key": "reyes2026bigbag",
+      "group": "API migration and software evolution",
+      "title": "Agentic Generation of AST Transformation Rules for Fixing Breaking Updates",
+      "authors": ["Frank Reyes", "Benoit Baudry", "Martin Monperrus"],
+      "venue": "arXiv preprint arXiv:2606.24446",
+      "year": 2026,
+      "status": "preprint; not described as peer-reviewed",
+      "url": "https://arxiv.org/abs/2606.24446",
+      "verification": "arXiv record opened; title, author list, identifier, date, and abstract confirmed."
+    }
+  ],
+  "license_record": {
+    "local_use": "No third-party code or dataset is redistributed in this paper package; the references are bibliographic only.",
+    "external_control": "The 20-pair Path B control derives from hand-verified public MCP server version pairs. Gate 19 records Apache-2.0 for new code, applicable legacy MIT contributions, and CC-BY-4.0 documentation provisions; the paper does not redistribute the upstream repository.",
+    "external_benchmarks": "MCPEvol-Bench and DynamicMCPBench are cited for positioning only; no external benchmark records were incorporated into the local scoreable dataset."
+  }
+}
