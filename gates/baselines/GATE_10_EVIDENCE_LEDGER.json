@@ -1,0 +1,645 @@
+{
+  "schema": "gate10.evidence_ledger.v1",
+  "gate": "Gate 10",
+  "date": "2026-09-11",
+  "protocol": {
+    "path": "gates/baselines/GATE_10_PROTOCOL.json",
+    "commit": "8a9cc4a72197effacf530c87160be8045b7b8aeb",
+    "sha256": "725accbb050fe72654c0071746956f51a2b618787cd1ddc91aa652f52fc6fd5d"
+  },
+  "rule": "Every numeric result claim planned for the paper appears below with its source artifact, artifact commit, producing gate, and locator. Derived values are labelled as derived.",
+  "artifacts": [
+    {
+      "key": "gate10_protocol",
+      "path": "gates/baselines/GATE_10_PROTOCOL.json",
+      "commit": "8a9cc4a72197effacf530c87160be8045b7b8aeb",
+      "sha256": "725accbb050fe72654c0071746956f51a2b618787cd1ddc91aa652f52fc6fd5d",
+      "gate": "Gate 10",
+      "role": "frozen paper scope and traceability protocol"
+    },
+    {
+      "key": "gate19c_result",
+      "path": "gates/results/GATE_19C_RESULT.md",
+      "commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "role": "all-family reachability, contradiction resolution, power analysis, and closure"
+    },
+    {
+      "key": "gate19c_protocol",
+      "path": "gates/baselines/GATE_19C_PROTOCOL.json",
+      "commit": "4e7a58fdae0fe1ac9c4b65a32ee93f431f9d92ac",
+      "sha256": "53dcca2889b4f99bf61e0351228c019c56719482084a14cf0cee96e3666fc20e",
+      "gate": "Gate 19-C",
+      "role": "pre-registered power rule and scoreable-surface decision"
+    },
+    {
+      "key": "gate19_result",
+      "path": "gates/results/GATE_19_RESULT.md",
+      "commit": "d80959824ee2059d0d0eb1cbfcb0f90681147e2d",
+      "sha256": "ba01a4dfcaf649693b17f1cd3fa63f029cb587441616e54b5f2ce34760b34509",
+      "gate": "Gate 19",
+      "role": "criterion definition, auditor result, Path A/B boundary, and diagnostic evidence"
+    },
+    {
+      "key": "gate19_protocol",
+      "path": "gates/baselines/GATE_19_PROTOCOL.json",
+      "commit": "8eb7da69d3d0e4793f43c20cf87bb39fcbecd35f",
+      "sha256": "1933f88e543cec81fc5f3625ffcdb6a11f717fea836a623be30cf98a666dede2",
+      "gate": "Gate 19",
+      "role": "frozen reachability and evidence protocol"
+    },
+    {
+      "key": "gate19_audit",
+      "path": "gates/results/GATE_19_AUDIT.json",
+      "commit": "7410bc77e3de7f89cb31d4b3f7654ab36ed80cf1",
+      "sha256": "4ff5db197eb995ce0ec00de4e4c1a3f82cc7ad3193fa9785259bbc6e289c7d22",
+      "gate": "Gate 19",
+      "role": "machine-readable pair-level reachability audit"
+    },
+    {
+      "key": "gate19_required_field_audit",
+      "path": "gates/results/GATE_19_REQUIRED_FIELD_AUDIT.json",
+      "commit": "7410bc77e3de7f89cb31d4b3f7654ab36ed80cf1",
+      "sha256": "71bc809825f3bd79f998d2a8b31b4dee93132be2e06a4bb81128852a1cf559f1",
+      "gate": "Gate 19",
+      "role": "required-field reachability audit"
+    },
+    {
+      "key": "gate19_convention_audit",
+      "path": "gates/results/GATE_19_FROZEN_CONVENTION_AUDIT.json",
+      "commit": "7410bc77e3de7f89cb31d4b3f7654ab36ed80cf1",
+      "sha256": "34d54c3ffd110bf2c49b4e9e0bd0ce9927f6b100e77bca0d7db8893d30b3898b",
+      "gate": "Gate 19",
+      "role": "frozen raw-output extraction for the hidden-convention cases"
+    },
+    {
+      "key": "gate19_probe",
+      "path": "gates/results/GATE_19_DIAGNOSTIC_PROBE.json",
+      "commit": "a22de8fc9be82c928e3b9a8cfb5cb32edc450e87",
+      "sha256": "20dc923eec98f0c661b444902eb0807c7fd31d70c213d8bb75859e2b0571923b",
+      "gate": "Gate 19",
+      "role": "diagnostic-only convention probe"
+    },
+    {
+      "key": "gate19_external_audit",
+      "path": "gates/results/GATE_19_EXTERNAL_AUDIT.json",
+      "commit": "c720ff28b382fc70a3e0e77c0558799a0920cdf4",
+      "sha256": "412ec8edf0aac7cfcd1c54041068baa0cfa72461f0fe8eceb159f5d35a972b0a",
+      "gate": "Gate 19",
+      "role": "machine-readable Path B real-pair control audit"
+    },
+    {
+      "key": "gate19_external_pairs",
+      "path": "gates/baselines/GATE_19_EXTERNAL_MCP_PAIRS.json",
+      "commit": "0c73b1784de7cc9e9e1986cac0a96aa45fa910c2",
+      "sha256": "bcb05f2f2c1d08a6c24fda2f2322108567b2e8c726a962ada406078f0e2166dc",
+      "gate": "Gate 19",
+      "role": "hand-verified real MCP version-pair register"
+    },
+    {
+      "key": "gate19_frozen_hashes",
+      "path": "gates/results/GATE_19_FROZEN_SOURCE_HASHES.json",
+      "commit": "a434d5307be5f7af51eee9ac207aa65870032df9",
+      "sha256": "e2e7ed915e55e8d2eb57378a3b53ebf106bc8d3c4141c7b6791d652c5c86e115",
+      "gate": "Gate 19 / Gate 19-C",
+      "role": "frozen Gate 07/08 source integrity manifest"
+    },
+    {
+      "key": "gate19_oracle",
+      "path": "gates/baselines/GATE_19_TOOL_REPLACEMENT_ORACLE_V1.json",
+      "commit": "7410bc77e3de7f89cb31d4b3f7654ab36ed80cf1",
+      "sha256": "1a5131bf9a79dfb5baf4439e834193b6cc136ddafc0c2483c88cce3d8bc29173",
+      "gate": "Gate 19",
+      "role": "additive retained reachable oracle"
+    },
+    {
+      "key": "gate19_oracle_manifest",
+      "path": "gates/baselines/GATE_19_TOOL_REPLACEMENT_ORACLE_V1_MANIFEST.json",
+      "commit": "7410bc77e3de7f89cb31d4b3f7654ab36ed80cf1",
+      "sha256": "5c64bb8965431dfd53cacca81e2dbfe01b0259dfd171de38b14d01859de98d62",
+      "gate": "Gate 19",
+      "role": "per-item exclusion and derivability manifest"
+    },
+    {
+      "key": "gate19_information_rights",
+      "path": "research/gate19/information_rights.json",
+      "commit": "b2fd2c04e52bb6996fa318ce7cf20326272e77e2",
+      "sha256": "a6dedc5211fc4a2a80b9bf44acfca52b9fbbe0d11ed395c2f1a0b1451f03fa63",
+      "gate": "Gate 19",
+      "role": "declared information-rights surface"
+    },
+    {
+      "key": "gate19_auditor",
+      "path": "research/gate19/auditor.py",
+      "commit": "6adf136b629a1c8b627d878935541c5c768594de",
+      "sha256": "4be5a726dce0b881b81c28a52a3ff830fa90c302eb5b7246e50ed21e6df8fec4",
+      "gate": "Gate 19",
+      "role": "reusable oracle-reachability auditor"
+    },
+    {
+      "key": "gate19_tests",
+      "path": "research/gate19/tests.py",
+      "commit": "6adf136b629a1c8b627d878935541c5c768594de",
+      "sha256": "3fe0bf5412265fa4294e65835df770608c239236782da46c8806da53a724d230",
+      "gate": "Gate 19",
+      "role": "offline auditor tests"
+    },
+    {
+      "key": "gate08_result",
+      "path": "gates/results/GATE_08_RESULT.md",
+      "commit": "e43c932807aa2e49b0bd3df754e266ffc01446f6",
+      "sha256": "b2de815baaf6e76fe74e081db195c6649236e7492c1a03e9a1cb028651ef442a",
+      "gate": "Gate 08",
+      "role": "pre-registered alignment-method negative result and disclosures"
+    },
+    {
+      "key": "gate08_protocol",
+      "path": "gates/baselines/GATE_08_PROTOCOL.json",
+      "commit": "0e2aab7bbee62c43cd9bf60b7d60f7a74779bb9c",
+      "sha256": "ee5bfadfb1fd863ba9ccfdb050df1eea282491c0b81739cc9efd854e8279a036",
+      "gate": "Gate 08",
+      "role": "pre-registered method protocol"
+    },
+    {
+      "key": "gate18r_result",
+      "path": "gates/results/GATE_18R_RESULT.md",
+      "commit": "bfdbb60a6bed118d058712ccc63471c16c16ecd2",
+      "sha256": "734050d98af345f15da80ba8f5340ab32daeab0a7460329399501fc8b23fe450",
+      "gate": "Gate 18-R",
+      "role": "deployed VietRAGOps Evolve case-study receipt"
+    }
+  ],
+  "claims": [
+    {
+      "id": "C001",
+      "value": "12 drift families",
+      "status": "observed",
+      "paper_locations": ["abstract", "results", "Figure 3"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C2 all-family scoreable surface"
+    },
+    {
+      "id": "C002",
+      "value": "310 pair items",
+      "status": "observed",
+      "paper_locations": ["abstract", "results"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C2: auditor rerun matched 310 items"
+    },
+    {
+      "id": "C003",
+      "value": "260/310 reachable",
+      "status": "observed",
+      "paper_locations": ["abstract", "contribution 2", "results"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C2 family table summed across retained pair items"
+    },
+    {
+      "id": "C004",
+      "value": "50/310 unreachable",
+      "status": "derived_from_observed",
+      "derivation": "310 total pair items minus 260 reachable pair items",
+      "paper_locations": ["abstract", "contribution 2", "results"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C2 family table"
+    },
+    {
+      "id": "C005",
+      "value": "16.1% unreachable",
+      "status": "derived_from_observed",
+      "derivation": "50 / 310, rounded to one decimal percentage point",
+      "paper_locations": ["abstract", "contribution 2", "results"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C2 family table"
+    },
+    {
+      "id": "C006",
+      "value": "added_required_field: 40/40 reachable, 0 unreachable",
+      "status": "observed",
+      "paper_locations": ["Figure 3", "results"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C2 family table"
+    },
+    {
+      "id": "C007",
+      "value": "argument_merge: 0/30 reachable, 30/30 unreachable",
+      "status": "observed",
+      "paper_locations": ["abstract", "Figure 3", "results"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C2 family table and requested figures confirmation"
+    },
+    {
+      "id": "C008",
+      "value": "argument_rename: 20/20 reachable, 0 unreachable",
+      "status": "observed",
+      "paper_locations": ["Figure 3", "results"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C2 family table"
+    },
+    {
+      "id": "C009",
+      "value": "argument_split: 40/40 reachable, 0 unreachable",
+      "status": "observed",
+      "paper_locations": ["abstract", "contribution 2", "Figure 3", "results"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C2 family table and requested figures confirmation"
+    },
+    {
+      "id": "C010",
+      "value": "multiple_old_to_one_new: 30/30 reachable, 0 unreachable",
+      "status": "observed",
+      "paper_locations": ["Figure 3", "results"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C2 family table"
+    },
+    {
+      "id": "C011",
+      "value": "multiple_simultaneous_renames: 40/40 reachable, 0 unreachable",
+      "status": "observed",
+      "paper_locations": ["Figure 3", "results"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C2 family table"
+    },
+    {
+      "id": "C012",
+      "value": "no_equivalent: N/A for argument-pair reachability",
+      "status": "not_applicable",
+      "paper_locations": ["Figure 3", "results"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C2 no_equivalent note"
+    },
+    {
+      "id": "C013",
+      "value": "one_old_to_multiple_new: 30/30 reachable, 0 unreachable",
+      "status": "observed",
+      "paper_locations": ["Figure 3", "results"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C2 family table"
+    },
+    {
+      "id": "C014",
+      "value": "output_restructure: 15/15 reachable, 0 unreachable",
+      "status": "observed",
+      "paper_locations": ["Figure 3", "results"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C2 family table"
+    },
+    {
+      "id": "C015",
+      "value": "semantic_near_collision: 15/15 reachable, 0 unreachable",
+      "status": "observed",
+      "paper_locations": ["Figure 3", "results"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C2 family table"
+    },
+    {
+      "id": "C016",
+      "value": "tool_rename: 15/15 reachable, 0 unreachable",
+      "status": "observed",
+      "paper_locations": ["Figure 3", "results"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C2 family table"
+    },
+    {
+      "id": "C017",
+      "value": "tool_replacement: 15/35 reachable, 20/35 unreachable",
+      "status": "observed",
+      "paper_locations": ["abstract", "contribution 2", "Figure 3", "results"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C2 family table and requested figures confirmation"
+    },
+    {
+      "id": "C018",
+      "value": "strict complete-call retention: 0/15 for added_required_field and 0/15 for tool_replacement",
+      "status": "observed",
+      "paper_locations": ["results", "limitations"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C2 strict complete-call cases and hidden required-field conclusion"
+    },
+    {
+      "id": "C019",
+      "value": "0/20 unreachable across 20 real MCP version pairs",
+      "status": "observed",
+      "paper_locations": ["abstract", "contribution 3", "results", "limitations"],
+      "artifact_path": "gates/results/GATE_19_EXTERNAL_AUDIT.json",
+      "artifact_commit": "c720ff28b382fc70a3e0e77c0558799a0920cdf4",
+      "artifact_sha256": "412ec8edf0aac7cfcd1c54041068baa0cfa72461f0fe8eceb159f5d35a972b0a",
+      "gate": "Gate 19",
+      "locator": "status counts: REACHABLE 20; both unreachable statuses 0"
+    },
+    {
+      "id": "C020",
+      "value": "0/85 literal :: constructions",
+      "status": "observed",
+      "paper_locations": ["abstract", "secondary finding", "results", "limitations"],
+      "artifact_path": "gates/results/GATE_19_FROZEN_CONVENTION_AUDIT.json",
+      "artifact_commit": "7410bc77e3de7f89cb31d4b3f7654ab36ed80cf1",
+      "artifact_sha256": "34d54c3ffd110bf2c49b4e9e0bd0ce9927f6b100e77bca0d7db8893d30b3898b",
+      "gate": "Gate 19 / Gate 19-C",
+      "locator": "85 effective V4/V4.1 rows"
+    },
+    {
+      "id": "C021",
+      "value": "3 different-separator constructions and 82 no-join outputs",
+      "status": "observed",
+      "paper_locations": ["results", "secondary finding"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C1 frozen targets and raw output"
+    },
+    {
+      "id": "C022",
+      "value": "0 first-attempt successes in the five affected cases",
+      "status": "observed",
+      "paper_locations": ["abstract", "secondary finding", "results"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C1 exact first-attempt score matrix"
+    },
+    {
+      "id": "C023",
+      "value": "P(::)=1/9=0.1111 chance baseline",
+      "status": "observed_and_derived",
+      "derivation": "uniform over nine plausible separators; decimal shown to four places",
+      "paper_locations": ["diagnostic subsection", "appendix"],
+      "artifact_path": "gates/results/GATE_19_RESULT.md",
+      "artifact_commit": "d80959824ee2059d0d0eb1cbfcb0f90681147e2d",
+      "artifact_sha256": "ba01a4dfcaf649693b17f1cd3fa63f029cb587441616e54b5f2ce34760b34509",
+      "gate": "Gate 19",
+      "locator": "O5 unobservable-convention guess rate"
+    },
+    {
+      "id": "C024",
+      "value": "60/60 diagnostic requests dispatched and used",
+      "status": "observed",
+      "paper_locations": ["diagnostic subsection", "appendix"],
+      "artifact_path": "gates/results/GATE_19_DIAGNOSTIC_PROBE.json",
+      "artifact_commit": "a22de8fc9be82c928e3b9a8cfb5cb32edc450e87",
+      "artifact_sha256": "20dc923eec98f0c661b444902eb0807c7fd31d70c213d8bb75859e2b0571923b",
+      "gate": "Gate 19",
+      "locator": "probe request accounting"
+    },
+    {
+      "id": "C025",
+      "value": "57 valid JSON and 3 provider failures",
+      "status": "observed",
+      "paper_locations": ["diagnostic subsection", "appendix"],
+      "artifact_path": "gates/results/GATE_19_DIAGNOSTIC_PROBE.json",
+      "artifact_commit": "a22de8fc9be82c928e3b9a8cfb5cb32edc450e87",
+      "artifact_sha256": "20dc923eec98f0c661b444902eb0807c7fd31d70c213d8bb75859e2b0571923b",
+      "gate": "Gate 19",
+      "locator": "probe outcome accounting"
+    },
+    {
+      "id": "C026",
+      "value": "0/28 :: emissions in the hidden-separator stratum",
+      "status": "observed",
+      "paper_locations": ["diagnostic subsection"],
+      "artifact_path": "gates/results/GATE_19_DIAGNOSTIC_PROBE.json",
+      "artifact_commit": "a22de8fc9be82c928e3b9a8cfb5cb32edc450e87",
+      "artifact_sha256": "20dc923eec98f0c661b444902eb0807c7fd31d70c213d8bb75859e2b0571923b",
+      "gate": "Gate 19",
+      "locator": "valid-JSON hidden sandbox stratum"
+    },
+    {
+      "id": "C027",
+      "value": "0/29 :: emissions in the arbitrary-separator stratum",
+      "status": "observed",
+      "paper_locations": ["diagnostic subsection"],
+      "artifact_path": "gates/results/GATE_19_DIAGNOSTIC_PROBE.json",
+      "artifact_commit": "a22de8fc9be82c928e3b9a8cfb5cb32edc450e87",
+      "artifact_sha256": "20dc923eec98f0c661b444902eb0807c7fd31d70c213d8bb75859e2b0571923b",
+      "gate": "Gate 19",
+      "locator": "valid-JSON arbitrary-separator stratum"
+    },
+    {
+      "id": "C028",
+      "value": "146 recorded C0 file hashes; UNCHANGED=146, CHANGED=0, MISSING=0",
+      "status": "observed",
+      "paper_locations": ["reproducibility", "appendix"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C0/C5 integrity receipt"
+    },
+    {
+      "id": "C029",
+      "value": "argument_split MDE=0.2975 at n=40 per arm",
+      "status": "observed",
+      "paper_locations": ["abstract", "contribution 4", "power analysis"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C3 power table"
+    },
+    {
+      "id": "C030",
+      "value": "tool_replacement MDE=0.4348 at n=15 per arm",
+      "status": "observed",
+      "paper_locations": ["abstract", "contribution 4", "power analysis"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C3 power table"
+    },
+    {
+      "id": "C031",
+      "value": "pooled MDE=0.2503 at n=55 per arm",
+      "status": "observed",
+      "paper_locations": ["abstract", "contribution 4", "power analysis"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C3 power table"
+    },
+    {
+      "id": "C032",
+      "value": "pre-registered meaningful absolute effect=0.20",
+      "status": "observed",
+      "paper_locations": ["power analysis", "limitations"],
+      "artifact_path": "gates/baselines/GATE_19C_PROTOCOL.json",
+      "artifact_commit": "4e7a58fdae0fe1ac9c4b65a32ee93f431f9d92ac",
+      "artifact_sha256": "53dcca2889b4f99bf61e0351228c019c56719482084a14cf0cee96e3666fc20e",
+      "gate": "Gate 19-C",
+      "locator": "pre-registered power decision rule"
+    },
+    {
+      "id": "C033",
+      "value": "required n/arm=90, 76, and 87 for argument_split, tool_replacement, and pooled",
+      "status": "observed",
+      "paper_locations": ["power analysis", "limitations"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C3 power table"
+    },
+    {
+      "id": "C034",
+      "value": "power=0.4578, 0.2300, and 0.6029 at the pre-registered 0.20 effect",
+      "status": "observed",
+      "paper_locations": ["power analysis"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C3 power table"
+    },
+    {
+      "id": "C035",
+      "value": "argument_split direct=11/15=0.7333, Wilson 95%=[0.4805,0.8910]",
+      "status": "observed",
+      "paper_locations": ["power analysis", "limitations"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C3 observed baseline arm table"
+    },
+    {
+      "id": "C036",
+      "value": "argument_split offline=0/15=0.0000, Wilson 95%=[0.0000,0.2039]",
+      "status": "observed",
+      "paper_locations": ["power analysis", "limitations"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C3 observed baseline arm table"
+    },
+    {
+      "id": "C037",
+      "value": "tool_replacement direct=8/15=0.5333, Wilson 95%=[0.3012,0.7519]",
+      "status": "observed",
+      "paper_locations": ["power analysis", "limitations"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C3 observed baseline arm table"
+    },
+    {
+      "id": "C038",
+      "value": "tool_replacement offline=0/15=0.0000, Wilson 95%=[0.0000,0.2039]",
+      "status": "observed",
+      "paper_locations": ["power analysis", "limitations"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "C3 observed baseline arm table"
+    },
+    {
+      "id": "C039",
+      "value": "RISK-0020 Wilson upper bound=0.9333 against bar=0.90",
+      "status": "observed",
+      "paper_locations": ["limitations"],
+      "artifact_path": "gates/results/GATE_08_RESULT.md",
+      "artifact_commit": "e43c932807aa2e49b0bd3df754e266ffc01446f6",
+      "artifact_sha256": "b2de815baaf6e76fe74e081db195c6649236e7492c1a03e9a1cb028651ef442a",
+      "gate": "Gate 08",
+      "locator": "known limitations / RISK-0020 boundary"
+    },
+    {
+      "id": "C040",
+      "value": "RISK-0023 exposed 3 graded cases",
+      "status": "observed",
+      "paper_locations": ["limitations", "reproducibility"],
+      "artifact_path": "gates/results/GATE_08_RESULT.md",
+      "artifact_commit": "e43c932807aa2e49b0bd3df754e266ffc01446f6",
+      "artifact_sha256": "b2de815baaf6e76fe74e081db195c6649236e7492c1a03e9a1cb028651ef442a",
+      "gate": "Gate 08",
+      "locator": "known limitations / designer exposure"
+    },
+    {
+      "id": "C041",
+      "value": "case-study traffic=100% on revision vietragops-api-00021-teb",
+      "status": "observed",
+      "paper_locations": ["case study"],
+      "artifact_path": "gates/results/GATE_18R_RESULT.md",
+      "artifact_commit": "bfdbb60a6bed118d058712ccc63471c16c16ecd2",
+      "artifact_sha256": "734050d98af345f15da80ba8f5340ab32daeab0a7460329399501fc8b23fe450",
+      "gate": "Gate 18-R",
+      "locator": "R7 promotion and post-promotion verification"
+    },
+    {
+      "id": "C042",
+      "value": "case-study index=698 chunks and 38 documents",
+      "status": "observed",
+      "paper_locations": ["case study"],
+      "artifact_path": "gates/results/GATE_18R_RESULT.md",
+      "artifact_commit": "bfdbb60a6bed118d058712ccc63471c16c16ecd2",
+      "artifact_sha256": "734050d98af345f15da80ba8f5340ab32daeab0a7460329399501fc8b23fe450",
+      "gate": "Gate 18-R",
+      "locator": "candidate /health/ready raw response and post-promotion identity"
+    }
+  ],
+  "coverage": {
+    "required_figures": ["Figure 1 problem schematic", "Figure 2 information-rights table", "Figure 3 per-family reachability with real-pair control"],
+    "unledgered_numeric_claim_policy": "Any number not represented by a claim entry above must be removed from the paper before commit.",
+    "frozen_artifact_recheck": "Performed again at Gate 10 closure; all hashes in the artifact catalog must match before final result."
+  }
+}
