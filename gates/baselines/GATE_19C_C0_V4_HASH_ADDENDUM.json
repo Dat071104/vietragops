@@ -1,0 +1,92 @@
+{
+  "gate": "19-C",
+  "kind": "C0-hash-addendum-v4",
+  "reason": "Frozen Gate 19 convention-audit source receipts point to the Gate 07 V4 raw surface; all files were hashed before content extraction.",
+  "files": [
+    {
+      "path": "gates/artifacts/gate07/v4/candidate_order_oracle.json",
+      "sha256": "9944f7be6f060e6afe869409aa2a5c9828d4cb060c8bb3525cf7dc8c6b6ff9e0",
+      "bytes": 30099
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/llm_results.jsonl",
+      "sha256": "c25e760841574ffa0eac2abb5fe7717e71f91533d2ab5be146f0c0794c17f599",
+      "bytes": 1977154
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/metrics_repeat.json",
+      "sha256": "cda1fcc184f39c114a112a0369556ccfd251942029ee5b232529ca53d992ba5f",
+      "bytes": 2033086
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/metrics_v4_1_run1.json",
+      "sha256": "71aa32cf654814e9492caaded8dcd9895bb1a4712a001885731be366981c9dfc",
+      "bytes": 2361100
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/metrics_v4_1_run2.json",
+      "sha256": "71aa32cf654814e9492caaded8dcd9895bb1a4712a001885731be366981c9dfc",
+      "bytes": 2361100
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/offline_controls.jsonl",
+      "sha256": "fe26c48dc2ef7c321cf6a560acc86df622e78c56909b493c314b6ec268c38d3a",
+      "bytes": 157024
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/offline_cross_encoder.jsonl",
+      "sha256": "a7f6fe1a328a8e493c7f8e5cc9ea24a73a2a3619b70dd94d627e9958899d8aed",
+      "bytes": 213729
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/offline_embedding.jsonl",
+      "sha256": "4035de9f7510ef2192c075843dd288680dce9a2bc9230729168eec29db622ee4",
+      "bytes": 419153
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/offline_lexical.jsonl",
+      "sha256": "ad325a53d4c07464a06b6a19cfdbb96ae55d45f3155c9c62ab783a9fd8065ee6",
+      "bytes": 404211
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/public_tasks.json",
+      "sha256": "2e1f5339a09f1adc2639288d02ed1543f675956dcabdd10810271140f8081dd2",
+      "bytes": 941766
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/raw/llm.jsonl",
+      "sha256": "b324e50a8428ff3c684226341584276470197b4cd24a725d73bd513895959200",
+      "bytes": 19526741
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/raw/offline_controls.jsonl",
+      "sha256": "e0f019fdb8209eaa259da0a955e10991d27ed5c8c1abf7b5ab3c9e2e13dc4e68",
+      "bytes": 2508782
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/raw/offline_cross_encoder.jsonl",
+      "sha256": "ab81d5f2a39cedd386da3e2bfae705c219a860a5f691389f339a2c844aab0f18",
+      "bytes": 1406833
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/raw/offline_embedding.jsonl",
+      "sha256": "2958c6b548dd3a97987de39625323349ee228cb16896a1cb4a4e7470ef84a3b2",
+      "bytes": 2806138
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/raw/offline_lexical.jsonl",
+      "sha256": "0db295ebe621c3e656111e3f51b24ee62b3fc03decb46691e4caa81705f9459d",
+      "bytes": 2791547
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/request_ledger.jsonl",
+      "sha256": "fd1d53158f10e25bcd039e7546e9425ef4d12933101adbc68f6faa9deb117a52",
+      "bytes": 441430
+    },
+    {
+      "path": "gates/artifacts/gate07/v4/router_state.sqlite3",
+      "sha256": "70c91e14174898f8a767b009bda8e487d6bbdfdb890cb40c99b34e666141beba",
+      "bytes": 221184
+    }
+  ]
+}
