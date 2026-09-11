@@ -7,7 +7,7 @@
     "commit": "8a9cc4a72197effacf530c87160be8045b7b8aeb",
     "sha256": "725accbb050fe72654c0071746956f51a2b618787cd1ddc91aa652f52fc6fd5d"
   },
-  "rule": "Every numeric result claim planned for the paper appears below with its source artifact, artifact commit, producing gate, and locator. Derived values are labelled as derived.",
+  "rule": "Every numeric result claim planned for the paper appears below with its source artifact, artifact commit, producing gate, and locator. Derived values are labelled as derived and are computed from the cited artifact's recorded table or array, never from unrelated program output.",
   "artifacts": [
     {
       "key": "gate10_protocol",
@@ -473,14 +473,14 @@
     },
     {
       "id": "C028",
-      "value": "146 recorded C0 file hashes; UNCHANGED=146, CHANGED=0, MISSING=0",
+      "value": "Gate 19-C C0 inventory: 146 recorded file hashes; UNCHANGED=146, CHANGED=0, MISSING=0 (distinct from the Gate 19 manifest count of 134)",
       "status": "observed",
       "paper_locations": ["reproducibility", "appendix"],
       "artifact_path": "gates/results/GATE_19C_RESULT.md",
       "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
       "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
       "gate": "Gate 19-C",
-      "locator": "C0/C5 integrity receipt"
+      "locator": "C0 inventory and C5 integrity receipt; not the Gate 19 manifest"
     },
     {
       "id": "C029",
@@ -657,6 +657,17 @@
       "artifact_sha256": "ba01a4dfcaf649693b17f1cd3fa63f029cb587441616e54b5f2ce34760b34509",
       "gate": "Gate 19",
       "locator": "O2 hidden-convention characterization"
+    },
+    {
+      "id": "C045",
+      "value": "Gate 19 frozen-source manifest: file_count=134 and files array length=134",
+      "status": "observed_and_derived",
+      "paper_locations": ["reproducibility", "appendix"],
+      "artifact_path": "gates/results/GATE_19_FROZEN_SOURCE_HASHES.json",
+      "artifact_commit": "a434d5307be5f7af51eee9ac207aa65870032df9",
+      "artifact_sha256": "e2e7ed915e55e8d2eb57378a3b53ebf106bc8d3c4141c7b6791d652c5c86e115",
+      "gate": "Gate 19",
+      "locator": "top-level file_count and files array length"
     }
   ],
   "coverage": {
