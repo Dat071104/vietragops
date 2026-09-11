@@ -1,7 +1,7 @@
 # Gate 10 Result — Re-scoped Measurement and Benchmark-Validity Paper
 
-**Date:** 2026-09-11  
-**Status:** READY FOR OWNER REVIEW — NOT SUBMITTED  
+**Date:** 2026-09-11
+**Status:** READY FOR OWNER REVIEW — NOT SUBMITTED
 **Tier:** (b) single-system case study with a reusable oracle-reachability criterion
 
 ## Protocol and scope decision
