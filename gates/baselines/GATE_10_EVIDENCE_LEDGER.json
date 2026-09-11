@@ -162,6 +162,14 @@
       "role": "pre-registered method protocol"
     },
     {
+      "key": "risk_register",
+      "path": "_agent_ops/RISK_REGISTER.md",
+      "commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "sha256": "98cdb0fff5abc4628c6b13c9acd22b919299fc98647cc75d43b16c73f5376050",
+      "gate": "Gate 07 / Gate 10",
+      "role": "RISK-0020 narrow-claim limitation record"
+    },
+    {
       "key": "gate18r_result",
       "path": "gates/results/GATE_18R_RESULT.md",
       "commit": "bfdbb60a6bed118d058712ccc63471c16c16ecd2",
@@ -597,11 +605,11 @@
       "value": "RISK-0020 Wilson upper bound=0.9333 against bar=0.90",
       "status": "observed",
       "paper_locations": ["limitations"],
-      "artifact_path": "gates/results/GATE_08_RESULT.md",
-      "artifact_commit": "e43c932807aa2e49b0bd3df754e266ffc01446f6",
-      "artifact_sha256": "b2de815baaf6e76fe74e081db195c6649236e7492c1a03e9a1cb028651ef442a",
-      "gate": "Gate 08",
-      "locator": "known limitations / RISK-0020 boundary"
+      "artifact_path": "_agent_ops/RISK_REGISTER.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "98cdb0fff5abc4628c6b13c9acd22b919299fc98647cc75d43b16c73f5376050",
+      "gate": "Gate 07 / Gate 10",
+      "locator": "RISK-0020 row"
     },
     {
       "id": "C040",
