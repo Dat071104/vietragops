@@ -1,0 +1,323 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{array,booktabs,longtable,tabularx}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+
+\graphicspath{{figures/}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlist{nosep,leftmargin=*}
+\newcommand{\ledger}[1]{\textsuperscript{\texttt{#1}}}
+\newcommand{\artifact}[1]{\path{#1}}
+\newcommand{\sha}[1]{\texttt{\scriptsize #1}}
+\newcommand{\reach}{\textsc{Reachable}}
+\newcommand{\unreach}{\textsc{Unreachable}}
+
+\title{Unreachable Oracles: Ground-Truth Derivability in Synthetic Tool-Drift Benchmarks for LLM Agents}
+\author{Author list to be supplied by the owner}
+\date{September 11, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Tool-migration benchmarks for large language model (LLM) agents often treat a ground-truth oracle as authoritative without checking whether the evaluated method can derive it. We define oracle reachability under declared information rights: a target is reachable only when its value and every construction step follow from the information granted before the first call. We implement an offline auditor and apply it to a self-authored synthetic tool-drift sandbox. Across 12 drift families and 310 argument-pair items, 260 are reachable and 50 are unreachable (16.1\%). The failures are concentrated: argument\_merge is 0/30 reachable, tool\_replacement retains 15/35, while argument\_split is 40/40. A hand-verified control of 20 real MCP/API version pairs contains 0/20 unreachable items, so it is a negative control rather than external prevalence validation. The audit also corrects a project risk-register claim: the frozen rows contain 0/85 literal ``::'' constructions and 0 first-attempt successes in the affected cases. Finally, exclusion leaves minimum detectable differences of 0.2975, 0.4348, and 0.2503 on the retained surfaces, all above the preregistered 0.20 effect. We report a measurement case study, not an alignment method, a new benchmark, or a state-of-the-art comparison.
+\end{abstract}
+
+\section{Introduction}
+
+LLM agents are increasingly evaluated by whether they can select tools and produce executable calls while interfaces change. A benchmark in this setting has two distinct objects: the behavior being tested and the oracle used to score it. The second object is easy to overlook. If an oracle requires a value that is not derivable from the information shown to the method, a failed call may be evidence about the benchmark construction rather than the agent.
+
+This paper studies that measurement problem in a pre-execution, reference-free tool-drift setting. The method-facing information may include an old contract, verified old traces, a new contract, and task context; it does not include a migration map, a new-version reference trajectory, sandbox internals, or trial-and-error feedback before the first call. Figure~\ref{fig:problem} gives the simplest failure: the new contract exposes \texttt{section\_ref}, but the target requires joining two old fields with a separator that is not declared in the method's information rights.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figure1_problem.png}
+  \caption{The paper's central measurement problem. A ground-truth target can be syntactically valid inside the evaluator while remaining underivable from the method's declared information rights.}
+  \label{fig:problem}
+\end{figure}
+
+The scope is deliberately narrow. Gate 08's preregistered alignment-method result was NEGATIVE and is retained as a disclosure, not quietly superseded. Gate 19-C cancelled the subsequent comparative campaign by power analysis. The present manuscript therefore does not claim an alignment method, a new benchmark, SOTA, external validation, or generalization beyond the measured surface. VietRAGOps Evolve appears only as a deployed case study that supplied the surrounding artifact discipline.
+
+\textbf{Contributions.} The evidence supports exactly four contributions:
+
+\begin{enumerate}
+  \item A checkable criterion and auditor: \emph{oracle reachability under declared information rights}. A ground-truth item is reachable iff its target is derivable from the information granted to the method. The implemented auditor independently reproduces the 10/35 target-absent and 5/15 hidden-convention findings.\ledger{C043,C044}
+  \item A measurement of synthetic benchmark unreachability: across 12 drift families and 310 pair items, 260 are reachable and 50 are unreachable (16.1\%). The argument\_merge family is 0/30, tool\_replacement retains 15/35, and argument\_split is 40/40.\ledger{C001--C005,C007,C009,C017}
+  \item An observed contrast between synthetic generation and a real-version control: the 20 hand-verified real MCP/API version pairs contain 0/20 unreachable items. This is a negative control, not evidence of field prevalence.\ledger{C019}
+  \item A power consequence of repair: after unreachable items are excluded, the minimum detectable differences are 0.2975 for argument\_split at $n=40$, 0.4348 for tool\_replacement at $n=15$, and 0.2503 for the pooled retained surface at $n=55$; each is above the preregistered meaningful effect of 0.20.\ledger{C029--C034}
+\end{enumerate}
+
+The required secondary finding is not counted as a fifth contribution. The project's RISK-0022 mechanism claim asserted that baselines guessed an unstated ``::'' convention. The frozen raw rows instead contain 0/85 literal ``::'' constructions and 0 first-attempt successes in the five affected cases. The evidence supports an audit-trail and scorer-attribution error, not hidden-convention capability.\ledger{C020--C022}
+
+All result numbers are linked to the committed evidence ledger \artifact{gates/baselines/GATE_10_EVIDENCE_LEDGER.json}, commit \sha{d456a5d} (full SHA in the reproducibility appendix), whose claim-level records are citable.\ledger{C003--C044}
+
+\section{Related Work}
+
+\subsection{Evolving tool agents}
+
+ToolEVO studies tool variability through active interaction, Monte Carlo tree search, reflection, and environment feedback \cite{chen2025toolevo}. ContDa addresses evolving toolsets through relation-guided exploration and continual documentation adaptation \cite{wu2026contda}. Both are directly relevant to agents that may probe, observe errors, update documentation, or revise tool use. Our setting asks a different measurement question: before the first call, is the benchmark's target derivable from the rights the method actually has? A method that is allowed to probe may eventually discover a value that a reference-free pre-execution method cannot justify; that discovery does not repair an unreachable pre-execution oracle.
+
+\subsection{Tool and schema adaptation}
+
+The reference-free drift benchmark of Assidiqi et al. injects controlled schema, policy, and toolset changes using a known bijective inversion manifest, explicitly separating adaptation after the drift mapping is available from autonomous detection plus adaptation \cite{assidiqi2026referencefree}. This is an adjacent and valuable design: our criterion audits whether the corresponding ground truth is derivable when that manifest is not granted.
+
+Tool Primitives move schema resolution behind natural-language wrappers and local execution boundaries \cite{jin2026toolprimitives}. That is a legitimate systems choice, but it does not make oracle validity disappear. A wrapper can hide the raw schema from the planner while still owning a schema, a resolver, and execution feedback. If a benchmark scores a hidden value or a hidden construction convention, the wrapper must either be granted the information needed to derive it or the item must be labelled unreachable. Our criterion therefore complements wrapper architectures rather than arguing that raw schemas must remain in the main prompt.
+
+\subsection{API migration and software evolution}
+
+Software-engineering API migration usually transforms source code, libraries, or ASTs. Dig's study of API evolution characterizes breaking changes as refactoring patterns in frameworks and libraries \cite{dig2006api}. Recent LLM work applies prompting to migrate a client application across SQLAlchemy versions \cite{almeida2024librarymigration}; BigBag generates reusable AST transformations for breaking dependency updates and transfers them across client projects \cite{reyes2026bigbag}. These works solve or measure source-to-source migration.
+
+The distinction from our setting is not merely terminology. The objects differ (deployed tool capability versus source code), the action differs (structured tool call versus compilation or patching), the headline outcome differs (first-attempt task completion versus compilability or code repair), the correspondence is hidden rather than supplied by a migration setting, and our audit includes tool, argument, effects, and \texttt{NO\_EQUIVALENT} states rather than API-to-candidate ranking alone. A source migrator may use repository history, compiler feedback, or a known transformation; those rights cannot be silently assumed for an agent evaluated before its first new-version call.
+
+\subsection{MCP evaluation}
+
+MCPEvol-Bench evaluates LLM agents across dynamic evolutions of MCP servers and explicitly precedes this manuscript; we make no ``first benchmark'' claim \cite{liu2026mcpevol}. DynamicMCPBench scores trace-grounded effects over live MCP servers rather than insisting on a fixed tool path \cite{kaminski2026dynamicmcpbench}. These works reinforce the importance of execution consequences and establish that tool-evolution evaluation is an active area. Our contribution is orthogonal: an oracle-reachability audit for a synthetic migration surface, with a real-version negative control, not another benchmark or a competing agent.
+
+\section{Problem Formulation}
+
+\subsection{Reference-free and pre-execution}
+
+Let $I$ be the information rights granted to an evaluated method. In the local setting, $I$ may contain old tool contracts, verified old traces, the new tool inventory, and task context. It excludes evaluator-only target construction, sandbox internals, an explicit migration map, a new-version reference trajectory, candidate-order information, scoring code, and pre-execution probing. The exact declaration is committed in \artifact{research/gate19/information_rights.json}, commit \sha{b2fd2c0}.
+
+\emph{Reference-free} means that the method is not given the ground-truth migration correspondence or a new-version demonstration trajectory. It does not mean that the method receives no context. \emph{Pre-execution} means that the benchmark evaluates the method's first new-version call without allowing a prior probe to reveal the missing contract behavior.
+
+\subsection{Oracle reachability}
+
+For a ground-truth item $g$, define
+\[
+  \operatorname{Reachable}(g\mid I) =
+  \begin{cases}
+    1 & \text{if the target value and every construction step are derivable from } I,\\
+    0 & \text{otherwise.}
+  \end{cases}
+\]
+
+The criterion is deliberately weaker than semantic correctness. A target can be derivable and still be the wrong semantic replacement. Conversely, a target can be semantically sensible to a human and still be an unreachable oracle if the evaluated method is not granted the field, literal, separator, ordering rule, or other construction step required to produce it. Such an item must be repaired with an explicit derivation or excluded before a capability score is interpreted.
+
+\subsection{Information rights as an audit object}
+
+Figure~\ref{fig:rights} makes the comparison explicit. The ``Ours'' row describes the audited pre-execution setting; the Oracle row is an audit reference that has access to the correspondence, not an agent condition.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figure2_information_rights.png}
+  \caption{Information rights used to decide whether a ground-truth target is derivable.}
+  \label{fig:rights}
+\end{figure}
+
+The reusable auditor in \artifact{research/gate19/auditor.py}, commit \sha{6adf136b}, reports \texttt{REACHABLE}, \texttt{UNREACHABLE-TARGET-ABSENT}, and \texttt{UNREACHABLE-CONVENTION-UNOBSERVABLE}. Its offline tests are committed in \artifact{research/gate19/tests.py}, commit \sha{6adf136b}.
+
+\section{Evaluation Setting and Audit Procedure}
+
+\subsection{Synthetic sandbox}
+
+The audited sandbox is self-authored and deterministic. It contains structural and semantic drift families, including renames, argument restructuring, near-collisions, replacements, and no-equivalent controls. The manuscript does not treat the sandbox as an external dataset. The object of measurement is whether its generated oracle is valid under the rights declared to the method.
+
+The frozen pair register is audited item by item. For each target, the auditor checks (i) whether the target field exists in the visible new contract, (ii) whether every value is derivable from the old inputs, task context, or verified traces, and (iii) whether the required transformation convention is declared. It never substitutes a guessed field, delimiter, default, or format. The additive retained oracle and exclusion manifest are committed in \artifact{gates/baselines/GATE_19_TOOL_REPLACEMENT_ORACLE_V1.json} and \artifact{gates/baselines/GATE_19_TOOL_REPLACEMENT_ORACLE_V1_MANIFEST.json}, both at commit \sha{7410bc7}.
+
+\subsection{Frozen evidence and controls}
+
+The audit and its result were frozen before this paper. Gate 19's protocol is \artifact{gates/baselines/GATE_19_PROTOCOL.json}, commit \sha{8eb7da6}; the result is \artifact{gates/results/GATE_19_RESULT.md}, commit \sha{d809598}. Gate 19-C reran the auditor over all families and froze the statistical decision rule in \artifact{gates/baselines/GATE_19C_PROTOCOL.json}, commit \sha{4e7a58f}; its result is \artifact{gates/results/GATE_19C_RESULT.md}, commit \sha{90d9282}.
+
+For external context, Path A inspected public MCPEvol-Bench and DynamicMCPBench releases but did not obtain an old/new contract-pair register compatible with this auditor. Path B uses 20 hand-verified parent/new MCP version pairs from the official MCP servers repository. Its machine-readable audit is \artifact{gates/results/GATE_19_EXTERNAL_AUDIT.json}, commit \sha{c720ff2}; the pair register is \artifact{gates/baselines/GATE_19_EXTERNAL_MCP_PAIRS.json}, commit \sha{0c73b17}. The Path B sample is purposive and is used as a negative control, not an estimate of real-world prevalence.\ledger{C019}
+
+\subsection{Diagnostic-only convention probe}
+
+The raw-output audit found no literal ``::'' construction in the affected frozen rows. A separately authorized diagnostic probe used a uniform chance baseline of $P(\texttt{::})=1/9=0.1111$ over plausible separators. It dispatched 60/60 requests, producing 57 valid JSON results and 3 provider failures. Among valid JSON, ``::'' appeared in 0/28 hidden-separator cases and 0/29 arbitrary-separator cases. The probe is diagnostic-only and inconclusive; it is not a capability result or evidence of contamination.\ledger{C020--C027}
+
+\section{Results}
+
+\subsection{Reachability is uneven across drift families}
+
+Across the synthetic pair surface, 260/310 items are reachable and 50/310 are unreachable, or 16.1\% after rounding.\ledger{C001--C005} Figure~\ref{fig:reachability} shows all audited families. The largest defects are not generic noise: argument\_merge is 0/30 reachable, tool\_replacement retains 15/35 reachable items, and argument\_split is clean at 40/40.\ledger{C007,C009,C017}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figure3_reachability.png}
+  \caption{Pair-level oracle reachability across the synthetic drift families, with the real-version control separated from the synthetic bars. The \texttt{no\_equivalent} family has no argument-pair denominator.}
+  \label{fig:reachability}
+\end{figure}
+
+The remaining pair families are reachable on their retained denominators, as shown in Figure~\ref{fig:reachability}. The no\_equivalent family is not an argument-pair surface and is therefore marked N/A rather than assigned an artificial denominator.\ledger{C006,C008,C010--C016}
+
+The complete-call boundary is stricter than pair reachability. Hidden required values leave 0/15 strict complete-call cases for both added\_required\_field and tool\_replacement.\ledger{C018} This is why the retained tool\_replacement pair set must not be presented as a repaired end-to-end performance score.
+
+\subsection{Synthetic defect versus real-version control}
+
+The real-version control contains 0/20 unreachable items.\ledger{C019} This contrast is informative but bounded: a purposive sample from one public repository can show that the auditor does not mark every evolution as unreachable, but it cannot establish that synthetic generation is the only source of oracle defects in the field. Path A was not audit-compatible, and Path B is not external validation.
+
+\subsection{The RISK-0022 mechanism claim is contradicted by raw rows}
+
+Five affected graded cases contain 0/85 literal ``::'' constructions, 3 different-separator constructions, and 82 no-join outputs. Every affected case has a first-attempt score of zero in the frozen score matrix.\ledger{C020--C022} The mapping scorer could award pair credit for naming a field, while the execution scorer compared the produced argument dictionary against the exact expected input. The earlier register claim therefore attributed family-level successes to hidden cases without checking the raw rows. The corrected conclusion is an audit-trail/scorer distinction, not a demonstrated ability to guess an unobservable convention.
+
+\subsection{Repair has a power cost}
+
+Gate 19-C preregistered a two-sided equal-size proportion analysis with a practically meaningful absolute effect of 0.20.\ledger{C032} After exclusion, the retained surfaces have the following minimum detectable differences:
+
+\begin{table}[t]
+\centering
+\caption{Power consequences of the reachability repair. Values and sample sizes trace to the Gate 19-C power table.}
+\label{tab:power}
+\begin{tabular}{lrrrr}
+\toprule
+Surface & retained $n$/arm & MDE & power at 0.20 & required $n$/arm \\
+\midrule
+argument\_split & 40 & 0.2975 & 0.4578 & 90 \\
+tool\_replacement & 15 & 0.4348 & 0.2300 & 76 \\
+pooled retained & 55 & 0.2503 & 0.6029 & 87 \\
+\bottomrule
+\end{tabular}
+\ledger{C029--C034}
+\end{table}
+
+All three MDEs exceed the preregistered 0.20 effect. This is not a null result from a failed baseline campaign: Gate 20 was cancelled before the campaign because the frozen scoreable surface could not support its planned effect size.\ledger{C029--C034} Excluding bad items is scientifically necessary for valid scoring, but it is not a free statistical repair.
+
+The observed baseline anchors also show why intervals matter. On argument\_split, the direct arm is 11/15 with Wilson 95\% interval [0.4805, 0.8910], while the offline arm is 0/15 with [0.0000, 0.2039]. On tool\_replacement, the direct arm is 8/15 with [0.3012, 0.7519], while the offline arm is 0/15 with [0.0000, 0.2039].\ledger{C035--C038} These are historical anchors for the power calculation, not repaired-lane performance estimates.
+
+\section{Deployed Case Study: VietRAGOps Evolve}
+
+The repository's deployed RAG system is included to show the operational context in which the audit discipline was maintained, not as a scientific contribution. In the Gate 18-R receipt, revision \texttt{vietragops-api-00021-teb} was promoted to 100\% traffic; its readiness surface reported 698 chunks and 38 documents, with the ONNX dense retrieval backend active.\ledger{C041,C042} The receipt also records the release-bound build guard, authenticated health/readiness checks, and a refusal path. None of those deployment facts validates the synthetic oracle or supplies external benchmark evidence.
+
+The case study is intentionally short. Firecrawl, MarkItDown, MCP plumbing, Cloud Run, and provider routing are artifact-strength details. They are not contributions of this paper, and no production call or new campaign was used to strengthen the result reported here.
+
+\section{Limitations and Adversarial Review}
+
+\subsection{Substantive limitations}
+
+\textbf{Self-authored sandbox.} Contribution 2 is a measurement of a controlled local construction, not a field prevalence estimate. Synthetic mutation operators can create unreachable targets that a real API maintainer would never publish. The real-version control found no unreachable item in its measured sample, but the sample is small, purposive, and drawn from one repository.
+
+\textbf{Small scoreable surfaces.} The intervals are wide. In particular, the zero-success 15-item anchors still have Wilson upper bound 0.2039, and RISK-0020 records a separate narrow-claim boundary in which the argument\_split Wilson upper bound is 0.9333 against a 0.90 saturation bar.\ledger{C035--C039} We therefore do not claim stable end-to-end saturation or general model inability.
+
+\textbf{Design-time exposure.} RISK-0023 records that the ground truth of 3 graded cases was read during Gate 08 method scoping before held-out discipline was tightened.\ledger{C040} This is disclosed rather than treated as a clean-room evaluation.
+
+\textbf{Historical negative method result.} Gate 08's preregistered alignment-method result is NEGATIVE under DEC-0023. The present audit does not repair, rescore, or reverse it. Gate 20 was cancelled under DEC-0047; no comparative algorithmic campaign is hidden behind the present measurement paper.
+
+\textbf{Criterion boundary.} Reachability detects underivability, not semantic wrongness, side effects, or behavioral equivalence. A target can pass the derivability audit and still be a poor replacement. Some migrations intrinsically require probing, documentation, or human judgment; those cases should be represented as different information-rights conditions rather than forced into a pre-execution score.
+
+\textbf{Single-system and preprint scope.} The evidence is a tier-(b) single-system case study. The Path B control is not external validation, and the arXiv manuscript is a preprint, not a peer-reviewed article.
+
+\subsection{Hostile reviewer questions and resolutions}
+
+\textbf{Is the criterion merely test-set validity restated?} It is related to test-set validity, but it makes the information-rights boundary explicit and operational: each target is audited for both field presence and construction derivability, with typed failure classes and a reusable implementation. We claim a checkable audit procedure, not a new theory of validity.
+
+\textbf{Does the real-pair sample support the synthetic-versus-real claim?} No broad claim is supported. The sample is a negative control showing 0/20 unreachable items under the same audit. It does not estimate how common unreachable oracles are in real API evolution.
+
+\textbf{Does the self-authored sandbox undercut the unreachability measurement?} It limits generality and is a central limitation. It does not erase the local measurement: the oracle defect is reproducible, typed, and traceable. The paper's claim is that a benchmark author should perform this audit, not that every external benchmark has the same defect.
+
+\textbf{Is the cancelled campaign a null result dressed up as a power result?} No. No baseline comparison was run under the repaired oracle. The power analysis is a design decision that says the planned comparison could not resolve the preregistered effect on the retained surface; it does not say that competing methods are equivalent.
+
+\textbf{What stops this being a project report?} The reusable criterion, offline auditor, independent reproduction of the load-bearing findings, typed oracle-failure classes, explicit information-rights table, and item-level evidence ledger are the research-facing objects. The deployment narrative is intentionally secondary and bounded.
+
+\section{Reproducibility and Traceability}
+
+The public repository is \url{https://github.com/Dat071104/vietragops}. The protocol and evidence ledger are committed artifacts; the ledger maps every numeric result used here to a file, commit, producing gate, and locator. The current protocol commit is \sha{8a9cc4a}; the ledger commit is \sha{d456a5d} and its full SHA is recorded in Appendix~\ref{app:traceability}. The paper package is prepared for arXiv but is not submitted by this gate.
+
+The frozen-input integrity manifest \artifact{gates/results/GATE_19_FROZEN_SOURCE_HASHES.json}, commit \sha{a434d53}, was rechecked in Gate 19-C: all 146 recorded hashes were unchanged, with 0 changed and 0 missing.\ledger{C028} Gate 07, Gate 08, Gate 19, and Gate 19-C artifacts remain frozen; no source, corpus, manifest, chunk store, embedding artifact, or golden set was modified for this manuscript.
+
+\section{Conclusion}
+
+Benchmark validity begins before scoring. When a ground-truth target requires a field, literal, or construction convention outside the declared information rights, the item is not a valid capability test for that method. The local audit measures a substantial synthetic defect surface, identifies where it concentrates, contrasts it with a bounded real-version control, corrects an unsupported mechanism attribution, and quantifies the power cost of repair. The result is a measurement preprint with a reusable audit criterion, not an alignment-method paper and not a claim about the prevalence of defects in the wider ecosystem.
+
+\appendix
+\section{Audit Procedure and Information Rights}
+
+The committed auditor evaluates each item in the following order:
+
+\begin{enumerate}
+  \item Parse the declared information-rights object and preserve the original item record.
+  \item Check whether each target field exists in the visible new contract.
+  \item Check whether each target value is derivable from visible old values, task context, or verified old traces.
+  \item Check whether every transformation convention, including delimiters and ordering, is declared.
+  \item Emit a typed status and an action: retain or exclude. Do not rewrite the original oracle.
+\end{enumerate}
+
+The procedure is additive. The original Gate 07 and Gate 08 artifacts are not rescored in this paper. The repaired tool\_replacement manifest is a separate object whose retained pair-level denominator is used only for reachability and power analysis.
+
+\section{Artifact Provenance}
+\label{app:traceability}
+
+The following table lists the committed evidence files directly cited by the paper. Full SHA-256 values and claim-level locators are in \artifact{gates/baselines/GATE_10_EVIDENCE_LEDGER.json}, commit \sha{d456a5d}.
+
+\begingroup
+\tiny
+\begin{longtable}{p{0.44\linewidth}p{0.18\linewidth}p{0.32\linewidth}}
+\toprule
+Artifact path & Gate & Commit SHA \\
+\midrule
+\endfirsthead
+\toprule
+Artifact path & Gate & Commit SHA \\
+\midrule
+\endhead
+\artifact{gates/baselines/GATE_10_PROTOCOL.json} & Gate 10 & \sha{8a9cc4a} \\
+\artifact{gates/baselines/GATE_19_PROTOCOL.json} & Gate 19 & \sha{8eb7da6} \\
+\artifact{gates/results/GATE_19_RESULT.md} & Gate 19 & \sha{d809598} \\
+\artifact{research/gate19/information_rights.json} & Gate 19 & \sha{b2fd2c0} \\
+\artifact{research/gate19/auditor.py} & Gate 19 & \sha{6adf136} \\
+\artifact{research/gate19/tests.py} & Gate 19 & \sha{6adf136} \\
+\artifact{gates/results/GATE_19_AUDIT.json} & Gate 19 & \sha{7410bc7} \\
+\artifact{gates/results/GATE_19_REQUIRED_FIELD_AUDIT.json} & Gate 19 & \sha{7410bc7} \\
+\artifact{gates/results/GATE_19_FROZEN_CONVENTION_AUDIT.json} & Gate 19 & \sha{7410bc7} \\
+\artifact{gates/results/GATE_19_DIAGNOSTIC_PROBE.json} & Gate 19 & \sha{a22de8f} \\
+\artifact{gates/results/GATE_19_EXTERNAL_AUDIT.json} & Gate 19 & \sha{c720ff2} \\
+\artifact{gates/baselines/GATE_19_EXTERNAL_MCP_PAIRS.json} & Gate 19 & \sha{0c73b17} \\
+\artifact{gates/baselines/GATE_19_TOOL_REPLACEMENT_ORACLE_V1.json} & Gate 19 & \sha{7410bc7} \\
+\artifact{gates/baselines/GATE_19_TOOL_REPLACEMENT_ORACLE_V1_MANIFEST.json} & Gate 19 & \sha{7410bc7} \\
+\artifact{gates/results/GATE_19_FROZEN_SOURCE_HASHES.json} & Gate 19/19-C & \sha{a434d53} \\
+\artifact{gates/baselines/GATE_19C_PROTOCOL.json} & Gate 19-C & \sha{4e7a58f} \\
+\artifact{gates/results/GATE_19C_RESULT.md} & Gate 19-C & \sha{90d9282} \\
+\artifact{gates/results/GATE_08_RESULT.md} & Gate 08 & \sha{e43c932} \\
+\artifact{gates/baselines/GATE_08_PROTOCOL.json} & Gate 08 & \sha{0e2aab7} \\
+\artifact{gates/results/GATE_18R_RESULT.md} & Gate 18-R & \sha{bfdbb60} \\
+\artifact{gates/baselines/GATE_10_EVIDENCE_LEDGER.json} & Gate 10 & \sha{d456a5d} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\section{Citation and License Record}
+
+Citation metadata, resolution checks, and the third-party license record are committed in \artifact{paper/REFERENCES_VERIFIED.json}, commit \sha{1cc3e27}. The paper cites third-party works for positioning only. It does not redistribute their code or datasets. The Path B control is derived from public MCP server version history under the upstream licenses recorded by Gate 19: Apache-2.0 for new code, applicable legacy MIT contributions, and CC-BY-4.0 documentation provisions.
+
+\begin{thebibliography}{99}
+
+\bibitem{chen2025toolevo}
+Guoxin Chen, Zhong Zhang, Xin Cong, Fangda Guo, Yesai Wu, Yankai Lin, Wenzheng Feng, and Yasheng Wang. ``Learning Evolving Tools for Large Language Models.'' In \emph{International Conference on Learning Representations}, 2025. \url{https://proceedings.iclr.cc/paper_files/paper/2025/hash/d8d1d325f822e07d16866780cc23deb2-Abstract-Conference.html}.
+
+\bibitem{wu2026contda}
+Bin Wu, Edgar Meij, and Emine Yilmaz. ``Beyond Static Toolsets: Self-Evolving LLM Tool Agents via Continual Documentation Adaptation.'' In \emph{Findings of the Association for Computational Linguistics: ACL 2026}, 2026. \url{https://aclanthology.org/2026.findings-acl.1082/}.
+
+\bibitem{assidiqi2026referencefree}
+Mohammad Hasbi Assidiqi, Daniyal Alghazzawi, Suaad Alarifi, and Li Cheng. ``Benchmarking Reference-Free LLM Agent Robustness Under Schema, Policy, and Toolset Drift.'' \emph{IEEE Access}, 14:79662--79672, 2026. \url{https://doi.org/10.1109/ACCESS.2026.3696096}.
+
+\bibitem{jin2026toolprimitives}
+Haibo Jin, Suijin Wang, Xucheng Yu, Haojing Luo, and Haohan Wang. ``Harness Engineering in LLM Tool Use via Agent-Native Reusable Tool Primitives.'' arXiv preprint arXiv:2609.01736, 2026. \url{https://arxiv.org/abs/2609.01736}.
+
+\bibitem{liu2026mcpevol}
+Huanxi Liu, Kun Hu, Jiaqi Liao, Qiang Wang, Pengfei Qian, YuanZhao Zhai, Dawei Feng, Bo Ding, and Huaimin Wang. ``MCPEvol-Bench: Benchmarking LLM Agent Performance Across Dynamic Evolutions of MCP Servers.'' arXiv preprint arXiv:2607.14642, 2026. \url{https://arxiv.org/abs/2607.14642}.
+
+\bibitem{kaminski2026dynamicmcpbench}
+Jerzy Kamiński, Ilya Galyukshev, Artem Kuznetsov, Sergey Chuprin, Kirill Redko, Aidar Shumbalov, and Anna Kalyuzhnaya. ``DynamicMCPBench: A Trace-Grounded, Effect-Scored Benchmark for LLM Agents over Live MCP Servers.'' arXiv preprint arXiv:2607.20531, 2026. \url{https://arxiv.org/abs/2607.20531}.
+
+\bibitem{dig2006api}
+Danny Dig. ``How do APIs evolve? A story of refactoring.'' \emph{Journal of Software Maintenance and Evolution: Research and Practice}, 18(2):83--107, 2006. \url{https://doi.org/10.1002/smr.328}.
+
+\bibitem{almeida2024librarymigration}
+Aylton Almeida, Laerte Xavier, and Marco Tulio Valente. ``Automatic Library Migration Using Large Language Models: First Results.'' In \emph{Proceedings of the 18th ACM/IEEE International Symposium on Empirical Software Engineering and Measurement}, 2024. \url{https://arxiv.org/abs/2408.16151}.
+
+\bibitem{reyes2026bigbag}
+Frank Reyes, Benoit Baudry, and Martin Monperrus. ``Agentic Generation of AST Transformation Rules for Fixing Breaking Updates.'' arXiv preprint arXiv:2606.24446, 2026. \url{https://arxiv.org/abs/2606.24446}.
+
+\end{thebibliography}
+
+\end{document}
