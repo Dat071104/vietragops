@@ -1,0 +1,534 @@
+{
+  "schema": "gate21.evidence_ledger_addendum.v1",
+  "gate": "Gate 21",
+  "date": "2026-09-12",
+  "protocol": {
+    "path": "research/gate19/information_rights.json",
+    "commit": "b2fd2c0",
+    "note": "Gate 21 uses the separate external rights object; the local rights object is cited only as the schema template."
+  },
+  "rule": "Every new Gate 21 numeric claim is mapped to an artifact path, the local commit containing that artifact, its SHA-256, a locator, and observed_or_derived status. Units are named and derived values include their derivation.",
+  "artifact_commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+  "artifacts": [
+    {
+      "key": "gate_21_external_source_hashes",
+      "path": "gates/results/GATE_21_EXTERNAL_SOURCE_HASHES.json",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "650077836f54d748daf255c3f98708b942c3808d255c8dd7cc3fe28387dfb8ab",
+      "gate": "Gate 21",
+      "role": "pinned source URLs, sizes, hashes, and license decision"
+    },
+    {
+      "key": "gate_21_structure_survey",
+      "path": "gates/results/GATE_21_STRUCTURE_SURVEY.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "03ec9ac72790cd9c00cf5f116c6d9dc13887dd7c329d85885f1bfc010a2777d3",
+      "gate": "Gate 21",
+      "role": "C2 structural survey"
+    },
+    {
+      "key": "external_information_rights",
+      "path": "research/gate21/external_information_rights.json",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "90e68ead7596a69dbbb737353ab5ff69dc68a25a0d219d540677b73bdaeeb633",
+      "gate": "Gate 21",
+      "role": "C3 external rights declaration"
+    },
+    {
+      "key": "mcpevol_adapter",
+      "path": "research/gate21/mcpevol_adapter.py",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "5775cb333bf311fa241ac282e8fbde20c5e7b207680de476c5769aa91288b1e0",
+      "gate": "Gate 21",
+      "role": "C4 adapter"
+    },
+    {
+      "key": "tests",
+      "path": "research/gate21/tests.py",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "2a42d38bb8cf1665ea7e90ed4c4c6cf69ae9f8f6c8b64043e4ec0a743a3c90ce",
+      "gate": "Gate 21",
+      "role": "C4 adapter tests"
+    },
+    {
+      "key": "gate_21_external_audit",
+      "path": "gates/results/GATE_21_EXTERNAL_AUDIT.json",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "9566409a8da394f10e7a6beb62de5add31b65ec59e6b99dec93408860debc8c3",
+      "gate": "Gate 21",
+      "role": "C4 adapter refusal and unmodified auditor output"
+    },
+    {
+      "key": "gate_21_result",
+      "path": "gates/results/GATE_21_RESULT.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "5fcdc1e49f3c160275a644457f59a51246002d6987073d4fb691df3ac65f9715",
+      "gate": "Gate 21",
+      "role": "C0-C7 result and manual verification"
+    },
+    {
+      "key": "gate_21_manuscript_delta",
+      "path": "gates/results/GATE_21_MANUSCRIPT_DELTA.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "491b602c42446e63c2905ee110cdeabf79d28ea5b4935b56e94a9e3219bfd1f8",
+      "gate": "Gate 21",
+      "role": "owner-applied manuscript replacements"
+    },
+    {
+      "key": "gate_21_closure_receipt",
+      "path": "gates/results/GATE_21_CLOSURE_RECEIPT.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "feb8fee05c8727b9a02064877783ac9f1688dd0032fe920ce8212d138ac88c10",
+      "gate": "Gate 21",
+      "role": "C7 closure receipt"
+    },
+    {
+      "key": "risk_register",
+      "path": "_agent_ops/RISK_REGISTER.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "3b6d618bdfd3ba421544f476eec83f403e25fdd035cb31359588acb09956e619",
+      "gate": "Gate 21",
+      "role": "RISK-0048 update"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "G21-C001",
+      "claim": "External source file sizes",
+      "value": {
+        "HYBRID/evolution.json": 472773,
+        "HYBRID/HYBRID/evolution.json": 456127,
+        "HYBRID/HYBRID/HYBRID/evolution.json": 651169,
+        "HYBRID/HYBRID/HYBRID/HYBRID/evolution.json": 544246
+      },
+      "unit": "bytes per file",
+      "artifact_path": "gates/results/GATE_21_EXTERNAL_SOURCE_HASHES.json",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "650077836f54d748daf255c3f98708b942c3808d255c8dd7cc3fe28387dfb8ab",
+      "locator": "files[].byte_size",
+      "observed_or_derived": "observed"
+    },
+    {
+      "claim_id": "G21-C002",
+      "claim": "Total acquired source bytes",
+      "value": 2124315,
+      "unit": "bytes",
+      "artifact_path": "gates/results/GATE_21_EXTERNAL_SOURCE_HASHES.json",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "650077836f54d748daf255c3f98708b942c3808d255c8dd7cc3fe28387dfb8ab",
+      "locator": "derived_totals.total_bytes",
+      "observed_or_derived": "derived",
+      "derivation": "sum of the four files[].byte_size values"
+    },
+    {
+      "claim_id": "G21-C003",
+      "claim": "Entry suite result",
+      "value": {
+        "passed": 612,
+        "warnings": 2,
+        "exit_code": 0
+      },
+      "unit": "pytest result counts",
+      "artifact_path": "gates/results/GATE_21_RESULT.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "5fcdc1e49f3c160275a644457f59a51246002d6987073d4fb691df3ac65f9715",
+      "locator": "C0 entry receipt",
+      "observed_or_derived": "observed"
+    },
+    {
+      "claim_id": "G21-C004",
+      "claim": "Closure suite result",
+      "value": {
+        "passed": 612,
+        "warnings": 2,
+        "exit_code": 0
+      },
+      "unit": "pytest result counts",
+      "artifact_path": "gates/results/GATE_21_RESULT.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "5fcdc1e49f3c160275a644457f59a51246002d6987073d4fb691df3ac65f9715",
+      "locator": "C7 closure status",
+      "observed_or_derived": "observed"
+    },
+    {
+      "claim_id": "G21-C005",
+      "claim": "Entry overlay and index",
+      "value": {
+        "overlay_paths": 27,
+        "staged_paths": 0
+      },
+      "unit": "paths",
+      "artifact_path": "gates/results/GATE_21_RESULT.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "5fcdc1e49f3c160275a644457f59a51246002d6987073d4fb691df3ac65f9715",
+      "locator": "C0 entry receipt",
+      "observed_or_derived": "observed"
+    },
+    {
+      "claim_id": "G21-C006",
+      "claim": "Closure overlay and index comparison",
+      "value": {
+        "entry_overlay_paths": 27,
+        "current_overlay_paths": 27,
+        "missing_entry_paths": 0,
+        "extra_task_status_lines": 7,
+        "staged_paths": 0
+      },
+      "unit": "paths",
+      "artifact_path": "gates/results/GATE_21_CLOSURE_RECEIPT.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "feb8fee05c8727b9a02064877783ac9f1688dd0032fe920ce8212d138ac88c10",
+      "locator": "C7 overlay comparison",
+      "observed_or_derived": "observed"
+    },
+    {
+      "claim_id": "G21-C007",
+      "claim": "C2 stage server-entry counts",
+      "value": {
+        "stage1": 89,
+        "stage2": 86,
+        "stage3": 85,
+        "stage4": 87,
+        "total": 347
+      },
+      "unit": "server entries",
+      "artifact_path": "gates/results/GATE_21_STRUCTURE_SURVEY.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "03ec9ac72790cd9c00cf5f116c6d9dc13887dd7c329d85885f1bfc010a2777d3",
+      "locator": "Exact top-level schema stage table",
+      "observed_or_derived": "observed",
+      "derivation": "total is the sum of the four stage counts"
+    },
+    {
+      "claim_id": "G21-C008",
+      "claim": "C2 stage tool-record counts",
+      "value": {
+        "stage1": 92,
+        "stage2": 160,
+        "stage3": 125,
+        "stage4": 110,
+        "total": 487
+      },
+      "unit": "tool-level records",
+      "artifact_path": "gates/results/GATE_21_STRUCTURE_SURVEY.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "03ec9ac72790cd9c00cf5f116c6d9dc13887dd7c329d85885f1bfc010a2777d3",
+      "locator": "Exact top-level schema stage table",
+      "observed_or_derived": "observed",
+      "derivation": "total is the sum of the four stage counts"
+    },
+    {
+      "claim_id": "G21-C009",
+      "claim": "Distinct and duplicate pair counts",
+      "value": {
+        "distinct_pairs": 298,
+        "duplicate_observations": 189
+      },
+      "unit": "(server, tool) pairs",
+      "artifact_path": "gates/results/GATE_21_STRUCTURE_SURVEY.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "03ec9ac72790cd9c00cf5f116c6d9dc13887dd7c329d85885f1bfc010a2777d3",
+      "locator": "Exact top-level schema",
+      "observed_or_derived": "derived",
+      "derivation": "duplicate observations = 487 tool-level records - 298 distinct pairs"
+    },
+    {
+      "claim_id": "G21-C010",
+      "claim": "Mutation-type record counts",
+      "value": {
+        "PARAM": 141,
+        "DESC": 152,
+        "TOOL": 194,
+        "total": 487
+      },
+      "unit": "tool-level records",
+      "artifact_path": "gates/results/GATE_21_STRUCTURE_SURVEY.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "03ec9ac72790cd9c00cf5f116c6d9dc13887dd7c329d85885f1bfc010a2777d3",
+      "locator": "Mutation types table",
+      "observed_or_derived": "observed",
+      "derivation": "counts from flattening one tool key per server entry"
+    },
+    {
+      "claim_id": "G21-C011",
+      "claim": "Explicit parameter additions",
+      "value": {
+        "records": 110,
+        "items": 312,
+        "required_true": 0,
+        "required_false": 312
+      },
+      "unit": "parameter items and records",
+      "artifact_path": "gates/results/GATE_21_STRUCTURE_SURVEY.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "03ec9ac72790cd9c00cf5f116c6d9dc13887dd7c329d85885f1bfc010a2777d3",
+      "locator": "Parameter additions",
+      "observed_or_derived": "observed"
+    },
+    {
+      "claim_id": "G21-C012",
+      "claim": "Parameter-change and removal surfaces",
+      "value": {
+        "parameter_change_records": 25,
+        "parameter_change_items": 61,
+        "parameter_removal_records": 6,
+        "parameter_removal_items": 11
+      },
+      "unit": "records and parameter items",
+      "artifact_path": "gates/results/GATE_21_STRUCTURE_SURVEY.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "03ec9ac72790cd9c00cf5f116c6d9dc13887dd7c329d85885f1bfc010a2777d3",
+      "locator": "Other PARAM fields",
+      "observed_or_derived": "observed"
+    },
+    {
+      "claim_id": "G21-C013",
+      "claim": "Parameter-change action/type counts",
+      "value": {
+        "action_add": 27,
+        "action_remove": 18,
+        "change_type_constraint": 7,
+        "change_type_required": 6,
+        "change_type_type": 3
+      },
+      "unit": "parameter-change items",
+      "artifact_path": "gates/results/GATE_21_STRUCTURE_SURVEY.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "03ec9ac72790cd9c00cf5f116c6d9dc13887dd7c329d85885f1bfc010a2777d3",
+      "locator": "Other PARAM fields",
+      "observed_or_derived": "observed"
+    },
+    {
+      "claim_id": "G21-C014",
+      "claim": "Required flags outside parameter_additions",
+      "value": {
+        "parameter_change_items_with_required": 45,
+        "true": 4,
+        "false": 41,
+        "parameter_removal_required_true": 2,
+        "parameter_removal_required_false": 9
+      },
+      "unit": "parameter items",
+      "artifact_path": "gates/results/GATE_21_STRUCTURE_SURVEY.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "03ec9ac72790cd9c00cf5f116c6d9dc13887dd7c329d85885f1bfc010a2777d3",
+      "locator": "Other PARAM fields",
+      "observed_or_derived": "observed"
+    },
+    {
+      "claim_id": "G21-C015",
+      "claim": "PARAM diff-hunk surface",
+      "value": {
+        "PARAM_records": 141,
+        "diff_hunks": 357,
+        "anchor_code_hunks": 6
+      },
+      "unit": "records and diff hunks",
+      "artifact_path": "gates/results/GATE_21_STRUCTURE_SURVEY.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "03ec9ac72790cd9c00cf5f116c6d9dc13887dd7c329d85885f1bfc010a2777d3",
+      "locator": "PARAM contract-change description",
+      "observed_or_derived": "observed"
+    },
+    {
+      "claim_id": "G21-C016",
+      "claim": "DESC surface",
+      "value": {
+        "records": 152,
+        "nested_description_pairs": 138,
+        "root_description_pairs": 14,
+        "parameter_description_records": 94,
+        "parameter_description_items": 425
+      },
+      "unit": "records and items",
+      "artifact_path": "gates/results/GATE_21_STRUCTURE_SURVEY.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "03ec9ac72790cd9c00cf5f116c6d9dc13887dd7c329d85885f1bfc010a2777d3",
+      "locator": "DESC description correspondence",
+      "observed_or_derived": "observed"
+    },
+    {
+      "claim_id": "G21-C017",
+      "claim": "TOOL surface",
+      "value": {
+        "records": 194,
+        "string_values": 89,
+        "list_values": 83,
+        "full_config_objects": 22,
+        "output_schema_objects": 1,
+        "annotation_objects": 1,
+        "non_full_summary_values": 172
+      },
+      "unit": "records and values",
+      "artifact_path": "gates/results/GATE_21_STRUCTURE_SURVEY.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "03ec9ac72790cd9c00cf5f116c6d9dc13887dd7c329d85885f1bfc010a2777d3",
+      "locator": "TOOL mixed summaries",
+      "observed_or_derived": "observed"
+    },
+    {
+      "claim_id": "G21-C018",
+      "claim": "task_idx coverage",
+      "value": {
+        "server_entries": 347,
+        "distinct_task_idx": 73,
+        "min": 0,
+        "max": 84
+      },
+      "unit": "server entries and task_idx values",
+      "artifact_path": "gates/results/GATE_21_STRUCTURE_SURVEY.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "03ec9ac72790cd9c00cf5f116c6d9dc13887dd7c329d85885f1bfc010a2777d3",
+      "locator": "task_idx and expected calls",
+      "observed_or_derived": "observed"
+    },
+    {
+      "claim_id": "G21-C019",
+      "claim": "Prior task-file observation used for join boundary",
+      "value": {
+        "records": 393,
+        "size_bytes": 15847946
+      },
+      "unit": "test_cases.json records and bytes",
+      "artifact_path": "gates/results/GATE_21_RESULT.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "5fcdc1e49f3c160275a644457f59a51246002d6987073d4fb691df3ac65f9715",
+      "locator": "C2 task-call recoverability",
+      "observed_or_derived": "observed",
+      "derivation": "carried forward from Gate 19's frozen external-release observation; not re-downloaded in Gate 21"
+    },
+    {
+      "claim_id": "G21-C020",
+      "claim": "C4 adapter tests",
+      "value": 5,
+      "unit": "tests",
+      "artifact_path": "gates/results/GATE_21_RESULT.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "5fcdc1e49f3c160275a644457f59a51246002d6987073d4fb691df3ac65f9715",
+      "locator": "C4 adapter and unmodified auditor",
+      "observed_or_derived": "observed"
+    },
+    {
+      "claim_id": "G21-C021",
+      "claim": "Adapter input and refusal counts",
+      "value": {
+        "input_records": 487,
+        "converted_auditor_items": 0,
+        "refused_records": 487
+      },
+      "unit": "tool-level records and auditor items",
+      "artifact_path": "gates/results/GATE_21_EXTERNAL_AUDIT.json",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "9566409a8da394f10e7a6beb62de5add31b65ec59e6b99dec93408860debc8c3",
+      "locator": "adapter",
+      "observed_or_derived": "observed"
+    },
+    {
+      "claim_id": "G21-C022",
+      "claim": "Adapter refusal reason counts",
+      "value": {
+        "MUTATION_TYPE_OUTSIDE_ARGUMENT_TARGET_SCHEMA": 346,
+        "PARAM_OPTIONAL_ADDITION_HAS_NO_TARGET_CALL": 110,
+        "PARAM_COMPOSITE_CHANGE_HAS_NO_TARGET_CALL": 19,
+        "PARAM_CHANGE_HAS_NO_TARGET_CALL": 6,
+        "PARAM_REMOVAL_HAS_NO_NEW_TARGET_FIELD": 6
+      },
+      "unit": "refused tool-level records",
+      "artifact_path": "gates/results/GATE_21_EXTERNAL_AUDIT.json",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "9566409a8da394f10e7a6beb62de5add31b65ec59e6b99dec93408860debc8c3",
+      "locator": "adapter.refusal_reason_counts",
+      "observed_or_derived": "derived",
+      "derivation": "grouping the 487 refused_records by reason_code"
+    },
+    {
+      "claim_id": "G21-C023",
+      "claim": "Per-mutation-type refusal counts",
+      "value": {
+        "PARAM": 141,
+        "DESC": 152,
+        "TOOL": 194
+      },
+      "unit": "refused tool-level records",
+      "artifact_path": "gates/results/GATE_21_EXTERNAL_AUDIT.json",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "9566409a8da394f10e7a6beb62de5add31b65ec59e6b99dec93408860debc8c3",
+      "locator": "per_mutation_type",
+      "observed_or_derived": "observed"
+    },
+    {
+      "claim_id": "G21-C024",
+      "claim": "Auditor status counts over converted items",
+      "value": {
+        "REACHABLE": 0,
+        "UNREACHABLE-TARGET-ABSENT": 0,
+        "UNREACHABLE-CONVENTION-UNOBSERVABLE": 0,
+        "converted_items": 0
+      },
+      "unit": "auditor items",
+      "artifact_path": "gates/results/GATE_21_EXTERNAL_AUDIT.json",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "9566409a8da394f10e7a6beb62de5add31b65ec59e6b99dec93408860debc8c3",
+      "locator": "auditor.status_counts",
+      "observed_or_derived": "observed",
+      "derivation": "the unmodified auditor was run over the adapter's empty item list; no reachability denominator exists"
+    },
+    {
+      "claim_id": "G21-C025",
+      "claim": "Manual refusal verification",
+      "value": {
+        "checked_records": 10,
+        "mutation_types_spanned": 3,
+        "disagreements": 0
+      },
+      "unit": "refusal records and mutation types",
+      "artifact_path": "gates/results/GATE_21_RESULT.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "5fcdc1e49f3c160275a644457f59a51246002d6987073d4fb691df3ac65f9715",
+      "locator": "C5 manual verification",
+      "observed_or_derived": "observed"
+    },
+    {
+      "claim_id": "G21-C026",
+      "claim": "External audit verdict",
+      "value": {
+        "input_records": 487,
+        "converted_items": 0,
+        "refused_records": 487
+      },
+      "unit": "tool-level records and auditor items",
+      "artifact_path": "gates/results/GATE_21_RESULT.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "5fcdc1e49f3c160275a644457f59a51246002d6987073d4fb691df3ac65f9715",
+      "locator": "C4 audit table",
+      "observed_or_derived": "observed"
+    },
+    {
+      "claim_id": "G21-C027",
+      "claim": "Rights runtime truncation",
+      "value": 500,
+      "unit": "characters",
+      "artifact_path": "research/gate21/external_information_rights.json",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "90e68ead7596a69dbbb737353ab5ff69dc68a25a0d219d540677b73bdaeeb633",
+      "locator": "mcpevol_declared_artifacts.post_call_feedback.fields",
+      "observed_or_derived": "observed"
+    },
+    {
+      "claim_id": "G21-C028",
+      "claim": "Reproduction frozen-source integrity",
+      "value": {
+        "frozen_files": 134,
+        "unchanged": 134,
+        "changed": 0,
+        "missing": 0
+      },
+      "unit": "frozen input files",
+      "artifact_path": "gates/results/GATE_21_RESULT.md",
+      "commit": "5a588a7eb81ccb23b2fc59411c116a394aa2a385",
+      "sha256": "5fcdc1e49f3c160275a644457f59a51246002d6987073d4fb691df3ac65f9715",
+      "locator": "C7 closure status",
+      "observed_or_derived": "observed"
+    }
+  ]
+}
