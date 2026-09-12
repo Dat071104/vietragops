@@ -1,0 +1,239 @@
+{
+  "schema": "gate10.evidence_ledger_addendum.v1",
+  "supplements": {
+    "path": "gates/baselines/GATE_10_EVIDENCE_LEDGER.json",
+    "commit": "653aa81fde9a9f8ad24bd8ebe634e5dbca780474",
+    "sha256": "d9ec96bedcd28c1b0339c0e29534ecd50d893fa6e6714b46419b802434f229f6",
+    "claims_in_base_ledger": 45
+  },
+  "prepared_for": "Unreachable Oracles, manuscript version 2",
+  "prepared_on": "2026-09-12",
+  "repository_state": {
+    "head": "ff5e2b157ad218ff5e8dc652cbf06e6eef821522",
+    "origin_main": "ff5e2b157ad218ff5e8dc652cbf06e6eef821522",
+    "citable_tag": "gate10-paper-v1-20260911",
+    "tag_resolves_to": "ff5e2b157ad218ff5e8dc652cbf06e6eef821522"
+  },
+  "rule": "Every number that appears in the manuscript and is not represented by a record in the base ledger appears below, with its source artifact, that artifact's commit, its SHA-256 as verified when this version was prepared, and a locator. Derived values state their derivation. No number was carried over from generated prose without reading the cited artifact.",
+
+  "claims": [
+    {
+      "id": "A01",
+      "value": "Required-field audit: 45 items total; 25 REACHABLE; 20 UNREACHABLE. By family: added_required_field 15 items, 0 reachable, 15 unreachable-convention-unobservable; argument_split 5 items, 5 reachable, 0 unreachable; tool_replacement 25 items, 20 reachable, 5 unreachable-convention-unobservable.",
+      "status": "observed",
+      "paper_locations": ["abstract", "contribution 2", "results 5.2"],
+      "artifact_path": "gates/results/GATE_19_REQUIRED_FIELD_AUDIT.json",
+      "artifact_commit": "7410bc77e3de7f89cb31d4b3f7654ab36ed80cf1",
+      "artifact_sha256": "71bc809825f3bd79f998d2a8b31b4dee93132be2e06a4bb81128852a1cf559f1",
+      "gate": "Gate 19",
+      "locator": "top-level item_count; families[*].status_counts",
+      "corroborating_source": "gates/results/GATE_19C_RESULT.md section C2 hidden boolean/literal defaults table; _agent_ops/RISK_REGISTER.md RISK-0046"
+    },
+    {
+      "id": "A02",
+      "value": "Diagnostic probe, hidden-arbitrary-separator stratum: exact-gold rate over valid JSON = 0.13793103448275862 (4 of 29). The hidden-sandbox stratum exact-gold rate is 0.0.",
+      "status": "observed",
+      "paper_locations": ["results 5.6 probe table"],
+      "artifact_path": "gates/results/GATE_19_DIAGNOSTIC_PROBE.json",
+      "artifact_commit": "a22de8fc9be82c928e3b9a8cfb5cb32edc450e87",
+      "artifact_sha256": "20dc923eec98f0c661b444902eb0807c7fd31d70c213d8bb75859e2b0571923b",
+      "gate": "Gate 19",
+      "locator": "strata.hidden_arbitrary_convention.exact_gold_valid_json_rate; strata.hidden_sandbox_convention.exact_gold_valid_json_rate",
+      "note": "Reported in the manuscript rounded to 0.1379. The count 4/29 is derived: 0.13793103448275862 * 29 = 4. Compared in the text against the pre-registered chance baseline 1/9 = 0.1111 (base-ledger claim C023). The manuscript states explicitly that n=29 cannot distinguish these two rates."
+    },
+    {
+      "id": "A03",
+      "value": "Power-table baseline p_bar and Wilson interval width at p_bar: argument_split p_bar=0.3667, Wilson width 0.2862; tool_replacement p_bar=0.2667, Wilson width 0.4105; pooled_retained p_bar=0.3394, Wilson width 0.2429.",
+      "status": "observed",
+      "paper_locations": ["Table 4 (power)"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "section C3 power table, columns 'Baseline p_bar' and 'Wilson width at p_bar'",
+      "internal_consistency_check": "p_bar is the mean of the two observed arm rates: argument_split (0.7333+0.0000)/2 = 0.36665 -> 0.3667; tool_replacement (0.5333+0.0000)/2 = 0.26665 -> 0.2667; pooled is retained-n weighted: (40*0.3667 + 15*0.2667)/55 = 0.33943 -> 0.3394. All three reproduce the recorded values."
+    },
+    {
+      "id": "A04",
+      "value": "Named baseline arms behind the power anchors: argument_split direct arm = llm_old_new_history on openai/gpt-oss-120b (11/15); argument_split offline arm = lexical_name, deterministic_offline (0/15); tool_replacement direct arm = llm_reasoning on openai/gpt-oss-20b (8/15); tool_replacement offline arm = lexical_name, deterministic_offline (0/15). Observed Wilson full widths: 0.4105, 0.2039, 0.4507, 0.2039.",
+      "status": "observed",
+      "paper_locations": ["results 5.7"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "section C3 observed baseline arm table, columns 'Observed baseline arm' and 'Full width'",
+      "note": "Rates and Wilson intervals themselves are base-ledger claims C035-C038; only the arm and model identifiers and the full-width column are new here."
+    },
+    {
+      "id": "A05",
+      "value": "Diagnostic probe configuration: model nvidia/nemotron-3-super-120b-a12b:free; fallback model empty; free-catalogue guard not overridden; minimum request interval 3.2 s; rate governor 19 requests per minute; reasoning effort 'none'; local daily ceiling 60, used 60, remaining 0; catalogue snapshot 2026-09-08T08:29:45Z; probe UTC day 2026-09-10.",
+      "status": "observed",
+      "paper_locations": ["results 5.6", "reproducibility"],
+      "artifact_path": "gates/results/GATE_19_DIAGNOSTIC_PROBE.json",
+      "artifact_commit": "a22de8fc9be82c928e3b9a8cfb5cb32edc450e87",
+      "artifact_sha256": "20dc923eec98f0c661b444902eb0807c7fd31d70c213d8bb75859e2b0571923b",
+      "gate": "Gate 19",
+      "locator": "ledger.probe_local (model, fallback_model, free_guard_override, rate_governor, reasoning, daily_request_ceiling, daily_requests_used, catalog_snapshot_utc)"
+    },
+    {
+      "id": "A06",
+      "value": "Gate 19-C C0 hash inventory composition: 99 protocol-surface hashes + 30 V3 raw-artifact hashes + 17 V4 raw-artifact hashes = 146 recorded file hashes. At C5: UNCHANGED=146, CHANGED=0, MISSING=0.",
+      "status": "observed_and_derived",
+      "derivation": "99 + 30 + 17 = 146, matching the recorded C5 total.",
+      "paper_locations": ["audit procedure, pre-registration and integrity"],
+      "artifact_path": "gates/results/GATE_19C_RESULT.md",
+      "artifact_commit": "90d9282f1d74e5c459644f86e11dea6230475c45",
+      "artifact_sha256": "947c0648afcd256810e9067e81cc36845046702977fecb70a6a87300423a849b",
+      "gate": "Gate 19-C",
+      "locator": "section 'Protocol and C0 entry' and section C5",
+      "note": "The 146-hash inventory and the Gate 19 134-file manifest are different inventories over different file sets. Base-ledger claims C028 and C045 record them separately. The manuscript states the distinction explicitly."
+    },
+    {
+      "id": "A07",
+      "value": "Full test suite at both gate closures: 612 passed, 2 warnings. Gate 19 wall clock 489.44 s; Gate 19-C wall clock 528.54 s. Both runs used an external pytest --basetemp.",
+      "status": "observed",
+      "paper_locations": ["audit procedure, pre-registration and integrity"],
+      "artifact_path": "gates/results/GATE_19_RESULT.md",
+      "artifact_commit": "d80959824ee2059d0d0eb1cbfcb0f90681147e2d",
+      "artifact_sha256": "ba01a4dfcaf649693b17f1cd3fa63f029cb587441616e54b5f2ce34760b34509",
+      "gate": "Gate 19",
+      "locator": "section O0 entry/freeze/integrity",
+      "corroborating_source": "gates/results/GATE_19C_RESULT.md sections 'Protocol and C0 entry' and C5"
+    },
+    {
+      "id": "A08",
+      "value": "Benchmark generator parameters: cases are produced by a 291-line operator library, not hand-written. GENERATOR_SEED = 20260827; GRADED_PER_FAMILY = 15; HELD_OUT_PER_FAMILY = 3. The module docstring reads 'Frozen-seed operators that turn real sandbox contract pairs into cases.' The unobservable separator originates in the sandbox runtime as \"section_code\": f\"{course['course_code']}::{_term_id(args)}\".",
+      "status": "observed",
+      "paper_locations": ["audit procedure 4.2", "limitations 7.1"],
+      "artifact_path": "research/gate07/dataset/operators.py",
+      "artifact_commit": "6130584ada6d67555f46706c8355daca233429ca",
+      "artifact_sha256": "1d911c5fcf4dbf6f59beaa222279318ae55eeeee610e38473ad7e0312bd0b2b2",
+      "gate": "Gate 07",
+      "locator": "module docstring; module-level constants GENERATOR_SEED, GRADED_PER_FAMILY, HELD_OUT_PER_FAMILY",
+      "corroborating_source": "research/gate07/sandbox/operations.py, commit 44be1410af557a11557dfe339a08fb6d2af3660e, SHA-256 45d6d4c05b8424a5d5dfb545fe7d14a67aec86860c395bb994d6f76574496959, for the '::' construction; the same three code paths are quoted in gates/results/GATE_19_RESULT.md section O2",
+      "note": "Added during the pre-submission self-audit. Version 2 of the manuscript argued that a generator produced the unreachable oracles without ever describing the generator, which left a reader unable to judge whether the defect was systematic or incidental. It is systematic: the failures are the output of two mutation operators under a fixed seed."
+    },
+    {
+      "id": "A09",
+      "value": "An earlier, separately written diagnostic reports the same 10/35 target-absent count. research/gate08/metrics/diagnostics.py implements oracle_reachability() with the single test 'new_arg not in fields.get(new_tool, set())'. It detects the target-absent class only; it has no convention check.",
+      "status": "observed",
+      "paper_locations": ["contribution 1"],
+      "artifact_path": "research/gate08/metrics/diagnostics.py",
+      "artifact_commit": "c419bcadc18a697ad642fa1aaf517306212e260a",
+      "artifact_sha256": "5e2ff38689b1fc12563d356fdbd89515370d703412ab2e2d677c994ef662f7e8",
+      "gate": "Gate 08",
+      "locator": "def oracle_reachability(); the membership test in the argument_pairs loop",
+      "note": "Added during the pre-submission self-audit, which found that version 2 claimed the Gate 19 auditor 'independently reproduces' two findings without telling the reader that a prior implementation existed, and without distinguishing the two classes. The claim holds for the target-absent class, where two implementations agree. It does not hold for the convention class, which the earlier diagnostic cannot detect at all and which had been established by reading the sandbox source. Contribution 1 now states both halves separately."
+    }
+  ],
+
+  "gate21_external_survey": {
+    "note": "Added after Gate 21 (2026-09-12), which reopened the Path A question. Every count below was recomputed independently from the pinned files during manuscript preparation, not taken from the gate result — and that recount found three of the gate's structural counts to rest on a conflated unit. See verification note V06.",
+    "source": {
+      "repository": "github.com/Octobrist/MCPEvol-Bench",
+      "pinned_commit": "888c779a0fe735f612ca62bdd1fdd7c9e6bf8701",
+      "files": [
+        {"path": "src/custom/data/mutation/HYBRID/evolution.json", "bytes": 472773, "sha256": "26d3e98c1464ab8b784bc37c3e7dc2c223038d1d3f06931cee56b76fb01acd46"},
+        {"path": "src/custom/data/mutation/HYBRID/HYBRID/evolution.json", "bytes": 456127, "sha256": "9186e5959df32b933bf88689d71454e98793bfcaf4c8b65478cc24ba2abf5a08"},
+        {"path": "src/custom/data/mutation/HYBRID/HYBRID/HYBRID/evolution.json", "bytes": 651169, "sha256": "d78c551f0136a7b0ad17fcb519e27aeb14b0b885fcb0a6309e98b2526bdc9431"},
+        {"path": "src/custom/data/mutation/HYBRID/HYBRID/HYBRID/HYBRID/evolution.json", "bytes": 544246, "sha256": "43d7deba235cb60190ae8db805235551cde015f71f81829d374ec49b14418d2b"}
+      ],
+      "total_bytes": 2124315,
+      "license": "No LICENSE file at the pinned root; the GitHub license endpoint returned HTTP 404; README carries no license statement. The files are therefore NOT redistributed in this repository or in the paper package. Only URLs, the pinned commit, byte sizes, and SHA-256 digests are recorded, and the paper cites them for positioning only."
+    },
+    "claims": [
+      {
+        "id": "A10",
+        "value": "347 mutated server entries across 89 distinct server names, typed by mutation_type: DESC 152, PARAM 141, TOOL 54. Sum 347.",
+        "status": "observed",
+        "paper_locations": ["results 5.4"],
+        "locator": "top-level keys of each of the four stage files; each entry's mutation_type field",
+        "unit": "server entry per stage file; a server recurring across stages is counted once per stage"
+      },
+      {
+        "id": "A11",
+        "value": "parameter_additions: 110 PARAM entries carry the field, holding 312 parameter items, of which 0 are required and 312 are optional. Separately, parameter_changes with action=add contains 27 items of which 2 are required; parameter_removals contains 11 items of which 2 are required.",
+        "status": "observed",
+        "paper_locations": ["results 5.4", "limitations 7.1"],
+        "locator": "parameter_additions[].required, parameter_changes[].action/.required, parameter_removals[].required",
+        "unit": "parameter item, not record and not server entry",
+        "note": "This is the decision-relevant count. An added optional parameter is trivially reachable; an added required parameter with no declared source value is the defect class this paper measures in its own added_required_field family. The observed count of required additions is zero."
+      },
+      {
+        "id": "A12",
+        "value": "357 diff_hunks across all records, 6 carrying anchor_code. 22 TOOL entries carry a complete new_tool_config. task_idx appears on all 347 server entries with 73 distinct values in the range 0-84.",
+        "status": "observed",
+        "paper_locations": ["results 5.4"],
+        "locator": "diff_hunks[], new_tool_config, task_idx",
+        "note": "diff_hunks are source snippets (old_code/new_code/file_name), not declared schemas. Deriving argument sets from them requires implementation-code inference, which the manuscript explicitly declines to perform. No verified join from task_idx to the task file index was established; the manuscript says so rather than assuming one."
+      },
+      {
+        "id": "A13",
+        "value": "External agent information rights, read from the runner at the pinned commit: current tool names, descriptions, and input schemas plus task context before the call; the stringified tool result or error truncated to the first 500 characters appended to the next request after each call; continuation over a bounded number of rounds.",
+        "status": "observed",
+        "paper_locations": ["related work 2.3", "results 5.4"],
+        "locator": "src/custom/real_mcp/tool_level_test.py at commit 888c779a0fe735f612ca62bdd1fdd7c9e6bf8701; corroborated by the benchmark's own paper (arXiv:2607.14642)",
+        "note": "This is an interactive current-schema regime, not the pre-execution old/new regime this paper audits. It is the empirical instance behind the manuscript's claim that reachability is relative to a declared rights set."
+      }
+    ]
+  },
+
+  "verification_notes": [
+    {
+      "id": "V06",
+      "kind": "unit_discipline_correction",
+      "subject": "Three structural counts in the Gate 21 result",
+      "finding": "The Gate 21 result reports 487 tool-level records, 298 distinct (server, tool) pairs, 189 duplicate observations, and TOOL=194. An independent recount from the same pinned files gives 315 dict-shaped tool records, 165 distinct pairs, and 22 TOOL records carrying a new_tool_config. The difference is entirely in the TOOL category: 194 counts every key inside a TOOL server entry, which comprises 89 addition_summary strings, 83 auto_optimizations lists, and 22 new_tool_config objects. Those are three different kinds of thing, and only the third is a tool record. PARAM=141 and DESC=152 agree exactly, as do total_bytes, server entries, all parameter counts, diff_hunks, and task_idx values.",
+      "consequence": "The Gate 21 verdict (NOT AUDITABLE) and its reasoning are unaffected, and the decision-relevant count of 0 required parameter additions is confirmed exactly. But the conflated figures must not be quoted. The manuscript therefore reports server entries by mutation_type, parameter items, diff hunks, and new tool configurations, each with its unit named, and does not use the 487 / 298 / 189 / 194 figures at all.",
+      "status": "CORRECTED_IN_MANUSCRIPT"
+    },
+    {
+      "id": "V07",
+      "kind": "prior_conclusion_overturned",
+      "subject": "Gate 19 Path A",
+      "finding": "Gate 19 concluded that public MCP-evolution benchmarks published no old/new correspondence register, having examined the task file and declined a 3.4 GB archive. It did not examine src/custom/data/mutation/**/evolution.json, which is 2.1 MB and does publish mutation records. The manuscript's earlier claim that such a register is an artifact 'a benchmark has no reason to publish' was therefore unsupported and is removed.",
+      "consequence": "Section 5.4 is rewritten around what was actually found. The recommendation is narrowed from 'publish the register' to 'normalize the correspondence into old and new argument sets carrying the expected target value', which is what the failed conversion actually shows to be missing.",
+      "status": "CORRECTED_IN_MANUSCRIPT"
+    },
+    {
+      "id": "V01",
+      "kind": "independent_cross_check",
+      "subject": "Per-family reachability counts (base-ledger claims C001-C017)",
+      "method": "The family table in gates/results/GATE_19C_RESULT.md section C2 is prose. It was re-derived independently from the machine-readable auditor output gates/results/GATE_19_AUDIT.json (commit 7410bc77e3de7f89cb31d4b3f7654ab36ed80cf1, SHA-256 4ff5db197eb995ce0ec00de4e4c1a3f82cc7ad3193fa9785259bbc6e289c7d22) by summing families[*].status_counts.",
+      "result": "310 pair items; REACHABLE 260; UNREACHABLE-TARGET-ABSENT 10; UNREACHABLE-CONVENTION-UNOBSERVABLE 40; total unreachable 50; 50/310 = 16.1%. Every per-family figure matches the prose table. The 10 target-absent items are all in tool_replacement; the 40 convention-unobservable items are 30 in argument_merge and 10 in tool_replacement.",
+      "status": "MATCH"
+    },
+    {
+      "id": "V02",
+      "kind": "integrity_correction",
+      "subject": "SHA-256 of gates/results/GATE_19_FROZEN_SOURCE_HASHES.json",
+      "observed": "e2e7ed915e55e8d2eb57378a3b53ebf106bc8d3c4141c7b6791d652c5c86e115",
+      "method": "Digest computed directly over the committed file at commit a434d5307be5f7af51eee9ac207aa65870032df9.",
+      "finding": "The prose summary in gates/results/GATE_19_RESULT.md section O0 transcribes this digest as '...5e55b8e2eb...' where the committed file digests to '...5e55e8d2eb...'. Two characters are transposed in the prose. The base-ledger record C045 and gates/results/GATE_19C_RESULT.md both carry the correct value. The manuscript cites the verified value and records the discrepancy in Appendix C rather than propagating either silently.",
+      "status": "CORRECTED_IN_MANUSCRIPT"
+    },
+    {
+      "id": "V03",
+      "kind": "unit_discipline",
+      "subject": "Denominators used in the manuscript",
+      "finding": "Three denominators are in play and were conflated in version 1 of this manuscript, which described '10/35 target-absent and 5/15 hidden-convention findings' in a single clause. 10/35 counts argument-pair items; 5/15 counts graded cases. Version 2 defines graded case, argument-pair item, and required-field item explicitly in section 3.1 and keeps them separate throughout.",
+      "status": "CORRECTED_IN_MANUSCRIPT"
+    },
+    {
+      "id": "V04",
+      "kind": "scope_limit",
+      "subject": "Declared information rights and derivation rules quoted in the manuscript",
+      "method": "Read directly from research/gate19/information_rights.json, commit b2fd2c04e52bb6996fa318ce7cf20326272e77e2, SHA-256 a6dedc5211fc4a2a80b9bf44acfca52b9fbbe0d11ed395c2f1a0b1451f03fa63.",
+      "result": "Four granted artifacts (old_schema, old_trace, new_schema, task_context) with their field lists; eight excluded artifact classes; three observable_derivation_rules (identity, visible_split, declared_external_derivation); one fail_closed_rule. The manuscript reproduces all of these.",
+      "status": "MATCH"
+    },
+    {
+      "id": "V05",
+      "kind": "figure_provenance",
+      "subject": "Figures in manuscript version 2",
+      "finding": "Version 1 shipped three PNG figures generated by paper/make_figures.py. Version 2 renders all figures natively in LaTeX/TikZ, so the manuscript source has no external image dependency and every figure value is readable in the source. Version 1's Figure 2 additionally contained a row asserting specific information rights for a cited third-party system whose full text could not be verified; that row is removed in version 2 rather than retained with a caveat. See REFERENCES_VERIFIED.json entry assidiqi2026referencefree.",
+      "status": "CORRECTED_IN_MANUSCRIPT"
+    }
+  ]
+}

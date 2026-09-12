@@ -1,33 +1,61 @@
 {
-  "schema": "gate10.references_verified.v1",
-  "verified_on": "2026-09-11",
-  "verification_rule": "Each entry was checked against the linked primary publisher, proceedings, ACL Anthology, arXiv, or DOI record for title, authors, venue/status, year, and resolving URL.",
+  "schema": "gate10.references_verified.v2",
+  "verified_on": "2026-09-12",
+  "supersedes": {
+    "schema": "gate10.references_verified.v1",
+    "path": "paper/REFERENCES_VERIFIED.json",
+    "commit": "1cc3e27f49e22ddc1518c67a34aa812ed62a0b6b",
+    "change_summary": "v1 verified bibliographic metadata only. v2 adds a separate verification level for the specific content claim the manuscript makes about each work, corrects the author list of dig2006api, and records the two references whose content could not be verified from a primary source."
+  },
+  "verification_levels": {
+    "metadata": "Title, authors, venue, year, and resolving URL/DOI checked against the primary publisher, proceedings, ACL Anthology, or arXiv record.",
+    "content_claim": "The specific statement the manuscript makes about this work was checked against the work's own abstract or full text, read directly.",
+    "content_claim_unverified": "Metadata confirmed, but the abstract or full text could not be retrieved. The manuscript cites the work only at the level its title and indexed metadata support, and makes no claim about its construction or results."
+  },
+
   "references": [
     {
       "key": "chen2025toolevo",
-      "group": "evolving tool agents",
+      "group": "agents that adapt to evolving tools",
       "title": "Learning Evolving Tools for Large Language Models",
       "authors": ["Guoxin Chen", "Zhong Zhang", "Xin Cong", "Fangda Guo", "Yesai Wu", "Yankai Lin", "Wenzheng Feng", "Yasheng Wang"],
       "venue": "International Conference on Learning Representations (ICLR)",
       "year": 2025,
       "status": "conference paper",
       "url": "https://proceedings.iclr.cc/paper_files/paper/2025/hash/d8d1d325f822e07d16866780cc23deb2-Abstract-Conference.html",
-      "verification": "Official ICLR proceedings page opened; title, author list, ICLR 2025 venue, and abstract confirmed."
+      "metadata": "verified",
+      "content_claim_level": "content_claim",
+      "manuscript_claim": "Enables active exploration and interaction within dynamic environments using Monte Carlo tree search; supports autonomous self-reflection and self-updating of tool usage based on environmental feedback; introduces ToolQA-D.",
+      "supporting_quotes": [
+        "facilitates active exploration and interaction of LLMs within dynamic environments",
+        "leverag[es] Monte Carlo Tree Search",
+        "autonomous self-reflection and self-updating of tool usage based on environmental feedback",
+        "a benchmark specifically designed to evaluate the impact of tool variability"
+      ],
+      "verification": "ICLR proceedings abstract page opened and read; all four quoted elements present."
     },
     {
       "key": "wu2026contda",
-      "group": "evolving tool agents",
+      "group": "agents that adapt to evolving tools",
       "title": "Beyond Static Toolsets: Self-Evolving LLM Tool Agents via Continual Documentation Adaptation",
       "authors": ["Bin Wu", "Edgar Meij", "Emine Yilmaz"],
       "venue": "Findings of the Association for Computational Linguistics: ACL 2026",
       "year": 2026,
       "status": "conference proceedings paper",
       "url": "https://aclanthology.org/2026.findings-acl.1082/",
-      "verification": "ACL Anthology record opened; title, author list, venue, year, pages, DOI, and abstract confirmed."
+      "metadata": "verified",
+      "content_claim_level": "content_claim",
+      "manuscript_claim": "Combines relation-guided exploration, which uses functionally related existing tools as anchors to probe new tool capabilities, with relation-aware adjustment encoding usage preferences and fallback options among overlapping tools.",
+      "supporting_quotes": [
+        "leverages functionally related existing tools as anchors to probe and identify new tool capabilities",
+        "organizes overlapping tools and explicitly encodes usage preferences and fallback options among them"
+      ],
+      "verification": "ACL Anthology record opened and abstract read; both components confirmed. The manuscript's use of this reference turns on the word 'probe', which is present in the source.",
+      "note_for_manuscript": "This work is cited to support the claim that probing methods operate under different information rights. That claim depends only on the probing capability, which the abstract states directly."
     },
     {
       "key": "assidiqi2026referencefree",
-      "group": "tool/schema adaptation and benchmark validity",
+      "group": "drift benchmarks",
       "title": "Benchmarking Reference-Free LLM Agent Robustness Under Schema, Policy, and Toolset Drift",
       "authors": ["Mohammad Hasbi Assidiqi", "Daniyal Alghazzawi", "Suaad Alarifi", "Li Cheng"],
       "venue": "IEEE Access, 14, 79662--79672",
@@ -36,18 +64,29 @@
       "doi": "10.1109/ACCESS.2026.3696096",
       "url": "https://doi.org/10.1109/ACCESS.2026.3696096",
       "resolved_redirect": "https://ieeexplore.ieee.org/document/11534189/",
-      "verification": "DOI resolved with HTTP 302 to the IEEE Xplore document; title, authors, IEEE Access venue, volume/pages, and 2026 metadata confirmed by the indexed record."
+      "metadata": "verified",
+      "content_claim_level": "content_claim_unverified",
+      "manuscript_claim": "Benchmarks reference-free LLM agent robustness under schema, policy, and toolset drift. No claim is made about its internal construction or results.",
+      "verification": "DOI resolved with HTTP 302 to the IEEE Xplore document; title, authors, IEEE Access venue, volume 14, pages 79662-79672, and 2026 metadata confirmed by the indexed record. Automated retrieval of the abstract and full text returned no content on 2026-09-12; a targeted search did not surface an accessible primary copy.",
+      "action_taken": "Version 1 of the manuscript described this work as injecting controlled drift 'using a known bijective inversion manifest' and separating adaptation-after-mapping from autonomous detection plus adaptation. Those statements were not supported by any primary source read during preparation and have been removed. Version 1 also placed a row for this system in the information-rights figure, asserting specific values for its old-trace, migration-map, and probing rights; that row has been removed from the version 2 table. The work is now cited for positioning at the level its title supports, and the limitation is stated in the manuscript's Appendix E rather than left implicit.",
+      "open_item": "If the authors obtain the full text, the Related Work paragraph and the information-rights table can be extended. Until then no content claim should be reinstated."
     },
     {
       "key": "jin2026toolprimitives",
-      "group": "tool/schema adaptation",
+      "group": "schema-hiding architectures",
       "title": "Harness Engineering in LLM Tool Use via Agent-Native Reusable Tool Primitives",
       "authors": ["Haibo Jin", "Suijin Wang", "Xucheng Yu", "Haojing Luo", "Haohan Wang"],
       "venue": "arXiv preprint arXiv:2609.01736",
       "year": 2026,
       "status": "preprint; not described as peer-reviewed",
       "url": "https://arxiv.org/abs/2609.01736",
-      "verification": "arXiv record opened; title, author list, identifier, date, and abstract confirmed."
+      "metadata": "verified",
+      "content_claim_level": "content_claim",
+      "manuscript_claim": "Each tool is wrapped with an LLM interface that handles schema resolution and execution internally, so the planner does not see the raw schema.",
+      "supporting_quotes": [
+        "each tool is wrapped with an LLM interface that handles schema resolution and execution internally"
+      ],
+      "verification": "arXiv abstract opened and read; the quoted sentence is the manuscript's sole basis for this claim and is reproduced verbatim in Related Work."
     },
     {
       "key": "liu2026mcpevol",
@@ -58,30 +97,66 @@
       "year": 2026,
       "status": "preprint; not described as peer-reviewed",
       "url": "https://arxiv.org/abs/2607.14642",
-      "verification": "arXiv record opened; title, author list, identifier, date, and abstract confirmed."
+      "metadata": "verified",
+      "content_claim_level": "content_claim",
+      "manuscript_claim": "Evaluates LLM agents under dynamic toolset evolution across 123 MCP servers with 11 mutation operators, reporting performance drops of 13.7% for GPT-5.4 and 14.4% for Claude-Sonnet-4-6 on evolved tool interfaces.",
+      "supporting_quotes": [
+        "the task-solving capabilities of LLM agents under dynamic toolset evolution"
+      ],
+      "verification": "arXiv abstract opened and read. The figures 123 servers, 11 mutation operators, 12 evaluated models, and the 13.7% / 14.4% drops are stated in the abstract.",
+      "note_for_manuscript": "Cited to establish that MCP-evolution benchmarking precedes this manuscript. The manuscript makes no priority or first-benchmark claim."
     },
     {
       "key": "kaminski2026dynamicmcpbench",
       "group": "MCP evaluation",
       "title": "DynamicMCPBench: A Trace-Grounded, Effect-Scored Benchmark for LLM Agents over Live MCP Servers",
-      "authors": ["Jerzy Kamiński", "Ilya Galyukshev", "Artem Kuznetsov", "Sergey Chuprin", "Kirill Redko", "Aidar Shumbalov", "Anna Kalyuzhnaya"],
+      "authors": ["Jerzy Kaminski", "Ilya Galyukshev", "Artem Kuznetsov", "Sergey Chuprin", "Kirill Redko", "Aidar Shumbalov", "Anna Kalyuzhnaya"],
       "venue": "arXiv preprint arXiv:2607.20531",
       "year": 2026,
       "status": "preprint; not described as peer-reviewed",
       "url": "https://arxiv.org/abs/2607.20531",
-      "verification": "arXiv record opened; title, author list, identifier, date, and abstract confirmed."
+      "metadata": "verified",
+      "content_claim_level": "content_claim",
+      "manuscript_claim": "Distils successful trajectories into path-agnostic effect checkpoints and scores an agent on whether it reproduces those effects rather than on the final answer.",
+      "supporting_quotes": [
+        "scores an agent on whether it reproduces those effects, never on the final answer",
+        "path-agnostic effect checkpoints"
+      ],
+      "verification": "arXiv abstract opened and read; both quoted elements confirmed.",
+      "note_for_manuscript": "The manuscript's observation that effect scoring loosens the path while reachability auditing validates the target is the authors' own analysis, not a claim attributed to this work. The first author's surname carries a diacritic (Kaminski / Kamin'ski) rendered as \\'{n} in the LaTeX bibliography."
     },
     {
       "key": "dig2006api",
       "group": "API migration and software evolution",
       "title": "How do APIs evolve? A story of refactoring",
-      "authors": ["Danny Dig"],
+      "authors": ["Danny Dig", "Ralph Johnson"],
       "venue": "Journal of Software Maintenance and Evolution: Research and Practice, 18(2), 83--107",
       "year": 2006,
       "status": "journal article",
       "doi": "10.1002/smr.328",
       "url": "https://doi.org/10.1002/smr.328",
-      "verification": "Wiley record opened; title, author, journal, volume/issue/pages, year, and DOI confirmed; DOI redirect resolved before the publisher returned an access-denied response to automated retrieval."
+      "primary_copy_read": "https://dig.cs.illinois.edu/papers/JSME_API_Evolution.pdf",
+      "metadata": "verified_and_corrected",
+      "content_claim_level": "content_claim",
+      "manuscript_claim": "Studied API changes across four frameworks and one library and found that breaking changes are not random but fall into particular categories, with over 80% of them being refactorings.",
+      "supporting_quotes": [
+        "we studied the API changes of four frameworks and one library",
+        "the changes that break existing applications are not random, but tend to fall into particular categories",
+        "Over 80% of these changes are refactorings"
+      ],
+      "verification": "The publisher DOI returned HTTP 403 to automated retrieval. The author-hosted copy of the published article was retrieved and its title page and summary read directly. Authors, affiliation (Dept. of Computer Science, University of Illinois at Urbana-Champaign), venue, year, and the summary text were confirmed from that copy.",
+      "corrections": [
+        {
+          "field": "authors",
+          "was": ["Danny Dig"],
+          "now": ["Danny Dig", "Ralph Johnson"],
+          "detail": "Version 1 of this record and of the manuscript bibliography omitted the second author, Ralph Johnson. The title page of the published article lists both authors. This is a citation-accuracy defect and is corrected in manuscript version 2."
+        },
+        {
+          "field": "quoted_figure",
+          "detail": "A web search surfaced two conflicting figures for the refactoring share, 'over 80%' and '94%'. The article's own summary states 'Over 80% of these changes are refactorings.' The manuscript quotes only the figure stated in the primary source. The 94% figure was not used."
+        }
+      ]
     },
     {
       "key": "almeida2024librarymigration",
@@ -93,7 +168,15 @@
       "status": "conference proceedings paper",
       "doi": "10.1145/3674805.3690746",
       "url": "https://arxiv.org/abs/2408.16151",
-      "verification": "arXiv record opened and its embedded publication metadata confirmed the ESEM '24 venue, year, authors, title, and DOI."
+      "metadata": "verified",
+      "content_claim_level": "content_claim",
+      "manuscript_claim": "Migrates a client application to a newer SQLAlchemy version using zero-shot, one-shot, and chain-of-thought prompting, finding one-shot strongest.",
+      "supporting_quotes": [
+        "the use of ChatGPT to migrate a client application to use a newer version of SQLAlchemy, an ORM (Object Relational Mapping) library widely used in Python",
+        "three types of prompts (Zero-Shot, One-Shot, and Chain Of Thoughts)",
+        "the best results are achieved by the One-Shot prompt, followed by the Chain Of Thoughts"
+      ],
+      "verification": "arXiv abstract opened and read; the embedded publication metadata confirmed the ESEM '24 venue, year, authors, title, and DOI."
     },
     {
       "key": "reyes2026bigbag",
@@ -104,12 +187,26 @@
       "year": 2026,
       "status": "preprint; not described as peer-reviewed",
       "url": "https://arxiv.org/abs/2606.24446",
-      "verification": "arXiv record opened; title, author list, identifier, date, and abstract confirmed."
+      "metadata": "verified",
+      "content_claim_level": "content_claim",
+      "manuscript_claim": "Generates executable AST transformation rules for breaking dependency updates and transfers them across client projects, reporting a 94.3% compilable transformation rate and a 78.6% single-project fix rate on 157 compilation failures from the BUMP benchmark, dropping to 33.3% across projects.",
+      "supporting_quotes": [
+        "Modern software projects depend on third-party libraries that evolve continuously, introducing breaking API changes that prevent client code from compiling after a dependency update."
+      ],
+      "verification": "arXiv record opened and read. Compilable transformation rate 94.3%, single-project fix rate 78.6%, cross-project fix rate 33.3%, and the evaluation on 157 compilation failures from the BUMP benchmark across eight configurations (four language models x two AST engines, Spoon and JavaParser) are stated in the record.",
+      "note_for_manuscript": "The manuscript uses the 78.6% vs 33.3% contrast to make an argument of its own about transfer under reduced information. That argument is the authors' inference and is presented as such, not attributed to this work."
     }
   ],
+
   "license_record": {
     "local_use": "No third-party code or dataset is redistributed in this paper package; the references are bibliographic only.",
-    "external_control": "The 20-pair Path B control derives from hand-verified public MCP server version pairs. Gate 19 records Apache-2.0 for new code, applicable legacy MIT contributions, and CC-BY-4.0 documentation provisions; the paper does not redistribute the upstream repository.",
-    "external_benchmarks": "MCPEvol-Bench and DynamicMCPBench are cited for positioning only; no external benchmark records were incorporated into the local scoreable dataset."
-  }
+    "external_control": "The 20-pair real-version control derives from hand-verified public MCP server version pairs. Gate 19 records Apache-2.0 for new code, applicable legacy MIT contributions, and CC-BY-4.0 documentation provisions; the paper does not redistribute the upstream repository.",
+    "external_benchmarks": "MCPEvol-Bench and DynamicMCPBench are cited for positioning only. Neither release was incorporated into the local scoreable dataset, and neither bulk dataset archive (3.4 GB and 2.58 GB respectively) was downloaded."
+  },
+
+  "residual_risk": [
+    "One of nine references (assidiqi2026referencefree) carries an unverified content level. The manuscript's positioning against it is correspondingly weak and is marked as such in Appendix E.",
+    "Two references (chen2025toolevo, wu2026contda) were verified from abstracts rather than full text. The manuscript's claims about them are confined to statements the abstracts make directly.",
+    "No reference in this manuscript is cited for a numeric result that the manuscript itself compares against. All third-party figures quoted are contextual."
+  ]
 }
