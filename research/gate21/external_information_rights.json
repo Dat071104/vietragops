@@ -1,0 +1,93 @@
+{
+  "schema": "gate21.information_rights.v1",
+  "source": "MCPEvol-Bench paper v1 and pinned execution source at commit 888c779a0fe735f612ca62bdd1fdd7c9e6bf8701",
+  "setting": "MCPEvol-Bench agent execution on the current mutation-stage MCP server",
+  "source_refs": {
+    "paper": "https://arxiv.org/html/2607.14642",
+    "runner": "https://raw.githubusercontent.com/Octobrist/MCPEvol-Bench/888c779a0fe735f612ca62bdd1fdd7c9e6bf8701/src/custom/real_mcp/tool_level_test.py",
+    "agent": "https://raw.githubusercontent.com/Octobrist/MCPEvol-Bench/888c779a0fe735f612ca62bdd1fdd7c9e6bf8701/src/custom/agents/SimpleOpenAIAgent.py"
+  },
+  "comparison": [
+    {
+      "method": "mcpevol_bench_agent",
+      "old_schema": false,
+      "old_trace": false,
+      "new_schema": true,
+      "migration_map": false,
+      "probe_new_api": true
+    }
+  ],
+  "mcpevol_declared_artifacts": [
+    {
+      "id": "current_tool_status",
+      "artifact": "method-facing current MCP tool inventory",
+      "fields": [
+        "current tool names",
+        "current descriptions",
+        "current inputSchema",
+        "server-to-tool mapping"
+      ],
+      "phase": "before each model request"
+    },
+    {
+      "id": "task_context",
+      "artifact": "method-facing task and runtime context",
+      "fields": [
+        "task question",
+        "selected server and tool names",
+        "file-tree context",
+        "system-prompt date and database text"
+      ],
+      "phase": "before first call"
+    },
+    {
+      "id": "post_call_feedback",
+      "artifact": "tool execution observation",
+      "fields": [
+        "tool result or exception text",
+        "tool-role message associated with the call",
+        "at most the first 500 characters of the stringified result"
+      ],
+      "phase": "after a call and before a later model request"
+    },
+    {
+      "id": "retry_loop",
+      "artifact": "agent conversation history and bounded continuation",
+      "fields": [
+        "prior assistant messages",
+        "prior tool messages",
+        "later tool calls until stop or max_round"
+      ],
+      "phase": "interactive execution"
+    }
+  ],
+  "excluded_artifacts": [
+    "old tool schema supplied to the agent",
+    "verified old-version trace supplied to the agent",
+    "evolution.json mutation record supplied to the agent",
+    "evaluator-only expected tool-call oracle",
+    "new-version reference trajectory",
+    "sandbox source and implementation code supplied to the agent",
+    "scoring code and hidden repair annotations"
+  ],
+  "observable_derivation_rules": [
+    {
+      "id": "current_contract_literal",
+      "rule": "A target literal explicitly present in the current method-facing schema, description, task, or visible execution message is observable in that surface."
+    },
+    {
+      "id": "no_old_trace_prior",
+      "rule": "No value may be credited as an old-trace source because the runner does not place the old tool call trace in the agent messages."
+    },
+    {
+      "id": "no_register_inference",
+      "rule": "The source register may identify a mutation for this audit, but it is not treated as information granted to the evaluated agent."
+    }
+  ],
+  "fail_closed_rule": "If a target is not a declared field, or if a required construction convention is not evidenced by the declared surface, classify it as unreachable rather than infer a likely convention.",
+  "rights_conclusion": {
+    "established": true,
+    "basis": "The paper states that the agent state is initialized from the server description including input schemas and semantic descriptions, and that tool execution results are observations. The pinned runner passes current tool definitions into ChatModel and the pinned agent appends tool results/errors to the next request. It does not pass an old schema or old trace.",
+    "uncertainty": "The public paper HTML does not expose the full H.3 prompt text; the executable runner and agent source establish the tool/schema, feedback, and retry surfaces."
+  }
+}

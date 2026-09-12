@@ -1,0 +1,67 @@
+{
+  "schema": "gate21.external_source_hashes.v1",
+  "gate": "Gate 21",
+  "acquired_on": "2026-09-12",
+  "repository": {
+    "name": "Octobrist/MCPEvol-Bench",
+    "url": "https://github.com/Octobrist/MCPEvol-Bench",
+    "branch": "main",
+    "resolved_commit_sha": "888c779a0fe735f612ca62bdd1fdd7c9e6bf8701",
+    "resolution_evidence": "git ls-remote https://github.com/Octobrist/MCPEvol-Bench.git refs/heads/main"
+  },
+  "license": {
+    "root_listing_url": "https://api.github.com/repos/Octobrist/MCPEvol-Bench/contents/?ref=888c779a0fe735f612ca62bdd1fdd7c9e6bf8701",
+    "license_endpoint_url": "https://api.github.com/repos/Octobrist/MCPEvol-Bench/license",
+    "license_endpoint_status": 404,
+    "license_file_at_pinned_root": "NOT_FOUND",
+    "readme_license_mention": false,
+    "status": "NO_REPOSITORY_LICENSE_LOCATED",
+    "redistribution_decision": "DO_NOT_VENDOR",
+    "reason": "The pinned repository root has no LICENSE entry, the GitHub license endpoint returned 404, and README.md does not state a repository license. The Hugging Face dataset label is not silently substituted for a GitHub repository license."
+  },
+  "storage": {
+    "raw_files_vendored_in_repository": false,
+    "external_storage_root": "D:\\Research\\vietragops_gate21_external_20260912_163144\\MCPEvol-Bench",
+    "archive_downloaded": false,
+    "archive_path": "https://huggingface.co/datasets/anonymous2233/evol-servers",
+    "archive_size_claimed_by_prior_gate": "3.4 GB as described by the prior Gate 19 release observation; not re-measured in Gate 21"
+  },
+  "files": [
+    {
+      "repository_path": "src/custom/data/mutation/HYBRID/evolution.json",
+      "url": "https://raw.githubusercontent.com/Octobrist/MCPEvol-Bench/888c779a0fe735f612ca62bdd1fdd7c9e6bf8701/src/custom/data/mutation/HYBRID/evolution.json",
+      "commit_sha": "888c779a0fe735f612ca62bdd1fdd7c9e6bf8701",
+      "byte_size": 472773,
+      "sha256": "26d3e98c1464ab8b784bc37c3e7dc2c223038d1d3f06931cee56b76fb01acd46",
+      "external_path": "D:\\Research\\vietragops_gate21_external_20260912_163144\\MCPEvol-Bench\\src\\custom\\data\\mutation\\HYBRID\\evolution.json"
+    },
+    {
+      "repository_path": "src/custom/data/mutation/HYBRID/HYBRID/evolution.json",
+      "url": "https://raw.githubusercontent.com/Octobrist/MCPEvol-Bench/888c779a0fe735f612ca62bdd1fdd7c9e6bf8701/src/custom/data/mutation/HYBRID/HYBRID/evolution.json",
+      "commit_sha": "888c779a0fe735f612ca62bdd1fdd7c9e6bf8701",
+      "byte_size": 456127,
+      "sha256": "9186e5959df32b933bf88689d71454e98793bfcaf4c8b65478cc24ba2abf5a08",
+      "external_path": "D:\\Research\\vietragops_gate21_external_20260912_163144\\MCPEvol-Bench\\src\\custom\\data\\mutation\\HYBRID\\HYBRID\\evolution.json"
+    },
+    {
+      "repository_path": "src/custom/data/mutation/HYBRID/HYBRID/HYBRID/evolution.json",
+      "url": "https://raw.githubusercontent.com/Octobrist/MCPEvol-Bench/888c779a0fe735f612ca62bdd1fdd7c9e6bf8701/src/custom/data/mutation/HYBRID/HYBRID/HYBRID/evolution.json",
+      "commit_sha": "888c779a0fe735f612ca62bdd1fdd7c9e6bf8701",
+      "byte_size": 651169,
+      "sha256": "d78c551f0136a7b0ad17fcb519e27aeb14b0b885fcb0a6309e98b2526bdc9431",
+      "external_path": "D:\\Research\\vietragops_gate21_external_20260912_163144\\MCPEvol-Bench\\src\\custom\\data\\mutation\\HYBRID\\HYBRID\\HYBRID\\evolution.json"
+    },
+    {
+      "repository_path": "src/custom/data/mutation/HYBRID/HYBRID/HYBRID/HYBRID/evolution.json",
+      "url": "https://raw.githubusercontent.com/Octobrist/MCPEvol-Bench/888c779a0fe735f612ca62bdd1fdd7c9e6bf8701/src/custom/data/mutation/HYBRID/HYBRID/HYBRID/HYBRID/evolution.json",
+      "commit_sha": "888c779a0fe735f612ca62bdd1fdd7c9e6bf8701",
+      "byte_size": 544246,
+      "sha256": "43d7deba235cb60190ae8db805235551cde015f71f81829d374ec49b14418d2b",
+      "external_path": "D:\\Research\\vietragops_gate21_external_20260912_163144\\MCPEvol-Bench\\src\\custom\\data\\mutation\\HYBRID\\HYBRID\\HYBRID\\HYBRID\\evolution.json"
+    }
+  ],
+  "derived_totals": {
+    "total_bytes": 2124315,
+    "derivation": "Sum of the four observed byte_size values above."
+  }
+}
