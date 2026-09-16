@@ -1,6 +1,6 @@
-# arXiv preparation checklist — manuscript version 3
+# arXiv preparation checklist — manuscript version 3.1
 
-Prepared 2026-09-14. **This package does not submit anything.** Submission is
+Prepared 2026-09-16. **This package does not submit anything.** Submission is
 the owner's separate action.
 
 ## Recommended metadata
@@ -16,7 +16,7 @@ the owner's separate action.
 | Cross-lists | `cs.CL` (LLM-agent and tool-use readership), `cs.AI` (agent evaluation). |
 | Alternative | `cs.CL` as primary if NLP review context is preferred. This changes the readership, not the paper's scope or claims. |
 | ACM/MSC class | Leave blank unless a target venue requires one. |
-| Comments field | `26 pages, 2 figures. Measurement and benchmark-validity case study. Manuscript artifact tag: gate22-paper-v3-20260914. Measurement evidence frozen at gate10-paper-v1-20260911.` |
+| Comments field | `27 pages, 2 figures. Measurement and benchmark-validity case study. Manuscript artifact tag: gate22-paper-v31-20260916. Measurement evidence frozen at gate10-paper-v1-20260911.` |
 | Artifact URL | `https://github.com/Dat071104/vietragops` |
 | Licence | **`CC BY 4.0`** — decided. Rationale and the one caveat are below. |
 
@@ -117,8 +117,14 @@ Source: <https://info.arxiv.org/help/license/index.html>
 - [ ] Confirm the artifact URL resolves and that BOTH tags are present on the
       public remote: `gate10-paper-v1-20260911` (measurement evidence freeze,
       cited throughout the traceability appendix) and
-      `gate22-paper-v3-20260914` (this manuscript's artifact tag). The second
-      must be created and pushed before submission — it does not exist yet.
+      `gate22-paper-v31-20260916` (this manuscript's artifact tag). Both are
+      created and pushed.
+- [ ] Optional sanity check before submitting, and the one that caught the
+      version 3 defect: clone the public repository into an empty directory,
+      check out `gate22-paper-v31-20260916`, and run `python
+      scripts/reproduce.py`. Expect exit 0, stage 2 reported as `PASS
+      (PARTIAL)` with 47/134 entries present, and stages 3 and 4 bit-identical.
+      Anything else contradicts section 8.
 - [ ] Complete endorsement if arXiv requests it.
 - [ ] Submit only after separate owner approval.
 

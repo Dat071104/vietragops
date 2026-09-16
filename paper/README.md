@@ -1,14 +1,23 @@
-# Unreachable Oracles — manuscript package, version 3
+# Unreachable Oracles — manuscript package, version 3.1
 
-Revised 2026-09-14 from version 2 (`gate21-paper-v2-20260912`), which was
-itself rewritten from version 1 (`gate10-paper-v1-20260911`).
+Revised 2026-09-16 from version 3 (`gate22-paper-v3-20260914`), which was
+revised from version 2 (`gate21-paper-v2-20260912`) and version 1
+(`gate10-paper-v1-20260911`).
 
-Version 3 exists because an external review of the version 2 package found
+Version 3 existed because an external review of the version 2 package found
 three defects that version 2 could not have found by compiling itself. All
-three are defects of **declaration** — the paper described its own instrument
-inaccurately — and none of them moved a measured value. That distinction is
-the point of this release, and it is evidenced rather than asserted: see
-*What changed* below.
+three were defects of **declaration** — the paper described its own instrument
+inaccurately — and none moved a measured value.
+
+**Version 3.1 exists because the same discipline was then applied to the
+reproduction claim itself, and it did not survive.** Checking out the version 3
+tag into a fresh working tree and running `scripts/reproduce.py` there exited
+**1**, not 0, for two independent reasons: a line-ending rewrite on checkout,
+and 107 MB of frozen measurement inputs that the repository has never
+distributed. Section 8 asserted a clean run. Along the way the check found that
+eight frozen Gate 07/08 artifacts had stopped hashing to their own frozen
+manifest. No measured value moved here either. See *What changed in 3.1*
+below.
 
 ## Contents
 
@@ -16,7 +25,7 @@ the point of this release, and it is evidenced rather than asserted: see
 |---|---|
 | `main.tex` | The manuscript. Single file, self-contained. **This is the arXiv submission.** |
 | `CHANGES_AND_AUDIT.md` | Every defect found in versions 1 and 2 and what was done about it, plus the audit of this version against twelve failure categories. Read this first if you want to know what was checked. |
-| `EVIDENCE_LEDGER_ADDENDUM.json` | The nine numbers in the manuscript that are not in the frozen Gate 10 ledger, plus the seven `B`-keyed rule-ablation records added in version 3, each with source artifact, commit, SHA-256, and locator. Also ten verification notes, including three new ones recording the version 2 defects. |
+| `EVIDENCE_LEDGER_ADDENDUM.json` | The nine numbers in the manuscript that are not in the frozen Gate 10 ledger, plus the seven `B`-keyed rule-ablation records added in version 3, each with source artifact, commit, SHA-256, and locator. Also twelve verification notes: three recording the version 2 defects, and two added in version 3.1 recording that the section 8 reproduction claim did not hold for a reader and that eight frozen artifacts had stopped hashing to their own manifest. |
 | `REFERENCES_VERIFIED.json` | Per-reference verification record at two levels: bibliographic metadata, and the specific content claim the manuscript makes. 15 references. Records one corrected author list, one reference whose content could not be verified, and the abstract-level verification standard applied to the six references added in version 3. |
 | `ARXIV_CHECKLIST.md` | Submission metadata and the owner decisions that remain open. |
 
@@ -43,19 +52,25 @@ Packages used are all standard: `geometry`, `fontenc`, `inputenc`, `lmodern`,
 
 ### Last verified build — stated exactly
 
-Three-pass `pdflatex` via MiKTeX 24.1 (MiKTeX-pdfTeX 4.18), 2026-09-14:
+Three-pass `pdflatex` via MiKTeX 24.1 (MiKTeX-pdfTeX 4.18), 2026-09-16, read
+from `main.log` rather than from stdout — the messages below do not appear on
+stdout at all, which is how a build can look clean and not be:
 
-- **26 pages**
+- **27 pages**
 - **0 overfull hboxes**, 19 underfull hboxes
 - **0 LaTeX warnings**, 0 undefined references or citations
-- **1 message at error level**, reproduced here in full rather than
-  summarised away:
+- **3 messages at error level**, which is why `pdflatex` exits with status 1
+  even though the PDF is correct. Reproduced in full rather than summarised
+  away:
 
   ```
   ! Infinite glue shrinkage found in box being split.
   ```
 
-That message is emitted by `longtable` when a table splits across a page
+All three come from `\end{longtable}` — the three appendix longtables, at
+source lines 1596, 1650 and 1700. Version 3 produced one of them at 26 pages;
+the version 3.1 text repaginates those tables so three of them now split. The
+message is emitted by `longtable` when a table splits across a page
 boundary, TeX reports it as an error and then continues (`the offensive
 shrinkability has been made finite`), and the rendered output is correct. We
 bisected it: it reproduces on a bare `\documentclass{article}` +
@@ -66,6 +81,57 @@ LaTeX warnings, 18 pages" against a source that actually produced 21 pages,
 seven overfull hboxes, and three copies of this message. A paper that asks
 benchmark authors to audit their own ground truth cannot misreport its own
 build.
+
+## What changed in 3.1
+
+Nothing in the measurement. Three things in what the paper claimed about
+reproducing it, and one repair to the repository.
+
+**1. Section 8 claimed a clean reproduction that a reader could not get.** It
+said the harness "exits zero with the audit artifacts byte-identical to the
+committed files". Cloning the version 3 tag into a fresh working tree and
+running it there exited **1**. Section 8 now states, stage by stage, what a
+clone can and cannot verify.
+
+**2. Line-ending rewrites broke byte-exactness on checkout.** 48 paths have
+their SHA-256 asserted inside a committed artifact. Cloning on Windows with the
+Git-for-Windows default `core.autocrlf=true` rewrote every one of them, which
+failed stage 2 and the stage 4 `register_sha256` comparison. A `.gitattributes`
+now pins exactly those 48 with `-text`. A blanket policy was rejected: 191 of
+602 tracked files hold CRLF on disk against an LF blob and would all have been
+rewritten by one.
+
+**3. 87 of the 134 frozen manifest entries are not distributed.** They are the
+raw Gate 07/08 measurement archive, ~107 MB, excluded by
+`gates/artifacts/.gitignore` and carried by no tag — so no clone has ever been
+able to check them. Stage 2 now separates a file that is present but altered
+(always a failure) from one that was never distributed, reports `PASS
+(PARTIAL)` with the reason, and says so in its summary.
+`--require-full-manifest` restores strict behaviour. No reachability number
+depends on those 87 files: the 310-item register is rebuilt from the committed
+generator, so stages 3 and 5 are byte-identical from a bare clone.
+
+**4. Eight frozen artifacts had stopped hashing to their own manifest.** Git
+had normalised `GATE_07_METRICS.json`, `GATE_07_METRICS_V4.json`,
+`GATE_07_PROTOCOL.json`, `GATE_07_PROTOCOL_V2.json`, `GATE_07_PROTOCOL_V3.json`,
+`GATE_07_PROTOCOL_V4.json`, `GATE_07_PROTOCOL_V4_FREEZE_LEDGER.json` and
+`GATE_08_PROTOCOL.json` to LF at an earlier commit, so their committed bytes no
+longer matched the value `GATE_19_FROZEN_SOURCE_HASHES.json` records for them.
+For `GATE_07_PROTOCOL_V2.json` the original mixed endings (389 CRLF and 4 bare
+LF) cannot be reconstructed from the blob by any `eol` setting. Their bytes were
+restored to the recorded form. **The manifest was not edited to match the
+artifacts; the artifacts were moved back to the manifest.** For each of the
+eight, the parsed JSON before and after is identical and the only difference is
+line endings.
+
+Verified after the change: a fresh clone with `core.autocrlf=true` runs all
+five stages and exits 0, with stage 2 reported as partial and stages 3 and 4
+bit-identical. The owner's working tree still reports 134/134 UNCHANGED, and
+`--require-full-manifest` exits 0 there and 1 in a clone.
+
+The superseded tag `gate22-paper-v3-20260914` was left in place rather than
+moved. A published tag records what was claimed at that moment, and rewriting
+one to make a later claim true is the move this paper argues against.
 
 ## What changed from version 2
 

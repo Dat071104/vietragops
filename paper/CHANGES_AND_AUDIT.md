@@ -1,3 +1,174 @@
+# Version 3.1: the reproduction claim, audited
+
+Prepared 2026-09-16 against manuscript version 3 (repository tag
+`gate22-paper-v3-20260914`). The version 3 log follows below, unmodified.
+
+Version 3 was released on the strength of an external review that read only the
+shipped package. Before submission we did the one check that review could not
+do: clone the tag into an empty directory and run the reproduction harness as a
+reader would. **It exited 1.** Section 8 said it exits 0.
+
+The pattern repeats the one that produced version 3, one level further out. The
+paper's thesis is that a benchmark should not assert a ground truth its declared
+information cannot derive. Version 2 asserted a rule set its implementation did
+not match. Version 3 asserted a reproduction its repository could not deliver.
+In both cases the claim was checkable, nobody had checked it, and the error ran
+in the flattering direction.
+
+---
+
+## Part 0a — Defects found in version 3
+
+### F1 — Section 8 asserted a reproduction a reader could not obtain (severity: high)
+
+**Defect.** Section 8 stated that `scripts/reproduce.py` "exits zero with the
+audit artifacts byte-identical to the committed files". Checking out
+`gate22-paper-v3-20260914` into a fresh worktree and running it produced exit
+code 1, failing at stage 2 and again on the stage 4 `register_sha256`
+comparison. The statement was true only in the working tree that produced the
+repository.
+
+**Evidence.** `git worktree add --detach <dir> gate22-paper-v3-20260914`, then
+`python scripts/reproduce.py` in that directory. Stage 2 reported 126 of 134
+entries mismatching; stage 4 differed on exactly one key, `register_sha256`.
+
+**Resolution.** Two independent causes, F2 and F3 below. Section 8 now states
+stage by stage what a clone can and cannot verify, and the claim it makes is the
+one that survives an external check. A new hostile question in section 7.4
+states the limitation in the reader's own words.
+
+### F2 — Line-ending rewrites invalidated published hashes on checkout (severity: high)
+
+**Defect.** 48 paths have their SHA-256 asserted inside a committed artifact:
+the 47 tracked entries of `gates/results/GATE_19_FROZEN_SOURCE_HASHES.json`,
+and `gates/baselines/GATE_19_EXTERNAL_MCP_PAIRS.json`, whose digest is recorded
+as `register_sha256` inside `gates/results/GATE_19_EXTERNAL_AUDIT.json`. The
+repository carried no `.gitattributes`, so cloning on Windows with the
+Git-for-Windows default `core.autocrlf=true` rewrote every one of them and
+invalidated every published digest at once.
+
+**Resolution.** A `.gitattributes` pinning exactly those 48 paths with `-text`,
+which disables end-of-line conversion in both directions. A blanket `* -text`
+was considered and **rejected**: 191 of 602 tracked files hold CRLF on disk
+against an LF blob, so a repository-wide policy would have rewritten all 191 and
+buried the fix in unrelated churn. The pinned set is exactly the set of paths
+whose bytes something else asserts.
+
+### F3 — 87 of the 134 frozen manifest entries have never been distributed (severity: high)
+
+**Defect.** `gates/artifacts/.gitignore` contains a bare `*`. The 87 manifest
+entries beneath it — the raw Gate 07 and Gate 08 measurement archive, roughly
+107 MB of request ledgers, per-item traces, offline retrieval runs and router
+state — have never been committed, at any tag, including
+`gate10-paper-v1-20260911`. No clone has ever been able to verify them, and
+stage 2 failed hard on all 87 rather than reporting the situation.
+
+**Resolution.** Stage 2 now distinguishes three cases: a file present but
+altered (always a failure), a file missing from anywhere other than the
+undistributed archive (always a failure), and a file absent because it was never
+distributed (reported as `PASS (PARTIAL)` with the reason and the count).
+`--require-full-manifest` restores strict behaviour for a working tree that holds
+the archive. The summary line says `ALL AVAILABLE CHECKS PASSED` and names the
+partial stage, so a partial run cannot be read as a full one.
+
+**What this does not excuse.** The archive is still not distributed, and section
+8 says so rather than implying otherwise. What we can show is that no
+reachability number depends on it: the 310-item register is rebuilt by the
+committed generator, not read from `gates/artifacts/`, so stages 3, 4 and 5 are
+byte-identical from a bare clone.
+
+### F4 — Eight frozen artifacts no longer hashed to their own frozen manifest (severity: high)
+
+**Defect.** Found while fixing F2. `GATE_07_METRICS.json`,
+`GATE_07_METRICS_V4.json`, `GATE_07_PROTOCOL.json`, `GATE_07_PROTOCOL_V2.json`,
+`GATE_07_PROTOCOL_V3.json`, `GATE_07_PROTOCOL_V4.json`,
+`GATE_07_PROTOCOL_V4_FREEZE_LEDGER.json` and `GATE_08_PROTOCOL.json` had been
+normalised to LF by Git at an earlier commit. Their **committed bytes did not
+hash to the value the frozen manifest records for them.** The working tree still
+matched, which is precisely why every previous run passed: the freeze was
+verified only against the machine that created it. For `GATE_07_PROTOCOL_V2.json`
+the original mixed endings — 389 CRLF and 4 bare LF — cannot be reconstructed
+from the blob by any `eol` setting, because the distinction was destroyed at
+commit time.
+
+**Resolution.** The bytes of the eight were restored to the form the frozen
+manifest was taken over, and all 48 hash-asserted paths pinned with `-text` so
+no checkout rewrites them again.
+
+**Why this is a restoration and not an edit of frozen evidence.** The frozen
+manifest is the authority; the artifacts had drifted from it, not the reverse.
+Before staging, each of the eight was checked two ways: the parsed JSON before
+and after is identical, and the two byte streams are identical after normalising
+both to LF. The only difference is line endings. **The manifest itself was not
+touched** — had we edited `GATE_19_FROZEN_SOURCE_HASHES.json` to match the
+drifted artifacts, that would have been the exact move this paper argues against,
+and it would have destroyed the evidence that the drift ever happened. After the
+restoration, all 47 tracked manifest entries hash to their recorded values from
+the committed blobs.
+
+### F5 — REPRODUCE.md described a harness that no longer existed (severity: medium)
+
+**Defect.** Section 8 cites `REPRODUCE.md` as the harness documentation. It
+still described four stages, six unit tests, a "Real-Version MCP Negative
+Control", and `gate10-paper-v1-20260911` as the canonical tag. Version 3 had
+moved to five stages and ten tests, and had explicitly withdrawn the
+negative-control reading. A reader following the paper's own pointer would have
+been told the wrong thing about the instrument.
+
+**Resolution.** Rewritten against the current harness, with the stage-2
+limitation stated in its first section rather than buried.
+
+### F6 — Package metadata, again (severity: low)
+
+**Defect.** The version 3 README reported the build as 26 pages with one
+error-level message. That was accurate for version 3. It is not for 3.1, and the
+counts in earlier rounds were read from stdout, where these messages **do not
+appear at all** — they are written only to `main.log`. A build can look clean on
+stdout and carry three error-level messages in its transcript.
+
+**Resolution.** The README now states 27 pages, 0 overfull hboxes, 19 underfull,
+0 LaTeX warnings, and 3 `Infinite glue shrinkage` messages, read from `main.log`,
+together with the fact that `pdflatex` exits 1 because of them. The three arise
+at the end of the three appendix longtables; the version 3.1 text repaginates
+them so three split where one split before.
+
+---
+
+## Part 0b — What version 3.1 deliberately did not do
+
+- **The measurement archive was not published.** Distributing 107 MB of raw
+  request ledgers and traces is a disclosure decision for the owner, not a
+  packaging fix, and those files may carry prompt and response content. The
+  limitation is declared instead, and the archive is offered on request.
+- **`gates/artifacts/.gitignore` was not changed.** Committing the archive to
+  Git would be the wrong mechanism even if the disclosure were agreed.
+- **`GATE_19_FROZEN_SOURCE_HASHES.json` was not edited.** See F4.
+- **`research/gate19/information_rights.json` was not edited.** Unchanged from
+  version 3's reasoning: its commit is cited in the traceability appendix.
+- **The superseded tag `gate22-paper-v3-20260914` was not moved or deleted.** It
+  was pushed and therefore records what was claimed at that moment. Rewriting a
+  published tag to make a later claim true is the move this paper argues against.
+  A new tag, `gate22-paper-v31-20260916`, denotes this version, and the
+  traceability table lists both.
+- **No measured value was recomputed.** The audit artifacts remain bit-identical.
+
+---
+
+## Part 0c — Verification performed for version 3.1
+
+| Check | Result |
+|---|---|
+| Fresh clone, `core.autocrlf=true`, all five stages | exit 0; stage 2 `PASS (PARTIAL)` 47/134; stages 3 and 4 bit-identical; stage 5 structural match |
+| Fresh clone, `--require-full-manifest` | exit 1, as designed |
+| Owner working tree, default | 134/134 `UNCHANGED`, exit 0 |
+| Owner working tree, `--require-full-manifest` | exit 0 |
+| 47 tracked manifest entries vs committed blobs | 47/47 hash to recorded values (was 39/47) |
+| 8 restored artifacts, parsed JSON before vs after | identical, 8/8 |
+| 8 restored artifacts, bytes after LF-normalising both | identical, 8/8 |
+| Three-pass `pdflatex`, read from `main.log` | 27 pages, 0 overfull, 19 underfull, 0 LaTeX warnings, 3 error-level `Infinite glue shrinkage` |
+
+---
+
 # Version 3: defect log and pre-submission audit
 
 Prepared 2026-09-14 against manuscript version 2 (repository tag
