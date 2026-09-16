@@ -1998,3 +1998,88 @@ must disclose the Gate 08 negative result, the Gate 19/19-C evidence boundary,
 the cancelled Gate 20 campaign, the RISK-0022 correction, and all mandatory
 limitations in the approved Gate 10 prompt. No Gate 09 or Gate 20 work is
 authorized by this decision.
+
+## DEC-0049 — Repair the reproduction claim by restoring artifacts to the frozen manifest, not the manifest to the artifacts
+
+Decided 2026-09-16 during manuscript version 3.2 preparation, after checking out
+`gate22-paper-v3-20260914` into a fresh worktree and running
+`scripts/reproduce.py` as an external reader would. It exited `1`. Section 8 of
+the version 3 manuscript asserted it exits `0`.
+
+Three sub-decisions were taken, each with a rejected alternative.
+
+### 1. Eight frozen artifacts were restored to their recorded bytes
+
+`GATE_07_METRICS.json`, `GATE_07_METRICS_V4.json`, `GATE_07_PROTOCOL.json`,
+`GATE_07_PROTOCOL_V2.json`, `GATE_07_PROTOCOL_V3.json`, `GATE_07_PROTOCOL_V4.json`,
+`GATE_07_PROTOCOL_V4_FREEZE_LEDGER.json` and `GATE_08_PROTOCOL.json` had been
+normalised to LF by Git at an earlier commit, so their committed bytes no longer
+hashed to the values `gates/results/GATE_19_FROZEN_SOURCE_HASHES.json` records
+for them. The working tree still matched, which is why every prior run passed:
+the freeze was verified only against the machine that produced it.
+
+**Rejected:** editing `GATE_19_FROZEN_SOURCE_HASHES.json` to match the drifted
+artifacts. That would make the check pass while destroying the evidence that the
+drift occurred, and it is the exact move the paper argues against.
+
+**Adopted:** restore the artifact bytes to the form the manifest was taken over,
+and leave the manifest untouched. The frozen manifest is the authority. Before
+staging, each of the eight was verified two ways — parsed JSON identical before
+and after, and byte streams identical after normalising both to LF. The only
+difference is line endings. This is the one exception to the standing constraint
+that no Gate 07/08/19/19-C frozen artifact is modified, and it is recorded in the
+manuscript rather than absorbed silently.
+
+### 2. Byte-exactness is pinned per path, not repository-wide
+
+48 paths have their SHA-256 asserted inside a committed artifact. A
+`.gitattributes` pins exactly those with `-text`.
+
+**Rejected:** a blanket `* -text`. 191 of 602 tracked files hold CRLF on disk
+against an LF blob, so a repository-wide policy would have rewritten all 191 and
+buried the fix in unrelated churn.
+
+### 3. The measurement archive stays undistributed and the limitation is declared
+
+87 of the manifest's 134 entries are the raw Gate 07/08 measurement archive under
+`gates/artifacts/`, about 107 MB, excluded by a bare `*` in
+`gates/artifacts/.gitignore` and carried by no tag.
+
+**Rejected:** committing the archive, or adding it to a release, without owner
+authorization. Distributing raw request ledgers and traces is a disclosure
+decision, not a packaging fix, and those files may carry prompt and response
+content.
+
+**Adopted:** stage 2 now distinguishes a file present but altered (always a
+failure) from one never distributed (reported `PASS (PARTIAL)` with the reason);
+`--require-full-manifest` restores strict behaviour. Section 8 states stage by
+stage what a clone can and cannot verify. See RISK-0049.
+
+### Boundary and consequence
+
+No measured value changed. `GATE_19_AUDIT.json` and `GATE_19_EXTERNAL_AUDIT.json`
+remain bit-identical. The published tag `gate22-paper-v3-20260914` was left in
+place rather than moved or deleted: it records what was claimed at that moment,
+and rewriting a published tag to make a later claim true is the same move
+rejected in sub-decision 1. The same applies to `gate22-paper-v31-20260916`.
+`gate22-paper-v32-20260916` denotes the current version.
+
+### Amendment, same day: the availability offer is withdrawn
+
+Sub-decision 3 originally kept a sentence in section 8 offering the archive
+"from the authors on request". The owner directed that it be removed. The
+archive is therefore **not published and not offered**, and the limitation
+stands unqualified.
+
+What is stated instead was already true and had not been said: the recorded
+SHA-256 and byte size of all 87 undistributed entries are in the committed
+frozen manifest, frozen at `gate10-paper-v1-20260911` and unmoved since. The
+archive is hash-attested in public although its bytes are not distributed, so a
+later release can be checked against digests published well before it. Section 8
+states plainly that this is a weaker guarantee than shipping the bytes.
+
+The reasoning for not publishing: the archive is ~107 MB of raw request ledgers,
+per-item traces and sqlite router state that has not been audited for private
+data, the repository hygiene checker has previously reported email-shaped strings
+in tracked data and ops files, and publication cannot be undone. No claim in the
+paper depends on it.
