@@ -1,7 +1,7 @@
 {
   "schema": "gate10.references_verified.v2",
-  "verified_on": "2026-09-14",
-  "supersedes": "REFERENCES_VERIFIED.json as shipped with manuscript version 2 (9 references)",
+  "verified_on": "2026-09-16",
+  "supersedes": "REFERENCES_VERIFIED.json as shipped with manuscript version 3.2 (15 references), which superseded the version 2 file (9 references)",
   "verification_levels": {
     "metadata": "Title, authors, venue, year, and resolving URL/DOI checked against the primary publisher, proceedings, ACL Anthology, or arXiv record.",
     "content_claim": "The specific statement the manuscript makes about this work was checked against the work's own abstract or full text, read directly.",
@@ -84,13 +84,14 @@
       "url": "https://arxiv.org/abs/2605.26079",
       "metadata": "verified",
       "content_claim_level": "content_claim",
-      "manuscript_claim": "Agentic auditor over 168 benchmarks in nine domains; over 25.7% carry critical issues including ambiguous design, execution conflicts and incorrect ground truths; filtering shifts model rankings and raises average performance on SWE-bench Verified and Terminal-Bench 2 by 9.9% and 9.6%.",
+      "manuscript_claim": "Agentic auditor over 168 benchmarks in nine domains; critical issues including ambiguous task design, execution environment conflicts and incorrect ground truths in over 25.7% of the EVALUATED TASKS; filtering shifts model rankings and raises average performance on SWE-bench Verified and Terminal-Bench 2 by 9.9% and 9.6%.",
       "supporting_quotes": [
-        "over 25.7% contained critical issues including ambiguous design, execution conflicts, and incorrect ground truths",
+        "ABA identifies critical issues including ambiguous task design, execution environment conflicts, and incorrect ground truths in over 25.7% of the evaluated tasks",
         "filtering out these tasks with issues shifts model rankings and increases average performance on SWE-bench Verified and Terminal-Bench 2 by 9.9% and 9.6%, respectively"
       ],
-      "verification": "arXiv abstract page retrieved and read on 2026-09-14. Title, full author list, submission date, primary category, and abstract confirmed. Every figure attributed to this work in the manuscript is quoted from that abstract.",
-      "relation_to_this_work": "Reports incorrect ground truths as a benchmark defect class at scale, which is why this manuscript makes no claim to be first to find that class."
+      "verification": "arXiv abstract page retrieved and read on 2026-09-14; re-read on 2026-09-16 to check the denominator of the 25.7% figure. Title, full author list, submission date, primary category, and abstract confirmed. Every figure attributed to this work in the manuscript is quoted from that abstract.",
+      "relation_to_this_work": "Reports incorrect ground truths as a benchmark defect class at scale, which is why this manuscript makes no claim to be first to find that class. Also audits task design and execution-environment conflicts, i.e. properties of the task definition rather than of a trajectory, which is why manuscript version 3.3 withdrew the claim that existing audits are all post-execution.",
+      "correction_v33": "Manuscript versions 3 through 3.2 attached the 25.7% to the 168 benchmarks ('find over 25.7% carrying critical issues' in a sentence whose subject was the benchmark count). The abstract states it as a share of evaluated TASKS. The supporting_quote recorded in this file was itself a paraphrase, not a quotation, and it is what carried the error forward. Corrected in manuscript version 3.3 and here. No number produced by this project is affected."
     },
     {
       "key": "wang2026benchjack",
@@ -172,6 +173,96 @@
       ],
       "verification": "arXiv abstract page retrieved and read on 2026-09-14. Title, full author list, submission date, primary category, and abstract confirmed. Every figure attributed to this work in the manuscript is quoted from that abstract.",
       "relation_to_this_work": "Concurrent work, submitted eight days before this version. Cited as concurrent; no claim of precedence in either direction is made."
+    },
+    {
+      "key": "tu2026benchguard",
+      "group": "benchmark-validity auditing",
+      "added_in": "manuscript version 3.3",
+      "title": "BenchGuard: Who Guards the Benchmarks? Automated Auditing of LLM Agent Benchmarks",
+      "authors": [
+        "Xinming Tu",
+        "Tianze Wang",
+        "Yingzhou Lu",
+        "Kexin Huang",
+        "Yuanhao Qu",
+        "Sara Mostafavi"
+      ],
+      "venue": "arXiv:2604.24955 [cs.CL]",
+      "year": 2026,
+      "submitted": "2026-04-27",
+      "status": "preprint",
+      "url": "https://arxiv.org/abs/2604.24955",
+      "metadata": "verified",
+      "content_claim_level": "content_claim",
+      "manuscript_claim": "Cross-verifies benchmark artifacts with frontier models; twelve confirmed issues in ScienceAgentBench including errors that make tasks unsolvable; 83.3% agreement with expert-identified issues on a bioinformatics subset; under USD 15 for a 50-task audit.",
+      "supporting_quotes": [
+        "many apparent agent failures are not failures of the agent at all - they are failures of the benchmark itself",
+        "83.3% match with expert-identified issues",
+        "a full audit of 50 complex bioinformatics tasks costs under USD 15"
+      ],
+      "verification": "arXiv abstract page retrieved and read on 2026-09-16. Title, full author list, submission date, primary category, and abstract confirmed. Every figure attributed to this work in the manuscript is quoted from that abstract. Full text not read.",
+      "relation_to_this_work": "Audits benchmark artifacts rather than transcripts, and reports tasks made unsolvable by benchmark defects. Part of why manuscript version 3.3 withdrew the claim that the contribution is position in the pipeline."
+    },
+    {
+      "key": "suh2026agentsuite",
+      "group": "benchmark-validity auditing",
+      "added_in": "manuscript version 3.3",
+      "title": "AgentSuite: Toward More Reliable Agent Evaluation with a Component-Based Benchmark Auditing Pipeline",
+      "authors": [
+        "Hyewon Suh",
+        "Binfei Ji",
+        "Seojune Lee",
+        "Rishi Khare",
+        "Basit Khan",
+        "Hyunjun Kim",
+        "Tianyi Zhang",
+        "Venkat Krishna Srinivasan",
+        "Peter Belcak",
+        "Shizhe Diao",
+        "Pavlo Molchanov",
+        "Yingyan Celine Lin",
+        "Zhen Dong"
+      ],
+      "venue": "International Conference on Machine Learning (ICML) 2026",
+      "year": 2026,
+      "status": "accepted, conference programme entry",
+      "url": "https://icml.cc/virtual/2026/poster/66603",
+      "metadata": "verified",
+      "content_claim_level": "content_claim",
+      "manuscript_claim": "The COBA pipeline decomposes an agent task into User, Environment, Ground Truth and Evaluation components and audits each with rule-based detectors and taxonomy-guided LLM evaluation, reporting F1 between 0.791 and 0.874 against expert assessment across six benchmarks.",
+      "supporting_quotes": [
+        "modern agent benchmarks often contain hidden flaws arising from interactions among user instructions, environments, tools, ground-truth trajectories, and evaluation protocols",
+        "hybrid rule-based detectors and taxonomy-guided LLM evaluation"
+      ],
+      "verification": "ICML 2026 conference programme entry for the accepted poster retrieved and read on 2026-09-16; title, full author list and abstract read from it. Cross-checked against the ICML 2026 downloads index, which lists the same title and links the same poster page. No arXiv record for this work could be retrieved, and the camera copy was not read. This is a venue-level check, weaker than the publisher-PDF checks behind some other entries, and the manuscript cites the work only for its component decomposition and the F1 range its abstract states.",
+      "relation_to_this_work": "COBA's Ground Truth component is the same object this paper audits, approached by taxonomy-guided LLM judgement where this work uses a declared finite derivation grammar and a deterministic per-item rule."
+    },
+    {
+      "key": "luo2026identifiability",
+      "group": "benchmark-validity auditing",
+      "added_in": "manuscript version 3.3",
+      "title": "Beyond Local Accuracy: A Protocol-Level Identifiability Audit for Controlled LLM Reasoning Evaluation",
+      "authors": [
+        "Junhao Luo",
+        "Ning Huang",
+        "Ziqi Sha",
+        "Wenxuan Tang",
+        "Wei Deng"
+      ],
+      "venue": "arXiv:2608.13326 [cs.CL]",
+      "year": 2026,
+      "submitted": "2026-08-13",
+      "status": "preprint",
+      "url": "https://arxiv.org/abs/2608.13326",
+      "metadata": "verified",
+      "content_claim_level": "content_claim",
+      "manuscript_claim": "Audits, before any model inference, whether an observation protocol's support can distinguish policies with different estimands; base-only observation collapses seven frozen deterministic policies into one equivalence class while full support yields seven classes with no cross-estimand collisions.",
+      "supporting_quotes": [
+        "base-only observation collapses seven frozen deterministic policies into one equivalence class; full support yields seven classes and no cross-estimand collisions",
+        "evaluation-design validity can be checked structurally before model inference"
+      ],
+      "verification": "arXiv abstract page retrieved and read on 2026-09-16. Title, full author list, submission date, primary category, and abstract confirmed. Both quoted figures are from that abstract. Full text not read.",
+      "relation_to_this_work": "The nearest prior work on the vocabulary this manuscript uses. It establishes structural identifiability auditing of an evaluation design before inference; this manuscript therefore claims no priority over pre-inference identifiability auditing. The units differ: Luo et al. ask whether a protocol separates policy classes with different estimands; this work asks whether one benchmark item's concrete expected target value is derivable from that item's granted information surface. Manuscript version 3.3 narrowed the contribution statement to the item-level question because of this work."
     },
     {
       "key": "chen2025toolevo",
@@ -423,6 +514,12 @@
     "One of nine references (assidiqi2026referencefree) carries an unverified content level. The manuscript's positioning against it is correspondingly weak and is marked as such in Appendix E.",
     "Two references (chen2025toolevo, wu2026contda) were verified from abstracts rather than full text. The manuscript's claims about them are confined to statements the abstracts make directly.",
     "No reference in this manuscript is cited for a numeric result that the manuscript itself compares against. All third-party figures quoted are contextual.",
-    "Version 3: the six benchmark-validity references added in this version were verified at abstract level only. Their titles, author lists, dates, categories and abstracts were read directly from arXiv; their full texts were not. They are cited for the claims their abstracts state and for positioning, not for methodological detail. This is a weaker standard than the full-text checks behind some version 2 references, and it is recorded here rather than left implicit."
-  ]
+    "Version 3: the six benchmark-validity references added in this version were verified at abstract level only. Their titles, author lists, dates, categories and abstracts were read directly from arXiv; their full texts were not. They are cited for the claims their abstracts state and for positioning, not for methodological detail. This is a weaker standard than the full-text checks behind some version 2 references, and it is recorded here rather than left implicit.",
+    "Version 3.3: three references were added (tu2026benchguard, suh2026agentsuite, luo2026identifiability) after an external review found that the version 3 literature search had missed the pre-execution and identifiability framings, which is where the two closest works sit. All three were verified at abstract level; suh2026agentsuite was verified from its ICML 2026 conference programme entry rather than a publisher PDF or an arXiv record, which is the weakest metadata route used anywhere in this file, and is recorded as such in its own entry. The same review found that this file's supporting_quote for wang2026autoaudit was a paraphrase rather than a quotation, and that the paraphrase had dropped the denominator of the 25.7% figure; the quote is now verbatim from the abstract and the manuscript sentence is corrected."
+  ],
+  "reference_count": 18,
+  "content_claim_level_counts": {
+    "content_claim": 17,
+    "content_claim_unverified": 1
+  }
 }

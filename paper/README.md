@@ -1,8 +1,17 @@
-# Unreachable Oracles — manuscript package, version 3.2
+# Unreachable Oracles — manuscript package, version 3.3
 
-Revised 2026-09-16 from version 3 (`gate22-paper-v3-20260914`), which was
-revised from version 2 (`gate21-paper-v2-20260912`) and version 1
-(`gate10-paper-v1-20260911`). Tag `gate22-paper-v32-20260916`.
+Revised 2026-09-16 from version 3.2 (`gate22-paper-v32-20260916`), which was
+revised from version 3 (`gate22-paper-v3-20260914`), version 2
+(`gate21-paper-v2-20260912`) and version 1 (`gate10-paper-v1-20260911`).
+Tag `gate22-paper-v33-20260916`.
+
+**Version 3.3 is a literature and declaration correction pass. It changes no
+code, no artifact, and no measured value.** An external review of the version
+3.2 package found four things this package could not have found by compiling
+itself: a third-party figure quoted against the wrong denominator, a Related
+Work claim broader than the literature supports, two closely related works the
+version 3 search had missed, and an Appendix A that still contradicted the two
+disclosures version 3 was written to make. See *What changed in 3.3* below.
 
 Version 3 existed because an external review of the version 2 package found
 three defects that version 2 could not have found by compiling itself. All
@@ -25,13 +34,31 @@ below.
 |---|---|
 | `main.tex` | The manuscript. Single file, self-contained. **This is the arXiv submission.** |
 | `CHANGES_AND_AUDIT.md` | Every defect found in versions 1 and 2 and what was done about it, plus the audit of this version against twelve failure categories. Read this first if you want to know what was checked. |
-| `EVIDENCE_LEDGER_ADDENDUM.json` | The nine numbers in the manuscript that are not in the frozen Gate 10 ledger, plus the seven `B`-keyed rule-ablation records added in version 3, each with source artifact, commit, SHA-256, and locator. Also twelve verification notes: three recording the version 2 defects, and two added in version 3.2 recording that the section 8 reproduction claim did not hold for a reader and that eight frozen artifacts had stopped hashing to their own manifest. |
-| `REFERENCES_VERIFIED.json` | Per-reference verification record at two levels: bibliographic metadata, and the specific content claim the manuscript makes. 15 references. Records one corrected author list, one reference whose content could not be verified, and the abstract-level verification standard applied to the six references added in version 3. |
+| `EVIDENCE_LEDGER_ADDENDUM.json` | The nine numbers in the manuscript that are not in the frozen Gate 10 ledger, plus the seven `B`-keyed rule-ablation records added in version 3, each with source artifact, commit, SHA-256, and locator. Also fourteen verification notes: three recording the version 2 defects, two added in version 3.2 recording that the section 8 reproduction claim did not hold for a reader and that eight frozen artifacts had stopped hashing to their own manifest, and two added in version 3.3 (`V13`, `V14`) recording the wrong-denominator citation and the Appendix A contradiction. No claim record changed in 3.3. |
+| `REFERENCES_VERIFIED.json` | Per-reference verification record at two levels: bibliographic metadata, and the specific content claim the manuscript makes. 18 references, 17 verified at both levels. Records one corrected author list, one reference whose content could not be verified, one verified only from a conference programme entry, one supporting quote corrected from paraphrase to verbatim, and the abstract-level verification standard applied to the nine references added in versions 3 and 3.3. |
 | `ARXIV_CHECKLIST.md` | Submission metadata and the owner decisions that remain open. |
+| `build/main.pdf` | The rendered manuscript, for reading. A build output, **not** part of the arXiv submission — see *On the rendered PDF* below. |
 
-`main.pdf` is **not** shipped with this package. Version 2 shipped one and the
-README had to warn against uploading it; not shipping it removes the failure
-mode. Build it from `main.tex` with the commands below.
+### On the rendered PDF
+
+Version 3.2 shipped no PDF at all, on the reasoning that version 2 had shipped
+one and the README then had to warn against uploading it, so omitting it
+removed the failure mode. Version 3.3 ships one again, at
+`build/main.pdf`, because the owner asked for a package that can be read
+without a TeX installation. The failure mode is handled by placement and
+declaration instead of by omission:
+
+- It is in `build/`, not beside `main.tex`, so it is not in the directory a
+  reader would tar for submission.
+- **Do not upload `build/main.pdf` to arXiv.** arXiv builds the PDF itself from
+  `main.tex`; uploading a PDF instead produces a submission arXiv cannot
+  process as LaTeX. `ARXIV_CHECKLIST.md` says `main.tex` only, and it means it.
+- It is a build output, not a source of truth. If it ever disagrees with
+  `main.tex`, `main.tex` is correct and the PDF is stale. Rebuild it with the
+  commands below rather than trusting it.
+
+The shipped copy is the three-pass build recorded under *Last verified build*
+below, produced from the `main.tex` in this package and from nothing else.
 
 ## Building
 
@@ -52,14 +79,15 @@ Packages used are all standard: `geometry`, `fontenc`, `inputenc`, `lmodern`,
 
 ### Last verified build — stated exactly
 
-Three-pass `pdflatex` via MiKTeX 24.1 (MiKTeX-pdfTeX 4.18), 2026-09-16, read
-from `main.log` rather than from stdout — the messages below do not appear on
+Three-pass `pdflatex` via MiKTeX (MiKTeX-pdfTeX), 2026-09-16, read from
+`main.log` rather than from stdout — the messages below do not appear on
 stdout at all, which is how a build can look clean and not be:
 
-- **27 pages**
+- **29 pages** (version 3.2 was 27; the added Related Work text and the
+  rewritten Appendix A account for the two)
 - **0 overfull hboxes**, 19 underfull hboxes
 - **0 LaTeX warnings**, 0 undefined references or citations
-- **3 messages at error level**, which is why `pdflatex` exits with status 1
+- **2 messages at error level**, which is why `pdflatex` exits with status 1
   even though the PDF is correct. Reproduced in full rather than summarised
   away:
 
@@ -67,9 +95,9 @@ stdout at all, which is how a build can look clean and not be:
   ! Infinite glue shrinkage found in box being split.
   ```
 
-All three come from `\end{longtable}` — the three appendix longtables, at
-source lines 1596, 1650 and 1700. Version 3 produced one of them at 26 pages;
-the version 3.2 text repaginates those tables so three of them now split. The
+Both come from `\end{longtable}`, at source lines 1713 and 1767. Version 3.2
+produced three of these from three splitting appendix longtables; the version
+3.3 repagination means the third table no longer splits, so there are two. The
 message is emitted by `longtable` when a table splits across a page
 boundary, TeX reports it as an error and then continues (`the offensive
 shrinkability has been made finite`), and the rendered output is correct. We
@@ -81,6 +109,141 @@ LaTeX warnings, 18 pages" against a source that actually produced 21 pages,
 seven overfull hboxes, and three copies of this message. A paper that asks
 benchmark authors to audit their own ground truth cannot misreport its own
 build.
+
+One overfull hbox **was** introduced in version 3.3 and is not in the count
+above because it was fixed rather than reported: adding a third superseded tag
+to the Section 8 list put three `\texttt` tags on one line with one break point
+each, at 11.17pt over. Extra `\allowbreak` points inside each tag resolved it.
+The count above is from the build after that fix.
+
+## What changed in 3.3
+
+Nothing in the measurement, nothing in the code, and nothing in any gate
+artifact. Four corrections to what the paper says about other people's work
+and about its own instrument, all found by an external review of the 3.2
+package and all re-verified here against primary records rather than taken
+from the review.
+
+**1. A third-party figure was quoted against the wrong denominator.** Sections
+2.1 of versions 3, 3.1 and 3.2 read "Wang et al. run an agentic auditor over
+168 benchmarks in nine domains and find over 25.7% carrying critical issues".
+The subject of that sentence is the benchmark count, so it reads as 25.7% of
+168 benchmarks. The abstract of arXiv:2605.26079 states it as a share of
+*tasks*: "critical issues including ambiguous task design, execution
+environment conflicts, and incorrect ground truths in over 25.7% of the
+evaluated tasks". Corrected, with the denominator emphasised.
+
+The root cause is worth stating because it is inside the artifact meant to
+prevent it. The `supporting_quotes` entry for that reference in
+`REFERENCES_VERIFIED.json` was a *paraphrase* sitting in a quotations field,
+and the paraphrase had already dropped "of the evaluated tasks". Three
+releases then copied the paraphrase instead of the source. The quote is now
+verbatim and a `correction_v33` field records what it used to say. Note `V13`.
+
+**2. The Related Work distinction was broader than the literature supports.**
+Version 3.2 claimed the distinction was position in the evaluation pipeline,
+and said "Each of these audits inspects evidence that exists only after a
+trajectory has been produced". That is true of Bhat et al., Mohl et al. and
+Zhang et al. It is not true of the broader frameworks: the agentic auditor of
+Wang et al. reports ambiguous task design and execution-environment conflicts,
+which are properties of the task definition, and BenchJack red-teams benchmark
+construction. Both inspect the item before any agent runs.
+
+Pre-execution auditing is therefore withdrawn as the distinction. What replaces
+it is narrower and survives the literature: **the item-level question of
+whether the benchmark's expected target value — each field, each literal, each
+construction step — is derivable from the method-visible information surface
+before the first call, under an explicitly declared finite derivation
+grammar.** The unit is one ground-truth value rather than a task, a benchmark
+or a score, and the decision is a deterministic rule rather than expert review
+or an LLM judge. Section 2.1, the hostile-questions entry in Section 6.4, the
+"what this paper does not claim" box, and the abstract's "We define" all
+changed to match.
+
+**3. Three references added, one of which bounds the novelty claim.**
+
+- **Luo et al.**, arXiv:2608.13326, is the one that matters. It audits
+  *protocol-level identifiability* for controlled reasoning evaluation, asking
+  before any model inference whether an observation protocol's support can
+  distinguish policies with different estimands. Structural identifiability
+  auditing before inference therefore already exists, and this manuscript now
+  says so and claims no priority over it. The objects do differ, and Section
+  2.1 states how: Luo et al.'s unit is the protocol and its estimand, ours is
+  one ground-truth target and its construction steps. `identifiability` is a
+  shared word, not a shared contribution.
+- **BenchGuard** (Tu et al., arXiv:2604.24955) cross-verifies benchmark
+  artifacts and reports tasks made unsolvable by benchmark defects.
+- **AgentSuite / COBA** (Suh et al., ICML 2026) decomposes an agent task into
+  User, Environment, Ground Truth and Evaluation and audits each component.
+  COBA's Ground Truth component is the same object this paper audits, reached
+  by LLM judgement where this work uses a declared grammar.
+
+All three were verified against a primary record before being cited, on the
+principle that a reference added on a reviewer's word is the defect this paper
+is about. Luo et al. and BenchGuard: arXiv abstract pages read directly.
+AgentSuite: title, full author list and abstract read from the ICML 2026
+conference programme entry, cross-checked against the ICML 2026 downloads
+index. No arXiv record for AgentSuite could be retrieved and the camera copy
+was not read — that is the weakest metadata route anywhere in
+`REFERENCES_VERIFIED.json` and its entry says so.
+
+Appendix E also now records *why* version 3 missed the two closest works: its
+literature search was scoped to tool-calling and agent-benchmark validity and
+never reached the pre-execution and identifiability framings.
+
+**4. Appendix A contradicted the two disclosures version 3 was written to
+make.** Version 3 declared the complete five-rule grammar in
+`research/gate19/derivation_grammar.json` and disclosed in Section 4.1 that
+the auditor does not parse an arbitrary rights policy, because the builders
+materialise the rights ahead of the audit. Appendix A was not updated for
+either. Its step 1 still said "Parse the declared information-rights object",
+and its step 3 listed only `identity`, `visible_split` and
+`declared_external_derivation` — omitting `visible_literal`, the undeclared
+rule Section 3.3 reports firing 35 times. A reader treating Appendix A as the
+algorithm specification would have found the paper contradicting itself on
+exactly the two points version 3 existed to repair.
+
+Appendix A is now the `evaluation_order` of the committed grammar artifact,
+nine steps, checked against `research/gate19/auditor.py::classify_item` line
+by line. One detail is worth flagging because the external review got it
+wrong: the review proposed an order that put the convention check *after* the
+admission rules. The implementation evaluates `unobservable_join` **between**
+`visible_literal` and `visible_split`, so adopting the review's order would
+have replaced one appendix/implementation mismatch with a subtler one. The
+appendix now states that the order is load-bearing, that a target which is
+simultaneously an unobservable join and a visible split is classified
+unreachable, and that no item in the frozen register is both. Note `V14`.
+
+**Also in this version:** two sentences in Section 6.1 softened to what they
+can carry. "A richer $G_R$ could only lower the reported rate" is true of a
+*monotonic* extension only — a revision that narrowed an existing rule could
+raise it — and "no grammar can derive a symbol it has never seen" is false of
+a grammar carrying built-in convention literals, which is precisely why the
+restriction on $G_R$ is the load-bearing part of that argument. The
+conclusion's one-sentence summary of the 20-pair sample now carries its own
+caveat, so it cannot be quoted out of Section 5.3's context. And the AI-use
+appendix no longer invokes ICMJE and COPE by name, because the manuscript
+cites neither; the substantive statement is unchanged and now stands on its
+own.
+
+**What was proposed and declined.** The review also asked for two Appendix E
+upgrades, and both are refused for the same reason.
+
+- It reported finding a public full-text copy of `assidiqi2026referencefree`
+  and proposed recording that the full text was inspected. It could not be
+  retrieved here: IEEE Xplore returned no body and the ResearchGate copy
+  returned HTTP 403. The DOI does resolve, which supports the metadata-level
+  claim the appendix already makes. Recording a full-text inspection that was
+  not performed, in the appendix whose entire purpose is to record where
+  verification stopped, is the defect this paper documents. **If the owner
+  retrieves that copy, the edit is theirs to make and Appendix E has the slot
+  for it.**
+- It proposed noting that the full-text HTML of `mohl2026transcript` was
+  inspected for the definition of `ground truth access`, to justify Section
+  2.1's description of it. Not needed: that abstract names all four criteria
+  verbatim — "ground truth access, tool failure, guessing vulnerability, and
+  answer format ambiguity" — so the abstract-level standard already covers the
+  claim. Re-verified 2026-09-16.
 
 ## What changed in 3.2
 

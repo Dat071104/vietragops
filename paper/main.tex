@@ -56,8 +56,8 @@ Auditing Ground-Truth Derivability in a Synthetic\\ Tool-Drift Benchmark for LLM
   \normalsize Ton Duc Thang University, Ho Chi Minh City, Vietnam%
 }
 
-\date{Version 3.2 --- September 16, 2026\\[2pt]
-\normalsize Manuscript pinned at repository tag \texttt{gate22-paper-v32-20260916}\\[1pt]
+\date{Version 3.3 --- September 16, 2026\\[2pt]
+\normalsize Manuscript pinned at repository tag \texttt{gate22-paper-v33-20260916}\\[1pt]
 \normalsize Measurement evidence frozen at \texttt{gate10-paper-v1-20260911}}
 
 \begin{document}
@@ -68,11 +68,12 @@ Auditing Ground-Truth Derivability in a Synthetic\\ Tool-Drift Benchmark for LLM
 \noindent
 A tool-migration benchmark for LLM agents contains two objects that are easy
 to conflate: the behaviour under test, and the oracle that scores it. We ask
-whether the second is well formed. We define \emph{oracle identifiability under
-declared information rights} --- a ground-truth item is reachable only if its
-target value and every construction step are derivable, under a declared
-derivation grammar, from the information granted before the method's first
-call --- and implement it as an offline auditor with three typed outcomes.
+whether the second is well formed. We operationalize, at the level of the
+individual item, \emph{oracle identifiability under declared information
+rights} --- a ground-truth item is reachable only if its target value and every
+construction step are derivable, under a declared derivation grammar, from the
+information granted before the method's first call --- and implement it as an
+offline auditor with three typed outcomes.
 
 Applied to a self-authored synthetic tool-drift sandbox, the audit finds 50 of
 310 argument-pair items unreachable across 12 drift families (16.1\%). The
@@ -105,8 +106,10 @@ are reported in Section~\ref{sec:power}.
 preregistered method result of Gate 08 was negative and is retained here as a
 disclosure, not quietly superseded. No new benchmark, and no priority claim
 over existing MCP-evolution benchmarks --- nor over benchmark-validity
-auditing, which has a 2025--2026 literature this work sits inside rather than
-opens (Section~\ref{sec:validity}). No comparison against a state of the art,
+auditing, nor over auditing a benchmark before execution, nor over
+protocol-level identifiability auditing, all of which have a 2025--2026
+literature this work sits inside rather than opens
+(Section~\ref{sec:validity}). No comparison against a state of the art,
 because no comparative campaign was run. No external validation: the 20-pair
 real-version sample is a representability check, not an independent estimate
 of auditor specificity. No estimate of how often unreachable oracles occur in
@@ -300,11 +303,11 @@ experience and reported issues, and show that task-setup and reward-design
 defects can distort performance estimates by up to 100\% in relative terms,
 with SWE-bench Verified's insufficient tests and $\tau$-bench's acceptance of
 empty responses as their worked examples~\cite{zhu2025abc}. Wang et al.\ run an
-agentic auditor over 168 benchmarks in nine domains and find over 25.7\%
-carrying critical issues --- ambiguous design, execution conflicts, and
-incorrect ground truths --- with filtering shifting model rankings and raising
-average performance on SWE-bench Verified and Terminal-Bench~2 by 9.9\% and
-9.6\%~\cite{wang2026autoaudit}. Mohl et al.\ build automated transcript
+agentic auditor over 168 benchmarks in nine domains and report critical issues
+--- ambiguous task design, execution environment conflicts, and incorrect
+ground truths --- in over 25.7\% of the \emph{evaluated tasks}, with filtering
+shifting model rankings and raising average performance on SWE-bench Verified
+and Terminal-Bench~2 by 9.9\% and 9.6\%~\cite{wang2026autoaudit}. Mohl et al.\ build automated transcript
 scanners for four validity issues and report verified defects in five widely
 used benchmarks~\cite{mohl2026transcript}. Wang et al.\ approach the same
 object adversarially, presenting an eight-pattern taxonomy of benchmark
@@ -323,17 +326,29 @@ than the agent), and our venue. Concurrently, Zhang et al.\ formalise a
 a fixed scaffold while the scorer applies criteria that need not reflect task
 correctness~\cite{zhang2026doubleconfound}.
 
-The distinction we can defend is one of position in the evaluation pipeline,
-not of novelty in auditing benchmarks. Each of these audits inspects evidence
-that exists only after a trajectory has been produced: transcripts, evaluator
-decisions, repeated-run variance, scaffold behaviour, expert re-judgement of
-completed tasks. Their question is whether the score assigned to an execution
-was the right score. Ours is prior to execution and does not need a trajectory
-at all: given only the information the benchmark grants before the first call,
-is the expected target determined? An item can pass every post-execution check
-in this literature --- a faithful evaluator, a correct reward basis, stable
-reruns --- and still be unanswerable, because the defect is in what the item
-withholds rather than in how the result is graded.
+The distinction we can defend is narrower than \emph{auditing before
+execution}, and the two claims are worth separating, because an earlier version
+of this manuscript ran them together and overstated the result. Several of the
+closest audits do read evidence that exists only after a trajectory has been
+produced: Bhat et al.\ re-judge completed tasks and measure rerun variance,
+Mohl et al.\ scan transcripts, and Zhang et al.\ analyse scaffold and scorer
+behaviour. The broader frameworks are not confined to that position. The
+agentic auditor of Wang et al.\ reports ambiguous task design and
+execution-environment conflicts, which are properties of the task definition,
+and BenchJack red-teams benchmark construction and evaluation infrastructure;
+both inspect the item itself. Position in the pipeline is therefore not on its
+own a contribution, and we do not claim it as one.
+
+What we claim is the item-level question inside that position: whether the
+benchmark's expected target --- each field, each literal, and each construction
+step --- is derivable from the method-visible information surface before the
+first call, under an explicitly declared finite derivation grammar. The unit is
+one ground-truth value rather than a task, a benchmark, or a score, and the
+decision is a deterministic rule rather than expert review or an LLM judge. An
+item can be well posed, can pass a construction audit, and can pass every
+post-execution check in this literature --- a faithful evaluator, a correct
+reward basis, stable reruns --- and still be unanswerable, because what it
+withholds is the specific evidence that would determine its own target.
 
 Mohl et al.\ make the contrast exact in one of their four criteria. They scan
 for \emph{ground-truth access}: cases where an agent can reach information it
@@ -344,13 +359,47 @@ boundary between the item and the method, and an audit suite that checks only
 the leakage direction will pass every item in the \dfam{argument\_merge}
 family of Section~\ref{sec:units}.
 
+Three further works bound the contribution more tightly than version~3 of this
+manuscript acknowledged, and we add them rather than leave the earlier framing
+standing. BenchGuard cross-verifies benchmark artifacts with frontier models,
+reporting twelve confirmed issues in ScienceAgentBench --- including errors
+that make tasks unsolvable --- and 83.3\% agreement with expert-identified
+issues on a bioinformatics subset, at under USD~15 for a 50-task
+audit~\cite{tu2026benchguard}. The COBA pipeline decomposes an agent task into
+User, Environment, Ground Truth, and Evaluation components and audits each with
+rule-based detectors and taxonomy-guided LLM evaluation, reporting $F_1$
+between 0.791 and 0.874 against expert assessment across six
+benchmarks~\cite{suh2026agentsuite}. Both inspect benchmark artifacts rather
+than transcripts, and COBA's Ground Truth component is the same object this
+paper audits, reached by LLM judgement where ours is reached by a declared
+grammar.
+
+Closest in vocabulary is Luo et al., who audit \emph{protocol-level
+identifiability} for controlled reasoning evaluation. They ask, before any
+model inference, whether an observation protocol's support can distinguish
+policies with different estimands, and report that base-only observation
+collapses seven frozen deterministic policies into one equivalence class while
+full support yields seven classes with no cross-estimand
+collisions~\cite{luo2026identifiability}. That work establishes structural
+identifiability auditing of an evaluation design before inference, and we make
+no priority claim over it. The objects differ, and the difference is the
+contribution. Luo et al.\ ask whether a measurement protocol separates policy
+classes; we ask whether one item's concrete expected value is derivable from
+that item's own granted information surface. Their unit is the protocol and its
+estimand; ours is the ground-truth target and its construction steps. The
+shared word is \emph{identifiability}, and the honest reading is that this
+paper instantiates it at item level for a tool-migration oracle rather than
+introducing it.
+
 Two consequences follow for how this paper should be read. First, we make no
-priority claim over benchmark-validity auditing, and no claim to be the first
-to find incorrect ground truths in an agent benchmark --- Wang et al.\ and Bhat
-et al.\ both report that class. Second, what we offer within that established
-programme is specific: a pre-execution criterion, a declared information-rights
-object and derivation grammar as committed artifacts, and a deterministic
-per-item decision rather than expert review or an LLM judge. The cost of that
+priority claim over benchmark-validity auditing, none over auditing a
+benchmark before it is executed, none over structural
+identifiability auditing, and no claim to be the first to find incorrect ground
+truths in an agent benchmark --- Wang et al.\ and Bhat et al.\ both report that
+class. Second, what we offer within that established programme is specific: an
+item-level derivability criterion, a declared information-rights object and
+derivation grammar as committed artifacts, and a deterministic per-item
+decision rather than expert review or an LLM judge. The cost of that
 specificity is equally definite, and Section~\ref{sec:limits} states it: the
 criterion decides derivability under a declared grammar, over one self-authored
 benchmark.
@@ -666,6 +715,7 @@ The auditor never substitutes a guessed field, delimiter, default, or format.
 \section{Audit Procedure}
 
 \subsection{Implementation}
+\label{sec:impl}
 
 The auditor is offline, deterministic, and committed at
 \artifact{research/gate19/auditor.py} with unit tests at
@@ -1212,13 +1262,26 @@ delimiter-bounded split over a fixed delimiter alphabet, and a hand-declared
 external derivation; it decides nothing about case folding, serialisation,
 arithmetic, hashing, or documented template concatenation. Under the
 fail-closed rule an item requiring any of those is classified unreachable, so
-the criterion errs toward calling items defective, and a richer $G_R$ could
-only lower the reported rate. The 16.1\% figure should be read as a property
-of this benchmark under this rights set \emph{and} this grammar. We think the
-50 items reported here would survive a richer grammar --- 40 of them fail on a
-separator that is absent from the visible surface by construction, and no
-grammar can derive a symbol it has never seen --- but that is an argument, not
-a measurement, and we have not run it.
+the criterion errs toward calling items defective, and a \emph{monotonic}
+extension of $G_R$ --- one that only adds admission rules and tightens none ---
+could only lower the reported rate. A revision that narrowed an existing rule
+could raise it, so monotonicity is the condition under which the rate is a
+lower bound, not a property of enrichment in general. The 16.1\% figure should
+be read as a property of this benchmark under this rights set \emph{and} this
+grammar.
+
+We think the 50 items reported here would survive a monotonic enrichment. Forty
+of them fail on a separator that is absent from the visible surface by
+construction, and under any grammar whose construction literals must themselves
+be evidenced in $R$ those targets stay unreachable. That condition is the load
+bearing part and it is not free: a grammar carrying built-in convention
+literals, or admitting an external prior over naming conventions, could
+classify those 40 differently. Such a grammar would be measuring something
+other than derivability from the declared rights, which is why we do not adopt
+one --- but the claim is conditional on the restriction, not on impossibility.
+It is in any case an argument rather than a measurement, and we have not run
+it. Section~\ref{sec:probe} sits on the same boundary from the other side: it
+tests whether one model's prior in fact supplies the separator.
 
 \textbf{A declaration defect was found in the frozen rights object.} The frozen
 declaration listed three derivation rules; the committed auditor evaluates
@@ -1327,12 +1390,18 @@ per-item auditing of both field presence and construction derivability, typed
 failure classes, a fail-closed rule, and a committed implementation. We claim a
 checkable procedure, not a new theory of validity.
 
-\emph{Benchmark-validity auditing already exists. What is left?} The position
-in the pipeline, and nothing more (Section~\ref{sec:validity}). Existing audits
-read evidence produced by an execution --- transcripts, evaluator decisions,
-rerun variance --- and ask whether the score was right. This one runs before
-any execution and asks whether the expected answer is determined by what the
-item supplies. An item can be graded perfectly and still be unanswerable.
+\emph{Benchmark-validity auditing already exists, and some of it runs before
+execution. What is left?} One item-level question, and nothing more
+(Section~\ref{sec:validity}). Transcript and evaluator audits ask whether the
+score an execution received was the right score. Construction audits ask
+whether a task is well posed. Protocol-level identifiability audits ask whether
+a measurement design separates the policies it means to compare. This one asks
+whether one expected target value --- its field, its literals, its construction
+steps --- is derivable from that item's own granted information surface under a
+declared finite grammar, and decides it mechanically per item. An item can be
+well posed, graded perfectly, and still be unanswerable. We claimed position in
+the pipeline in an earlier version; that claim was too broad and
+Section~\ref{sec:validity} now states the narrower one.
 
 \emph{The auditor evaluated a rule your rights file did not declare. Why should
 the 50 stand?} Because the result is invariant under removing that rule,
@@ -1389,20 +1458,25 @@ Sections~\ref{sec:units}--\ref{sec:power} derives. Not modified since; the
 reproduction harness re-verifies it at every run. \\
 \texttt{gate21-paper-v2-20260912} & Adds the external survey of
 Section~\ref{sec:pathA} and the version~2 manuscript text. \\
-\texttt{gate22-paper-v32-20260916} & \textbf{Manuscript artifact tag for this
-version.} Adds the declared derivation grammar, the rule-ablation harness and
-its result, four auditor tests, the reproduction repairs of this section, and
-this text. No measured value changed. \\
+\texttt{gate22-paper-v32-20260916} & Adds the declared derivation grammar, the
+rule-ablation harness and its result, four auditor tests, and the reproduction
+repairs of this section. \\
+\texttt{gate22-paper-v33-20260916} & \textbf{Manuscript artifact tag for this
+version.} Literature and declaration corrections only: three added references, a
+corrected denominator, a narrowed Related Work claim, and an
+\hyperref[app:procedure]{Appendix~A} rewritten to the implemented rule order.
+No code, no artifact, and no measured value changed. \\
 \bottomrule
 \end{tabular}
 \end{center}
 
 \medskip
 The citable identifier for this version of the manuscript is
-\texttt{gate22-paper-v32-20260916}. Two further tags,
-\texttt{gate22-paper-v3-\allowbreak 20260914} and
-\texttt{gate22-paper-v31-\allowbreak 20260916}, mark superseded pre-submission
-states. They are retained rather than moved: a tag that has been published is a
+\texttt{gate22-paper-v33-20260916}. Three further tags,
+\texttt{gate22-\allowbreak paper-\allowbreak v3-\allowbreak 20260914},
+\texttt{gate22-\allowbreak paper-\allowbreak v31-\allowbreak 20260916}
+and \texttt{gate22-\allowbreak paper-\allowbreak v32-\allowbreak 20260916},
+mark superseded pre-submission states. They are retained rather than moved: a tag that has been published is a
 record of what was claimed at that moment, and rewriting one to make a later
 claim true is the move this paper argues against. Later commits may refine the
 repository without changing what any of these tags denotes.
@@ -1496,8 +1570,10 @@ not a test at all, and its failures say nothing about the agent.
 Auditing our own synthetic tool-drift benchmark against this criterion found
 50 unreachable items out of 310, concentrated entirely in two mutation
 families, plus 20 more on a separate required-field surface that collapsed
-strict complete-call retention to zero in two families. The same auditor found
-no unreachable item in 20 hand-verified real version pairs. Applying the audit
+strict complete-call retention to zero in two families. The same auditor flagged no
+item in a 20-pair hand-adjudicated sample of real version changes --- but 15 of
+those 20 acceptances depended on a supplied observability annotation, so that
+sample is a representability check and not an estimate of auditor specificity. Applying the audit
 also cost us a claim we had believed about our own baselines, and cost us the
 comparative study the repair was meant to enable, because a valid surface
 turned out to be too small to resolve the effect we had pre-registered.
@@ -1516,23 +1592,58 @@ retained surface before committing to an effect size.
 \section{Audit Procedure and Exclusion Policy}
 \label{app:procedure}
 
-The auditor evaluates each item in a fixed order:
+The auditor evaluates each item in the fixed order below. This is the complete
+grammar of Section~\ref{sec:ablation}, including the two rules the frozen
+rights file did not declare, and it is the order recorded under
+\texttt{evaluation\_order} in
+\artifact{research/gate19/derivation\_grammar.json}. The order is load-bearing
+in one place and we state it rather than presenting the rules as a set:
+\texttt{unobservable\_join} is evaluated \emph{before} \texttt{visible\_split},
+so a target that is simultaneously an unobservable join and a visible split
+would be classified unreachable. No item in the frozen register is both.
 
 \begin{enumerate}
-  \item Parse the declared information-rights object; preserve the original
-  item record unmodified.
-  \item Check whether each target field exists in the visible new contract.
-  If not, emit \st{unreachable-target-absent}.
-  \item Check whether each target value is derivable from visible old values,
-  task context, or verified old traces, under the \texttt{identity},
-  \texttt{visible\_split}, and \texttt{declared\_external\_derivation} rules.
-  \item Check whether every transformation convention required by the target
-  --- delimiter, literal, default, ordering, format --- is evidenced in the
-  declared surface. If not, emit
-  \st{unreachable-convention-unobservable}.
+  \item Load the rights-materialised audit item produced by the
+  benchmark-specific builder and validate that it carries the required keys.
+  The auditor does not parse an arbitrary rights policy: the declared rights
+  are instantiated by the builders into each item's visible source values,
+  visible text, and declared new-contract fields ahead of the audit, and the
+  auditor verifies derivability over that normalised surface
+  (Section~\ref{sec:impl}). Preserve the original item record unmodified.
+  \item Check that the target field is a declared input field of the
+  method-visible new contract, and that the item carries a target value. If
+  either fails, emit \st{unreachable-target-absent}.
+  \item Admit on \texttt{identity}: the target equals a visible source value.
+  \item Admit on \texttt{visible\_literal}: the target occurs verbatim in the
+  method-visible surface.
+  \item Reject on \texttt{unobservable\_join}: the target concatenates two
+  distinct visible source values with a separator occurring nowhere in the
+  visible surface. Emit \st{unreachable-convention-unobservable}.
+  \item Admit on \texttt{visible\_split}: the target is a delimiter-bounded
+  piece of a visible source value, the delimiter being present in that value.
+  \item Admit on \texttt{declared\_external\_derivation}, where the item
+  carries a hand-verified observability annotation. This rule records an
+  adjudicator's judgement rather than a mechanical check, and
+  Section~\ref{sec:external} reports the external sample twice because of it.
+  \item Fail closed: if no admission rule is evidenced by the declared
+  surface, emit \st{unreachable-convention-unobservable} rather than infer a
+  likely convention.
   \item Emit a typed status and an action, retain or exclude. Never rewrite
   the original oracle.
 \end{enumerate}
+
+Steps 3--7 are the five operative rules of Section~\ref{sec:ablation}: four
+that admit and one that rejects on a named construction. Step 8 is the
+fail-closed rule. Four paths reach an unreachable classification --- an
+undeclared target field and an absent target value, both in step 2; the named
+join in step 5; and the fail-closed rule in step 8 --- and the grammar artifact
+declares them under those four identifiers.
+
+An earlier version of this appendix said the auditor parses the rights object
+and omitted \texttt{visible\_literal} from the rule list, which contradicted
+Section~\ref{sec:impl} and Section~\ref{sec:ablation} respectively. Both were
+defects in this appendix rather than in the implementation, and both are
+recorded in the package change log.
 
 The exclusion policy excludes both unreachable classes and never substitutes a
 guessed field, separator, format, or default. Repair is additive: a retained
@@ -1735,11 +1846,11 @@ discipline.
 \section{Reference Verification Record}
 \label{app:refs}
 
-Each cited work was checked against a primary record. Thirteen of fifteen were
+Each cited work was checked against a primary record. Sixteen of eighteen were
 verified for both bibliographic metadata and the specific content claim made
 about them in Section~\ref{sec:related}, by reading the publisher, proceedings,
-ACL Anthology, or arXiv abstract directly. Two carry a narrower status and we
-state it rather than implying uniform verification:
+conference programme, ACL Anthology, or arXiv abstract directly. Two carry a
+narrower status and we state it rather than implying uniform verification:
 
 \begin{itemize}
   \item \cite{assidiqi2026referencefree} --- bibliographic metadata (title,
@@ -1771,6 +1882,29 @@ positioning, not for methodological detail we did not read. And
 \cite{zhu2025abc} appears in a NeurIPS~2025 listing that we did not retrieve
 directly; it is cited here at its arXiv record, which we did verify.
 
+The three references added in version~3.3 (\cite{tu2026benchguard},
+\cite{suh2026agentsuite}, \cite{luo2026identifiability}) were verified on
+16 September 2026 under the same standard. For \cite{tu2026benchguard} and \cite{luo2026identifiability}
+the arXiv abstract page was retrieved and the title, full author list,
+submission date, primary category, and abstract were read; every figure
+attributed to them --- twelve confirmed ScienceAgentBench issues, 83.3\%
+agreement with expert-identified issues, the under-USD-15 audit cost, and the
+seven-policy collapse under base-only observation --- is quoted from those
+abstracts. For \cite{suh2026agentsuite} there is no arXiv record we could
+retrieve; the title, full author list, and abstract were read from the ICML~2026
+conference programme entry for the accepted poster, and the $F_1$ range of
+0.791--0.874 and the four-component decomposition are quoted from it. This is a
+venue-level rather than a publisher-PDF check, and we have not read the camera
+copy.
+
+Why these three were absent from version~3 is worth stating, because it is the
+same class of miss the rest of this appendix documents. Version~3's literature
+search was scoped to tool-calling and agent-benchmark validity and returned the
+six references above; it did not reach the pre-execution and identifiability
+framings, which is where the two closest works sit. Section~\ref{sec:validity}
+now narrows the contribution accordingly, and the narrowing was prompted by an
+external review of the version~3.2 package rather than by us.
+
 The machine-readable record, including per-reference verification notes and
 the third-party license record, ships with this source as
 \artifact{REFERENCES_VERIFIED.json}. This paper cites third-party works for
@@ -1784,9 +1918,10 @@ MIT contributions, and CC-BY-4.0 documentation provisions.
 
 AI coding assistants were used throughout the engineering work that produced
 the audited system and its artifacts, and for drafting assistance on this
-manuscript. No AI system is an author, in line with ICMJE and COPE guidance
-that authorship cannot be assigned to a non-human agent and that generative-AI
-use should be disclosed.
+manuscript. No AI system is listed as an author, because authorship carries
+accountability for the work that a non-human agent cannot hold. The human
+author takes responsibility for the manuscript and discloses AI-assisted
+engineering and drafting below.
 
 The division of responsibility is as follows. The research questions, the
 reachability criterion, the pre-registration and exclusion policy, the
@@ -1841,7 +1976,6 @@ arXiv:2605.12673 [cs.AI], 12 May 2026.
 
 \bibitem{zhu2025abc}
 Yuxuan Zhu, Tengjun Jin, Yada Pruksachatkun, Andy Zhang, Shu Liu, et al.
-(25 authors).
 ``Establishing Best Practices for Building Rigorous Agentic Benchmarks.''
 arXiv:2507.02825 [cs.AI], 3 July 2025.
 \url{https://arxiv.org/abs/2507.02825}
@@ -1855,6 +1989,30 @@ Ground-Truth Scoring, and Reliability Beyond the Mean.''
 arXiv:2609.09218, 6 September 2026.
 \url{https://arxiv.org/abs/2609.09218}
 
+\bibitem{tu2026benchguard}
+Xinming Tu, Tianze Wang, Yingzhou Lu, Kexin Huang, Yuanhao Qu, and
+Sara Mostafavi.
+``BenchGuard: Who Guards the Benchmarks? Automated Auditing of LLM Agent
+Benchmarks.''
+arXiv:2604.24955 [cs.CL], 27 April 2026.
+\url{https://arxiv.org/abs/2604.24955}
+
+\bibitem{suh2026agentsuite}
+Hyewon Suh, Binfei Ji, Seojune Lee, Rishi Khare, Basit Khan, Hyunjun Kim,
+Tianyi Zhang, Venkat Krishna Srinivasan, Peter Belcak, Shizhe Diao,
+Pavlo Molchanov, Yingyan Celine Lin, and Zhen Dong.
+``AgentSuite: Toward More Reliable Agent Evaluation with a Component-Based
+Benchmark Auditing Pipeline.''
+\emph{International Conference on Machine Learning (ICML)}, 2026.
+\url{https://icml.cc/virtual/2026/poster/66603}
+
+\bibitem{luo2026identifiability}
+Junhao Luo, Ning Huang, Ziqi Sha, Wenxuan Tang, and Wei Deng.
+``Beyond Local Accuracy: A Protocol-Level Identifiability Audit for Controlled
+LLM Reasoning Evaluation.''
+arXiv:2608.13326 [cs.CL], 13 August 2026.
+\url{https://arxiv.org/abs/2608.13326}
+
 \bibitem{chen2025toolevo}
 Guoxin Chen, Zhong Zhang, Xin Cong, Fangda Guo, Yesai Wu, Yankai Lin,
 Wenzheng Feng, and Yasheng Wang.
@@ -1867,7 +2025,8 @@ Bin Wu, Edgar Meij, and Emine Yilmaz.
 ``Beyond Static Toolsets: Self-Evolving LLM Tool Agents via Continual
 Documentation Adaptation.''
 \emph{Findings of the Association for Computational Linguistics: ACL 2026},
-2026. \url{https://aclanthology.org/2026.findings-acl.1082/}
+pages 21519--21539, 2026.
+\url{https://doi.org/10.18653/v1/2026.findings-acl.1082}
 
 \bibitem{assidiqi2026referencefree}
 Mohammad Hasbi Assidiqi, Daniyal Alghazzawi, Suaad Alarifi, and Li Cheng.

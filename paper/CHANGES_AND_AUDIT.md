@@ -1,3 +1,299 @@
+# Version 3.3: the literature, audited
+
+Prepared 2026-09-16 against manuscript version 3.2 (repository tag
+`gate22-paper-v32-20260916`). The version 3.2 log follows below, unmodified.
+
+**No code, no gate artifact, and no measured value changed in this version.**
+The auditor was not re-run, because nothing it reads was touched. What changed
+is what the paper says about other people's work, and what one appendix said
+about our own instrument.
+
+The pattern is now three for three. Version 2 asserted a rule set its
+implementation did not match. Version 3 asserted a reproduction its repository
+could not deliver. Version 3.2 asserted a distinction from the literature that
+the literature does not support, and shipped an appendix that contradicted the
+two disclosures version 3 was written to make. In each case the claim was
+checkable, nobody had checked it, and the error ran in the flattering
+direction.
+
+---
+
+## Part 0a — Defects found in version 3.2
+
+### F1 — A third-party figure was quoted against the wrong denominator (severity: high)
+
+**Defect.** Section 2.1 read: "Wang et al. run an agentic auditor over 168
+benchmarks in nine domains and find over 25.7% carrying critical issues". The
+grammatical subject is the benchmark count, so the sentence reads as 25.7% of
+168 benchmarks. The abstract of arXiv:2605.26079 states the figure as a share of
+tasks: "critical issues including ambiguous task design, execution environment
+conflicts, and incorrect ground truths in over **25.7% of the evaluated
+tasks**".
+
+**Why it survived three releases.** This is the part worth recording, because
+the failure is inside the artifact built to prevent it. The
+`supporting_quotes` field for that reference in `REFERENCES_VERIFIED.json` held
+a *paraphrase*, not a quotation: "over 25.7% contained critical issues including
+ambiguous design, execution conflicts, and incorrect ground truths". The
+paraphrase had already dropped "of the evaluated tasks". Every subsequent check
+compared the manuscript against the verification record and passed, because the
+record and the manuscript agreed with each other and neither agreed with the
+source.
+
+**Fix.** The manuscript sentence attributes the figure to the evaluated tasks,
+with the denominator emphasised. The `supporting_quotes` entry is now verbatim
+from the abstract, and a `correction_v33` field records what the paraphrase
+said. Note `V13` in `EVIDENCE_LEDGER_ADDENDUM.json`.
+
+**Impact on measured values.** None. No number this project produced derives
+from or is compared against that figure.
+
+**Lesson applied.** A quotations field that is allowed to hold paraphrase is
+not a verification record. Every `supporting_quotes` entry in the file was
+re-read; this was the only one that was not verbatim.
+
+### F2 — The Related Work distinction was broader than the literature supports (severity: high)
+
+**Defect.** Version 3.2 claimed the defensible distinction was "position in the
+evaluation pipeline", and asserted: "Each of these audits inspects evidence that
+exists only after a trajectory has been produced". The hostile-questions entry
+in Section 6.4 repeated it: "Existing audits read evidence produced by an
+execution".
+
+That holds for Bhat et al. (expert re-judgement of completed tasks, rerun
+variance), Mohl et al. (transcript scanners) and Zhang et al. (scaffold and
+scorer behaviour). It does not hold for the broader frameworks cited in the
+same paragraph. Wang et al.'s agentic auditor reports ambiguous task design and
+execution-environment conflicts, which are properties of the task definition.
+BenchJack red-teams benchmark construction and evaluation infrastructure. Both
+inspect the item before an agent runs. The claim put the whole literature into a
+post-execution bucket that two of its own citations do not occupy.
+
+**Fix.** Pre-execution auditing is withdrawn as the distinction, in Section 2.1,
+in Section 6.4, in the "what this paper does not claim" box, and in the
+abstract's framing verb. What replaces it:
+
+> the item-level question of whether the benchmark's expected target value —
+> each field, each literal, each construction step — is derivable from the
+> method-visible information surface before the first call, under an explicitly
+> declared finite derivation grammar.
+
+The unit is one ground-truth value rather than a task, a benchmark or a score,
+and the decision is a deterministic per-item rule rather than expert review or
+an LLM judge. Section 2.1 now names which audits *are* post-execution and which
+are not, rather than generalising over all of them.
+
+**Impact on measured values.** None. This is a positioning claim; 50/310 is
+unaffected and is not a novelty claim.
+
+### F3 — The two closest works were missing (severity: high)
+
+**Defect.** Version 3 added six benchmark-validity references after an external
+review found the literature nearest the contribution had been omitted. That
+search was scoped to tool-calling and agent-benchmark validity. It never reached
+the pre-execution and identifiability framings, which is where the two closest
+works sit.
+
+**Fix.** Three references added, each verified against a primary record before
+being cited:
+
+| Ref | Verification route | Why it matters here |
+|---|---|---|
+| `luo2026identifiability` (arXiv:2608.13326) | arXiv abstract page, 2026-09-16 | Audits *protocol-level identifiability* before any model inference. Structural identifiability auditing before inference already exists. |
+| `tu2026benchguard` (arXiv:2604.24955) | arXiv abstract page, 2026-09-16 | Cross-verifies benchmark artifacts; reports tasks made unsolvable by benchmark defects. |
+| `suh2026agentsuite` (ICML 2026) | ICML 2026 conference programme entry, cross-checked against the ICML 2026 downloads index, 2026-09-16 | COBA decomposes a task into User, Environment, Ground Truth, Evaluation. Its Ground Truth component is the object this paper audits. |
+
+`luo2026identifiability` is the one that constrains the paper. The manuscript's
+central term is `identifiability`, and that work establishes structural
+identifiability auditing of an evaluation design before inference. Section 2.1
+now states the collision and claims no priority over it, then states what
+actually differs: Luo et al.'s unit is the protocol and its estimand, ours is
+the ground-truth target and its construction steps; they ask whether a design
+separates policy classes, we ask whether one item's concrete expected value is
+derivable from that item's granted surface. The shared word is not a shared
+contribution, and the paper now says which of the two it has.
+
+**On the verification discipline.** The external review supplied all three
+references with URLs and content claims. None was cited on that basis. Each was
+retrieved and read independently, because a reference added on a reviewer's word
+is precisely the defect this paper is about — and version 3's Appendix F already
+records one citation that entered this manuscript that way. `suh2026agentsuite`
+is the weakest of the three and is marked as such: a conference programme entry,
+no retrievable arXiv record, camera copy unread. That is the weakest metadata
+route anywhere in `REFERENCES_VERIFIED.json`.
+
+Appendix E also now records *why* version 3 missed these, rather than quietly
+adding them as though the earlier search had been complete.
+
+### F4 — Appendix A contradicted the two disclosures version 3 was written to make (severity: high)
+
+**Defect.** Version 3 existed to repair two declaration defects: the auditor
+evaluates five rules where the frozen rights file declares three, and the
+auditor does not parse a rights policy because the builders materialise the
+rights ahead of the audit. Section 3.3 and Section 4.1 were updated. **Appendix
+A was not.**
+
+Its step 1 still read "Parse the declared information-rights object",
+contradicting Section 4.1. Its step 3 listed only `identity`, `visible_split`
+and `declared_external_derivation`, omitting `visible_literal` — the undeclared
+rule that Section 3.3 reports firing 35 times while the declared rule it shadows
+fires zero. A reader treating Appendix A as the algorithm specification would
+have found the paper contradicting itself on exactly the two points version 3
+was released to fix.
+
+**Fix.** Appendix A is now the `evaluation_order` recorded in
+`research/gate19/derivation_grammar.json`, nine steps, checked line by line
+against `research/gate19/auditor.py::classify_item`:
+
+```
+target_field_declared → target_value_present → identity → visible_literal
+→ unobservable_join → visible_split → declared_external_derivation → fail_closed
+```
+
+**One correction to the review that prompted this.** The review proposed a
+replacement that placed the convention check *after* the admission rules:
+"Check derivability under the declared grammar: identity, visible_literal,
+visible_split, and declared_external_derivation ... If the target requires an
+unobserved construction convention, emit unreachable-convention-unobservable".
+The implementation does not do that. `unobservable_join` is evaluated
+**between** `visible_literal` and `visible_split`, which the grammar artifact
+states explicitly and which the code confirms. Adopting the proposed order would
+have replaced one appendix/implementation mismatch with a subtler one.
+
+The appendix therefore also now states what the previous four-step summary could
+not express at all: that the order is load-bearing, that a target which is
+simultaneously an unobservable join and a visible split is classified
+unreachable, and that no item in the frozen register is both. Note `V14`.
+
+**Impact on measured values.** None. The implementation was already correct and
+is unchanged. `gates/results/GATE_19_AUDIT.json` is untouched.
+
+### F5 — Two Section 6.1 sentences claimed more than they can carry (severity: medium)
+
+**Defect (a).** "a richer `G_R` could only lower the reported rate". True of a
+*monotonic* extension — one that only adds admission rules. A revision that
+narrowed an existing rule could raise the rate. As written, the sentence claims
+the rate is a lower bound under enrichment in general, which is not so.
+
+**Defect (b).** "no grammar can derive a symbol it has never seen". False as
+stated: a grammar carrying a built-in convention literal can emit `::` without
+having observed it. The restriction is what does the work, and the sentence
+omitted the restriction.
+
+**Fix.** (a) now says a monotonic extension could only lower the rate and that a
+narrowing revision could raise it. (b) now says the 40 stay unreachable *under a
+grammar whose construction literals must themselves be evidenced in R*, names
+that condition as the load-bearing part, and says plainly that a grammar with
+built-in convention literals or an external prior could classify them
+differently — and why we do not adopt one. It also points at Section 5.6, which
+sits on the same boundary from the other side by testing whether one model's
+prior in fact supplies the separator.
+
+**Impact on measured values.** None. Both sentences are about what a
+counterfactual grammar would do; neither is a measurement.
+
+### F6 — The conclusion's external-sample sentence was quotable out of context (severity: low)
+
+**Defect.** "The same auditor found no unreachable item in 20 hand-verified real
+version pairs." Not false, and Section 5.3 caveats the sample heavily — but the
+sentence stands alone in a conclusion and reads as a specificity result, which
+version 3 explicitly withdrew.
+
+**Fix.** The conclusion sentence now carries the caveat itself: 15 of the 20
+acceptances depended on a supplied observability annotation, so the sample is a
+representability check and not an estimate of auditor specificity.
+
+### F7 — The AI-use appendix invoked two organisations the paper does not cite (severity: low)
+
+**Defect.** Appendix F said "in line with ICMJE and COPE guidance". The
+manuscript cites neither. For a paper whose discipline is that every claim
+traces to a checked source, an appeal to two named authorities with no record
+behind it is a loose end in the one appendix about honesty.
+
+**Fix.** The organisation names are removed and the substantive statement stands
+on its own: no AI system is listed as an author because authorship carries
+accountability a non-human agent cannot hold, and the human author takes
+responsibility and discloses the assistance. Adding two non-research
+bibliography entries was the alternative and was rejected as weight the paper
+does not need for an arXiv preprint. Nothing the appendix asserts changed.
+
+---
+
+## Part 0b — What version 3.3 deliberately did not do
+
+**It did not re-run the auditor, the ablation, or the reproduction harness as a
+condition of release.** Nothing they read changed. Re-running them would have
+produced identical artifacts and would have implied that this version's
+corrections were of a kind that could move a measurement. They were not.
+
+**It did not change the 50/310, the 20/45, the 0/30 `argument_merge`, or the
+15/35 `tool_replacement`.** No input, rule, or artifact was touched.
+
+**It did not upgrade the `assidiqi2026referencefree` verification level.** The
+review reported locating a public full-text copy and proposed recording that the
+full text had been inspected. It could not be retrieved here: IEEE Xplore
+returned no body and the ResearchGate copy returned HTTP 403. The DOI does
+resolve — it redirects to `ieeexplore.ieee.org/document/11534189` — which
+supports the metadata-level claim Appendix E already makes and nothing more.
+
+Recording a full-text inspection that was not performed, in the appendix whose
+sole purpose is to record where verification stopped, would be the exact defect
+this paper documents. **This is left as an owner action.** If the owner
+retrieves that copy, §2.3 and Appendix E have the slot for the stronger
+statement, and the change is one sentence in each.
+
+**It did not add a full-text note for `mohl2026transcript`.** The review
+proposed recording that the full-text HTML was inspected for the definition of
+`ground truth access`, on the grounds that Section 2.1 describes that criterion
+specifically while Appendix E claims only abstract-level verification. Checked
+and not needed: the abstract names all four criteria verbatim — "ground truth
+access, tool failure, guessing vulnerability, and answer format ambiguity" — so
+the abstract-level standard already covers what the manuscript says. Re-verified
+2026-09-16. No inconsistency existed.
+
+**It did not restate the contribution as a new criterion name.** The review
+suggested replacing "oracle identifiability" with "oracle-target derivability"
+throughout. The narrowing it is after is real and has been made, but at the
+level of what the paper *claims* rather than what it *calls* its criterion:
+`identifiability` is the name of a committed artifact's criterion field and
+appears throughout the manuscript, so a rename is a large mechanical change with
+a new class of inconsistency risk and no gain in honesty over saying plainly, in
+Section 2.1 and in the claims box, that this work instantiates identifiability
+at item level rather than introducing it.
+
+---
+
+## Part 0c — Verification performed for version 3.3
+
+1. **All three added references retrieved independently**, not accepted from the
+   review. Primary records read on 2026-09-16: two arXiv abstract pages and one
+   ICML 2026 programme entry, the last cross-checked against the ICML 2026
+   downloads index.
+2. **The ABA denominator re-read** from the arXiv abstract of 2605.26079 and
+   compared against both the manuscript sentence and the
+   `REFERENCES_VERIFIED.json` quote. Both were wrong; both corrected.
+3. **The Mohl abstract re-read** to test whether Appendix E's provenance claim
+   covers Section 2.1's description of `ground truth access`. It does.
+4. **Appendix A checked against the implementation**, not against the review's
+   proposed text. `research/gate19/derivation_grammar.json`
+   `evaluation_order` and `research/gate19/auditor.py::classify_item` agree with
+   each other and now agree with the appendix.
+5. **ContDa's canonical citation confirmed** from the ACL Anthology page: pages
+   21519–21539, DOI `10.18653/v1/2026.findings-acl.1082`. Both added.
+6. **`zhu2025abc` author count confirmed as 25** before removing the
+   "(25 authors)" annotation — the annotation was correct, and was dropped as
+   non-standard bibliography style rather than as an error.
+7. **Three-pass `pdflatex` build**, counts read from `main.log`: 29 pages, 0
+   overfull hboxes, 19 underfull, 0 LaTeX warnings, 0 undefined references, 2
+   `Infinite glue shrinkage` messages from longtable splits. One overfull hbox
+   introduced by the three-tag list in Section 8 was found and fixed before the
+   count above was taken.
+8. **Reference bookkeeping reconciled** across `main.tex` Appendix E ("Sixteen
+   of eighteen"), `REFERENCES_VERIFIED.json` (18 entries, 17 at
+   `content_claim`), `ARXIV_CHECKLIST.md` (18 entries) and `README.md`.
+
+---
+
 # Version 3.2: the reproduction claim, audited
 
 Prepared 2026-09-16 against manuscript version 3 (repository tag

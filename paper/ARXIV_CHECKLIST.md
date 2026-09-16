@@ -1,4 +1,4 @@
-# arXiv preparation checklist — manuscript version 3.2
+# arXiv preparation checklist — manuscript version 3.3
 
 Prepared 2026-09-16. **This package does not submit anything.** Submission is
 the owner's separate action.
@@ -16,7 +16,7 @@ the owner's separate action.
 | Cross-lists | `cs.CL` (LLM-agent and tool-use readership), `cs.AI` (agent evaluation). |
 | Alternative | `cs.CL` as primary if NLP review context is preferred. This changes the readership, not the paper's scope or claims. |
 | ACM/MSC class | Leave blank unless a target venue requires one. |
-| Comments field | `27 pages, 2 figures. Measurement and benchmark-validity case study. Manuscript artifact tag: gate22-paper-v32-20260916. Measurement evidence frozen at gate10-paper-v1-20260911.` |
+| Comments field | `29 pages, 2 figures. Measurement and benchmark-validity case study. Manuscript artifact tag: gate22-paper-v33-20260916. Measurement evidence frozen at gate10-paper-v1-20260911.` |
 | Artifact URL | `https://github.com/Dat071104/vietragops` |
 | Licence | **`CC BY 4.0`** — decided. Rationale and the one caveat are below. |
 
@@ -36,6 +36,12 @@ in this package belongs in the arXiv submission:
 - `CHANGES_AND_AUDIT.md`, `EVIDENCE_LEDGER_ADDENDUM.json`,
   `REFERENCES_VERIFIED.json`, `README.md`, and this checklist are provenance
   records for the authors and the repository, not part of the paper.
+- `build/main.pdf` is shipped in the version 3.3 package so the manuscript can
+  be read without a TeX installation. **It is not an upload candidate.** arXiv
+  compiles `main.tex` itself; submitting a PDF in place of the source gives a
+  submission arXiv will not process as LaTeX. Version 3.2 shipped no PDF for
+  exactly this reason, and version 3.3 keeps the rule while shipping the file
+  outside the source directory.
 - Do not upload raw gate artifacts, `_agent_ops/` files, or anything from the
   deployment.
 
@@ -92,15 +98,22 @@ Source: <https://info.arxiv.org/help/license/index.html>
 
 - [x] Author block set: Nguyen Thanh Dat, Ton Duc Thang University. No AI
       system listed as an author.
-- [x] Build verified: 27 pages, 0 overfull hboxes, 19 underfull, 0 LaTeX
-      warnings, 0 undefined references. Three benign `Infinite glue shrinkage`
+- [x] Build verified: 29 pages, 0 overfull hboxes, 19 underfull, 0 LaTeX
+      warnings, 0 undefined references. Two benign `Infinite glue shrinkage`
       messages from longtable page splitting, which make `pdflatex` exit with
       status 1 while still producing a correct PDF; see README for the
       bisection that shows they are not content-caused. Read these counts from
-      `main.log`, not from stdout — they never appear on stdout.
-- [x] Bibliography: 15 entries, all verified against a primary record on
-      2026-09-12 or 2026-09-14. Verification levels recorded per reference in
-      `REFERENCES_VERIFIED.json`.
+      `main.log`, not from stdout — they never appear on stdout. Version 3.3
+      added two pages of Related Work and a rewritten Appendix A; one of the
+      three longtables no longer splits, and one overfull hbox introduced by
+      the superseded-tag list was fixed with additional `\allowbreak` points
+      rather than left in.
+- [x] Bibliography: 18 entries, all verified against a primary record on
+      2026-09-12, 2026-09-14, or 2026-09-16. Verification levels recorded per
+      reference in `REFERENCES_VERIFIED.json`. One entry
+      (`suh2026agentsuite`) rests on an ICML 2026 conference programme entry
+      rather than a publisher PDF or arXiv record; that is disclosed in its
+      own entry and in Appendix E.
 - [ ] Confirm your university has no policy requiring notification before an
       affiliated preprint is posted. Most do not; it takes one email to check,
       and it is much easier to ask before than to amend after.
@@ -139,11 +152,21 @@ forgotten at submission time:
    cited at title level only. If the full text becomes available before
    submission, §2.3 and Table 1 can be strengthened.
 
-2. The six benchmark-validity references added in version 3 were verified at
-   abstract level, not full text. This is recorded in Appendix G of the
-   manuscript and in `REFERENCES_VERIFIED.json`; it is a weaker standard than
-   some version 2 references received and is disclosed rather than smoothed
-   over.
+2. The six benchmark-validity references added in version 3, and the three
+   added in version 3.3, were verified at abstract level, not full text. This
+   is recorded in Appendix E of the manuscript and in
+   `REFERENCES_VERIFIED.json`; it is a weaker standard than some version 2
+   references received and is disclosed rather than smoothed over.
+   `suh2026agentsuite` is weaker still — a conference programme entry, no
+   retrievable arXiv record, camera copy unread.
+
+2a. Version 3.3 withdrew pre-execution auditing as the paper's distinction,
+   after an external review pointed at `luo2026identifiability` (structural
+   identifiability auditing before inference) and at task-definition auditing
+   in `wang2026autoaudit` and `wang2026benchjack`. The surviving claim is the
+   item-level derivability question stated in §2.1. If a reviewer pushes on
+   novelty, that narrower statement — not "first pre-execution audit" — is the
+   one to defend.
 
 3. The external 20-pair sample supports representability, not specificity
    (§5.3). The strengthening it needs is a subset decidable without

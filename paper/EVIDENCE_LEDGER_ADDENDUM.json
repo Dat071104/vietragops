@@ -6,7 +6,7 @@
     "sha256": "d9ec96bedcd28c1b0339c0e29534ecd50d893fa6e6714b46419b802434f229f6",
     "claims_in_base_ledger": 45
   },
-  "prepared_for": "Unreachable Oracles, manuscript version 3.2",
+  "prepared_for": "Unreachable Oracles, manuscript version 3.3",
   "prepared_on": "2026-09-16",
   "repository_state": {
     "head": "ff5e2b157ad218ff5e8dc652cbf06e6eef821522",
@@ -319,6 +319,24 @@
       "resolution": "The bytes of the eight were restored to the form the frozen manifest was taken over, and all 48 hash-asserted paths pinned with -text so no checkout can rewrite them again. The frozen manifest itself was NOT edited: the artifacts were moved back to the manifest, not the manifest to the artifacts.",
       "impact_on_measured_values": "None. For each of the eight the parsed JSON before and after is identical and the only difference is line endings; this was asserted file by file before the change was staged. After the restoration all 47 tracked manifest entries hash to their recorded values from the committed blobs.",
       "found_by": "Clean-clone verification during version 3.1 preparation, 2026-09-16."
+    },
+    {
+      "id": "V13",
+      "subject": "A third-party figure was quoted against the wrong denominator",
+      "finding": "Section 2.1 of manuscript versions 3, 3.1 and 3.2 read 'Wang et al. run an agentic auditor over 168 benchmarks in nine domains and find over 25.7% carrying critical issues'. The subject of that sentence is the benchmark count, so it reads as 25.7% of 168 benchmarks. The abstract of arXiv:2605.26079 states the figure as a share of tasks: 'critical issues including ambiguous task design, execution environment conflicts, and incorrect ground truths in over 25.7% of the evaluated tasks'. The supporting_quote recorded for this reference in REFERENCES_VERIFIED.json was itself a paraphrase presented in a quotes field, and it had already dropped 'of the evaluated tasks'. The paraphrase is what carried the error from the verification record into the manuscript.",
+      "resolution": "The manuscript sentence now attributes the figure to the evaluated tasks and the emphasis is explicit. The supporting_quotes entry in REFERENCES_VERIFIED.json was replaced with the verbatim abstract sentence, and a correction_v33 field records what the paraphrase had said.",
+      "impact_on_measured_values": "None. No number produced by this project derives from or is compared against this figure; it is contextual.",
+      "found_by": "External review of the version 3.2 package, 2026-09-16. Re-verified here against the arXiv abstract page on the same date.",
+      "class": "Same class as V11 and V12 and as the risk-register error the paper reports in section 5.5: a paraphrase that nobody re-read against the source, surviving three releases inside the artifact whose purpose is to prevent exactly that."
+    },
+    {
+      "id": "V14",
+      "subject": "Appendix A contradicted the declared grammar it was meant to summarise",
+      "finding": "Version 3 declared the complete five-rule grammar in research/gate19/derivation_grammar.json and disclosed in section 4.1 that the auditor does not parse an arbitrary rights policy, because the builders materialise the rights ahead of the audit. Appendix A was not updated to match either change. Its step 1 still said 'Parse the declared information-rights object', contradicting section 4.1, and its step 3 listed only identity, visible_split and declared_external_derivation, omitting visible_literal - the undeclared rule that section 3.3 reports firing 35 times. A reader treating Appendix A as the algorithm specification would have found the paper contradicting itself on the two points version 3 existed to repair.",
+      "resolution": "Appendix A was rewritten to the evaluation_order recorded in research/gate19/derivation_grammar.json: target_field_declared, target_value_present, identity, visible_literal, unobservable_join, visible_split, declared_external_derivation, fail_closed. The rewrite states that unobservable_join is evaluated before visible_split and that the order is therefore load-bearing, which the previous four-step summary did not express at all, and it states that no item in the frozen register is both an unobservable join and a visible split.",
+      "impact_on_measured_values": "None. The implementation was already correct and unchanged; the defect was in the appendix. gates/results/GATE_19_AUDIT.json is untouched.",
+      "found_by": "External review of the version 3.2 package, 2026-09-16. The corrected rule order was taken from the committed grammar artifact and checked against research/gate19/auditor.py::classify_item rather than from the review, which proposed an order placing the convention check after the admission rules. That order would have been a second mismatch: the implementation evaluates unobservable_join between visible_literal and visible_split.",
+      "class": "Declaration drift, as in V09 and V10. No measured value moved."
     }
   ],
   "gate22_rule_ablation": {
@@ -451,5 +469,10 @@
         "section 7.1"
       ]
     }
+  },
+  "version_33_scope": {
+    "note": "Version 3.3 changes literature positioning, three third-party citations, one third-party denominator, two overclaimed sentences in section 6, one appendix rewritten to the implemented rule order, and the conclusion's external-sample sentence. It adds no claim record and changes no claim record. No code, no gate artifact and no measured value changed.",
+    "claims_unchanged": 9,
+    "auditor_rerun": "Not required and not performed for this version: no input, rule, or artifact was touched. The reproduction harness of section 8 is unchanged and still verifies the same five stages."
   }
 }
