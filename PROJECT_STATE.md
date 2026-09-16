@@ -7,7 +7,9 @@ Gate 07 is complete with status **`GO` for the narrow V4.1
 recorded in `gates/results/GATE_07_RESULT.md` and `DEC-0022`; V4.1's
 operational addendum was committed before the fresh provider recollection,
 and no Gate 08 work was started or authorized. Local HEAD is
-`234e852fa81a0f25abdbe47862e63f063222576e`; no push was performed.
+`39d386162b17a6086d82300eed16e4f2a6880be9`; no push was performed. The
+Gate 07 closure evidence was committed at `b27fcae`; `39d3861` records this
+agent-ops reconciliation.
 Gates 00-06 remain their previously recorded states, including the earlier
 Gate 03 `PASS` result.
 

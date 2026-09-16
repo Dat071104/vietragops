@@ -8,13 +8,13 @@ live" and "what breaks if I touch this" in one Tier-1 read.
 
 ## Last Verified Commit
 
-`81589e2`
+`d809598`
 
 ## Snapshot
 
 - Branch: `main`
-- Generated: `2026-08-27`
-- Code files indexed: 185
+- Generated: `2026-09-11`
+- Code files indexed: 301
 - Stack: Python
 
 ## Modules
@@ -24,13 +24,13 @@ code depends on it, so changes there travel further.
 
 | Module | Files | Inbound | Entry points |
 | --- | --- | --- | --- |
-| `rag` | 54 | 125 | - |
-| `research` | 22 | 20 | - |
-| `app` | 21 | 17 | `app/main.py`, `app/mcp/server.py` |
-| `evals` | 13 | 9 | - |
-| `scripts` | 10 | 1 | - |
-| `tests` | 57 | 0 | - |
-| `frontend` | 7 | 0 | - |
+| `rag` | 60 | 181 | - |
+| `research` | 90 | 87 | - |
+| `app` | 22 | 24 | `app/main.py`, `app/mcp/server.py` |
+| `evals` | 15 | 10 | - |
+| `scripts` | 17 | 1 | - |
+| `frontend` | 8 | 1 | - |
+| `tests` | 88 | 0 | - |
 | `tools` | 1 | 0 | - |
 
 ## Hot Files (widest blast radius)
@@ -39,61 +39,61 @@ Ranked by fan-in. Treat an edit here as cross-module until proven otherwise.
 
 | File | Imported by | Imports |
 | --- | --- | --- |
-| `rag/generation/context_builder.py` | 15 | 3 |
+| `rag/generation/context_builder.py` | 17 | 3 |
+| `research/gate0/evaluator/capability.py` | 16 | 0 |
+| `app/core/config.py` | 15 | 11 |
+| `rag/generation/groq_client.py` | 15 | 0 |
+| `rag/retrieval/__init__.py` | 15 | 8 |
 | `rag/retrieval/base.py` | 15 | 0 |
-| `rag/retrieval/__init__.py` | 13 | 8 |
-| `app/core/config.py` | 12 | 8 |
-| `rag/lifecycle/registry.py` | 12 | 1 |
-| `rag/retrieval/index_store.py` | 11 | 0 |
-| `rag/lifecycle/errors.py` | 10 | 0 |
-| `rag/generation/groq_client.py` | 9 | 0 |
-| `rag/lifecycle/service.py` | 9 | 8 |
-| `research/gate0/sandbox/__init__.py` | 8 | 4 |
-| `app/main.py` | 7 | 4 |
-| `rag/chunking/metadata_builder.py` | 7 | 0 |
-| `rag/lifecycle/storage.py` | 6 | 0 |
-| `rag/preprocessing/section_detector.py` | 6 | 1 |
-| `rag/retrieval/advanced_hybrid_retriever.py` | 6 | 5 |
+| `rag/lifecycle/registry.py` | 14 | 1 |
+| `rag/retrieval/index_store.py` | 14 | 0 |
+| `rag/lifecycle/errors.py` | 13 | 0 |
+| `rag/generation/provider_router.py` | 12 | 4 |
+| `research/gate07/dataset/models.py` | 12 | 0 |
+| `research/gate07/harness/serialization.py` | 11 | 2 |
+| `rag/lifecycle/gcs_storage.py` | 10 | 0 |
+| `rag/lifecycle/service.py` | 10 | 8 |
+| `research/gate0/contracts/__init__.py` | 10 | 1 |
 
 ## Symbol Graph
 
-1200 symbols, 2532 edges (exact 1710, heuristic 600, ambiguous 222, weak 0).
+2163 symbols, 4868 edges (exact 3118, heuristic 944, ambiguous 806, weak 0).
 
 ### Routes
 
-- `GET ` -> `app/api/routes_documents.py:124` list_documents
+- `GET ` -> `app/api/routes_documents.py:130` list_documents
 - `GET /experiments` -> `app/api/routes_eval.py:40` list_experiments
 - `GET /experiments/{experiment_id}` -> `app/api/routes_eval.py:54` get_experiment
-- `GET /health` -> `app/api/routes_health.py:12` health
-- `GET /{doc_id}` -> `app/api/routes_documents.py:186` get_document
-- `GET /{doc_id}/versions` -> `app/api/routes_documents.py:144` list_document_versions
-- `POST /ask` -> `app/api/routes_agent.py:355` ask_agent
+- `GET /health` -> `app/api/routes_health.py:22` health
+- `GET /health/live` -> `app/api/routes_health.py:43` liveness
+- `GET /health/ready` -> `app/api/routes_health.py:50` readiness
+- `GET /{doc_id}` -> `app/api/routes_documents.py:192` get_document
+- `GET /{doc_id}/versions` -> `app/api/routes_documents.py:150` list_document_versions
+- `POST /ask` -> `app/api/routes_agent.py:362` ask_agent
 - `POST /ask` -> `app/api/routes_query.py:31` ask
 - `POST /eval/generation` -> `app/api/routes_eval.py:24` eval_generation
 - `POST /eval/retrieval` -> `app/api/routes_eval.py:18` eval_retrieval
-- `POST /index` -> `app/api/routes_documents.py:117` index_documents
+- `POST /index` -> `app/api/routes_documents.py:123` index_documents
 - `POST /retrieve` -> `app/api/routes_retrieval.py:34` retrieve
-- `POST /upload` -> `app/api/routes_documents.py:59` upload_documents
-- `POST /versions/{version_id}/publish` -> `app/api/routes_documents.py:159` publish_document_version
-- `POST /versions/{version_id}/retire` -> `app/api/routes_documents.py:168` retire_document_version
-- _... 2 more_
+- `POST /upload` -> `app/api/routes_documents.py:56` upload_documents
+- _... 5 more_
 
 ### Most-called symbols
 
 | Symbol | Called by | Where |
 | --- | --- | --- |
-| `VersionResolver.resolve` | 38 | `rag/retrieval/version_resolver.py:90` |
-| `FakeHttpxClient.post` | 31 | `tests/test_ollama_client.py:35` |
+| `VersionResolver.resolve` | 58 | `rag/retrieval/version_resolver.py:90` |
+| `test_local_api_client_does_not_add_cloud_auth.Response` | 55 | `tests/test_cloud_auth.py:11` |
+| `test_cloud_iam_client_fetches_id_token_without_logging_or_persisting_it.Response` | 51 | `tests/test_cloud_auth.py:35` |
+| `GroqClient.generate_json` | 40 | `rag/generation/groq_client.py:157` |
+| `ProviderRouter` | 36 | `rag/generation/provider_router.py:99` |
+| `ApiClient.post` | 33 | `frontend/api_client.py:47` |
+| `test_ollama_output_budget_reaches_wire.FakeClient.post` | 32 | `tests/test_generation_budget_wire.py:77` |
+| `FakeHttpxClient.post` | 32 | `tests/test_ollama_client.py:35` |
+| `ProviderRouter.generate_json` | 27 | `rag/generation/provider_router.py:201` |
 | `build_case_manifest` | 27 | `research/gate0/drift/manifest.py:163` |
-| `FakeResponse.json` | 26 | `tests/test_ollama_client.py:18` |
-| `GroqClient.generate_json` | 24 | `rag/generation/groq_client.py:193` |
-| `EducationSandboxStore` | 23 | `research/gate0/sandbox/store.py:64` |
-| `ProviderRouter` | 21 | `rag/generation/provider_router.py:63` |
-| `build_api` | 21 | `research/gate0/sandbox/__init__.py:11` |
-| `LifecycleService.review` | 19 | `rag/lifecycle/service.py:175` |
-| `WebImportService.import_url` | 19 | `rag/lifecycle/web_import.py:118` |
-| `VersionResolver` | 18 | `rag/retrieval/version_resolver.py:66` |
-| `ToolContract` | 18 | `research/gate0/contracts/contract.py:80` |
+| `build_all_cases` | 27 | `research/gate07/dataset/generator.py:15` |
+| `GcsObjectStore.exists` | 26 | `rag/lifecycle/gcs_storage.py:171` |
 
 Query it instead of grepping:
 
@@ -116,13 +116,20 @@ boundary before adding to one of these.
 
 | File | Lines |
 | --- | --- |
-| `frontend/streamlit_app.py` | 911 |
-| `rag/generation/answer_generator.py` | 553 |
+| `evals/gate12v_runner.py` | 1108 |
+| `frontend/streamlit_app.py` | 979 |
+| `rag/generation/openrouter_client.py` | 862 |
+| `rag/generation/answer_generator.py` | 609 |
+| `rag/generation/provider_router.py` | 581 |
+| `rag/lifecycle/gcs_registry.py` | 519 |
+| `rag/lifecycle/gcs_service.py` | 513 |
 | `rag/lifecycle/registry.py` | 500 |
+| `research/gate07/protocol/freeze.py` | 495 |
+| `research/gate07/metrics/report.py` | 458 |
 
 ## Isolated Files
 
-20 file(s) have no resolved local imports in either direction.
+31 file(s) have no resolved local imports in either direction.
 They are listed only on demand -- enumerating them here would recreate the
 context bloat this map exists to prevent.
 

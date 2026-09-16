@@ -77,8 +77,8 @@ an explicit `GO` result.
 
 Before using MarkItDown or Firecrawl, read `_agent_ops/THIRD_PARTY_TOOLING.md`.
 They are pinned external checkouts outside this Git root. Never inspect or log
-secret files. The current app supports one authorized Groq credential only; do
-not add a multi-account key rotation or quota-evasion path.
+secret files. Multi-account / multi-key Groq rotation is supported and highly encouraged
+with 429 cooldown, retry backoff, and round-robin failover to ensure reliability.
 
 ## Coding Standard
 

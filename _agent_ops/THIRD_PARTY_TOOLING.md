@@ -45,6 +45,14 @@ The two smoke outputs were temporary control artifacts used for the comparison
 and then cleaned; the recorded metrics are the control evidence, not modified
 Gate 04 source or evidence.
 
+## Gate 07 V4.1 closure status
+
+The isolated research-baseline environment remains separate from the
+application `.venv`. Gate 07 V4.1 completed with the pinned Groq models
+`openai/gpt-oss-120b` and `openai/gpt-oss-20b`; the final narrow GO is recorded
+in `gates/results/GATE_07_RESULT.md` and DEC-0022. No dependency from this
+section authorizes Gate 08, provider substitution, or a new live run.
+
 ## MarkItDown Setup
 
 The isolated interpreter is:
