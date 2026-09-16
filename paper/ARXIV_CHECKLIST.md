@@ -92,10 +92,12 @@ Source: <https://info.arxiv.org/help/license/index.html>
 
 - [x] Author block set: Nguyen Thanh Dat, Ton Duc Thang University. No AI
       system listed as an author.
-- [x] Build verified: 26 pages, 0 overfull hboxes, 0 LaTeX warnings, 0
-      undefined references. One benign `Infinite glue shrinkage` message from
-      longtable page splitting; see README for the bisection that shows it is
-      not content-caused.
+- [x] Build verified: 27 pages, 0 overfull hboxes, 19 underfull, 0 LaTeX
+      warnings, 0 undefined references. Three benign `Infinite glue shrinkage`
+      messages from longtable page splitting, which make `pdflatex` exit with
+      status 1 while still producing a correct PDF; see README for the
+      bisection that shows they are not content-caused. Read these counts from
+      `main.log`, not from stdout — they never appear on stdout.
 - [x] Bibliography: 15 entries, all verified against a primary record on
       2026-09-12 or 2026-09-14. Verification levels recorded per reference in
       `REFERENCES_VERIFIED.json`.
