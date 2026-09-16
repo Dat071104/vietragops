@@ -1,3 +1,345 @@
+# Version 3: defect log and pre-submission audit
+
+Prepared 2026-09-14 against manuscript version 2 (repository tag
+`gate21-paper-v2-20260912`). The version 2 log follows below, unmodified.
+
+Version 2 was audited against twelve failure categories before release and
+passed. Version 3 exists because an external reviewer read the shipped package
+— `main.tex`, the PDF, and the three JSON records, without access to the
+repository — and found three things that self-audit had not. All three are
+defects of **declaration**: the manuscript described its own instrument
+inaccurately. None of them changed a measured value, and we established that
+by measurement rather than by argument.
+
+The honest summary is uncomfortable and belongs at the top. The paper's thesis
+is that a benchmark's declared information rights should be a committed,
+checkable artifact. Its own rights declaration had drifted from its
+implementation for two releases, and the drift ran in the direction that
+flatters the paper: the declared rule set looked cleaner than the implemented
+one. We did not catch it. A reader with strictly less access than us did.
+
+---
+
+## Part 0 — Defects found in version 2
+
+### E1 — The rights declaration under-declares the auditor's grammar (severity: high)
+
+**Defect.** `research/gate19/information_rights.json` lists three
+`observable_derivation_rules`: `identity`, `visible_split`,
+`declared_external_derivation`. The committed auditor evaluates five operative
+rules. Two are undeclared:
+
+- `visible_literal` — a reachability rule: a string target occurring verbatim
+  in the method-visible surface is accepted.
+- the hidden-join detector — an unreachability rule: a target formed by joining
+  two visible source values with a separator absent from the visible surface is
+  rejected.
+
+Manuscript version 2 stated "Derivability is decided by three declared rules"
+(§3.2) and listed three.
+
+**Evidence.** Read directly from `research/gate19/auditor.py::classify_item`,
+whose decision chain is: target-field check → target-value check → `identity` →
+`visible_literal` → hidden join → `visible_split` →
+`declared_external_derivation` → fail-closed. A census of the committed
+`gates/results/GATE_19_AUDIT.json` gives the fire counts:
+
+| rule | status | fires |
+|---|---|---|
+| `identity` | REACHABLE | 225 |
+| `visible_literal` | REACHABLE | **35** |
+| `visible_split` | REACHABLE | **0** |
+| hidden join | CONVENTION-UNOBSERVABLE | **40** |
+| target-field undeclared | TARGET-ABSENT | 10 |
+
+The undeclared reachability rule carries 35 of the 260 acceptances. The
+declared rule it shadows never fires. Every one of the 40
+convention-unobservable classifications — the substance of the headline — comes
+from the other undeclared rule.
+
+**Where the review needed sharpening.** The review described this as "four
+derivation paths, paper says three". It is five operative rules against three
+declared, and the more damaging half is the unreachability side, which the
+review did not reach: the entire 40 rests on a rule the declaration covers only
+by a general fail-closed clause.
+
+**Fix.** Two parts, and the first was a decision about what *not* to do.
+
+1. *The frozen rights file was not edited.* It is the artifact the frozen audit
+   was produced under, and its commit is cited in the manuscript's traceability
+   appendix. Editing it to make the paper's sentence true would have been the
+   same class of act the paper criticises. The complete grammar is declared in
+   a new committed artifact, `research/gate19/derivation_grammar.json`, which
+   names all five operative rules, their fire counts, the fixed delimiter
+   alphabet `visible_split` uses, and the evaluation order.
+   `GATE_19_AUDIT.json` is bit-identical before and after.
+
+2. *The result was tested for dependence on the undeclared rule*, not argued
+   about. `research/gate19/ablation.py` re-runs all 310 items under four
+   configurations and asserts, before reporting anything, that its default
+   configuration reproduces the committed auditor item for item.
+
+| | Configuration | reach | absent | conv. | unreachable |
+|---|---|---|---|---|---|
+| V1 | As committed | 260 | 10 | 40 | 50/310 |
+| V2 | `visible_literal` removed | 260 | 10 | 40 | 50/310 |
+| V3 | `visible_split` evaluated first | 260 | 10 | 40 | 50/310 |
+| V4 | `visible_literal` scoped to source values only | 260 | 10 | 40 | 50/310 |
+
+Per-family counts are identical across all four. V2 and V3 reassign exactly the
+35 shadowed items to `visible_split` with no status change, which is the
+structural reason for the invariance: `visible_literal` is strictly weaker than
+`visible_split`, so anything the declared rule accepts the undeclared one
+accepts too, and on this register the converse also holds.
+
+Manuscript §3.2 now declares all five rules with their fire counts, §3.3 is a
+new subsection reporting the defect and the ablation, §7.1 carries it as a
+stated threat, and §7.4 answers it as a hostile question. Ledger records
+`B01`–`B04`, `B07`, `B08`. Verification note `V08`.
+
+**Impact on measured values: none.**
+
+---
+
+### E2 — The manuscript misdescribed how the auditor uses the rights object (severity: high)
+
+**Defect.** Version 2 §4.1 said "For each item the auditor parses the rights
+object and preserves the original record". It does not.
+`classify_item(item, rights)` accepts the argument and never reads it;
+`audit_items` reads only `rights["schema"]` to stamp the output. The auditor's
+unit tests pass `{"schema": "test.rights.v1"}` and work fine, which is itself
+evidence: a policy engine could not.
+
+**Evidence.** `research/gate19/auditor.py`, function body. The `rights`
+parameter appears in the signature and in no expression.
+
+**Why this matters beyond wording.** §3.2 says "Changing `R` changes the audit
+result, and it should." Read together with the false sentence, that implies a
+run-time policy check the implementation does not perform, which would
+overstate the generality of the artifact.
+
+**Fix.** §4.1 now states the actual architecture: the rights declaration is
+instantiated ahead of the audit by benchmark-specific builders, which
+materialise the granted surface into a normalised register
+(`visible_source_values`, `visible_text`, `new_contract_fields`); the auditor
+verifies derivability over that register. The relativity claim is restated
+correctly — changing `R` changes what the builders materialise — and made
+executable by a new test,
+`test_rights_instantiation_controls_the_visible_surface`, which withdraws a
+source value from an item's granted surface and asserts the classification
+flips from REACHABLE to UNREACHABLE-CONVENTION-UNOBSERVABLE. The manuscript now
+says explicitly that an auditor generic over an arbitrary rights policy is not
+claimed.
+
+**Impact on measured values: none.**
+
+---
+
+### E3 — The external 20-pair sample was called a negative control (severity: high)
+
+**Defect.** Version 2 contribution 3 was titled "A real-version negative
+control" and concluded: "This shows the auditor does not classify ordinary
+interface evolution as defective." The inference is circular for most of the
+sample.
+
+**Evidence.** `research/gate19/external_audit.py::build_audit_input` attaches
+to every pair `{"status": "observable", "reason": pair["judgement_reason"]}`,
+drawn from the register's hand-adjudication fields. The auditor accepts any
+item whose external derivation is marked observable. Running the register shows
+the split:
+
+| | REACHABLE | by rule |
+|---|---|---|
+| As published | 20/20 | 15 `declared_external_derivation`, 5 `visible_literal` |
+| Annotation withheld | 5/20 | 5 `visible_literal`; 15 fail-closed |
+
+**Where the review overstated, and where it understated.** The review said the
+result was 20/20 circular. It is 15/20 — five pairs are accepted by a
+mechanical rule with no annotation, which is a real if small independent
+result. But those five are weaker than the count suggests, and the review did
+not see this: in three of them the target value *is the new tool's own
+registered name*, which necessarily appears in the diff that registers it; a
+fourth target is the schema status word `required`, and the fifth a resource
+description string. They are true mechanical derivations under the declared
+grammar, and three of them are near-tautologies.
+
+A note on how this correction was caught, since it bears on the paper's own
+thesis. The "four of five" figure was written from a reading of the five pair
+records, and a verification script written afterwards — which re-derives every
+v3 numeric claim from the committed artifacts rather than from the prose —
+found it to be three. The same script also caught a `\ledger` macro corrupted
+by an editing pass. Both were fixed before release. This is the third time in
+this project that a plausible number survived a human read and was caught only
+by a mechanical re-derivation.
+
+**Fix.** The specificity claim is withdrawn, not softened. Contribution 3 is
+retitled "A hand-adjudicated external sample" and states the 15/5 split and the
+annotation-withheld result in its own text. §5.3 is rewritten, says plainly
+that the earlier conclusion does not survive inspection, characterises the five
+mechanical acceptances as the floor of what the sample establishes, and names
+the strengthening it actually needs — a subset decidable without
+`declared_external_derivation` — while explicitly not claiming that subset's
+result in advance. The abstract, the "what this paper does not claim" box, the
+Figure 2 panel, §4.2, §7.1, and the hostile-questions list are all updated.
+Ledger records `B05`, `B06`. Verification note `V09`.
+
+**Impact on measured values: none.** The published 20/20 is unchanged; what it
+supports is narrower.
+
+---
+
+### E4 — Related Work omitted the nearest literature (severity: high)
+
+**Defect.** Version 2 positioned against four literatures: agent adaptation,
+drift benchmarks, MCP evaluation, and API migration. It cited nothing from
+benchmark-validity auditing, which is where its own contribution sits.
+
+**Fix.** A new §2.1, "Benchmark-validity auditing", citing six works verified
+on 2026-09-14, and the count of literatures changed from four to five. The
+closest is Bhat et al. (arXiv:2607.02577, cs.SE, 2026-06-30), a validity audit
+of BFCL v4, τ²-Bench, LiveMCPBench and MCP-Atlas reporting 92 evaluator-human
+disagreements across 496 expert-reviewed tasks. Also added: Wang et al.
+(arXiv:2605.26079), Mohl et al. (arXiv:2607.27518), Wang et al.
+(arXiv:2605.12673), Zhu et al. (arXiv:2507.02825), and — as concurrent work —
+Zhang et al. (arXiv:2609.09218).
+
+The section states the distinction we can defend and disclaims the ones we
+cannot. Prior audits read evidence that exists only after a trajectory has been
+produced and ask whether the score was right; this criterion runs before
+execution and asks whether the expected answer is determined. Explicitly
+disclaimed: priority over benchmark-validity auditing, and any claim to be
+first to find incorrect ground truths in an agent benchmark — Wang et al. and
+Bhat et al. both report that class. The "what this paper does not claim" box
+carries the disclaimer too.
+
+One contrast is worth its own line because it is exact rather than rhetorical.
+Mohl et al. scan for *ground-truth access*: oracle information an agent can
+reach but should not. This paper measures the mirror failure on the same axis:
+oracle information the agent cannot reach but must. An audit suite checking
+only the leakage direction passes every item in the `argument_merge` family.
+
+**Verification standard, stated because it is weaker than version 2's.** All
+six were verified by retrieving the arXiv abstract page and reading title, full
+author list, submission date, primary category, and abstract. Every figure
+attributed to them is quoted from that abstract. Full texts were not read, so
+they are cited for the claims their abstracts state and for positioning, not
+for methodological detail. Recorded in Appendix G and in
+`REFERENCES_VERIFIED.json`.
+
+---
+
+### E5 — "No agent can produce the target except by guessing" overstates (severity: medium-high)
+
+**Defect.** The version 2 introduction claimed impossibility. A pretrained
+model carries a prior over naming conventions that is outside the benchmark's
+information rights but inside the model, so the target may well be emitted. The
+paper's own diagnostic probe tests one model and finds it does not — good
+evidence about that model, not a proof.
+
+**Fix.** The claim is restated as identifiability, which is both weaker and
+more damaging to the benchmark: the evidence the benchmark supplies does not
+determine the target, so a method that produces it did so from information the
+benchmark did not provide, and the item's score is not attributable to the
+capability it claims to measure. The abstract now defines *oracle
+identifiability under declared information rights*. The introduction states the
+distinction and points at the probe as evidence rather than proof.
+
+---
+
+### E6 — Reachability was not stated as relative to a derivation grammar (severity: medium)
+
+**Defect.** `Reachable(g | R)` reads as a claim about derivability from `R`.
+The auditor is not a theorem prover: it recognises a finite rule set and
+nothing else. Case folding, JSON re-serialisation, arithmetic, hashing,
+template concatenation, and unit normalisation are all undecided by it, and
+under the fail-closed rule an item needing one is classified unreachable.
+
+**Fix.** The criterion is now `Reachable(g | R, G_R)`, with `G_R` a committed
+artifact alongside `R`. §3.2 adds a third boundary paragraph listing the
+transformations the grammar does not decide and stating the direction of the
+resulting bias: the criterion errs toward calling items defective, and a richer
+grammar could only lower the reported rate. §7.1 carries it as a threat,
+including the argument we believe but have not measured — that the 40 join
+failures would survive a richer grammar, since no grammar derives a symbol it
+has never seen — labelled as an argument rather than a result.
+
+---
+
+### E7 — Package metadata was stale or wrong in six places (severity: medium)
+
+**Defect and evidence.** A fresh three-pass build of the version 2 `main.tex`
+and a reread of the shipped JSON found:
+
+| Claim in the version 2 package | Actual |
+|---|---|
+| README: "18 pages" | 21 pages |
+| README: "0 errors, 0 LaTeX warnings" | 7 overfull hboxes (largest 60.93pt); 3 `! Infinite glue shrinkage` messages |
+| README: author block "carries a placeholder" | Author block set to Nguyen Thanh Dat, Ton Duc Thang University |
+| README: addendum has "seven numbers" | 9 claim records |
+| README: addendum has "five verification notes" | 7 verification notes |
+| Checklist Comments field: `gate10-paper-v1-20260911` | That is the evidence freeze, not the manuscript tag |
+
+The reviewer caught the page count, the placeholder, and the tag. The two
+addendum miscounts and the error-level messages were found during this
+revision.
+
+**Fix.** All six corrected against a fresh build. The README now states the
+build exactly, including the `Infinite glue shrinkage` message reproduced in
+full, with the bisection result showing it reproduces on a bare
+`\documentclass{article}` + `\usepackage{longtable}` document and is therefore
+not content-caused. §8 separates the three tags in a table. `main.pdf` is no
+longer shipped, which removes the "do not upload this" failure mode entirely.
+Verification note `V10`.
+
+---
+
+### E8 — Formatting (severity: low)
+
+Seven overfull hboxes in version 2, largest 60.93pt. Fixed by splitting three
+table header rows across two lines, breaking a long case-identifier list and a
+long command line, shortening two ledger locators, and adding break
+opportunities to one long small-caps status name. Version 3 builds with **0
+overfull hboxes**. The abstract's minimum-detectable-difference figures were
+moved to §5.7 and replaced with a statement of the criterion that was failed,
+since the paper's own threats section says the interval width rather than the
+MDE is the decisive quantity.
+
+---
+
+## Part 0b — What version 3 deliberately did not do
+
+- **Did not edit the frozen rights file**, for the reason in E1.
+- **Did not re-run any model.** No provider was contacted during this revision.
+  The diagnostic probe's 60 requests remain the only provider contact in the
+  project, unchanged.
+- **Did not rebuild the auditor as a policy engine.** That would make the
+  rights object genuinely executable and is the right long-term design, but it
+  would invalidate the frozen audit and is not needed for the claims made here.
+  §4.1 states what is claimed instead.
+- **Did not build the annotation-free external subset.** It is named in §5.3 as
+  the strengthening the sample needs, with no promise about its result.
+- **Did not withdraw or restate the 50/310 finding**, because four rule
+  configurations return it unchanged.
+
+## Part 0c — Reproduction after the version 3 changes
+
+`scripts/reproduce.py` now runs five stages and ten unit tests. Verified
+2026-09-14:
+
+```
+[1/5] 10 offline unit tests                      PASS
+[2/5] 134/134 frozen input files UNCHANGED       PASS
+[3/5] 310 items: 260 / 10 / 40, SHA-256 match    BIT-IDENTICAL
+[4/5] 20 external pairs, SHA-256 match           BIT-IDENTICAL
+[5/5] 4 ablation configurations, all 260/10/40   INVARIANT
+```
+
+The two audit artifacts are byte-identical to their committed counterparts
+after every change described above. That is the evidence for "no measured value
+changed", and it is the reason the frozen rights file was left alone.
+
+---
+
 # Version 2: defect log and pre-submission audit
 
 Prepared 2026-09-12 against manuscript version 1

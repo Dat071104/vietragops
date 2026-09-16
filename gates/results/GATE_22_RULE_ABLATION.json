@@ -1,0 +1,312 @@
+{
+  "auditor_agreement_items_checked": 310,
+  "external_reading": "Withholding the hand annotation leaves 5 of 20 pairs reachable by mechanical rule and classifies 15 fail-closed. The 20/20 figure therefore records the adjudicator's judgement for three quarters of the sample and is not an independent specificity estimate.",
+  "external_sample": {
+    "with_hand_annotation": {
+      "config": {
+        "allow_declared_external": true
+      },
+      "families": {
+        "external_mcp_version_pairs": {
+          "pairs": 20,
+          "unreachable": 0
+        }
+      },
+      "item_count": 20,
+      "rule_fire_counts": {
+        "declared_external_derivation": 15,
+        "visible_literal": 5
+      },
+      "status_counts": {
+        "REACHABLE": 20,
+        "UNREACHABLE-CONVENTION-UNOBSERVABLE": 0,
+        "UNREACHABLE-TARGET-ABSENT": 0
+      },
+      "unreachable_total": 0
+    },
+    "without_hand_annotation": {
+      "config": {
+        "allow_declared_external": false
+      },
+      "families": {
+        "external_mcp_version_pairs": {
+          "pairs": 20,
+          "unreachable": 15
+        }
+      },
+      "item_count": 20,
+      "rule_fire_counts": {
+        "fail_closed": 15,
+        "visible_literal": 5
+      },
+      "status_counts": {
+        "REACHABLE": 5,
+        "UNREACHABLE-CONVENTION-UNOBSERVABLE": 15,
+        "UNREACHABLE-TARGET-ABSENT": 0
+      },
+      "unreachable_total": 15
+    }
+  },
+  "grammar_declaration": "research/gate19/derivation_grammar.json",
+  "grammar_schema": "gate19.derivation_grammar.v1",
+  "purpose": "Establish whether the headline 50/310 unreachability result depends on visible_literal, a reachability rule the frozen rights declaration does not list, and how much of the external 20/20 result is mechanical rather than hand-adjudicated.",
+  "rights_schema": "gate19.information_rights.v1",
+  "schema": "gate22.rule_ablation.v1",
+  "synthetic_headline_invariant": true,
+  "synthetic_register": {
+    "V1_baseline": {
+      "config": {},
+      "families": {
+        "added_required_field": {
+          "pairs": 40,
+          "unreachable": 0
+        },
+        "argument_merge": {
+          "pairs": 30,
+          "unreachable": 30
+        },
+        "argument_rename": {
+          "pairs": 20,
+          "unreachable": 0
+        },
+        "argument_split": {
+          "pairs": 40,
+          "unreachable": 0
+        },
+        "multiple_old_to_one_new": {
+          "pairs": 30,
+          "unreachable": 0
+        },
+        "multiple_simultaneous_renames": {
+          "pairs": 40,
+          "unreachable": 0
+        },
+        "one_old_to_multiple_new": {
+          "pairs": 30,
+          "unreachable": 0
+        },
+        "output_restructure": {
+          "pairs": 15,
+          "unreachable": 0
+        },
+        "semantic_near_collision": {
+          "pairs": 15,
+          "unreachable": 0
+        },
+        "tool_rename": {
+          "pairs": 15,
+          "unreachable": 0
+        },
+        "tool_replacement": {
+          "pairs": 35,
+          "unreachable": 20
+        }
+      },
+      "item_count": 310,
+      "rule_fire_counts": {
+        "identity": 225,
+        "target_field_undeclared": 10,
+        "unobservable_join": 40,
+        "visible_literal": 35
+      },
+      "status_counts": {
+        "REACHABLE": 260,
+        "UNREACHABLE-CONVENTION-UNOBSERVABLE": 40,
+        "UNREACHABLE-TARGET-ABSENT": 10
+      },
+      "unreachable_total": 50
+    },
+    "V2_no_visible_literal": {
+      "config": {
+        "use_visible_literal": false
+      },
+      "families": {
+        "added_required_field": {
+          "pairs": 40,
+          "unreachable": 0
+        },
+        "argument_merge": {
+          "pairs": 30,
+          "unreachable": 30
+        },
+        "argument_rename": {
+          "pairs": 20,
+          "unreachable": 0
+        },
+        "argument_split": {
+          "pairs": 40,
+          "unreachable": 0
+        },
+        "multiple_old_to_one_new": {
+          "pairs": 30,
+          "unreachable": 0
+        },
+        "multiple_simultaneous_renames": {
+          "pairs": 40,
+          "unreachable": 0
+        },
+        "one_old_to_multiple_new": {
+          "pairs": 30,
+          "unreachable": 0
+        },
+        "output_restructure": {
+          "pairs": 15,
+          "unreachable": 0
+        },
+        "semantic_near_collision": {
+          "pairs": 15,
+          "unreachable": 0
+        },
+        "tool_rename": {
+          "pairs": 15,
+          "unreachable": 0
+        },
+        "tool_replacement": {
+          "pairs": 35,
+          "unreachable": 20
+        }
+      },
+      "item_count": 310,
+      "rule_fire_counts": {
+        "identity": 225,
+        "target_field_undeclared": 10,
+        "unobservable_join": 40,
+        "visible_split": 35
+      },
+      "status_counts": {
+        "REACHABLE": 260,
+        "UNREACHABLE-CONVENTION-UNOBSERVABLE": 40,
+        "UNREACHABLE-TARGET-ABSENT": 10
+      },
+      "unreachable_total": 50
+    },
+    "V3_split_before_literal": {
+      "config": {
+        "split_before_literal": true
+      },
+      "families": {
+        "added_required_field": {
+          "pairs": 40,
+          "unreachable": 0
+        },
+        "argument_merge": {
+          "pairs": 30,
+          "unreachable": 30
+        },
+        "argument_rename": {
+          "pairs": 20,
+          "unreachable": 0
+        },
+        "argument_split": {
+          "pairs": 40,
+          "unreachable": 0
+        },
+        "multiple_old_to_one_new": {
+          "pairs": 30,
+          "unreachable": 0
+        },
+        "multiple_simultaneous_renames": {
+          "pairs": 40,
+          "unreachable": 0
+        },
+        "one_old_to_multiple_new": {
+          "pairs": 30,
+          "unreachable": 0
+        },
+        "output_restructure": {
+          "pairs": 15,
+          "unreachable": 0
+        },
+        "semantic_near_collision": {
+          "pairs": 15,
+          "unreachable": 0
+        },
+        "tool_rename": {
+          "pairs": 15,
+          "unreachable": 0
+        },
+        "tool_replacement": {
+          "pairs": 35,
+          "unreachable": 20
+        }
+      },
+      "item_count": 310,
+      "rule_fire_counts": {
+        "identity": 225,
+        "target_field_undeclared": 10,
+        "unobservable_join": 40,
+        "visible_split": 35
+      },
+      "status_counts": {
+        "REACHABLE": 260,
+        "UNREACHABLE-CONVENTION-UNOBSERVABLE": 40,
+        "UNREACHABLE-TARGET-ABSENT": 10
+      },
+      "unreachable_total": 50
+    },
+    "V4_literal_source_values_only": {
+      "config": {
+        "literal_scope": "source_values"
+      },
+      "families": {
+        "added_required_field": {
+          "pairs": 40,
+          "unreachable": 0
+        },
+        "argument_merge": {
+          "pairs": 30,
+          "unreachable": 30
+        },
+        "argument_rename": {
+          "pairs": 20,
+          "unreachable": 0
+        },
+        "argument_split": {
+          "pairs": 40,
+          "unreachable": 0
+        },
+        "multiple_old_to_one_new": {
+          "pairs": 30,
+          "unreachable": 0
+        },
+        "multiple_simultaneous_renames": {
+          "pairs": 40,
+          "unreachable": 0
+        },
+        "one_old_to_multiple_new": {
+          "pairs": 30,
+          "unreachable": 0
+        },
+        "output_restructure": {
+          "pairs": 15,
+          "unreachable": 0
+        },
+        "semantic_near_collision": {
+          "pairs": 15,
+          "unreachable": 0
+        },
+        "tool_rename": {
+          "pairs": 15,
+          "unreachable": 0
+        },
+        "tool_replacement": {
+          "pairs": 35,
+          "unreachable": 20
+        }
+      },
+      "item_count": 310,
+      "rule_fire_counts": {
+        "identity": 225,
+        "target_field_undeclared": 10,
+        "unobservable_join": 40,
+        "visible_literal": 35
+      },
+      "status_counts": {
+        "REACHABLE": 260,
+        "UNREACHABLE-CONVENTION-UNOBSERVABLE": 40,
+        "UNREACHABLE-TARGET-ABSENT": 10
+      },
+      "unreachable_total": 50
+    }
+  }
+}

@@ -1,24 +1,192 @@
 {
   "schema": "gate10.references_verified.v2",
-  "verified_on": "2026-09-12",
-  "supersedes": {
-    "schema": "gate10.references_verified.v1",
-    "path": "paper/REFERENCES_VERIFIED.json",
-    "commit": "1cc3e27f49e22ddc1518c67a34aa812ed62a0b6b",
-    "change_summary": "v1 verified bibliographic metadata only. v2 adds a separate verification level for the specific content claim the manuscript makes about each work, corrects the author list of dig2006api, and records the two references whose content could not be verified from a primary source."
-  },
+  "verified_on": "2026-09-14",
+  "supersedes": "REFERENCES_VERIFIED.json as shipped with manuscript version 2 (9 references)",
   "verification_levels": {
     "metadata": "Title, authors, venue, year, and resolving URL/DOI checked against the primary publisher, proceedings, ACL Anthology, or arXiv record.",
     "content_claim": "The specific statement the manuscript makes about this work was checked against the work's own abstract or full text, read directly.",
     "content_claim_unverified": "Metadata confirmed, but the abstract or full text could not be retrieved. The manuscript cites the work only at the level its title and indexed metadata support, and makes no claim about its construction or results."
   },
-
   "references": [
+    {
+      "key": "bhat2026benchmarking",
+      "group": "benchmark-validity auditing",
+      "title": "Benchmarking the Benchmarks: A Validity Audit of Tool-Calling Evaluation",
+      "authors": [
+        "Vishvesh Bhat",
+        "Jay Vaghasiya",
+        "Muhammad Ahmed Mohsin",
+        "Asad Aali"
+      ],
+      "venue": "arXiv:2607.02577 [cs.SE]",
+      "year": 2026,
+      "submitted": "2026-06-30",
+      "status": "preprint",
+      "url": "https://arxiv.org/abs/2607.02577",
+      "metadata": "verified",
+      "content_claim_level": "content_claim",
+      "manuscript_claim": "Audits validity and reproducibility of BFCL v4, tau^2-Bench, LiveMCPBench and MCP-Atlas; 92 evaluator-human disagreements across 496 expert-reviewed tasks (18.5% misalignment); incorrect ground truths and brittle state matching among the failure modes; 23 repeated evaluations of one LiveMCPBench setup span 57.9-76.8%.",
+      "supporting_quotes": [
+        "Across 496 expert-reviewed benchmark tasks, we find 92 evaluator-human disagreements, corresponding to an 18.5% misalignment rate",
+        "deterministic benchmarks exhibit brittle state matching, trajectory lock-in, incorrect ground truths, substring-based communication failures, and reward-basis misalignment",
+        "23 repeated evaluations of the same setup produce scores ranging from 57.9% to 76.8%"
+      ],
+      "verification": "arXiv abstract page retrieved and read on 2026-09-14. Title, full author list, submission date, primary category, and abstract confirmed. Every figure attributed to this work in the manuscript is quoted from that abstract.",
+      "relation_to_this_work": "Closest prior work: same object (tool-calling benchmarks), same concern (the evaluator rather than the agent), same primary category. Distinguished in the manuscript by position in the pipeline -- their audit reads post-execution evidence and asks whether the score was right; ours runs before execution and asks whether the expected answer is determined. No priority claim is made over it."
+    },
+    {
+      "key": "mohl2026transcript",
+      "group": "benchmark-validity auditing",
+      "title": "Automated Transcript Analysis for Detecting Flaws in Agentic Benchmarks",
+      "authors": [
+        "Jeff Mohl",
+        "Nelson Gardner-Challis",
+        "Magda Dubois",
+        "Harry Coppock",
+        "Benjamin Allan-Rahill",
+        "Kaelan Yim",
+        "Damian Sojka",
+        "James Mann",
+        "Justin Olive"
+      ],
+      "venue": "arXiv:2607.27518 [cs.AI]",
+      "year": 2026,
+      "submitted": "2026-07-29",
+      "status": "preprint",
+      "url": "https://arxiv.org/abs/2607.27518",
+      "metadata": "verified",
+      "content_claim_level": "content_claim",
+      "manuscript_claim": "AI scanners for four validity issues -- ground truth access, tool failure, guessing vulnerability, answer format ambiguity -- finding verified quality issues in five widely used benchmarks.",
+      "supporting_quotes": [
+        "we developed AI scanners to detect four types of validity issues: ground truth access, tool failure, guessing vulnerability, and answer format ambiguity",
+        "Our scanners identified several verified quality issues in five widely used benchmarks"
+      ],
+      "verification": "arXiv abstract page retrieved and read on 2026-09-14. Title, full author list, submission date, primary category, and abstract confirmed. Every figure attributed to this work in the manuscript is quoted from that abstract.",
+      "relation_to_this_work": "Their 'ground truth access' criterion is the mirror image of this paper's defect on the same axis: they scan for oracle information the agent should not be able to reach, we measure oracle information the agent cannot reach at all."
+    },
+    {
+      "key": "wang2026autoaudit",
+      "group": "benchmark-validity auditing",
+      "title": "Automated Benchmark Auditing for AI Agents and Large Language Models",
+      "authors": [
+        "Junlin Wang",
+        "Federico Bianchi",
+        "Shang Zhu",
+        "Fan Nie",
+        "Yongchan Kwon",
+        "Bhuwan Dhingra",
+        "James Zou"
+      ],
+      "venue": "arXiv:2605.26079 [cs.CL]",
+      "year": 2026,
+      "submitted": "2026-05-25",
+      "status": "preprint",
+      "url": "https://arxiv.org/abs/2605.26079",
+      "metadata": "verified",
+      "content_claim_level": "content_claim",
+      "manuscript_claim": "Agentic auditor over 168 benchmarks in nine domains; over 25.7% carry critical issues including ambiguous design, execution conflicts and incorrect ground truths; filtering shifts model rankings and raises average performance on SWE-bench Verified and Terminal-Bench 2 by 9.9% and 9.6%.",
+      "supporting_quotes": [
+        "over 25.7% contained critical issues including ambiguous design, execution conflicts, and incorrect ground truths",
+        "filtering out these tasks with issues shifts model rankings and increases average performance on SWE-bench Verified and Terminal-Bench 2 by 9.9% and 9.6%, respectively"
+      ],
+      "verification": "arXiv abstract page retrieved and read on 2026-09-14. Title, full author list, submission date, primary category, and abstract confirmed. Every figure attributed to this work in the manuscript is quoted from that abstract.",
+      "relation_to_this_work": "Reports incorrect ground truths as a benchmark defect class at scale, which is why this manuscript makes no claim to be first to find that class."
+    },
+    {
+      "key": "wang2026benchjack",
+      "group": "benchmark-validity auditing",
+      "title": "Do Androids Dream of Breaking the Game? Systematically Auditing AI Agent Benchmarks with BenchJack",
+      "authors": [
+        "Hao Wang",
+        "Hanchen Li",
+        "Qiuyang Mang",
+        "Alvin Cheung",
+        "Koushik Sen",
+        "Dawn Song"
+      ],
+      "venue": "arXiv:2605.12673 [cs.AI]",
+      "year": 2026,
+      "submitted": "2026-05-12",
+      "status": "preprint",
+      "url": "https://arxiv.org/abs/2605.12673",
+      "metadata": "verified",
+      "content_claim_level": "content_claim",
+      "manuscript_claim": "Eight-pattern taxonomy of benchmark vulnerabilities; automated red-teaming across ten popular benchmarks uncovers 219 distinct flaws.",
+      "supporting_quotes": [
+        "testing across ten popular benchmarks uncovered 219 distinct flaws"
+      ],
+      "verification": "arXiv abstract page retrieved and read on 2026-09-14. Title, full author list, submission date, primary category, and abstract confirmed. Every figure attributed to this work in the manuscript is quoted from that abstract.",
+      "relation_to_this_work": "Audits benchmarks for exploitability -- scores obtainable without performing the task. This paper audits for the opposite failure: tasks whose expected answer is not obtainable from what the benchmark supplies."
+    },
+    {
+      "key": "zhu2025abc",
+      "group": "benchmark-validity auditing",
+      "title": "Establishing Best Practices for Building Rigorous Agentic Benchmarks",
+      "authors": [
+        "Yuxuan Zhu",
+        "Tengjun Jin",
+        "Yada Pruksachatkun",
+        "Andy Zhang",
+        "Shu Liu",
+        "and 20 further authors (25 total)"
+      ],
+      "venue": "arXiv:2507.02825 [cs.AI]",
+      "year": 2025,
+      "submitted": "2025-07-03",
+      "status": "preprint",
+      "url": "https://arxiv.org/abs/2507.02825",
+      "metadata": "verified",
+      "content_claim_level": "content_claim",
+      "manuscript_claim": "Introduces the Agentic Benchmark Checklist; task-setup and reward-design defects can distort performance estimates by up to 100% in relative terms, with SWE-bench Verified's insufficient tests and TAU-bench's acceptance of empty responses as examples.",
+      "supporting_quotes": [
+        "SWE-bench Verified uses insufficient test cases while TAU-bench counts empty responses as successful, leading to under- or overestimation of agents' performance by up to 100% in relative terms"
+      ],
+      "verification": "arXiv abstract page retrieved and read on 2026-09-14. Title, full author list, submission date, primary category, and abstract confirmed. Every figure attributed to this work in the manuscript is quoted from that abstract. A NeurIPS 2025 poster listing for this title appeared in search results but was not retrieved directly; the manuscript therefore cites the arXiv record, which was verified, and makes no venue claim.",
+      "relation_to_this_work": "The canonical prior checklist for agentic benchmark rigour. Its scope is task and reward design broadly; this paper contributes one operational criterion inside that programme."
+    },
+    {
+      "key": "zhang2026doubleconfound",
+      "group": "benchmark-validity auditing",
+      "title": "The Double Measurement Confound in Agent Benchmarks: De-Scaffolding, Ground-Truth Scoring, and Reliability Beyond the Mean",
+      "authors": [
+        "Yonghong Zhang",
+        "Shadi Motaali",
+        "Vu Phong Dinh",
+        "Avin Piroutiniya",
+        "Jorge E. Lopez de Vergara",
+        "Luis de Pedro",
+        "Ricardo Correia",
+        "Isabel M. Parra",
+        "Yong Xie"
+      ],
+      "venue": "arXiv:2609.09218",
+      "year": 2026,
+      "submitted": "2026-09-06",
+      "status": "preprint",
+      "url": "https://arxiv.org/abs/2609.09218",
+      "metadata": "verified",
+      "content_claim_level": "content_claim",
+      "manuscript_claim": "Formalises a double measurement confound in which execution-critical decisions are taken by a fixed scaffold rather than the model, while the scorer applies criteria that may not reflect task correctness.",
+      "supporting_quotes": [
+        "execution-critical decisions are performed by a fixed scaffold instead of the model, while the scorer evaluates outputs using criteria that may not reflect task correctness"
+      ],
+      "verification": "arXiv abstract page retrieved and read on 2026-09-14. Title, full author list, submission date, primary category, and abstract confirmed. Every figure attributed to this work in the manuscript is quoted from that abstract.",
+      "relation_to_this_work": "Concurrent work, submitted eight days before this version. Cited as concurrent; no claim of precedence in either direction is made."
+    },
     {
       "key": "chen2025toolevo",
       "group": "agents that adapt to evolving tools",
       "title": "Learning Evolving Tools for Large Language Models",
-      "authors": ["Guoxin Chen", "Zhong Zhang", "Xin Cong", "Fangda Guo", "Yesai Wu", "Yankai Lin", "Wenzheng Feng", "Yasheng Wang"],
+      "authors": [
+        "Guoxin Chen",
+        "Zhong Zhang",
+        "Xin Cong",
+        "Fangda Guo",
+        "Yesai Wu",
+        "Yankai Lin",
+        "Wenzheng Feng",
+        "Yasheng Wang"
+      ],
       "venue": "International Conference on Learning Representations (ICLR)",
       "year": 2025,
       "status": "conference paper",
@@ -38,7 +206,11 @@
       "key": "wu2026contda",
       "group": "agents that adapt to evolving tools",
       "title": "Beyond Static Toolsets: Self-Evolving LLM Tool Agents via Continual Documentation Adaptation",
-      "authors": ["Bin Wu", "Edgar Meij", "Emine Yilmaz"],
+      "authors": [
+        "Bin Wu",
+        "Edgar Meij",
+        "Emine Yilmaz"
+      ],
       "venue": "Findings of the Association for Computational Linguistics: ACL 2026",
       "year": 2026,
       "status": "conference proceedings paper",
@@ -57,7 +229,12 @@
       "key": "assidiqi2026referencefree",
       "group": "drift benchmarks",
       "title": "Benchmarking Reference-Free LLM Agent Robustness Under Schema, Policy, and Toolset Drift",
-      "authors": ["Mohammad Hasbi Assidiqi", "Daniyal Alghazzawi", "Suaad Alarifi", "Li Cheng"],
+      "authors": [
+        "Mohammad Hasbi Assidiqi",
+        "Daniyal Alghazzawi",
+        "Suaad Alarifi",
+        "Li Cheng"
+      ],
       "venue": "IEEE Access, 14, 79662--79672",
       "year": 2026,
       "status": "journal article",
@@ -75,7 +252,13 @@
       "key": "jin2026toolprimitives",
       "group": "schema-hiding architectures",
       "title": "Harness Engineering in LLM Tool Use via Agent-Native Reusable Tool Primitives",
-      "authors": ["Haibo Jin", "Suijin Wang", "Xucheng Yu", "Haojing Luo", "Haohan Wang"],
+      "authors": [
+        "Haibo Jin",
+        "Suijin Wang",
+        "Xucheng Yu",
+        "Haojing Luo",
+        "Haohan Wang"
+      ],
       "venue": "arXiv preprint arXiv:2609.01736",
       "year": 2026,
       "status": "preprint; not described as peer-reviewed",
@@ -92,7 +275,17 @@
       "key": "liu2026mcpevol",
       "group": "MCP evaluation",
       "title": "MCPEvol-Bench: Benchmarking LLM Agent Performance Across Dynamic Evolutions of MCP Servers",
-      "authors": ["Huanxi Liu", "Kun Hu", "Jiaqi Liao", "Qiang Wang", "Pengfei Qian", "YuanZhao Zhai", "Dawei Feng", "Bo Ding", "Huaimin Wang"],
+      "authors": [
+        "Huanxi Liu",
+        "Kun Hu",
+        "Jiaqi Liao",
+        "Qiang Wang",
+        "Pengfei Qian",
+        "YuanZhao Zhai",
+        "Dawei Feng",
+        "Bo Ding",
+        "Huaimin Wang"
+      ],
       "venue": "arXiv preprint arXiv:2607.14642",
       "year": 2026,
       "status": "preprint; not described as peer-reviewed",
@@ -110,7 +303,15 @@
       "key": "kaminski2026dynamicmcpbench",
       "group": "MCP evaluation",
       "title": "DynamicMCPBench: A Trace-Grounded, Effect-Scored Benchmark for LLM Agents over Live MCP Servers",
-      "authors": ["Jerzy Kaminski", "Ilya Galyukshev", "Artem Kuznetsov", "Sergey Chuprin", "Kirill Redko", "Aidar Shumbalov", "Anna Kalyuzhnaya"],
+      "authors": [
+        "Jerzy Kaminski",
+        "Ilya Galyukshev",
+        "Artem Kuznetsov",
+        "Sergey Chuprin",
+        "Kirill Redko",
+        "Aidar Shumbalov",
+        "Anna Kalyuzhnaya"
+      ],
       "venue": "arXiv preprint arXiv:2607.20531",
       "year": 2026,
       "status": "preprint; not described as peer-reviewed",
@@ -129,7 +330,10 @@
       "key": "dig2006api",
       "group": "API migration and software evolution",
       "title": "How do APIs evolve? A story of refactoring",
-      "authors": ["Danny Dig", "Ralph Johnson"],
+      "authors": [
+        "Danny Dig",
+        "Ralph Johnson"
+      ],
       "venue": "Journal of Software Maintenance and Evolution: Research and Practice, 18(2), 83--107",
       "year": 2006,
       "status": "journal article",
@@ -148,8 +352,13 @@
       "corrections": [
         {
           "field": "authors",
-          "was": ["Danny Dig"],
-          "now": ["Danny Dig", "Ralph Johnson"],
+          "was": [
+            "Danny Dig"
+          ],
+          "now": [
+            "Danny Dig",
+            "Ralph Johnson"
+          ],
           "detail": "Version 1 of this record and of the manuscript bibliography omitted the second author, Ralph Johnson. The title page of the published article lists both authors. This is a citation-accuracy defect and is corrected in manuscript version 2."
         },
         {
@@ -162,7 +371,11 @@
       "key": "almeida2024librarymigration",
       "group": "API migration and software evolution",
       "title": "Automatic Library Migration Using Large Language Models: First Results",
-      "authors": ["Aylton Almeida", "Laerte Xavier", "Marco Tulio Valente"],
+      "authors": [
+        "Aylton Almeida",
+        "Laerte Xavier",
+        "Marco Tulio Valente"
+      ],
       "venue": "Proceedings of the 18th ACM/IEEE International Symposium on Empirical Software Engineering and Measurement (ESEM '24)",
       "year": 2024,
       "status": "conference proceedings paper",
@@ -182,7 +395,11 @@
       "key": "reyes2026bigbag",
       "group": "API migration and software evolution",
       "title": "Agentic Generation of AST Transformation Rules for Fixing Breaking Updates",
-      "authors": ["Frank Reyes", "Benoit Baudry", "Martin Monperrus"],
+      "authors": [
+        "Frank Reyes",
+        "Benoit Baudry",
+        "Martin Monperrus"
+      ],
       "venue": "arXiv preprint arXiv:2606.24446",
       "year": 2026,
       "status": "preprint; not described as peer-reviewed",
@@ -197,16 +414,15 @@
       "note_for_manuscript": "The manuscript uses the 78.6% vs 33.3% contrast to make an argument of its own about transfer under reduced information. That argument is the authors' inference and is presented as such, not attributed to this work."
     }
   ],
-
   "license_record": {
     "local_use": "No third-party code or dataset is redistributed in this paper package; the references are bibliographic only.",
     "external_control": "The 20-pair real-version control derives from hand-verified public MCP server version pairs. Gate 19 records Apache-2.0 for new code, applicable legacy MIT contributions, and CC-BY-4.0 documentation provisions; the paper does not redistribute the upstream repository.",
     "external_benchmarks": "MCPEvol-Bench and DynamicMCPBench are cited for positioning only. Neither release was incorporated into the local scoreable dataset, and neither bulk dataset archive (3.4 GB and 2.58 GB respectively) was downloaded."
   },
-
   "residual_risk": [
     "One of nine references (assidiqi2026referencefree) carries an unverified content level. The manuscript's positioning against it is correspondingly weak and is marked as such in Appendix E.",
     "Two references (chen2025toolevo, wu2026contda) were verified from abstracts rather than full text. The manuscript's claims about them are confined to statements the abstracts make directly.",
-    "No reference in this manuscript is cited for a numeric result that the manuscript itself compares against. All third-party figures quoted are contextual."
+    "No reference in this manuscript is cited for a numeric result that the manuscript itself compares against. All third-party figures quoted are contextual.",
+    "Version 3: the six benchmark-validity references added in this version were verified at abstract level only. Their titles, author lists, dates, categories and abstracts were read directly from arXiv; their full texts were not. They are cited for the claims their abstracts state and for positioning, not for methodological detail. This is a weaker standard than the full-text checks behind some version 2 references, and it is recorded here rather than left implicit."
   ]
 }

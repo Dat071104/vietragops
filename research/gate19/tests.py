@@ -75,3 +75,80 @@ def test_required_field_scan_is_separate_and_finds_hidden_ack_defaults() -> None
     assert result["item_count"] == 45
     assert result["families"]["added_required_field"]["unreachable_pairs"] == 15
     assert result["families"]["tool_replacement"]["unreachable_pairs"] == 5
+
+
+# --- Version 3 repair tests -------------------------------------------------
+# Added for manuscript version 3, in response to three review findings: that
+# the rights object does not drive classification, that the auditor evaluates
+# a reachability rule the frozen rights file does not declare, and that the
+# external sample's 20/20 is partly hand-supplied.
+
+
+def test_rights_instantiation_controls_the_visible_surface() -> None:
+    """A rights change is a change to the materialized surface, and it bites.
+
+    classify_item does not parse the rights object; the builders instantiate
+    the declared rights into each item's visible surface. This test states
+    that relationship as an executable claim: withdraw a source value from
+    the granted surface and a reachable target becomes unreachable.
+    """
+
+    granted = _item(fields=["target"], target="CRS", sources=["CRS-026"], visible="CRS-026")
+    assert audit_items([granted], RIGHTS)["items"][0]["status"] == REACHABLE
+
+    withdrawn = dict(granted, visible_source_values=[], source_values=[], visible_text=[""])
+    assert audit_items([withdrawn], RIGHTS)["items"][0]["status"] == CONVENTION_UNOBSERVABLE
+
+
+def test_headline_is_invariant_under_rule_ablation() -> None:
+    """50/310 does not depend on the undeclared visible_literal rule."""
+
+    from research.gate19.ablation import VARIANTS, _summarize, verify_default_matches_auditor
+
+    items = build_gate07_items()
+    verify_default_matches_auditor(items, {"schema": "gate19.information_rights.v1"})
+
+    expected = {REACHABLE: 260, TARGET_ABSENT: 10, CONVENTION_UNOBSERVABLE: 40}
+    for name, config in VARIANTS.items():
+        counts = _summarize(items, **config)["status_counts"]
+        assert counts == expected, f"variant {name} moved the headline: {counts}"
+
+
+def test_visible_literal_and_visible_split_are_coextensive_here() -> None:
+    """The undeclared rule accepts exactly the items the declared rule accepts."""
+
+    from research.gate19.ablation import _summarize
+
+    items = build_gate07_items()
+    baseline = _summarize(items)["rule_fire_counts"]
+    ablated = _summarize(items, use_visible_literal=False)["rule_fire_counts"]
+
+    assert baseline["visible_literal"] == 35
+    assert baseline.get("visible_split", 0) == 0
+    assert ablated.get("visible_literal", 0) == 0
+    assert ablated["visible_split"] == 35
+
+
+def test_external_sample_is_mostly_hand_adjudicated() -> None:
+    """Withholding the hand annotation leaves 5 of 20 external pairs reachable."""
+
+    import json
+    from pathlib import Path
+
+    from research.gate19.ablation import _summarize
+    from research.gate19.external_audit import build_audit_input
+
+    repo_root = Path(__file__).resolve().parents[2]
+    register = json.loads(
+        (repo_root / "gates/baselines/GATE_19_EXTERNAL_MCP_PAIRS.json").read_text(encoding="utf-8")
+    )
+    items = build_audit_input(register)
+
+    with_annotation = _summarize(items, allow_declared_external=True)
+    without = _summarize(items, allow_declared_external=False)
+
+    assert with_annotation["status_counts"][REACHABLE] == 20
+    assert with_annotation["rule_fire_counts"]["declared_external_derivation"] == 15
+    assert with_annotation["rule_fire_counts"]["visible_literal"] == 5
+    assert without["status_counts"][REACHABLE] == 5
+    assert without["status_counts"][CONVENTION_UNOBSERVABLE] == 15

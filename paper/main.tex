@@ -1,5 +1,5 @@
 %% =====================================================================
-%%  Unreachable Oracles -- v2 manuscript source
+%%  Unreachable Oracles -- v3 manuscript source
 %%
 %%  Self-contained: standard LaTeX packages + TikZ only.
 %%  No external image files. No .bib required (bibliography is inline).
@@ -7,6 +7,9 @@
 %%
 %%  Every numeric claim in this manuscript is keyed to a committed
 %%  evidence-ledger record; see Appendix D.
+%%
+%%  v3 repairs three declaration defects found in v2 by external review,
+%%  none of which moved a measured value. See CHANGES_AND_AUDIT.md.
 %% =====================================================================
 
 \documentclass[11pt]{article}
@@ -53,8 +56,9 @@ Auditing Ground-Truth Derivability in a Synthetic\\ Tool-Drift Benchmark for LLM
   \normalsize Ton Duc Thang University, Ho Chi Minh City, Vietnam%
 }
 
-\date{Version 2 --- September 12, 2026\\[2pt]
-\normalsize Manuscript pinned at repository tag \texttt{gate21-paper-v2-20260912}}
+\date{Version 3 --- September 14, 2026\\[2pt]
+\normalsize Manuscript pinned at repository tag \texttt{gate22-paper-v3-20260914}\\[1pt]
+\normalsize Measurement evidence frozen at \texttt{gate10-paper-v1-20260911}}
 
 \begin{document}
 \maketitle
@@ -64,30 +68,33 @@ Auditing Ground-Truth Derivability in a Synthetic\\ Tool-Drift Benchmark for LLM
 \noindent
 A tool-migration benchmark for LLM agents contains two objects that are easy
 to conflate: the behaviour under test, and the oracle that scores it. We ask
-whether the second is well formed. We define \emph{oracle reachability under
-declared information rights} --- an item is reachable only if its target value
-and every construction step follow from the information granted before the
-method's first call --- and implement it as an offline auditor with three typed
-outcomes.
+whether the second is well formed. We define \emph{oracle identifiability under
+declared information rights} --- a ground-truth item is reachable only if its
+target value and every construction step are derivable, under a declared
+derivation grammar, from the information granted before the method's first
+call --- and implement it as an offline auditor with three typed outcomes.
 
 Applied to a self-authored synthetic tool-drift sandbox, the audit finds 50 of
 310 argument-pair items unreachable across 12 drift families (16.1\%). The
 defect is concentrated, not diffuse: \dfam{argument\_merge} is 0/30 because
 every target needs a \texttt{::} join that appears nowhere the method may look,
 \dfam{tool\_replacement} retains 15/35, and \dfam{argument\_split} is clean at
-40/40. A separate 45-item required-field audit finds 20 more unreachable,
+40/40. The count is invariant across four configurations of the derivation
+grammar. A separate 45-item required-field audit finds 20 more unreachable,
 collapsing strict complete-call retention to 0/15 in two families. Twenty
-hand-verified real Model Context Protocol version pairs contain 0/20
-unreachable items; that purposive single-repository sample is a negative
-control for the auditor, not evidence about field prevalence.
+hand-adjudicated real Model Context Protocol version pairs are all
+representable in the audit schema and none is flagged; because 15 of the 20
+are accepted through a hand-supplied observability annotation rather than a
+mechanical rule, that sample tests representability, not auditor specificity.
 
 The audit also overturns a claim in our own risk register: across 85 frozen
 prediction rows for the affected cases there are 0 literal \texttt{::}
 constructions and 0 first-attempt successes, so attributing success to
-convention-guessing was an unchecked inference. Repair is not free either. On
-the retained surfaces the minimum detectable differences are 0.2975, 0.4348,
-and 0.2503, all above the pre-registered effect of 0.20, which cancelled the
-planned comparative campaign.
+convention-guessing was an unchecked inference. Repair is not free either.
+After exclusion the retained surfaces also failed the pre-registered precision
+and power criterion for the target effect, which cancelled the planned
+comparative campaign; the interval widths and minimum detectable differences
+are reported in Section~\ref{sec:power}.
 \end{abstract}
 
 \begin{center}
@@ -97,12 +104,17 @@ planned comparative campaign.
 \textbf{What this paper does not claim.} No algorithmic contribution; the
 preregistered method result of Gate 08 was negative and is retained here as a
 disclosure, not quietly superseded. No new benchmark, and no priority claim
-over existing MCP-evolution benchmarks. No comparison against a state of the
-art, because no comparative campaign was run. No external validation: the
-20-pair real-version sample is a negative control. No estimate of how often
-unreachable oracles occur in benchmarks other than the one audited. No peer
-review: this is a preprint. What it does claim is a measurement and
-benchmark-validity case study with a reusable audit criterion.
+over existing MCP-evolution benchmarks --- nor over benchmark-validity
+auditing, which has a 2025--2026 literature this work sits inside rather than
+opens (Section~\ref{sec:validity}). No comparison against a state of the art,
+because no comparative campaign was run. No external validation: the 20-pair
+real-version sample is a representability check, not an independent estimate
+of auditor specificity. No estimate of how often unreachable oracles occur in
+benchmarks other than the one audited. No general decision procedure: the
+auditor decides derivability under a declared grammar, not arbitrary
+computability. No peer review: this is a preprint. What it does claim is a
+measurement and benchmark-validity case study with a reusable audit
+criterion.
 \end{minipage}}
 \end{center}
 
@@ -121,10 +133,22 @@ because the separator \texttt{::} occurs only inside the sandbox's own
 operations code and in evaluator-side target construction. It appears in no
 contract, description, schema, or trace the method is permitted to read. A
 method that produces \texttt{CRS-021-TERM-01} is scored as a failure. So is a
-method that produces nothing. The item cannot distinguish a capable agent
-from an incapable one, because no agent operating within the declared rights
-can produce the expected string except by guessing one separator out of
-several plausible ones.
+method that produces nothing.
+
+The precise defect is one of \emph{identifiability}, and it is worth stating
+carefully, because the tempting stronger statement is not one we can support.
+We do not claim that no agent can emit \texttt{CRS-021::TERM-01}. A pretrained
+model carries a prior over naming conventions that is not part of the
+benchmark's information rights, and it may well emit the separator; the
+diagnostic probe of Section~\ref{sec:probe} tests one model and finds it does
+not, which is evidence about that model and not a proof of impossibility. What
+we claim is narrower and, for a measurement instrument, worse: the evidence the
+benchmark supplies does not determine the target. Two different targets are
+equally consistent with everything the method is shown. A method that produces
+the expected string therefore did so from information the benchmark did not
+provide, so the item's score is not attributable to the capability the
+benchmark says it measures. The item cannot separate a capable agent from a
+lucky one.
 
 We found five such graded cases while auditing a benchmark we had written
 ourselves, and then found that the same defect class extended much further
@@ -159,12 +183,12 @@ The evidence in this manuscript supports four contributions and no more.
 
 \begin{enumerate}
   \item \textbf{A checkable criterion and a reusable auditor.} Oracle
-  reachability under declared information rights, with three typed outcomes
-  (\st{reachable}, \st{unreachable-target-absent},
-  \st{unreachable-convention-unobservable}), a fail-closed rule, and an
-  offline implementation. On the finding that originally motivated it, the
-  auditor agrees with an earlier and separately written diagnostic: both report
-  10 target-absent pair items out of 35 in
+  reachability under declared information rights and a declared derivation
+  grammar, with three typed outcomes (\st{reachable},
+  \st{unreachable-target-absent}, \st{unreachable-convention-unobservable}), a
+  fail-closed rule, and an offline implementation. On the finding that
+  originally motivated it, the auditor agrees with an earlier and separately
+  written diagnostic: both report 10 target-absent pair items out of 35 in
   \dfam{tool\_replacement}.\ledger{C043} That earlier diagnostic tested only
   field presence; the second failure class, 5 of 15 graded cases in the same
   family requiring the unobservable \texttt{::} join, had been established by
@@ -175,17 +199,25 @@ The evidence in this manuscript supports four contributions and no more.
 
   \item \textbf{A measurement of unreachability in a synthetic drift
   benchmark.} Across 12 families and 310 argument-pair items, 50 items
-  (16.1\%) are unreachable, and the loss is concentrated in two families:
-  \dfam{argument\_merge} at 0/30 and \dfam{tool\_replacement} at
-  15/35.\ledger{C001--C005, C007, C009, C017} A separate 45-item
-  required-field audit adds 20 unreachable items and reduces strict
+  (16.1\%) are unreachable. The loss concentrates in two families:
+  \dfam{argument\_merge} at 0/30 and \dfam{tool\_replacement}
+  at 15/35.\ledger{C001--C005, C007, C009, C017}
+  The count is stable under
+  ablation of the derivation grammar: four rule configurations return the same
+  260/10/40 split and the same per-family counts.\ledger{B01--B04} A separate
+  45-item required-field audit adds 20 unreachable items and reduces strict
   complete-call retention to 0/15 in two families.\ledger{C018}
 
-  \item \textbf{A real-version negative control.} Twenty hand-verified
+  \item \textbf{A hand-adjudicated external sample.} Twenty hand-verified
   parent/new version pairs from the official Model Context Protocol servers
-  repository contain 0/20 unreachable items under the same
-  auditor.\ledger{C019} This shows the auditor does not classify ordinary
-  interface evolution as defective. It is not a prevalence estimate.
+  repository are all representable as audit items, and the auditor flags none
+  of them.\ledger{C019} We report what carries that result rather than only the
+  headline: 15 of the 20 are accepted through a hand-supplied observability
+  annotation, and 5 through a mechanical rule.\ledger{B05} Withholding the
+  annotation leaves 5 reachable and 15 fail-closed.\ledger{B06} The sample
+  therefore shows that real interface changes can be expressed under the
+  proposed audit schema. It does not independently validate the classifier,
+  and it is not a prevalence estimate.
 
   \item \textbf{The statistical price of repairing an oracle.} After
   exclusion, the retained surfaces give minimum detectable differences of
@@ -237,7 +269,7 @@ Figure~\ref{fig:problem} states the failure schematically.
   (crit) at (5.6,-2.65)
   {\textbf{Oracle reachability under declared information rights}\\[2pt]
    An item is \st{reachable} iff the target \emph{and every construction step}
-   are derivable from the granted information.};
+   are derivable from the granted information, under a declared grammar.};
 \draw[ar,gold] (new.south) -- (new.south |- crit.north);
 \end{tikzpicture}
 \caption{The measurement problem. Each source value is visible to the method,
@@ -252,9 +284,76 @@ case \texttt{G07-G-0127} of the audited register.}
 \section{Related Work}
 \label{sec:related}
 
-We position this work against four literatures. In each case the relevant
+We position this work against five literatures. In each case the relevant
 question is what information the evaluated system is allowed to use, because
-that is what determines whether a ground-truth target is answerable.
+that is what determines whether a ground-truth target is answerable. The first
+of the five is the one this paper sits closest to, and it is where the
+contribution has to be stated most narrowly.
+
+\subsection{Benchmark-validity auditing}
+\label{sec:validity}
+
+Auditing benchmarks rather than models is an established line of work, and the
+honest summary of our position is that it narrows what we can claim. Zhu
+et al.\ synthesise an Agentic Benchmark Checklist from benchmark-building
+experience and reported issues, and show that task-setup and reward-design
+defects can distort performance estimates by up to 100\% in relative terms,
+with SWE-bench Verified's insufficient tests and $\tau$-bench's acceptance of
+empty responses as their worked examples~\cite{zhu2025abc}. Wang et al.\ run an
+agentic auditor over 168 benchmarks in nine domains and find over 25.7\%
+carrying critical issues --- ambiguous design, execution conflicts, and
+incorrect ground truths --- with filtering shifting model rankings and raising
+average performance on SWE-bench Verified and Terminal-Bench~2 by 9.9\% and
+9.6\%~\cite{wang2026autoaudit}. Mohl et al.\ build automated transcript
+scanners for four validity issues and report verified defects in five widely
+used benchmarks~\cite{mohl2026transcript}. Wang et al.\ approach the same
+object adversarially, presenting an eight-pattern taxonomy of benchmark
+vulnerabilities and uncovering 219 distinct flaws across ten
+benchmarks~\cite{wang2026benchjack}.
+
+Closest of all is Bhat et al., who audit the validity and reproducibility of
+four tool-calling benchmark families --- BFCL~v4, $\tau^2$-Bench, LiveMCPBench,
+and MCP-Atlas --- and report 92 evaluator-human disagreements across 496
+expert-reviewed tasks, an 18.5\% misalignment rate, alongside incorrect ground
+truths, brittle state matching, and a 57.9--76.8\% spread across 23 repeated
+evaluations of one LiveMCPBench setup~\cite{bhat2026benchmarking}. That work
+shares our object (tool-calling benchmarks), our concern (the evaluator rather
+than the agent), and our venue. Concurrently, Zhang et al.\ formalise a
+\emph{double measurement confound} in which execution-critical decisions sit in
+a fixed scaffold while the scorer applies criteria that need not reflect task
+correctness~\cite{zhang2026doubleconfound}.
+
+The distinction we can defend is one of position in the evaluation pipeline,
+not of novelty in auditing benchmarks. Each of these audits inspects evidence
+that exists only after a trajectory has been produced: transcripts, evaluator
+decisions, repeated-run variance, scaffold behaviour, expert re-judgement of
+completed tasks. Their question is whether the score assigned to an execution
+was the right score. Ours is prior to execution and does not need a trajectory
+at all: given only the information the benchmark grants before the first call,
+is the expected target determined? An item can pass every post-execution check
+in this literature --- a faithful evaluator, a correct reward basis, stable
+reruns --- and still be unanswerable, because the defect is in what the item
+withholds rather than in how the result is graded.
+
+Mohl et al.\ make the contrast exact in one of their four criteria. They scan
+for \emph{ground-truth access}: cases where an agent can reach information it
+was not meant to have, inflating scores~\cite{mohl2026transcript}. The defect
+we measure is the mirror image on the same axis. There, too much of the oracle
+is reachable; here, not enough of it is. Both are failures of the information
+boundary between the item and the method, and an audit suite that checks only
+the leakage direction will pass every item in the \dfam{argument\_merge}
+family of Section~\ref{sec:units}.
+
+Two consequences follow for how this paper should be read. First, we make no
+priority claim over benchmark-validity auditing, and no claim to be the first
+to find incorrect ground truths in an agent benchmark --- Wang et al.\ and Bhat
+et al.\ both report that class. Second, what we offer within that established
+programme is specific: a pre-execution criterion, a declared information-rights
+object and derivation grammar as committed artifacts, and a deterministic
+per-item decision rather than expert review or an LLM judge. The cost of that
+specificity is equally definite, and Section~\ref{sec:limits} states it: the
+criterion decides derivability under a declared grammar, over one self-authored
+benchmark.
 
 \subsection{Agents that adapt to evolving tools}
 
@@ -431,7 +530,8 @@ settings whose rights we can state from a primary source.}
 \label{tab:rights}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
-Setting & Old schema & Old trace & New schema & Migration map & Probe before first call \\
+Setting & Old & Old & New & Migration & Probe before \\
+        & schema & trace & schema & map & first call \\
 \midrule
 Audited setting (ours) & yes & yes & yes & no & no \\
 Probing agent (e.g.~\cite{chen2025toolevo}) & stale & --- & via interaction & no & yes \\
@@ -442,38 +542,111 @@ Oracle (audit reference) & yes & yes & yes & yes & no \\
 
 \subsection{The criterion}
 
-For a ground-truth item $g$ and a declared rights set $R$,
+For a ground-truth item $g$, a declared rights set $R$, and a declared
+derivation grammar $G_R$,
 \[
-  \operatorname{Reachable}(g \mid R)=
+  \operatorname{Reachable}(g \mid R, G_R)=
   \begin{cases}
-    1, & \text{if the target value \emph{and every construction step} are derivable from } R,\\[2pt]
+    1, & \text{if the target \emph{and every construction step}}\\
+       & \text{are derivable from } R \text{ under } G_R,\\[2pt]
     0, & \text{otherwise.}
   \end{cases}
 \]
 
-Two boundaries keep this criterion honest.
+Three boundaries keep this criterion honest.
 
 It is strictly \emph{weaker} than semantic correctness. A derivable target can
 still be the wrong replacement, and this audit will pass it. Reachability is a
 necessary condition for an item to be a valid capability test, never a
 sufficient one.
 
-It is also strictly \emph{relative}. An item unreachable under one rights set
-may be reachable under another, which is why the declaration is a committed
+It is \emph{relative to the rights set}. An item unreachable under one rights
+set may be reachable under another, which is why the declaration is a committed
 artifact rather than a description in prose. Changing $R$ changes the audit
 result, and it should.
 
-Derivability is decided by three declared rules, not by judgement:
+It is also \emph{relative to the derivation grammar}, and this is the boundary
+we stated too loosely in earlier versions. The auditor is not a general
+theorem prover and cannot decide arbitrary computability. It recognises the
+finite rule set below and nothing else. Lower-casing, JSON re-serialisation,
+arithmetic transforms, hashing, template concatenation, and unit normalisation
+are all constructions a real migration might require, and $G_R$ as declared
+here decides none of them: an item needing one would be classified unreachable
+by the fail-closed rule. That makes the criterion conservative in a specific
+direction --- it can call an item unreachable that a richer grammar would
+derive --- and any reported rate is a statement about $(R, G_R)$ jointly, not
+about derivability in general. Both objects are committed:
+$R$ at \artifact{research/gate19/information_rights.json} and $G_R$ at
+\artifact{research/gate19/derivation_grammar.json}.
+
+\subsubsection*{The declared grammar}
+
+Four rules admit an item, one rejects it on a named construction, and a
+fail-closed rule rejects everything else. The counts are how often each fires
+over the frozen 310-item register.
 
 \begin{description}[style=nextline,leftmargin=1.2em]
-  \item[identity] A target equal to a visible old argument value is derivable.
-  \item[visible\_split] A target that is an explicit prefix or suffix of a
+  \item[identity (225)] A target equal to a visible source value is derivable.
+  \item[visible\_literal (35)] A string target occurring verbatim in the
+  method-visible surface is derivable.
+  \item[visible\_split (0)] A target that is an explicit prefix or suffix of a
   visible source value, split by a delimiter \emph{present in that source
-  value}, is derivable from the observed value.
-  \item[declared\_external\_derivation] For externally sourced pairs, a
-  hand-verified annotation may mark a derivation observable only when its
-  inputs and construction rule are present in the declared source surface.
+  value}, is derivable from the observed value. The delimiter alphabet is
+  fixed and finite.
+  \item[declared\_external\_derivation (0 here; 15 externally)] For externally
+  sourced pairs, a hand-verified annotation may mark a derivation observable
+  only when its inputs and construction rule are present in the declared source
+  surface. This rule records an adjudicator's judgement, not a mechanical
+  check, and Section~\ref{sec:external} reports the external sample twice
+  because of it.
+  \item[unobservable\_join (40)] A target formed by concatenating two distinct
+  visible source values with a separator that occurs nowhere in the visible
+  surface is \emph{not} derivable. This is the rule that produces every
+  \st{unreachable-convention-unobservable} classification in this audit.
 \end{description}
+
+\subsubsection*{A declaration defect, and why it did not move the result}
+\label{sec:ablation}
+
+The frozen rights declaration lists three of these rules. It does not list
+\texttt{visible\_literal} or \texttt{unobservable\_join}, both of which the
+committed auditor evaluates. We record that as a defect in the declaration
+rather than a defect in the audit, and we did not repair it by editing the
+frozen artifact, since that artifact is what the frozen run was produced
+under. The complete grammar is declared in a new committed file and the audit
+output is bit-identical before and after it was added.
+
+The reason the defect did not move a number is structural, and it is
+checkable. \texttt{visible\_literal} is strictly weaker than
+\texttt{visible\_split}: a target that is a delimiter-bounded piece of a
+visible source value is necessarily also a substring of the visible surface.
+Because it is evaluated first, it shadows \texttt{visible\_split} --- which is
+why the declared rule fires zero times and the undeclared one fires 35. On this
+register the two accept exactly the same items. We verified this by ablation
+rather than by argument, re-running all 310 items under four configurations of
+$G_R$:\ledger{B01--B04}
+
+\begin{center}
+\small
+\begin{tabular}{@{}llrrr@{}}
+\toprule
+& Configuration & \st{reach} & \st{absent} & \st{conv.} \\
+\midrule
+V1 & As committed (literal evaluated first) & 260 & 10 & 40 \\
+V2 & \texttt{visible\_literal} removed & 260 & 10 & 40 \\
+V3 & \texttt{visible\_split} evaluated first & 260 & 10 & 40 \\
+V4 & \texttt{visible\_literal} scoped to source values only & 260 & 10 & 40 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+Per-family counts are identical across all four, and V2 and V3 reassign exactly
+the 35 shadowed items to \texttt{visible\_split} with no status change. The
+50/310 result does not depend on the undeclared rule. The harness is committed
+at \artifact{research/gate19/ablation.py}, asserts that its default
+configuration reproduces the committed auditor item for item before reporting
+anything, and runs as the fifth stage of the reproduction script.
 
 The asymmetry between \texttt{visible\_split} and the \texttt{::} join is the
 crux of the whole audit. Splitting \texttt{CRS-021::TERM-01} into its parts is
@@ -505,7 +678,7 @@ The auditor is offline, deterministic, and committed at
 \textbf{Status} & \textbf{Condition} \\
 \midrule
 \st{reachable} & Target field is declared, and every value and construction
-step follows from $R$ under the three derivation rules. \\
+step follows from $R$ under a rule of $G_R$. \\
 \st{unreachable-target-absent} & The ground truth names a target field that is
 not a field of any new contract the method is shown. \\
 \st{unreachable-convention-unobservable} & The target field exists, but a
@@ -516,10 +689,34 @@ format --- is not evidenced anywhere in $R$. \\
 \end{center}
 
 \medskip
-For each item the auditor parses the rights object and preserves the original
-record; checks target-field presence against the visible new contract; checks
-value derivability against visible old values, task context, and verified
-traces; checks that every transformation convention is declared; then emits a
+The division of labour between the rights declaration and the auditor needs
+stating precisely, because the natural reading of the preceding sections is
+wrong in a way that would overstate what the implementation does. The auditor
+is \emph{not} a policy engine that filters raw benchmark artifacts against $R$
+at run time. The rights declaration is instantiated ahead of the audit by
+benchmark-specific builders, which materialise the granted surface into a
+normalised register: each item carries the visible source values, the visible
+text, and the declared fields of the new contract that $R$ grants for that
+item. The auditor then verifies derivability over that normalised surface.
+Concretely, its per-item entry point accepts the rights object but reads only
+its schema identifier; what constrains the classification is the materialised
+surface, not a parsed policy.
+
+This matters for how the criterion's relativity should be read. Changing $R$
+changes the audit result --- but it does so by changing what the builders
+materialise, not by changing the auditor's behaviour at fixed input. The
+executable form of that claim is a test: withdraw a source value from an
+item's granted surface and a \st{reachable} target becomes
+\st{unreachable-convention-unobservable}.\footnote{%
+\artifact{research/gate19/tests.py}, \texttt{test\_rights\_instantiation\_%
+controls\_the\_visible\_surface}.} An auditor generic over an arbitrary rights
+policy would need machinery this implementation does not have, and we do not
+claim one; what is claimed is that the audited benchmark's materialised
+method-facing surface does not derive 50 of its 310 targets.
+
+For each item, then, the auditor preserves the original record; checks
+target-field presence against the visible new contract; checks value
+derivability against the materialised visible surface under $G_R$; then emits a
 typed status and a retain-or-exclude action. It never rewrites the original
 oracle. Repair is \emph{additive}: the retained set and the full exclusion
 manifest are new artifacts, and no frozen score is recomputed
@@ -553,7 +750,7 @@ the environment agree with each other; only the method is excluded from the
 convention.
 
 Three surfaces were audited: 310 argument-pair items across 11 families; 45
-required-field items across 3 families; and, as an external control, 20
+required-field items across 3 families; and, as an external sample, 20
 hand-verified parent/new commit pairs from the official MCP servers
 repository. A fourth surface --- public MCP-evolution benchmark releases ---
 was attempted and abandoned for the reasons in Section~\ref{sec:pathA}.
@@ -599,7 +796,8 @@ items, giving 12 families and 180 graded cases overall.}
 \label{tab:families}
 \begin{tabular}{@{}lrrrrrrr@{}}
 \toprule
-Family & Cases & Pairs & \st{reach} & \st{absent} & \st{conv.} & Retained & Strict cases \\
+Family & Cases & Pairs & \st{reach} & \st{absent} & \st{conv.} & Retained & Strict \\
+       &       &       &            &             &            &          & cases  \\
 \midrule
 \dfam{added\_required\_field}         & 15 & 40 & 40 & 0  & 0  & 40 & 0/15 \\
 \dfam{argument\_merge}                & 15 & 30 & \textbf{0}  & 0  & \textbf{30} & \textbf{0}  & 0/15 \\
@@ -621,7 +819,7 @@ Family & Cases & Pairs & \st{reach} & \st{absent} & \st{conv.} & Retained & Stri
 \end{table}
 
 Figure~\ref{fig:reachability} shows the same distribution visually alongside
-the real-version control.
+the real-version sample.
 
 % ---------------------------------------------------------------- fig 2
 \begin{figure}[t]
@@ -669,18 +867,20 @@ the real-version control.
 % control panel
 \node[draw=reachblue,fill=paleblue,line width=0.7pt,rounded corners=3pt,
       align=center,inner sep=5pt,text width=36mm,anchor=north west]
-  at (110,-2) {\textbf{Real MCP version-pair control}\\[4pt]
+  at (110,-2) {\textbf{Real MCP version-pair sample}\\[4pt]
   {\large\textbf{\textcolor{reachblue}{0 / 20}}} unreachable\\[3pt]
   {\large\textbf{\textcolor{navy}{20 / 20}}} reachable\\[4pt]
-  \textcolor{slate}{\scriptsize Negative control for the auditor,
-  not a prevalence estimate.}};
+  \textcolor{slate}{\scriptsize 15 of the 20 via hand annotation.
+  Representability check, not a specificity or prevalence estimate.}};
 \end{tikzpicture}
 \caption{Oracle reachability across the synthetic drift families. Blue is
 derivable pair items, red is unreachable pair items. All 50 unreachable items
 fall in \dfam{argument\_merge} and \dfam{tool\_replacement}. The
 \dfam{no\_equivalent} family has no argument-pair denominator and is not
-assigned an artificial one. The real-version control is shown separately
-because it is a different population, not a comparison arm.}
+assigned an artificial one. The real-version sample is shown separately
+because it is a different population, not a comparison arm, and its panel
+records how many of its 20 acceptances rest on hand adjudication rather than
+on a mechanical rule (Section~\ref{sec:external}).}
 \label{fig:reachability}
 \end{figure}
 
@@ -720,22 +920,51 @@ surface is perfectly clean at 40/40 --- and 0/15 for
 end-to-end performance surface. They support reachability and power analysis
 only.
 
-\subsection{The auditor does not flag ordinary interface evolution}
+\subsection{An external sample, reported with its adjudication exposed}
+\label{sec:external}
 
-A criterion that marked every version change as defective would be useless. We
-tested this against 20 hand-verified parent/new commit pairs from the official
-MCP servers repository, chosen and checked by hand, with all 20 commit objects
-and all 20 changed artifact paths verified against a local clone. The auditor
+A criterion that marked every version change as defective would be useless, and
+we assembled an external sample to check that. Twenty parent/new commit pairs
+were taken from the official MCP servers repository, chosen and checked by
+hand, with all 20 commit objects and all 20 changed artifact paths verified
+against a local clone. All 20 are representable as audit items, and the auditor
 returns 20 \st{reachable} and 0 unreachable.\ledger{C019}
 
-We want to be precise about what this does and does not show. It shows the
-auditor has a working negative case: real interface changes in this sample
-declare what they require. It does not estimate how often unreachable oracles
-occur in real API evolution, and it does not establish that synthetic
-generation is the only source of such defects. The sample is purposive, drawn
-from a single repository, and small. Thirty carefully verified pairs would be
-stronger than twenty; padding to thirty with unverified pairs would be worse
-than either.
+Earlier versions of this manuscript called that a negative control and
+concluded from it that the auditor does not flag ordinary interface evolution.
+That conclusion does not survive inspection of what produced the 20, and we
+withdraw it. Under the declared grammar, 15 of the pairs are admitted by
+\texttt{declared\_external\_derivation} --- the rule that accepts a
+hand-supplied annotation marking the derivation observable --- and only 5 by
+\texttt{visible\_literal}, a mechanical rule.\ledger{B05} The annotation comes
+from the same adjudication pass that assigned each pair its hand judgement, so
+for three quarters of the sample the auditor is reporting the adjudicator's
+conclusion back. Running the sample with the annotation withheld makes the
+dependence explicit: 5 \st{reachable} and 15
+\st{unreachable-convention-unobservable}.\ledger{B06}
+
+The remaining 5 are worth naming rather than banking, because they are weaker
+than the count suggests. In three of them the target value \emph{is} the new
+tool's own registered name, which necessarily appears in the diff that registers
+it. A fourth target is the schema status word \texttt{required}, and the fifth a
+resource description string. These are true mechanical derivations under the
+declared grammar, and three of them are close to tautologies. We report them as
+the floor of what this sample establishes, not as five independent successes.
+
+What the sample does show is that real, externally sourced interface changes
+can be normalised into the audit schema at all --- which the failed adaptation
+of Section~\ref{sec:pathA} shows is not automatic --- and that nothing in this
+sample reproduced the local defect. What it does not show is auditor
+specificity, because a specificity estimate needs items whose reachability was
+decided without the adjudicator's help, and 15 of these were not. It also does
+not estimate how often unreachable oracles occur in real API evolution, and it
+does not establish that synthetic generation is the only source of such
+defects. The sample is purposive, drawn from a single repository, and small.
+The strengthening this most needs is not thirty pairs instead of twenty; it is
+a subset whose targets are decidable under \texttt{identity},
+\texttt{visible\_literal}, or \texttt{visible\_split} alone, with no
+\texttt{declared\_external\_derivation} anywhere in it. We did not build that
+subset for this version and do not claim its result in advance.
 
 \subsection{A published evolution register that an oracle auditor still cannot
 consume}
@@ -811,8 +1040,9 @@ guessed the unstated convention. We checked the raw rows and that claim does
 not survive.
 
 Extraction over the frozen prediction rows for the five affected cases
-(\texttt{G07-G-0127}, \texttt{G07-G-0130}, \texttt{G07-G-0133},
-\texttt{G07-G-0136}, \texttt{G07-G-0139}) across 17 baseline arms yields 85
+(\texttt{G07-G-0127}, \texttt{G07-G-0130},
+\texttt{G07-G-0133}, \texttt{G07-G-0136}, and
+\texttt{G07-G-0139}) across 17 baseline arms yields 85
 effective rows. Of those, 0 contain a literal \texttt{::}, 3 use a different
 separator, and 82 contain no join at all.\ledger{C020, C021} The three
 non-empty constructions are \texttt{"CRS-007-TERM-02"} and a two-order
@@ -899,7 +1129,8 @@ pre-registered effect of $0.20$.}
 \label{tab:power}
 \begin{tabular}{@{}lrrrrrr@{}}
 \toprule
-Surface & Retained $n$/arm & $\bar{p}$ & MDE & Power at $\Delta=0.20$ & Required $n$/arm & Wilson width at $\bar{p}$ \\
+Surface & Retained & $\bar{p}$ & MDE & Power at & Required & Wilson width \\
+        & $n$/arm  &           &     & $\Delta=0.20$ & $n$/arm & at $\bar{p}$ \\
 \midrule
 \dfam{argument\_split}   & 40 & 0.3667 & 0.2975 & 0.4578 & 90 & 0.2862 \\
 \dfam{tool\_replacement} & 15 & 0.2667 & 0.4348 & 0.2300 & 76 & 0.4105 \\
@@ -962,8 +1193,36 @@ contributions of this paper.
 \textbf{The audited benchmark is self-authored.} Contribution~2 measures a
 controlled local construction, not field prevalence. The concentration of all
 50 failures in two mutation families points at this generator rather than at
-benchmark design in general. The real-version control found no unreachable
-item, but it is small, purposive, and drawn from one repository.
+benchmark design in general. The real-version sample found no unreachable
+item, but it is small, purposive, drawn from one repository, and --- as
+Section~\ref{sec:external} sets out --- adjudicated by hand for 15 of its 20
+pairs, so it constrains representability rather than specificity.
+
+\textbf{The criterion is relative to a declared grammar, and that grammar is
+small.} $\operatorname{Reachable}(g \mid R, G_R)$ is not a claim about what is
+computable from $R$. $G_R$ recognises identity, a visible literal, a
+delimiter-bounded split over a fixed delimiter alphabet, and a hand-declared
+external derivation; it decides nothing about case folding, serialisation,
+arithmetic, hashing, or documented template concatenation. Under the
+fail-closed rule an item requiring any of those is classified unreachable, so
+the criterion errs toward calling items defective, and a richer $G_R$ could
+only lower the reported rate. The 16.1\% figure should be read as a property
+of this benchmark under this rights set \emph{and} this grammar. We think the
+50 items reported here would survive a richer grammar --- 40 of them fail on a
+separator that is absent from the visible surface by construction, and no
+grammar can derive a symbol it has never seen --- but that is an argument, not
+a measurement, and we have not run it.
+
+\textbf{A declaration defect was found in the frozen rights object.} The frozen
+declaration listed three derivation rules; the committed auditor evaluates
+five. Section~\ref{sec:ablation} reports this, the ablation showing the
+headline is invariant under four configurations of the grammar, and the
+decision to declare the complete grammar in a new artifact rather than edit the
+frozen one. We note the failure mode as well as the repair: the declaration and
+the implementation were written to be read together and drifted apart anyway,
+which is the same class of defect this paper documents in
+Section~\ref{sec:risk0022}, and it was found by an external reader rather than
+by us.
 
 We are equally careful about the failed external audit of
 Section~\ref{sec:pathA}. It does not show that the benchmark we examined shares
@@ -1056,13 +1315,29 @@ that this has not happened than let an automated green result stand in for it.
 
 \emph{Is this just test-set validity restated?} It is adjacent to that
 literature and does not replace it. What is operational here is the
-combination of a declared rights object, per-item auditing of both field
-presence and construction derivability, typed failure classes, a fail-closed
-rule, and a committed implementation. We claim a checkable procedure, not a
-new theory of validity.
+combination of a declared rights object, a declared derivation grammar,
+per-item auditing of both field presence and construction derivability, typed
+failure classes, a fail-closed rule, and a committed implementation. We claim a
+checkable procedure, not a new theory of validity.
 
-\emph{Does the 20-pair control support a synthetic-versus-real claim?} No, and
-we do not make one. It shows the auditor has a negative case.
+\emph{Benchmark-validity auditing already exists. What is left?} The position
+in the pipeline, and nothing more (Section~\ref{sec:validity}). Existing audits
+read evidence produced by an execution --- transcripts, evaluator decisions,
+rerun variance --- and ask whether the score was right. This one runs before
+any execution and asks whether the expected answer is determined by what the
+item supplies. An item can be graded perfectly and still be unanswerable.
+
+\emph{The auditor evaluated a rule your rights file did not declare. Why should
+the 50 stand?} Because the result is invariant under removing that rule,
+reordering it, and restricting its scope, and because the rule it shadowed
+accepts exactly the same 35 items (Section~\ref{sec:ablation}). The defect is
+real and it is in the declaration; had the ablation moved a count, the honest
+report would have been a different number, not a different framing.
+
+\emph{Does the 20-pair sample support a synthetic-versus-real claim?} No, and
+we do not make one. It shows the audit schema can represent real version
+changes. Fifteen of its twenty acceptances rest on hand adjudication, which is
+why we no longer describe it as a negative control.
 
 \emph{Is the cancelled campaign a null result in disguise?} No comparison was
 run, so there is no null to disguise. The power analysis says the planned
@@ -1079,16 +1354,33 @@ weight it has not earned.
 \section{Reproducibility and Traceability}
 \label{sec:repro}
 
-The public repository is \url{https://github.com/Dat071104/vietragops}. The
-citable identifier for this version of the manuscript is the annotated tag
-\texttt{gate21-paper-v2-20260912}. Two things are pinned by two different tags
-and it is worth separating them. The frozen measurement evidence --- the
+The public repository is \url{https://github.com/Dat071104/vietragops}. Three
+tags pin three different things and conflating them would misrepresent what is
+frozen.
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{0.30\linewidth}p{0.62\linewidth}@{}}
+\toprule
+\textbf{Tag} & \textbf{What it denotes} \\
+\midrule
+\texttt{gate10-paper-v1-20260911} & \textbf{Measurement evidence freeze.} The
 Gate~07, 08, 19, and 19-C artifacts from which every number in
-Sections~\ref{sec:units}--\ref{sec:power} derives --- was frozen at the earlier
-tag \texttt{gate10-paper-v1-20260911} and has not been modified since; the
-reproduction harness re-verifies that at every run. The later tag adds the
-external survey of Section~\ref{sec:pathA} and this manuscript text. Later
-commits may refine the repository without changing what either tag denotes.
+Sections~\ref{sec:units}--\ref{sec:power} derives. Not modified since; the
+reproduction harness re-verifies it at every run. \\
+\texttt{gate21-paper-v2-20260912} & Adds the external survey of
+Section~\ref{sec:pathA} and the version~2 manuscript text. \\
+\texttt{gate22-paper-v3-20260914} & \textbf{Manuscript artifact tag for this
+version.} Adds the declared derivation grammar, the rule-ablation harness and
+its result, four auditor tests, and this text. No measured value changed. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+The citable identifier for this version of the manuscript is
+\texttt{gate22-paper-v3-20260914}. Later commits may refine the repository
+without changing what any of the three tags denotes.
 
 Every numeric claim in this paper carries a superscript key into a committed
 evidence ledger, \artifact{gates/baselines/GATE_10_EVIDENCE_LEDGER.json},
@@ -1104,7 +1396,9 @@ The auditor is offline and deterministic. It needs neither network access nor
 provider credentials, and it is re-run from the repository root as
 
 \begin{quote}\ttfamily\footnotesize
-python -m research.gate19.auditor {-}{-}rights research/gate19/information\_rights.json {-}{-}output <path>
+python -m research.gate19.auditor \\
+\hspace*{2em}{-}{-}rights research/gate19/information\_rights.json \\
+\hspace*{2em}{-}{-}output <path>
 \end{quote}
 
 with \texttt{{-}{-}input} omitted so that the frozen Gate~07 items are rebuilt
@@ -1113,13 +1407,15 @@ from the generator rather than read from a cached file.
 A single-command harness, \artifact{scripts/reproduce.py}, runs the whole check
 and is documented in \artifact{REPRODUCE.md}. It imports only the Python
 standard library and this repository's own modules: no third-party package, no
-virtual environment, no GPU, and no network. In four stages it runs the
-auditor's unit tests, re-verifies the 134-file frozen manifest, regenerates the
-310-item synthetic audit, and regenerates the 20-pair external control; it then
-compares each regenerated artifact against its committed counterpart by
-SHA-256. On a stock CPython interpreter the run takes roughly ten seconds and
-exits zero with both artifacts byte-identical to the committed files. What that
-establishes, and what it does not, is set out in Section~\ref{sec:limits}.
+virtual environment, no GPU, and no network. In five stages it runs the
+auditor's ten unit tests, re-verifies the 134-file frozen manifest, regenerates
+the 310-item synthetic audit, regenerates the 20-pair external sample, and
+re-runs the four-configuration rule ablation of
+Section~\ref{sec:ablation}; it then compares each regenerated artifact against
+its committed counterpart by SHA-256. On a stock CPython interpreter the run
+takes roughly ten seconds and exits zero with the audit artifacts
+byte-identical to the committed files. What that establishes, and what it does
+not, is set out in Section~\ref{sec:limits}.
 
 The only component that ever contacted a provider is the diagnostic probe of
 Section~\ref{sec:probe}, whose 60 requests, model identity, rate governor, and
@@ -1245,10 +1541,10 @@ names it regardless, which is the \st{unreachable-target-absent} condition.
 \footnotesize 35 & \texttt{\footnotesize G07-G-0141} & \texttt{\footnotesize term\_id} & \texttt{\footnotesize confirm\_room\_booking} & \texttt{\footnotesize section\_ref} & \st{absent} \\
 \end{longtable}
 
-Counts: 15 \st{reachable}, 10 \st{unreachable-target-absent},
-10 \st{unreachable-convention-unobservable}. Every one of the 15 cases
-contains at least one excluded item, which is why strict complete-call
-retention for this family is 0/15.
+Counts: 15 \st{reachable}; 10 \st{unreachable-target-absent}; and 10
+\st{unreachable-\allowbreak convention-\allowbreak unobservable}. Every one of
+the 15 cases contains at least one excluded item, which is why strict
+complete-call retention for this family is 0/15.
 
 \section{Artifact Provenance}
 \label{app:traceability}
@@ -1283,6 +1579,9 @@ Artifact path & Gate & Commit \\
 \artifact{gates/baselines/GATE_19_TOOL_REPLACEMENT_ORACLE_V1_MANIFEST.json} & 19 & \sha{7410bc77e3de7f89cb31d4b3f7654ab36ed80cf1} \\
 \artifact{gates/results/GATE_19_DIAGNOSTIC_PROBE.json} & 19 & \sha{a22de8fc9be82c928e3b9a8cfb5cb32edc450e87} \\
 \artifact{gates/results/GATE_19_EXTERNAL_AUDIT.json} & 19 & \sha{c720ff28b382fc70a3e0e77c0558799a0920cdf4} \\
+\artifact{research/gate19/derivation_grammar.json} & 22 & added in v3; SHA-256 in the addendum \\
+\artifact{research/gate19/ablation.py} & 22 & added in v3; SHA-256 in the addendum \\
+\artifact{gates/results/GATE_22_RULE_ABLATION.json} & 22 & added in v3; SHA-256 in the addendum \\
 \artifact{gates/baselines/GATE_19_EXTERNAL_MCP_PAIRS.json} & 19 & \sha{0c73b1784de7cc9e9e1986cac0a96aa45fa910c2} \\
 \artifact{gates/results/GATE_19_FROZEN_SOURCE_HASHES.json} & 19 & \sha{a434d5307be5f7af51eee9ac207aa65870032df9} \\
 \artifact{gates/baselines/GATE_19C_PROTOCOL.json} & 19-C & \sha{4e7a58fdae0fe1ac9c4b65a32ee93f431f9d92ac} \\
@@ -1340,6 +1639,10 @@ C039 & \dfam{argument\_split} Wilson upper bound 0.9333 against 0.90 bar & \arti
 C040 & Design-time exposure of three graded cases & \artifact{GATE_08_RESULT.md} known limitations \\
 C041, C042 & Case-study revision at 100\% traffic; 698 chunks, 38 documents & \artifact{GATE_18R_RESULT.md} \S\,R7 \\
 C043, C044 & 10/35 target-absent pair items; 5/15 graded cases requiring the \texttt{::} join & \artifact{GATE_19_RESULT.md} \S\,O1, \S\,O2 \\
+B01--B04 & Rule-ablation counts for configurations V1--V4 & \artifact{GATE_22_RULE_ABLATION.json} \texttt{synthetic\_register} \\
+B05 & External sample by admitting rule: 15 annotation, 5 mechanical & \artifact{GATE_22_RULE_ABLATION.json} \texttt{with\_hand\_annotation} \\
+B06 & External sample without the annotation: 5 reachable, 15 fail-closed & \artifact{GATE_22_RULE_ABLATION.json} \texttt{without\_hand\_annotation} \\
+B07 & Per-rule fire counts over the 310-item register & \artifact{GATE_22_RULE_ABLATION.json} \texttt{rule\_fire\_counts} \\
 \end{longtable}
 }
 
@@ -1354,6 +1657,13 @@ case counts; and the prior diagnostic that corroborates the target-absent
 count. Each carries the same fields as a ledger record, and each was verified
 against the committed artifact when this version was prepared.
 
+Version~3 adds a second group, keyed \texttt{B01}--\texttt{B07} above. These
+are not Gate~10 measurements and are not presented as such: they are outputs of
+the rule-ablation harness written for this version, and they exist to test
+whether the Gate~10 measurements depend on an undeclared rule. They are
+recorded in the same addendum, under their own schema block, with the SHA-256
+of the artifact that produced them.
+
 The addendum exists because of a rule we imposed on ourselves and then found
 inconvenient: any number that appears in the paper must appear in a ledger
 record. The alternative to extending the ledger was dropping the numbers, and
@@ -1365,7 +1675,7 @@ discipline.
 \section{Reference Verification Record}
 \label{app:refs}
 
-Each cited work was checked against a primary record. Seven of nine were
+Each cited work was checked against a primary record. Thirteen of fifteen were
 verified for both bibliographic metadata and the specific content claim made
 about them in Section~\ref{sec:related}, by reading the publisher, proceedings,
 ACL Anthology, or arXiv abstract directly. Two carry a narrower status and we
@@ -1385,11 +1695,27 @@ state it rather than implying uniform verification:
   earlier version of this manuscript omitted the second author.
 \end{itemize}
 
+The six benchmark-validity references added in version~3
+(\cite{bhat2026benchmarking}, \cite{mohl2026transcript},
+\cite{wang2026autoaudit}, \cite{wang2026benchjack}, \cite{zhu2025abc},
+\cite{zhang2026doubleconfound}) were each verified on 14 September 2026 by
+retrieving the arXiv abstract page and reading the title, full author list,
+submission date, primary category, and abstract. Every figure attributed to
+them in Section~\ref{sec:validity} --- 496 tasks and 92 disagreements at
+18.5\%, the 57.9--76.8\% rerun spread, 168 benchmarks at 25.7\%, the 9.9\% and
+9.6\% shifts, 219 flaws across ten benchmarks, the up-to-100\% relative
+distortion --- is quoted from the abstract of the work it is attributed to.
+Two limits on that check are worth recording. We read abstracts, not full
+texts, so these works are cited for the claims their abstracts state and for
+positioning, not for methodological detail we did not read. And
+\cite{zhu2025abc} appears in a NeurIPS~2025 listing that we did not retrieve
+directly; it is cited here at its arXiv record, which we did verify.
+
 The machine-readable record, including per-reference verification notes and
 the third-party license record, ships with this source as
 \artifact{REFERENCES_VERIFIED.json}. This paper cites third-party works for
 positioning only and redistributes no code or data from them. The real-version
-control derives from public MCP server version history under the upstream
+sample derives from public MCP server version history under the upstream
 licenses recorded at audit time: Apache-2.0 for new code, applicable legacy
 MIT contributions, and CC-BY-4.0 documentation provisions.
 
@@ -1423,7 +1749,51 @@ register (Section~\ref{sec:risk0022}): a plausible claim surviving because
 nobody re-read the source.
 
 % =====================================================================
-\begin{thebibliography}{9}
+\begin{thebibliography}{99}
+
+\bibitem{bhat2026benchmarking}
+Vishvesh Bhat, Jay Vaghasiya, Muhammad Ahmed Mohsin, and Asad Aali.
+``Benchmarking the Benchmarks: A Validity Audit of Tool-Calling Evaluation.''
+arXiv:2607.02577 [cs.SE], 30 June 2026.
+\url{https://arxiv.org/abs/2607.02577}
+
+\bibitem{mohl2026transcript}
+Jeff Mohl, Nelson Gardner-Challis, Magda Dubois, Harry Coppock,
+Benjamin Allan-Rahill, Kaelan Yim, Damian S\'ojka, James Mann, and
+Justin Olive.
+``Automated Transcript Analysis for Detecting Flaws in Agentic Benchmarks.''
+arXiv:2607.27518 [cs.AI], 29 July 2026.
+\url{https://arxiv.org/abs/2607.27518}
+
+\bibitem{wang2026autoaudit}
+Junlin Wang, Federico Bianchi, Shang Zhu, Fan Nie, Yongchan Kwon,
+Bhuwan Dhingra, and James Zou.
+``Automated Benchmark Auditing for AI Agents and Large Language Models.''
+arXiv:2605.26079 [cs.CL], 25 May 2026.
+\url{https://arxiv.org/abs/2605.26079}
+
+\bibitem{wang2026benchjack}
+Hao Wang, Hanchen Li, Qiuyang Mang, Alvin Cheung, Koushik Sen, and Dawn Song.
+``Do Androids Dream of Breaking the Game? Systematically Auditing AI Agent
+Benchmarks with BenchJack.''
+arXiv:2605.12673 [cs.AI], 12 May 2026.
+\url{https://arxiv.org/abs/2605.12673}
+
+\bibitem{zhu2025abc}
+Yuxuan Zhu, Tengjun Jin, Yada Pruksachatkun, Andy Zhang, Shu Liu, et al.
+(25 authors).
+``Establishing Best Practices for Building Rigorous Agentic Benchmarks.''
+arXiv:2507.02825 [cs.AI], 3 July 2025.
+\url{https://arxiv.org/abs/2507.02825}
+
+\bibitem{zhang2026doubleconfound}
+Yonghong Zhang, Shadi Motaali, Vu Phong Dinh, Avin Piroutiniya,
+Jorge E. L\'opez de Vergara, Luis de Pedro, Ricardo Correia,
+Isabel M. Parra, and Yong Xie.
+``The Double Measurement Confound in Agent Benchmarks: De-Scaffolding,
+Ground-Truth Scoring, and Reliability Beyond the Mean.''
+arXiv:2609.09218, 6 September 2026.
+\url{https://arxiv.org/abs/2609.09218}
 
 \bibitem{chen2025toolevo}
 Guoxin Chen, Zhong Zhang, Xin Cong, Fangda Guo, Yesai Wu, Yankai Lin,

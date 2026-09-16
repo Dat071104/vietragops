@@ -1,6 +1,6 @@
-# arXiv preparation checklist — manuscript version 2
+# arXiv preparation checklist — manuscript version 3
 
-Prepared 2026-09-12. **This package does not submit anything.** Submission is
+Prepared 2026-09-14. **This package does not submit anything.** Submission is
 the owner's separate action.
 
 ## Recommended metadata
@@ -16,11 +16,11 @@ the owner's separate action.
 | Cross-lists | `cs.CL` (LLM-agent and tool-use readership), `cs.AI` (agent evaluation). |
 | Alternative | `cs.CL` as primary if NLP review context is preferred. This changes the readership, not the paper's scope or claims. |
 | ACM/MSC class | Leave blank unless a target venue requires one. |
-| Comments field | `Measurement and benchmark-validity case study. Artifact tag: gate10-paper-v1-20260911.` |
+| Comments field | `26 pages, 2 figures. Measurement and benchmark-validity case study. Manuscript artifact tag: gate22-paper-v3-20260914. Measurement evidence frozen at gate10-paper-v1-20260911.` |
 | Artifact URL | `https://github.com/Dat071104/vietragops` |
 | Licence | **`CC BY 4.0`** — decided. Rationale and the one caveat are below. |
 
-**Title note.** Version 2 changes the subtitle from "Synthetic Tool-Drift
+**Title note.** The title is unchanged from version 2. Version 2 changed the subtitle from "Synthetic Tool-Drift
 Benchmarks" (plural) to "a Synthetic Tool-Drift Benchmark" (singular). The
 plural implied a result about a class of benchmarks; the paper measures one.
 The singular is what the evidence supports.
@@ -92,6 +92,13 @@ Source: <https://info.arxiv.org/help/license/index.html>
 
 - [x] Author block set: Nguyen Thanh Dat, Ton Duc Thang University. No AI
       system listed as an author.
+- [x] Build verified: 26 pages, 0 overfull hboxes, 0 LaTeX warnings, 0
+      undefined references. One benign `Infinite glue shrinkage` message from
+      longtable page splitting; see README for the bisection that shows it is
+      not content-caused.
+- [x] Bibliography: 15 entries, all verified against a primary record on
+      2026-09-12 or 2026-09-14. Verification levels recorded per reference in
+      `REFERENCES_VERIFIED.json`.
 - [ ] Confirm your university has no policy requiring notification before an
       affiliated preprint is posted. Most do not; it takes one email to check,
       and it is much easier to ask before than to amend after.
@@ -107,8 +114,11 @@ Source: <https://info.arxiv.org/help/license/index.html>
       both TikZ figures, all four numbered tables (rights, per-family audit,
       power, 35-row register), the two uncaptioned appendix longtables, and
       the bibliography.
-- [ ] Confirm the artifact URL resolves and the tag
-      `gate10-paper-v1-20260911` is present on the public remote.
+- [ ] Confirm the artifact URL resolves and that BOTH tags are present on the
+      public remote: `gate10-paper-v1-20260911` (measurement evidence freeze,
+      cited throughout the traceability appendix) and
+      `gate22-paper-v3-20260914` (this manuscript's artifact tag). The second
+      must be created and pushed before submission — it does not exist yet.
 - [ ] Complete endorsement if arXiv requests it.
 - [ ] Submit only after separate owner approval.
 
@@ -119,10 +129,21 @@ forgotten at submission time:
 
 1. One reference (`assidiqi2026referencefree`) has unverified content and is
    cited at title level only. If the full text becomes available before
-   submission, §2.2 and Table 1 can be strengthened.
-2. The auditor has not been independently reproduced. This is disclosed in
+   submission, §2.3 and Table 1 can be strengthened.
+
+2. The six benchmark-validity references added in version 3 were verified at
+   abstract level, not full text. This is recorded in Appendix G of the
+   manuscript and in `REFERENCES_VERIFIED.json`; it is a weaker standard than
+   some version 2 references received and is disclosed rather than smoothed
+   over.
+
+3. The external 20-pair sample supports representability, not specificity
+   (§5.3). The strengthening it needs is a subset decidable without
+   `declared_external_derivation`. That subset does not exist yet and the
+   manuscript does not promise its result.
+4. The auditor has not been independently reproduced. This is disclosed in
    §7.3.
-3. The AI-use disclosure in Appendix F should be checked against any
+5. The AI-use disclosure appendix should be checked against any
    venue-specific policy if the paper is later submitted to a journal.
 
 Submission guidance: <https://info.arxiv.org/help/submit/index.html>

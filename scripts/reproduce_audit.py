@@ -35,38 +35,19 @@ from research.gate19.external_audit import build as build_external_audit
 from research.gate19.source_hashes import verify as verify_source_hashes
 
 
-def run_unit_tests() -> bool:
-    """Run the 6 offline unit tests for the auditor."""
-    from research.gate19.tests import (
-        test_frozen_gate07_reproduction_counts,
-        test_hidden_separator_is_flagged_as_unobservable_convention,
-        test_omitting_a_needed_field_flips_reachable_to_unreachable,
-        test_reachable_identity_item_passes,
-        test_required_field_scan_is_separate_and_finds_hidden_ack_defaults,
-        test_target_absent_item_is_flagged,
-    )
+def run_unit_tests() -> int:
+    """Run every offline unit test for the auditor; return how many ran."""
+    from research.gate19 import tests as gate19_tests
 
     tests = [
-        ("test_reachable_identity_item_passes", test_reachable_identity_item_passes),
-        ("test_target_absent_item_is_flagged", test_target_absent_item_is_flagged),
-        (
-            "test_hidden_separator_is_flagged_as_unobservable_convention",
-            test_hidden_separator_is_flagged_as_unobservable_convention,
-        ),
-        (
-            "test_omitting_a_needed_field_flips_reachable_to_unreachable",
-            test_omitting_a_needed_field_flips_reachable_to_unreachable,
-        ),
-        ("test_frozen_gate07_reproduction_counts", test_frozen_gate07_reproduction_counts),
-        (
-            "test_required_field_scan_is_separate_and_finds_hidden_ack_defaults",
-            test_required_field_scan_is_separate_and_finds_hidden_ack_defaults,
-        ),
+        (name, getattr(gate19_tests, name))
+        for name in sorted(dir(gate19_tests))
+        if name.startswith("test_")
     ]
 
-    for name, test_fn in tests:
+    for _name, test_fn in tests:
         test_fn()
-    return True
+    return len(tests)
 
 
 def main() -> int:
@@ -78,12 +59,12 @@ def main() -> int:
     print("=" * 72)
 
     # 1. Offline unit tests
-    print("\n[1/4] Running Gate 19 offline unit tests (research/gate19/tests.py)...")
-    run_unit_tests()
-    print("      -> PASS: All 6 offline unit tests passed successfully.")
+    print("\n[1/5] Running Gate 19 offline unit tests (research/gate19/tests.py)...")
+    n_tests = run_unit_tests()
+    print(f"      -> PASS: All {n_tests} offline unit tests passed successfully.")
 
     # 2. Frozen source hash verification
-    print("\n[2/4] Verifying frozen source hash manifest (134 files)...")
+    print("\n[2/5] Verifying frozen source hash manifest (134 files)...")
     manifest_path = REPO_ROOT / "gates/results/GATE_19_FROZEN_SOURCE_HASHES.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     verification = verify_source_hashes(REPO_ROOT, manifest)
@@ -96,7 +77,7 @@ def main() -> int:
     print("      -> PASS: 134/134 frozen input files UNCHANGED (bit-exact).")
 
     # 3. Synthetic oracle reachability audit (310 items)
-    print("\n[3/4] Running Oracle Reachability Auditor on 310 synthetic pair items...")
+    print("\n[3/5] Running Oracle Reachability Auditor on 310 synthetic pair items...")
     rights_path = REPO_ROOT / "research/gate19/information_rights.json"
     rights = json.loads(rights_path.read_text(encoding="utf-8"))
 
@@ -171,7 +152,7 @@ def main() -> int:
         return 1
 
     # 4. External MCP version pairs control audit (Path B, 20 pairs)
-    print("\n[4/4] Running External MCP Version Pairs Audit (Path B negative control, 20 pairs)...")
+    print("\n[4/5] Running External MCP Version Pairs Audit (Path B hand-adjudicated sample, 20 pairs)...")
     # Relative path is preserved to match committed schema locator
     rel_register = "gates/baselines/GATE_19_EXTERNAL_MCP_PAIRS.json"
     rel_rights = "research/gate19/information_rights.json"
@@ -185,7 +166,7 @@ def main() -> int:
     if ext_result != committed_ext_json:
         print("      -> FAILED: External audit JSON structure differs from committed file!")
         return 1
-    print("      -> PASS: Structural match — all 20 external MCP control pairs identical.")
+    print("      -> PASS: Structural match — all 20 external MCP sample pairs identical.")
 
     with tempfile.TemporaryDirectory() as tmpdir:
         tmp_ext_output = Path(tmpdir) / "reproduced_external.json"
@@ -215,12 +196,35 @@ def main() -> int:
         print("      -> FAILED: External audit byte mismatch!")
         return 1
 
+    # 5. Rule-ablation invariance (added for manuscript version 3)
+    print("\n[5/5] Running rule-ablation invariance check (4 variants over 310 items)...")
+    from research.gate19.ablation import build as build_ablation
+
+    ablation = build_ablation(REPO_ROOT)
+    for name, variant in sorted(ablation["synthetic_register"].items()):
+        c = variant["status_counts"]
+        print(f"      -> {name:<32} {c[REACHABLE]} reachable / "
+              f"{c[TARGET_ABSENT]} absent / {c[CONVENTION_UNOBSERVABLE]} convention")
+    if not ablation["synthetic_headline_invariant"]:
+        print("      -> FAILED: the headline moved under rule ablation!")
+        return 1
+    ext_without = ablation["external_sample"]["without_hand_annotation"]["status_counts"]
+    print(f"      -> external sample without hand annotation: {ext_without[REACHABLE]}/20 reachable")
+    print("      -> PASS: 50/310 invariant across all four rule configurations.")
+
+    ablation_path = REPO_ROOT / "gates/results/GATE_22_RULE_ABLATION.json"
+    if ablation != json.loads(ablation_path.read_text(encoding="utf-8")):
+        print("      -> FAILED: ablation differs from committed GATE_22_RULE_ABLATION.json!")
+        return 1
+    print("      -> PASS: Structural match with committed GATE_22_RULE_ABLATION.json.")
+
     elapsed = time.time() - start_time
     print("\n" + "=" * 72)
     print("REPRODUCIBILITY SUMMARY: ALL CHECKS PASSED (exit code 0)")
     print(f"  - 310 items: 260 reachable · 10 target-absent · 40 convention")
-    print(f"  - 20 external MCP control pairs: 20 reachable · 0 unreachable")
+    print(f"  - 20 external MCP sample pairs: 20 reachable (15 via hand annotation) · 0 unreachable")
     print(f"  - 134 frozen source files: 134 UNCHANGED")
+    print(f"  - rule ablation: 50/310 invariant across 4 rule configurations")
     print(f"  - Bit-identical match: TRUE (both synthetic & external audits)")
     print(f"  - Total execution time: {elapsed:.2f} seconds (< 5 minutes requirement)")
     print("=" * 72)

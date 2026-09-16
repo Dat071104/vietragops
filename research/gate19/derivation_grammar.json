@@ -1,0 +1,137 @@
+{
+  "schema": "gate19.derivation_grammar.v1",
+  "status": "repair declaration; added for manuscript version 3",
+  "supplements": "research/gate19/information_rights.json",
+  "why_this_file_exists": "The frozen rights declaration lists three observable_derivation_rules. The committed auditor evaluates five operative rules: three that were declared, one reachability rule that was not (visible_literal), and one unreachability rule that was not (unobservable_join). This file declares the grammar the auditor actually implements. The frozen rights file is NOT edited, because it is the artifact the frozen audit was produced under and its commit is cited in the manuscript. Declaring the grammar in a new artifact repairs the declaration without rewriting the record.",
+  "audit_output_unchanged": "This file is an additional declaration only. It is not read by research/gate19/auditor.py, and gates/results/GATE_19_AUDIT.json is bit-identical before and after it was added.",
+  "grammar_id": "G_R",
+  "criterion": "Reachable(g | R, G_R): an item is reachable only if its target value and every construction step are derivable from the declared information rights R under the derivation grammar G_R. Reachability is relative to G_R and is not a claim about arbitrary semantic computability.",
+  "evaluation_order": [
+    "target_field_declared",
+    "target_value_present",
+    "identity",
+    "visible_literal",
+    "unobservable_join",
+    "visible_split",
+    "declared_external_derivation",
+    "fail_closed"
+  ],
+  "reachability_rules": [
+    {
+      "id": "identity",
+      "declared_in_frozen_rights": true,
+      "rule": "A target equal to a visible source value is derivable.",
+      "implementation": "research/gate19/auditor.py::classify_item, branch 'target equals a visible source value'",
+      "frozen_run_fire_count": 225
+    },
+    {
+      "id": "visible_literal",
+      "declared_in_frozen_rights": false,
+      "rule": "A string target occurring verbatim in the method-visible surface is derivable.",
+      "implementation": "research/gate19/auditor.py::classify_item, branch 'target literal is present in the method-visible surface'",
+      "frozen_run_fire_count": 35,
+      "note": "This rule is evaluated before visible_split and is strictly weaker than it: any target that visible_split accepts is a substring of a visible source value and therefore also occurs in the visible surface. On the frozen 310-item register the two rules are co-extensive, so visible_literal shadows visible_split without changing any classification. See ablation_invariance."
+    },
+    {
+      "id": "visible_split",
+      "declared_in_frozen_rights": true,
+      "rule": "A target that is an explicit prefix or suffix of a visible source value, split by a delimiter present in that source value, is derivable from the observed value.",
+      "implementation": "research/gate19/auditor.py::_visible_split",
+      "delimiter_alphabet": [
+        "::",
+        ":",
+        "|",
+        "/",
+        "-",
+        "_",
+        ".",
+        "~",
+        ","
+      ],
+      "split_depth": "first split only (str.split(delimiter, 1)); the target must equal one of the two resulting pieces and must differ from the whole source value",
+      "frozen_run_fire_count": 0,
+      "note": "Fires zero times in the frozen run because visible_literal is evaluated first and accepts the same 35 items. Ablating visible_literal transfers exactly those 35 items to this rule with no change of status."
+    },
+    {
+      "id": "declared_external_derivation",
+      "declared_in_frozen_rights": true,
+      "rule": "For externally sourced pairs, a hand-verified annotation may mark a derivation observable only when its inputs and construction rule are present in the declared source surface.",
+      "implementation": "research/gate19/auditor.py::classify_item, branch on item['derivation']['status'] == 'observable'",
+      "frozen_run_fire_count": 0,
+      "frozen_external_run_fire_count": 15,
+      "note": "Not an independent mechanical check. The annotation is supplied by the human who adjudicated the pair, so an external pair accepted under this rule records the adjudicator's judgement, not the auditor's. See gate19.external_sample_ablation."
+    }
+  ],
+  "unreachability_rules": [
+    {
+      "id": "target_field_undeclared",
+      "declared_in_frozen_rights": true,
+      "status": "UNREACHABLE-TARGET-ABSENT",
+      "rule": "The ground truth names a target field that is not a declared input field of any new contract the method is shown.",
+      "frozen_run_fire_count": 10
+    },
+    {
+      "id": "target_value_absent",
+      "declared_in_frozen_rights": true,
+      "status": "UNREACHABLE-TARGET-ABSENT",
+      "rule": "The target field is declared but the supplied ground-truth item carries no target value.",
+      "frozen_run_fire_count": 0
+    },
+    {
+      "id": "unobservable_join",
+      "declared_in_frozen_rights": false,
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "rule": "A target formed by concatenating two distinct visible source values with a separator that does not occur anywhere in the method-visible surface is not derivable.",
+      "implementation": "research/gate19/auditor.py::_find_hidden_join",
+      "frozen_run_fire_count": 40,
+      "note": "This is the rule that carries every convention-unobservable classification in the frozen run. The frozen rights file covers it only by the general fail_closed_rule; it is a specific, named detector and is declared as one here. It is evaluated before visible_split, so a target that is simultaneously an unobservable join and a visible split would be classified unreachable. No item in the frozen register is both."
+    },
+    {
+      "id": "fail_closed",
+      "declared_in_frozen_rights": true,
+      "status": "UNREACHABLE-CONVENTION-UNOBSERVABLE",
+      "rule": "If no reachability rule is evidenced by the declared surface, classify the item unreachable rather than infer a likely convention. The auditor never substitutes a guessed field, delimiter, default, or format.",
+      "frozen_run_fire_count": 0,
+      "frozen_external_run_fire_count_without_annotation": 15
+    }
+  ],
+  "rights_are_materialized_not_parsed": {
+    "statement": "The auditor does not filter raw benchmark artifacts against R at run time. The rights declaration is instantiated by benchmark-specific builders (research/gate19/auditor.py::build_gate07_items, ::build_gate07_required_field_items, research/gate19/external_audit.py::build_audit_input) into a normalized audit register whose per-item fields visible_source_values, visible_text and new_contract_fields ARE the method-facing surface granted by R. The auditor verifies derivability over that register.",
+    "consequence": "classify_item accepts a rights argument but does not read it; audit_items reads only rights['schema'] to stamp the output. An auditor that is generic over an arbitrary R would require a policy engine that this implementation does not provide, and the manuscript does not claim one.",
+    "what_is_therefore_claimed": "That the audited benchmark's method-facing surface, as materialized by the builders, does not derive 50 of 310 targets. Not that the auditor dynamically enforces an arbitrary rights policy.",
+    "invariant_test": "research/gate19/tests.py::test_rights_instantiation_controls_the_visible_surface"
+  },
+  "ablation_invariance": {
+    "purpose": "Show that the undeclared visible_literal rule is not load-bearing for the headline result.",
+    "script": "research/gate19/ablation.py",
+    "output": "gates/results/GATE_22_RULE_ABLATION.json",
+    "variants": [
+      "V1 baseline, as committed",
+      "V2 visible_literal removed",
+      "V3 visible_split evaluated before visible_literal",
+      "V4 visible_literal restricted to visible source values only"
+    ],
+    "result": "All four variants return 260 reachable / 10 target-absent / 40 convention-unobservable over the 310-item register, and identical per-family counts. The headline 50/310 does not depend on the undeclared rule."
+  },
+  "external_sample_ablation": {
+    "purpose": "Separate what the external 20-pair sample tests mechanically from what it inherits from hand adjudication.",
+    "script": "research/gate19/ablation.py",
+    "with_annotation": {
+      "reachable": 20,
+      "unreachable": 0,
+      "by_rule": {
+        "visible_literal": 5,
+        "declared_external_derivation": 15
+      }
+    },
+    "without_annotation": {
+      "reachable": 5,
+      "unreachable": 15,
+      "by_rule": {
+        "visible_literal": 5,
+        "fail_closed": 15
+      }
+    },
+    "reading": "Five of twenty pairs are accepted by a mechanical rule with no hand annotation; fifteen are accepted only because the adjudicator marked them observable. The five mechanical acceptances are weak: in three of them the target value IS the new tool's own registered name, which necessarily appears in the diff that registers it; a fourth target is the schema status word 'required'; the fifth is a resource description string. The sample therefore demonstrates that real version changes can be represented in the audit schema. It is not an independent estimate of auditor specificity."
+  }
+}
