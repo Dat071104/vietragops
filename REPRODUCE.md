@@ -2,7 +2,7 @@
 
 **Paper:** *Unreachable Oracles: Auditing Ground-Truth Derivability in a Synthetic Tool-Drift Benchmark for LLM Agents*
 **Section reference:** §8 (*Reproducibility and Traceability*)
-**Manuscript artifact tag:** `gate22-paper-v31-20260916`
+**Manuscript artifact tag:** `gate22-paper-v32-20260916`
 **Measurement evidence freeze:** `gate10-paper-v1-20260911`
 **Evidence ledger:** `gates/baselines/GATE_10_EVIDENCE_LEDGER.json` (commit `653aa81`)
 
@@ -44,7 +44,13 @@ register is rebuilt by the committed generator (`build_gate07_items()`), not
 read from `gates/artifacts/`. Stages 3, 4, and 5 are therefore fully
 reproducible from a bare clone, and those are the stages that carry the
 paper's results. The archive matters only if you want the frozen *input*
-manifest checked end to end. It is available from the authors on request.
+manifest checked end to end.
+
+What is public is the attestation rather than the bytes: the recorded SHA-256
+and byte size of all 87 entries are in the committed manifest, frozen at
+`gate10-paper-v1-20260911` and unmoved since. The archive is hash-attested in
+public although it is not distributed, so if it is released later it can be
+checked against digests published well before the release.
 
 ---
 
@@ -53,7 +59,7 @@ manifest checked end to end. It is available from the authors on request.
 ```bash
 git clone https://github.com/Dat071104/vietragops.git
 cd vietragops
-git checkout gate22-paper-v31-20260916
+git checkout gate22-paper-v32-20260916
 python scripts/reproduce.py
 ```
 

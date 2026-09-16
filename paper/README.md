@@ -1,15 +1,15 @@
-# Unreachable Oracles — manuscript package, version 3.1
+# Unreachable Oracles — manuscript package, version 3.2
 
 Revised 2026-09-16 from version 3 (`gate22-paper-v3-20260914`), which was
 revised from version 2 (`gate21-paper-v2-20260912`) and version 1
-(`gate10-paper-v1-20260911`).
+(`gate10-paper-v1-20260911`). Tag `gate22-paper-v32-20260916`.
 
 Version 3 existed because an external review of the version 2 package found
 three defects that version 2 could not have found by compiling itself. All
 three were defects of **declaration** — the paper described its own instrument
 inaccurately — and none moved a measured value.
 
-**Version 3.1 exists because the same discipline was then applied to the
+**Version 3.2 exists because the same discipline was then applied to the
 reproduction claim itself, and it did not survive.** Checking out the version 3
 tag into a fresh working tree and running `scripts/reproduce.py` there exited
 **1**, not 0, for two independent reasons: a line-ending rewrite on checkout,
@@ -25,7 +25,7 @@ below.
 |---|---|
 | `main.tex` | The manuscript. Single file, self-contained. **This is the arXiv submission.** |
 | `CHANGES_AND_AUDIT.md` | Every defect found in versions 1 and 2 and what was done about it, plus the audit of this version against twelve failure categories. Read this first if you want to know what was checked. |
-| `EVIDENCE_LEDGER_ADDENDUM.json` | The nine numbers in the manuscript that are not in the frozen Gate 10 ledger, plus the seven `B`-keyed rule-ablation records added in version 3, each with source artifact, commit, SHA-256, and locator. Also twelve verification notes: three recording the version 2 defects, and two added in version 3.1 recording that the section 8 reproduction claim did not hold for a reader and that eight frozen artifacts had stopped hashing to their own manifest. |
+| `EVIDENCE_LEDGER_ADDENDUM.json` | The nine numbers in the manuscript that are not in the frozen Gate 10 ledger, plus the seven `B`-keyed rule-ablation records added in version 3, each with source artifact, commit, SHA-256, and locator. Also twelve verification notes: three recording the version 2 defects, and two added in version 3.2 recording that the section 8 reproduction claim did not hold for a reader and that eight frozen artifacts had stopped hashing to their own manifest. |
 | `REFERENCES_VERIFIED.json` | Per-reference verification record at two levels: bibliographic metadata, and the specific content claim the manuscript makes. 15 references. Records one corrected author list, one reference whose content could not be verified, and the abstract-level verification standard applied to the six references added in version 3. |
 | `ARXIV_CHECKLIST.md` | Submission metadata and the owner decisions that remain open. |
 
@@ -69,7 +69,7 @@ stdout at all, which is how a build can look clean and not be:
 
 All three come from `\end{longtable}` — the three appendix longtables, at
 source lines 1596, 1650 and 1700. Version 3 produced one of them at 26 pages;
-the version 3.1 text repaginates those tables so three of them now split. The
+the version 3.2 text repaginates those tables so three of them now split. The
 message is emitted by `longtable` when a table splits across a page
 boundary, TeX reports it as an error and then continues (`the offensive
 shrinkability has been made finite`), and the rendered output is correct. We
@@ -82,7 +82,7 @@ seven overfull hboxes, and three copies of this message. A paper that asks
 benchmark authors to audit their own ground truth cannot misreport its own
 build.
 
-## What changed in 3.1
+## What changed in 3.2
 
 Nothing in the measurement. Three things in what the paper claimed about
 reproducing it, and one repair to the repository.
@@ -129,8 +129,9 @@ five stages and exits 0, with stage 2 reported as partial and stages 3 and 4
 bit-identical. The owner's working tree still reports 134/134 UNCHANGED, and
 `--require-full-manifest` exits 0 there and 1 in a clone.
 
-The superseded tag `gate22-paper-v3-20260914` was left in place rather than
-moved. A published tag records what was claimed at that moment, and rewriting
+The superseded tags `gate22-paper-v3-20260914` and
+`gate22-paper-v31-20260916` were left in place rather than moved. A published
+tag records what was claimed at that moment, and rewriting
 one to make a later claim true is the move this paper argues against.
 
 ## What changed from version 2

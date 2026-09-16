@@ -6,7 +6,7 @@
     "sha256": "d9ec96bedcd28c1b0339c0e29534ecd50d893fa6e6714b46419b802434f229f6",
     "claims_in_base_ledger": 45
   },
-  "prepared_for": "Unreachable Oracles, manuscript version 3.1",
+  "prepared_for": "Unreachable Oracles, manuscript version 3.2",
   "prepared_on": "2026-09-16",
   "repository_state": {
     "head": "ff5e2b157ad218ff5e8dc652cbf06e6eef821522",
@@ -309,7 +309,7 @@
       "subject": "The reproduction claim of section 8 did not hold for a reader",
       "finding": "Section 8 of version 3 stated that scripts/reproduce.py 'exits zero with the audit artifacts byte-identical to the committed files'. Checking out gate22-paper-v3-20260914 into a fresh working tree and running the harness there exited 1. Two independent causes. (a) 48 paths have their SHA-256 asserted inside a committed artifact; cloning on Windows with the Git-for-Windows default core.autocrlf=true rewrote all of them, failing stage 2 and the stage 4 register_sha256 comparison. (b) 87 of the 134 frozen manifest entries are the raw Gate 07/08 measurement archive under gates/artifacts/, about 107 MB, excluded by gates/artifacts/.gitignore and carried by no tag; no clone has ever been able to check them. The defect was in the claim and in the repository packaging, not in any measurement.",
       "resolution": "Added .gitattributes pinning exactly the 48 hash-asserted paths with -text; a blanket policy was rejected because 191 of 602 tracked files hold CRLF on disk against an LF blob. Stage 2 now distinguishes a file that is present but altered (always a failure) from one that was never distributed, reports PASS (PARTIAL) with the reason, and records the partial state in its summary; --require-full-manifest restores strict behaviour. Section 8 rewritten to state stage by stage what a clone can and cannot verify, and REPRODUCE.md rewritten, having still described 4 stages, 6 tests and a 'negative control'.",
-      "impact_on_measured_values": "None. No reachability number depends on the undistributed archive: the 310-item register is rebuilt from the committed generator, so stages 3 and 5 are byte-identical from a bare clone. Verified after the change: fresh clone with core.autocrlf=true runs all five stages and exits 0; owner working tree still reports 134/134 UNCHANGED.",
+      "impact_on_measured_values": "None. No reachability number depends on the undistributed archive: the 310-item register is rebuilt from the committed generator, so stages 3 and 5 are byte-identical from a bare clone. Verified after the change: fresh clone with core.autocrlf=true runs all five stages and exits 0; owner working tree still reports 134/134 UNCHANGED. The 87 undistributed entries remain hash-attested in public through the committed frozen manifest, which records their SHA-256 and byte size.",
       "found_by": "Verification of the gate22-paper-v3-20260914 tag during version 3.1 preparation, 2026-09-16. Not found by the version 2 external review, which read only the package ZIP."
     },
     {

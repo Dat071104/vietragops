@@ -1,4 +1,4 @@
-# Version 3.1: the reproduction claim, audited
+# Version 3.2: the reproduction claim, audited
 
 Prepared 2026-09-16 against manuscript version 3 (repository tag
 `gate22-paper-v3-20260914`). The version 3 log follows below, unmodified.
@@ -121,7 +121,7 @@ limitation stated in its first section rather than buried.
 ### F6 — Package metadata, again (severity: low)
 
 **Defect.** The version 3 README reported the build as 26 pages with one
-error-level message. That was accurate for version 3. It is not for 3.1, and the
+error-level message. That was accurate for version 3. It is not for 3.2, and the
 counts in earlier rounds were read from stdout, where these messages **do not
 appear at all** — they are written only to `main.log`. A build can look clean on
 stdout and carry three error-level messages in its transcript.
@@ -129,17 +129,19 @@ stdout and carry three error-level messages in its transcript.
 **Resolution.** The README now states 27 pages, 0 overfull hboxes, 19 underfull,
 0 LaTeX warnings, and 3 `Infinite glue shrinkage` messages, read from `main.log`,
 together with the fact that `pdflatex` exits 1 because of them. The three arise
-at the end of the three appendix longtables; the version 3.1 text repaginates
+at the end of the three appendix longtables; the version 3.2 text repaginates
 them so three split where one split before.
 
 ---
 
-## Part 0b — What version 3.1 deliberately did not do
+## Part 0b — What version 3.2 deliberately did not do
 
 - **The measurement archive was not published.** Distributing 107 MB of raw
   request ledgers and traces is a disclosure decision for the owner, not a
   packaging fix, and those files may carry prompt and response content. The
-  limitation is declared instead, and the archive is offered on request.
+  limitation is declared instead. The recorded SHA-256 and byte size of all 87
+  entries are already in the committed frozen manifest, so the archive is
+  hash-attested in public even though it is not distributed.
 - **`gates/artifacts/.gitignore` was not changed.** Committing the archive to
   Git would be the wrong mechanism even if the disclosure were agreed.
 - **`GATE_19_FROZEN_SOURCE_HASHES.json` was not edited.** See F4.
@@ -148,13 +150,15 @@ them so three split where one split before.
 - **The superseded tag `gate22-paper-v3-20260914` was not moved or deleted.** It
   was pushed and therefore records what was claimed at that moment. Rewriting a
   published tag to make a later claim true is the move this paper argues against.
-  A new tag, `gate22-paper-v31-20260916`, denotes this version, and the
-  traceability table lists both.
+  The same applies to `gate22-paper-v31-20260916`, a superseded
+  pre-submission state. `gate22-paper-v32-20260916` denotes this version. The
+  traceability table lists the three tags that pin distinct things and names the
+  two superseded ones in a single line rather than growing a row per attempt.
 - **No measured value was recomputed.** The audit artifacts remain bit-identical.
 
 ---
 
-## Part 0c — Verification performed for version 3.1
+## Part 0c — Verification performed for version 3.2
 
 | Check | Result |
 |---|---|

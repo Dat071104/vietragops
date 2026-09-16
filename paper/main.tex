@@ -56,8 +56,8 @@ Auditing Ground-Truth Derivability in a Synthetic\\ Tool-Drift Benchmark for LLM
   \normalsize Ton Duc Thang University, Ho Chi Minh City, Vietnam%
 }
 
-\date{Version 3.1 --- September 16, 2026\\[2pt]
-\normalsize Manuscript pinned at repository tag \texttt{gate22-paper-v31-20260916}\\[1pt]
+\date{Version 3.2 --- September 16, 2026\\[2pt]
+\normalsize Manuscript pinned at repository tag \texttt{gate22-paper-v32-20260916}\\[1pt]
 \normalsize Measurement evidence frozen at \texttt{gate10-paper-v1-20260911}}
 
 \begin{document}
@@ -1373,8 +1373,8 @@ weight it has not earned.
 \section{Reproducibility and Traceability}
 \label{sec:repro}
 
-The public repository is \url{https://github.com/Dat071104/vietragops}. Four
-tags pin four different things and conflating them would misrepresent what is
+The public repository is \url{https://github.com/Dat071104/vietragops}. Three
+tags pin three different things and conflating them would misrepresent what is
 frozen.
 
 \begin{center}
@@ -1389,24 +1389,23 @@ Sections~\ref{sec:units}--\ref{sec:power} derives. Not modified since; the
 reproduction harness re-verifies it at every run. \\
 \texttt{gate21-paper-v2-20260912} & Adds the external survey of
 Section~\ref{sec:pathA} and the version~2 manuscript text. \\
-\texttt{gate22-paper-v3-20260914} & Adds the declared derivation grammar, the
-rule-ablation harness and its result, four auditor tests, and the version~3
-text. Superseded before submission and kept rather than moved. \\
-\texttt{gate22-paper-v31-20260916} & \textbf{Manuscript artifact tag for this
-version.} Adds the reproduction repairs of this section --- the byte-exactness
-pinning, the eight restored protocol artifacts, and the partial-manifest
-reporting --- and the text describing them. No measured value changed. \\
+\texttt{gate22-paper-v32-20260916} & \textbf{Manuscript artifact tag for this
+version.} Adds the declared derivation grammar, the rule-ablation harness and
+its result, four auditor tests, the reproduction repairs of this section, and
+this text. No measured value changed. \\
 \bottomrule
 \end{tabular}
 \end{center}
 
 \medskip
 The citable identifier for this version of the manuscript is
-\texttt{gate22-paper-v31-20260916}. The superseded \texttt{gate22-paper-v3-\allowbreak
-20260914} is left in place rather than moved, because a tag that has been
-published is a record of what was claimed at that moment and rewriting it would
-be the same move this paper argues against. Later commits may refine the
-repository without changing what any of the four tags denotes.
+\texttt{gate22-paper-v32-20260916}. Two further tags,
+\texttt{gate22-paper-v3-\allowbreak 20260914} and
+\texttt{gate22-paper-v31-\allowbreak 20260916}, mark superseded pre-submission
+states. They are retained rather than moved: a tag that has been published is a
+record of what was claimed at that moment, and rewriting one to make a later
+claim true is the move this paper argues against. Later commits may refine the
+repository without changing what any of these tags denotes.
 
 Every numeric claim in this paper carries a superscript key into a committed
 evidence ledger, \artifact{gates/baselines/GATE_10_EVIDENCE_LEDGER.json},
@@ -1454,11 +1453,18 @@ carried by no tag, so a clone holds the other 47 entries and not those. The
 harness verifies the 47, reports the 87 as not verified together with the
 reason, and records in its summary that stage 2 was partial;
 \texttt{{-}{-}require-full-manifest} turns the absence into a failure for a
-working tree that does hold the archive. The archive is available from the
-authors on request. A reader who wants the manifest checked end to end needs
-it; a reader who wants the reachability result checked does not, because the
-310-item register is rebuilt from the committed generator rather than read from
-the archive.
+working tree that does hold the archive. A reader who wants the manifest
+checked end to end needs those files; a reader who wants the reachability
+result checked does not, because the 310-item register is rebuilt from the
+committed generator rather than read from the archive.
+
+What is public is the attestation rather than the bytes. The recorded SHA-256
+and byte size of all 87 entries are in the committed manifest, which was frozen
+at \texttt{gate10-paper-v1-20260911} and has not moved since. The archive is
+therefore hash-attested in public although it is not distributed, and if it is
+released later it can be checked against digests that were published well
+before the release. That is a weaker guarantee than shipping the bytes, and we
+state it as such rather than as a substitute.
 
 Both properties were established by cloning the repository into a fresh working
 tree and running the harness there, rather than only in the tree that produced
