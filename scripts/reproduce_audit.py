@@ -12,6 +12,7 @@ Usage:
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 from pathlib import Path
@@ -35,6 +36,16 @@ from research.gate19.external_audit import build as build_external_audit
 from research.gate19.source_hashes import verify as verify_source_hashes
 
 
+# Entries of the frozen input manifest under this prefix are the raw Gate 07 and
+# Gate 08 measurement archive. gates/artifacts/.gitignore excludes them from the
+# repository -- they are roughly 107 MB and have never been committed at any tag.
+# A clone therefore holds every other manifest entry but not these, so stage 2
+# reports PARTIAL rather than claiming a verification it cannot perform. Pass
+# --require-full-manifest to turn that into a failure; that is what the owner
+# runs against a working tree that does hold the archive.
+MEASUREMENT_ARCHIVE_PREFIX = "gates/artifacts/"
+
+
 def run_unit_tests() -> int:
     """Run every offline unit test for the auditor; return how many ran."""
     from research.gate19 import tests as gate19_tests
@@ -50,7 +61,21 @@ def run_unit_tests() -> int:
     return len(tests)
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--require-full-manifest",
+        action="store_true",
+        help=(
+            "Fail stage 2 when the raw Gate 07/08 measurement archive is absent "
+            "instead of reporting stage 2 as partial. Use this against a working "
+            "tree that holds the archive."
+        ),
+    )
+    args = parser.parse_args(argv)
+    require_full_manifest = args.require_full_manifest
+    manifest_partial = False
+
     start_time = time.time()
     print("=" * 72)
     print("VIETRAGOPS / GATE 19 — INDEPENDENT REPRODUCIBILITY AUDIT")
@@ -71,10 +96,46 @@ def main() -> int:
     status_counts = verification["status_counts"]
     print(f"      -> Files evaluated: {verification['file_count']}")
     print(f"      -> Status counts: {status_counts}")
-    if not verification["all_unchanged"]:
+
+    changed = [c for c in verification["comparisons"] if c["status"] == "CHANGED"]
+    missing = [c for c in verification["comparisons"] if c["status"] == "MISSING"]
+    absent_archive = [
+        c for c in missing if c["path"].startswith(MEASUREMENT_ARCHIVE_PREFIX)
+    ]
+    absent_other = [
+        c for c in missing if not c["path"].startswith(MEASUREMENT_ARCHIVE_PREFIX)
+    ]
+    present = verification["file_count"] - len(missing)
+
+    # A file that is present but whose bytes differ is always a failure, and so is
+    # a file missing from anywhere other than the undistributed measurement archive.
+    if changed or absent_other:
+        for row in changed[:5]:
+            print(f"      -> CHANGED: {row['path']}")
+        for row in absent_other[:5]:
+            print(f"      -> MISSING: {row['path']}")
         print("      -> FAILED: Source hash mismatch detected!")
         return 1
-    print("      -> PASS: 134/134 frozen input files UNCHANGED (bit-exact).")
+
+    if absent_archive:
+        if require_full_manifest:
+            print(f"      -> {len(absent_archive)} manifest entries under "
+                  f"{MEASUREMENT_ARCHIVE_PREFIX} are absent from this working tree.")
+            print("      -> FAILED: --require-full-manifest was given.")
+            return 1
+        manifest_partial = True
+        print(f"      -> PASS (PARTIAL): {present}/{present} distributed frozen "
+              f"input files UNCHANGED (bit-exact).")
+        print(f"      -> NOT VERIFIED: {len(absent_archive)} manifest entries under "
+              f"{MEASUREMENT_ARCHIVE_PREFIX} are not present in this working tree.")
+        print("      -> Those are the raw Gate 07/08 measurement archive (~107 MB),")
+        print("      -> excluded from the repository by gates/artifacts/.gitignore")
+        print("      -> and not carried by any tag, so a clone cannot check them.")
+        print("      -> See REPRODUCE.md section 3 and section 8 of the paper.")
+        print("      -> Stage 2 is partial here; stages 1, 3, 4 and 5 are unaffected.")
+    else:
+        print(f"      -> PASS: {verification['file_count']}/"
+              f"{verification['file_count']} frozen input files UNCHANGED (bit-exact).")
 
     # 3. Synthetic oracle reachability audit (310 items)
     print("\n[3/5] Running Oracle Reachability Auditor on 310 synthetic pair items...")
@@ -220,10 +281,18 @@ def main() -> int:
 
     elapsed = time.time() - start_time
     print("\n" + "=" * 72)
-    print("REPRODUCIBILITY SUMMARY: ALL CHECKS PASSED (exit code 0)")
+    if manifest_partial:
+        print("REPRODUCIBILITY SUMMARY: ALL AVAILABLE CHECKS PASSED (exit code 0)")
+        print("  - stage 2 was PARTIAL: the measurement archive is not in this tree")
+    else:
+        print("REPRODUCIBILITY SUMMARY: ALL CHECKS PASSED (exit code 0)")
     print(f"  - 310 items: 260 reachable · 10 target-absent · 40 convention")
     print(f"  - 20 external MCP sample pairs: 20 reachable (15 via hand annotation) · 0 unreachable")
-    print(f"  - 134 frozen source files: 134 UNCHANGED")
+    if manifest_partial:
+        print(f"  - frozen input manifest: {present}/134 present, all UNCHANGED; "
+              f"{134 - present} not distributed")
+    else:
+        print(f"  - 134 frozen source files: 134 UNCHANGED")
     print(f"  - rule ablation: 50/310 invariant across 4 rule configurations")
     print(f"  - Bit-identical match: TRUE (both synthetic & external audits)")
     print(f"  - Total execution time: {elapsed:.2f} seconds (< 5 minutes requirement)")

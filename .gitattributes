@@ -1,0 +1,76 @@
+# Byte-exact policy for artifacts whose SHA-256 is asserted in a committed record.
+#
+# Everything not listed here keeps Git's default handling. These paths are
+# different: a committed artifact records their SHA-256, so any line-ending
+# rewrite on checkout invalidates a published hash. '-text' disables end-of-line
+# conversion entirely, in both directions, so the working tree always holds the
+# same bytes as the blob on every platform.
+#
+# Why this was needed: before this file existed, cloning on Windows with the
+# Git-for-Windows default core.autocrlf=true rewrote these files and
+# scripts/reproduce.py exited 1 at stage 2 (frozen manifest) and failed the
+# register_sha256 comparison at stage 4. The repository verified only on the
+# machine that produced it.
+
+# Register whose SHA-256 is recorded as register_sha256 in
+# gates/results/GATE_19_EXTERNAL_AUDIT.json (harness stage 4).
+gates/baselines/GATE_19_EXTERNAL_MCP_PAIRS.json -text
+
+# Entries of the frozen input manifest
+# gates/results/GATE_19_FROZEN_SOURCE_HASHES.json (harness stage 2).
+# 39 whose committed blob already hashes to its recorded value:
+gates/baselines/GATE_07_AMBIGUITY_AUDIT_V3.json -text
+gates/baselines/GATE_07_DATASET_V3.json -text
+gates/baselines/GATE_07_LLM_RESULTS_V3.json -text
+gates/baselines/GATE_07_OFFLINE_RESULTS_V3.json -text
+gates/baselines/GATE_07_PROTOCOL_V4_1_ADDENDUM.json -text
+gates/results/GATE_07_FIX_PROMPT.md -text
+gates/results/GATE_07_RESULT.md -text
+gates/results/GATE_07_V4_CLOSURE_RECEIPT.md -text
+gates/results/GATE_08_RESULT.md -text
+research/gate0/contracts/__init__.py -text
+research/gate0/contracts/contract.py -text
+research/gate0/evaluator/__init__.py -text
+research/gate0/evaluator/capability.py -text
+research/gate0/evaluator/evaluator.py -text
+research/gate07/dataset/__init__.py -text
+research/gate07/dataset/generator.py -text
+research/gate07/dataset/models.py -text
+research/gate07/dataset/operators.py -text
+research/gate07/harness/__init__.py -text
+research/gate07/harness/method_facing.py -text
+research/gate07/harness/serialization.py -text
+research/gate07/metrics/__init__.py -text
+research/gate07/metrics/execution.py -text
+research/gate07/metrics/report.py -text
+research/gate07/metrics/scoring.py -text
+research/gate07/oracle/__init__.py -text
+research/gate07/oracle/ground_truth.py -text
+research/gate07/sandbox/__init__.py -text
+research/gate07/sandbox/api.py -text
+research/gate07/sandbox/catalog.py -text
+research/gate07/sandbox/models.py -text
+research/gate07/sandbox/operations.py -text
+research/gate07/sandbox/store.py -text
+research/gate07/traces/__init__.py -text
+research/gate07/traces/capture.py -text
+research/gate07/traces/models.py -text
+research/gate08/metrics/__init__.py -text
+research/gate08/metrics/diagnostics.py -text
+research/gate08/metrics/report.py -text
+
+# The remaining 8. Git normalised these to LF at some earlier commit, so
+# the committed blob did NOT hash to the value the frozen manifest records for
+# it. Their bytes are restored here to the form the manifest was taken over.
+# The measurement content is untouched: for each file the parsed JSON before and
+# after is identical and the only difference is line endings. The manifest
+# itself was not edited. See paper/CHANGES_AND_AUDIT.md and note V11 of
+# paper/EVIDENCE_LEDGER_ADDENDUM.json.
+gates/baselines/GATE_07_METRICS.json -text
+gates/baselines/GATE_07_METRICS_V4.json -text
+gates/baselines/GATE_07_PROTOCOL.json -text
+gates/baselines/GATE_07_PROTOCOL_V2.json -text
+gates/baselines/GATE_07_PROTOCOL_V3.json -text
+gates/baselines/GATE_07_PROTOCOL_V4.json -text
+gates/baselines/GATE_07_PROTOCOL_V4_FREEZE_LEDGER.json -text
+gates/baselines/GATE_08_PROTOCOL.json -text
