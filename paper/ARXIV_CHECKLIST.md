@@ -1,4 +1,4 @@
-# arXiv preparation checklist — manuscript version 3.4
+# arXiv preparation checklist — manuscript version 3.5
 
 Prepared 2026-09-16. **This package does not submit anything.** Submission is
 the owner's separate action.
@@ -16,7 +16,7 @@ the owner's separate action.
 | Cross-lists | `cs.CL` (LLM-agent and tool-use readership), `cs.AI` (agent evaluation). |
 | Alternative | `cs.CL` as primary if NLP review context is preferred. This changes the readership, not the paper's scope or claims. |
 | ACM/MSC class | Leave blank unless a target venue requires one. |
-| Comments field | `30 pages, 2 figures. Measurement and benchmark-validity case study. Manuscript artifact tag: gate22-paper-v34-20260917. Measurement evidence frozen at gate10-paper-v1-20260911.` |
+| Comments field | `31 pages, 2 figures. Measurement and benchmark-validity case study. Manuscript artifact tag: gate22-paper-v35-20260917. Measurement evidence frozen at gate10-paper-v1-20260911.` |
 | Artifact URL | `https://github.com/Dat071104/vietragops` |
 | Licence | **`CC BY 4.0`** — decided. Rationale and the one caveat are below. |
 
@@ -36,12 +36,12 @@ in this package belongs in the arXiv submission:
 - `CHANGES_AND_AUDIT.md`, `EVIDENCE_LEDGER_ADDENDUM.json`,
   `REFERENCES_VERIFIED.json`, `README.md`, and this checklist are provenance
   records for the authors and the repository, not part of the paper.
-- **No PDF is shipped with version 3.4, and none should be uploaded.** arXiv
+- **No PDF is shipped with version 3.5, and none should be uploaded.** arXiv
   compiles `main.tex` itself and asks that generated output not be included
   alongside the source, so a `main.pdf` next to `main.tex` is both unnecessary
   and an invitation to submit the wrong file. Version 2 shipped one and had to
   warn against it; version 3.2 shipped none; version 3.3 shipped one under
-  `build/` with a warning; version 3.4 ships none again. The version 3.4
+  `build/` with a warning; versions 3.4 and 3.5 ship none. The version 3.5
   release archive is `main.tex` and nothing else, which makes the archive the
   submission rather than a package containing it.
 - Do not upload `main.aux`, `main.log`, `main.out`, `main.toc` or any other
@@ -103,14 +103,22 @@ Source: <https://info.arxiv.org/help/license/index.html>
 
 - [x] Author block set: Nguyen Thanh Dat, Ton Duc Thang University. No AI
       system listed as an author.
-- [x] Build verified: 30 pages, 0 overfull hboxes, 19 underfull, 0 LaTeX
-      warnings, 0 undefined references. Two benign `Infinite glue shrinkage`
-      messages from longtable page splitting, which make `pdflatex` exit with
-      status 1 while still producing a correct PDF; see README for the
-      bisection that shows they are not content-caused. Read these counts from
-      `main.log`, not from stdout — they never appear on stdout. Version 3.4
-      added one page, between the Related Work paragraphs on GeneBench and the
-      Appendix E verification record; it introduced no overfull box.
+- [x] Correspondence address on the title page and in Section 8:
+      `nguyentdat071104@gmail.com`, added in version 3.5. Versions 1 through
+      3.4 carried none, which left a paper that invites a reader to dispute its
+      numbers with no address to dispute them to. Confirm this is an address
+      that will still be read years from now, because a preprint outlives a
+      mailbox.
+- [x] Build verified: 31 pages, 0 overfull hboxes, 19 underfull, 0 LaTeX
+      warnings, 0 undefined references. Three benign `Infinite glue shrinkage`
+      messages from longtable page splitting, at source lines 1782, 1836 and
+      1886, which make `pdflatex` exit with status 1 while still producing a
+      correct PDF; see README for the bisection that shows they are not
+      content-caused. Read these counts from `main.log`, not from stdout —
+      they never appear on stdout. Version 3.5 added one page, from the extra
+      row in the Section 8 tag table; the repagination splits the Appendix D
+      ledger table across a page again, which is where the third glue message
+      comes from. It introduced no overfull box.
 - [x] PDF document metadata set via `\hypersetup`: title, author, subject,
       keywords. Previously blank. This affects the rendered file only; arXiv
       takes its own metadata from the submission form, so the two must still be

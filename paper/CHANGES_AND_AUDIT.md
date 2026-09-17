@@ -1,3 +1,157 @@
+# Version 3.5: an address, and the reason it needed a version number
+
+Prepared 2026-09-17 against manuscript version 3.4 (repository tag
+`gate22-paper-v34-20260917`), tagged earlier the same day. The version 3.4 log
+follows below, unmodified. Nothing in this entry corrects anything: no claim,
+number, reference, artifact, gate result, ledger record or verification note
+changed, and `REFERENCES_VERIFIED.json` is byte-identical to its version 3.4
+state.
+
+## H1. The package had no contact address
+
+**What was missing.** Across versions 1 through 3.4 the package carried no way
+to reach the author. This is not a claim defect, and no review raised it; it
+surfaced from a repository-hygiene pass over the version 3.4 package, alongside
+the observation that `.gitignore` carries no LaTeX block.
+
+It is worth naming why it matters here rather than treating it as a formatting
+item. Section 5.4 recommends that a benchmark normalise its correspondence
+register so that an oracle becomes *externally* checkable --- that is, checkable
+by someone who is not the author. Section 8 tells a reader which of six tags
+pins which artifact and invites that reader to re-run the auditor and disagree
+with the result. Section 7.1 states outright that the audited benchmark is
+self-authored and that the reader should discount accordingly. A paper built
+that way, carrying no address, is asking for scrutiny through a channel it never
+opened.
+
+**What was added.** One address, `nguyentdat071104@gmail.com`, in two places:
+
+1. The title page, under the affiliation, as `Correspondence:` followed by a
+   `mailto` link.
+2. The opening paragraph of Section 8, beside the repository URL, phrased so it
+   covers the specific case the paper invites: *correspondence --- including any
+   challenge to a number reported here*.
+
+The second placement is deliberate rather than redundant. A reader who has just
+re-run the harness and got a different number is reading Section 8, twenty pages
+from the title block.
+
+Mechanically: the title-page instance is `\href{mailto:...}{\texttt{...}}`,
+which is safe because it sits centred on its own line and never needs to break.
+The Section 8 instance is `\href{mailto:...}{\nolinkurl{...}}`, because it sits
+mid-paragraph and `\nolinkurl` permits the url-style line breaks that `\texttt`
+forbids. Using `\texttt` in both places would have risked an overfull hbox in
+the Section 8 paragraph.
+
+## H2. Why this is version 3.5 and not an amended 3.4
+
+The change is three source lines and alters no claim, so amending version 3.4 in
+place was the obvious move. It was rejected, and the reasoning is recorded
+because it is the same reasoning the manuscript applies to its own defects.
+
+The manuscript pins its own artifact tag in three places: the title block, the
+Section 8 tag table, and the citable-identifier sentence. All three named
+`gate22-paper-v34-20260917`. That tag was created, pushed, and points at commit
+`c2566f6`. Adding the address to `main.tex` without a new tag would leave a
+manuscript whose text names a tag whose blob differs from the file a reader
+holds.
+
+That is not a cosmetic mismatch. It is the defect class recorded at `V17` twelve
+hours earlier in the same package: a number in the abstract that disagreed with
+the frozen artifact it cited. Shipping a file that disagrees with the tag it
+declares, immediately after correcting a file that disagreed with the artifact it
+cited, would make the correction decorative.
+
+The other available move was to re-cut `gate22-paper-v34-20260917` onto the new
+commit. Nothing external references it, no arXiv submission exists, and it was
+twenty minutes old --- so the cost would have been nil in practice. It was
+rejected on principle, and the principle is already written into Section 8 of the
+paper: *a tag that has been published is a record of what was claimed at that
+moment, and rewriting one to make a later claim true is the move this paper
+argues against.* A rule that only binds when it is inconvenient is not a rule.
+Version 3.4 therefore stands exactly as tagged, and version 3.5 carries the
+address.
+
+## H3. What it cost, measured rather than assumed
+
+**One page: 30 to 31.** The source of the page is the extra row in the Section 8
+tag table, not the address itself.
+
+**One more benign glue message: two to three.** The repagination pushes the
+Appendix D evidence-ledger provenance table across a page boundary, so it splits
+and `longtable` emits a third `Infinite glue shrinkage` message. The three now
+sit at source lines 1782, 1836 and 1886. The count has tracked pagination rather
+than content across four releases --- three in version 3.2, two in 3.3 and 3.4,
+three again in 3.5 --- which is itself the evidence that the message is a
+page-splitting artifact and not a content defect.
+
+The split was checked rather than assumed: the header row of the Appendix D
+table repeats correctly on the continuation page, and rows `B05`, `B06` and
+`B07` are all present, read out of the extracted text of the rendered PDF.
+
+**Nothing else.** The rendered text of the 3.4 and 3.5 PDFs was compared word by
+word: 15,684 words against 15,704, with 57 differing runs. Every run is either a
+page number changing position, a paragraph crossing a page boundary with its
+content intact, or one of the two intended additions. One thing improved without
+being asked to: `unreachable-convention-unobservable` was being hyphen-broken
+across the page-23 boundary in version 3.4 and now sits intact on one line.
+
+Build after the change: 31 pages, **0 overfull hboxes**, 19 underfull, 0 LaTeX
+warnings, 0 undefined references or citations. The three glue messages still make
+`pdflatex` exit 1 while producing a correct PDF, as recorded in the README since
+version 3.2.
+
+The version 3.5 tag-table row is the fifth entry in the superseded-tag list of
+Section 8, which is the list that produced an overfull hbox in version 3.3 and
+had to be repaired with `\allowbreak` points inside each tag. Those points
+absorbed the fifth tag without a new overfull box, which is the second time that
+repair has paid for itself.
+
+## H4. Verification actually run for this version
+
+1. `patchlib` refused to apply any substitution that did not match exactly once,
+   so every one of the four edits to `main.tex` is positionally confirmed.
+2. Three-pass `pdflatex` from a clean directory containing only `main.tex`, and
+   the counts above read from `main.log` rather than from stdout.
+3. `pdftotext` word-level diff of the version 3.4 and version 3.5 PDFs, with
+   every differing run inspected and accounted for.
+4. `pdfinfo` confirms the `\hypersetup` metadata still populates Title, Author,
+   Subject and Keywords, and the page count reads 31.
+5. `scripts/reproduce.py` re-run, although nothing it checks was touched: exit 0,
+   310 items as 260 reachable / 10 target-absent / 40 convention-unobservable,
+   20 of 20 external pairs, 50/310 invariant across four rule configurations,
+   134 of 134 frozen source files unchanged, both audits bit-identical, 16.67
+   seconds.
+6. Cross-file consistency script re-run over the whole package after the bump:
+   every version string, tag occurrence, reference count, claim count and
+   verification-note count checked against the others and against the frozen
+   gate artifacts.
+7. `GATE_10_EVIDENCE_LEDGER.json` re-read to confirm claim `C001` still reads
+   `12 drift families` and was not touched by this version.
+8. The section number was checked in the rendered PDF rather than inferred from
+   the source: *Reproducibility and Traceability* is Section **8**, not 9. An
+   earlier draft of this entry and of the README said 9, and both were corrected
+   before commit.
+
+## H5. What was considered and not done
+
+**Updating `.gitignore` with a LaTeX block.** The hygiene pass noted that
+`main.aux`, `main.pdf`, `main.log`, `main.out`, `main.toc`, `main.bbl` and
+`main.synctex.gz` are all untracked and unignored, so the next build inside the
+repository will show them as untracked files. Not done here, because this version
+is scoped to the manuscript and a `.gitignore` change belongs to the repository
+rather than to the paper package. It is recorded so it is not lost.
+
+**Putting the address in the PDF metadata.** `\hypersetup` has no standard field
+for a contact address, and overloading `pdfauthor` with an email would corrupt a
+field that indexers read. Not done.
+
+**Anything in the measurement.** Nothing was touched, and nothing should be. A
+version whose only content is an email address is the correct size for the change
+it makes.
+
+---
+
 # Version 3.4: the bound, the scope, and the closest related work
 
 Prepared 2026-09-17 against manuscript version 3.3 (repository tag

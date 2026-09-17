@@ -6,7 +6,7 @@
     "sha256": "d9ec96bedcd28c1b0339c0e29534ecd50d893fa6e6714b46419b802434f229f6",
     "claims_in_base_ledger": 45
   },
-  "prepared_for": "Unreachable Oracles, manuscript version 3.4",
+  "prepared_for": "Unreachable Oracles, manuscript version 3.5",
   "prepared_on": "2026-09-17",
   "repository_state": {
     "head": "ff5e2b157ad218ff5e8dc652cbf06e6eef821522",
@@ -521,5 +521,13 @@
       "V17",
       "V18"
     ]
+  },
+  "version_35_scope": {
+    "note": "Version 3.5 adds a correspondence address to the title page and to the opening paragraph of section 8. It adds no claim record, changes no claim record, adds no verification note, and changes no reference record. No code, no gate artifact, no measured value, and no third-party citation changed. The version bump exists because the addition moves the page count from 30 to 31 and the manuscript pins its own tag in three places, so shipping the file under gate22-paper-v34-20260917 would have left the manuscript naming a tag whose blob differs from it, which is the defect class recorded at V17 for version 3.4.",
+    "claims_unchanged": 9,
+    "notes_unchanged": 18,
+    "references_unchanged": 19,
+    "auditor_rerun": "Not required, because no input, rule or artifact was touched. scripts/reproduce.py was run anyway at the version 3.5 working state before the manuscript tag was created: exit 0, 310 items as 260 reachable / 10 target-absent / 40 convention-unobservable, 20 of 20 external pairs reachable, 50/310 invariant across four rule configurations, 134 of 134 frozen source files unchanged, both audits bit-identical, 16.67 seconds.",
+    "notes_added": []
   }
 }

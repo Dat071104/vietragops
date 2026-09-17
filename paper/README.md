@@ -1,13 +1,24 @@
-# Unreachable Oracles — manuscript package, version 3.4
+# Unreachable Oracles — manuscript package, version 3.5
 
-Revised 2026-09-17 from version 3.3 (`gate22-paper-v33-20260916`), which was
-revised from version 3.2 (`gate22-paper-v32-20260916`), version 3
+Revised 2026-09-17 from version 3.4 (`gate22-paper-v34-20260917`), which was
+revised earlier the same day from version 3.3 (`gate22-paper-v33-20260916`),
+version 3.2 (`gate22-paper-v32-20260916`), version 3
 (`gate22-paper-v3-20260914`), version 2 (`gate21-paper-v2-20260912`) and
 version 1 (`gate10-paper-v1-20260911`).
-Tag `gate22-paper-v34-20260917`.
+Tag `gate22-paper-v35-20260917`.
 
-**Version 3.4 is a correction pass on four statements plus one omission. It
-changes no code, no artifact, and no measured value.** A pre-submission review
+**Version 3.5 adds a correspondence address and nothing else. It changes no
+claim, no number, no reference, no artifact, and no measured value.** The
+manuscript asks benchmark authors to publish their correspondence register and
+invites a reader to re-run its auditor against committed artifacts; across four
+releases it gave that reader no way to reach anyone. An address now sits under
+the affiliation on the title page and in the opening paragraph of Section 8,
+next to the repository URL. The version bump exists because the addition moves
+the page count and the manuscript pins its own tag in three places; see *What
+changed in 3.5* below for why that ruled out amending version 3.4 in place.
+
+**Version 3.4 was a correction pass on four statements plus one omission. It
+changed no code, no artifact, and no measured value.** A pre-submission review
 of the version 3.3 package found a bound stated in the wrong direction, a
 limitations sentence that overclaimed against this paper's own Section 5.4, a
 family count in the abstract that disagreed with the frozen audit artifact, and
@@ -44,20 +55,21 @@ below.
 |---|---|
 | `main.tex` | The manuscript. Single file, self-contained. **This is the arXiv submission.** |
 | `CHANGES_AND_AUDIT.md` | Every defect found in versions 1 and 2 and what was done about it, plus the audit of this version against twelve failure categories. Read this first if you want to know what was checked. |
-| `EVIDENCE_LEDGER_ADDENDUM.json` | The nine numbers in the manuscript that are not in the frozen Gate 10 ledger, plus the seven `B`-keyed rule-ablation records added in version 3, each with source artifact, commit, SHA-256, and locator. Also eighteen verification notes: three recording the version 2 defects, two added in version 3.2 recording that the section 8 reproduction claim did not hold for a reader and that eight frozen artifacts had stopped hashing to their own manifest, two added in version 3.3 (`V13`, `V14`) recording the wrong-denominator citation and the Appendix A contradiction, and four added in version 3.4 (`V15`–`V18`) recording the inverted bound direction, the overclaimed summary of the failed external audit, the family count that disagreed with the frozen artifact, and the power-analysis phrasing. No claim record changed in 3.3 or 3.4. |
+| `EVIDENCE_LEDGER_ADDENDUM.json` | The nine numbers in the manuscript that are not in the frozen Gate 10 ledger, plus the seven `B`-keyed rule-ablation records added in version 3, each with source artifact, commit, SHA-256, and locator. Also eighteen verification notes: three recording the version 2 defects, two added in version 3.2 recording that the section 8 reproduction claim did not hold for a reader and that eight frozen artifacts had stopped hashing to their own manifest, two added in version 3.3 (`V13`, `V14`) recording the wrong-denominator citation and the Appendix A contradiction, and four added in version 3.4 (`V15`–`V18`) recording the inverted bound direction, the overclaimed summary of the failed external audit, the family count that disagreed with the frozen artifact, and the power-analysis phrasing. No claim record changed in 3.3, 3.4, or 3.5. |
 | `REFERENCES_VERIFIED.json` | Per-reference verification record at two levels: bibliographic metadata, and the specific content claim the manuscript makes. 19 references, 18 verified at both levels. Records one corrected author list, one reference whose content could not be verified, one verified only from a conference programme entry, one supporting quote corrected from paraphrase to verbatim, and the abstract-level verification standard applied to the nine references added in versions 3 and 3.3 — against which the single version 3.4 addition is the one entry verified from its full text. |
 | `ARXIV_CHECKLIST.md` | Submission metadata and the owner decisions that remain open. |
 
 ### On the rendered PDF, and on what the release archive contains
 
-The three versions before this one each answered this differently, so the
+The versions before this one did not all answer this the same way, so the
 current answer is stated once, with the reason.
 
-**Version 3.4 ships no PDF.** Version 2 shipped one and the README then had to
-warn against uploading it. Version 3.2 shipped none, which removed the failure
-mode. Version 3.3 shipped one under `build/` with a warning, because a reader
-had asked to read the paper without a TeX installation. Version 3.4 returns to
-shipping none, and the reason is arXiv's own rule rather than taste: when a PDF
+**Version 3.5 ships no PDF, and neither did version 3.4.** Version 2 shipped
+one and the README then had to warn against uploading it. Version 3.2 shipped
+none, which removed the failure mode. Version 3.3 shipped one under `build/`
+with a warning, because a reader had asked to read the paper without a TeX
+installation. Version 3.4 returned to shipping none and version 3.5 keeps that,
+and the reason is arXiv's own rule rather than taste: when a PDF
 is produced from TeX, arXiv wants the source and asks that generated output not
 be included, so a release archive that carries `main.pdf` next to `main.tex` is
 an archive a reader can upload wrongly.
@@ -71,7 +83,7 @@ The provenance files listed above — this README, the change log, the
 checklist, and the two JSON records — are not in that archive either. They are
 records for the repository and for a reader of the repository, not inputs to a
 LaTeX build, and arXiv has no use for them. They live at tag
-`gate22-paper-v34-20260917` under `paper/`.
+`gate22-paper-v35-20260917` under `paper/`.
 
 ## Building
 
@@ -96,11 +108,11 @@ Three-pass `pdflatex` via MiKTeX (MiKTeX-pdfTeX), 2026-09-17, read from
 `main.log` rather than from stdout — the messages below do not appear on
 stdout at all, which is how a build can look clean and not be:
 
-- **30 pages** (version 3.3 was 29, version 3.2 was 27; the version 3.4
-  Related Work and Appendix E additions account for the one)
+- **31 pages** (version 3.4 was 30, version 3.3 was 29, version 3.2 was 27;
+  the version 3.5 tag-table row accounts for the one)
 - **0 overfull hboxes**, 19 underfull hboxes
 - **0 LaTeX warnings**, 0 undefined references or citations
-- **2 messages at error level**, which is why `pdflatex` exits with status 1
+- **3 messages at error level**, which is why `pdflatex` exits with status 1
   even though the PDF is correct. Reproduced in full rather than summarised
   away:
 
@@ -108,11 +120,14 @@ stdout at all, which is how a build can look clean and not be:
   ! Infinite glue shrinkage found in box being split.
   ```
 
-Both come from `\end{longtable}`, at source lines 1775 and 1829 — the same
-two tables as in version 3.3, moved down the file by the version 3.4 additions.
-Version 3.2 produced three of these from three splitting appendix longtables;
-the version 3.3 repagination means the third table no longer splits, so there
-are two. The
+All three come from `\end{longtable}`, at source lines 1782, 1836 and 1886.
+The count has moved with pagination rather than with content: version 3.2
+produced three of these from three splitting appendix longtables; the version
+3.3 repagination left the third table unsplit, so versions 3.3 and 3.4 produced
+two; the version 3.5 repagination splits it again, so there are three. The
+third table is the Appendix D evidence-ledger provenance table, and it splits
+correctly — its header row repeats on the continuation page, which was checked
+in the rendered text rather than assumed. The
 message is emitted by `longtable` when a table splits across a page
 boundary, TeX reports it as an error and then continues (`the offensive
 shrinkability has been made finite`), and the rendered output is correct. We
@@ -129,14 +144,67 @@ One overfull hbox **was** introduced in version 3.3 and is not in the count
 above because it was fixed rather than reported: adding a third superseded tag
 to the Section 8 list put three `\texttt` tags on one line with one break point
 each, at 11.17pt over. Extra `\allowbreak` points inside each tag resolved it.
-The count above is from the build after that fix. Version 3.4 adds a fourth tag
-to the same list and widens one Appendix D table cell; the `\allowbreak` points
-already there absorbed both, and this build introduced no new overfull box.
+The count above is from the build after that fix. Version 3.4 added a fourth tag
+to the same list and widened one Appendix D table cell; version 3.5 adds a
+fifth tag and two lines carrying an email address. The `\allowbreak` points
+already there absorbed all of it, and this build introduced no new overfull
+box.
 
 Version 3.4 also sets `\hypersetup` in the preamble, so the PDF now carries a
 document title, author, subject, and keywords instead of leaving them blank.
 That is metadata on the rendered file only. arXiv takes its own metadata from
 the submission form, so this changes nothing about the submission.
+
+## What changed in 3.5
+
+One addition, and a version number to carry it honestly.
+
+**A correspondence address.** The manuscript argues that benchmarks should
+publish their correspondence register, invites a reader to re-run the auditor
+against committed artifacts, and tells that reader which tag pins which
+artifact. Across four releases it gave them no way to reach anyone. The address,
+`nguyentdat071104@gmail.com`, now appears twice: under the affiliation on the
+title page, and in the opening
+paragraph of Section 8 next to the repository URL, which is where a reader is
+standing when they have found something to dispute. Both are `mailto` links;
+the Section 8 one uses `\nolinkurl` so it can break across a line, the title
+page one does not need to.
+
+**Why this is a new version rather than an amended 3.4.** The addition is three
+source lines and changes no claim. But it moves the page count from 30 to 31 and
+shifts every source line after the title block, and the manuscript pins its own
+tag in three places: the title block, the Section 8 tag table, and the
+citable-identifier sentence. Shipping the new file under
+`gate22-paper-v34-20260917` would have produced a manuscript whose text names a
+tag whose blob differs from it — an artifact disagreeing with its own
+declaration, which is the defect class this paper exists to document, and the
+same class as defect 3 of version 3.4. The alternative, re-cutting a published
+tag so a later file becomes true, is the move Section 8 explicitly argues
+against. So version 3.4 stands exactly as tagged, and version 3.5 carries the
+address.
+
+**What it cost.** One page, and one more benign `Infinite glue shrinkage`
+message. The extra tag-table row repaginates the appendices and the Appendix D
+evidence-ledger table splits across a page again, as it did in version 3.2. The
+split is correct — the header row repeats on the continuation page, verified in
+the extracted text of the rendered PDF, not assumed. Both facts are restated
+under *Last verified build* above rather than left for a reader to find.
+
+The rendered text of the version 3.4 and version 3.5 PDFs was compared word by
+word: 57 differing runs, every one of them a page number changing position or a
+paragraph crossing a page boundary, plus the two intended additions. Nothing was
+lost, and one thing improved by accident —
+`unreachable-convention-unobservable` was being hyphen-broken across a page
+boundary in 3.4 and is now intact.
+
+**What did not change.** No claim, no number, no reference, no bibliography
+entry, no artifact, no gate result, no ledger record, and no verification note.
+`REFERENCES_VERIFIED.json` is byte-identical to its version 3.4 state. The
+reproduction harness was re-run anyway, because a version that asserts nothing
+changed should be able to show it: exit 0, 310 items as 260 reachable / 10
+target-absent / 40 convention-unobservable, 20/20 external pairs, 50/310
+invariant across four rule configurations, 134/134 frozen source files
+unchanged, both audits bit-identical, 16.67 seconds.
 
 ## What changed in 3.4
 
