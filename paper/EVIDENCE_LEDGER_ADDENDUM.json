@@ -6,8 +6,8 @@
     "sha256": "d9ec96bedcd28c1b0339c0e29534ecd50d893fa6e6714b46419b802434f229f6",
     "claims_in_base_ledger": 45
   },
-  "prepared_for": "Unreachable Oracles, manuscript version 3.3",
-  "prepared_on": "2026-09-16",
+  "prepared_for": "Unreachable Oracles, manuscript version 3.4",
+  "prepared_on": "2026-09-17",
   "repository_state": {
     "head": "ff5e2b157ad218ff5e8dc652cbf06e6eef821522",
     "origin_main": "ff5e2b157ad218ff5e8dc652cbf06e6eef821522",
@@ -337,6 +337,42 @@
       "impact_on_measured_values": "None. The implementation was already correct and unchanged; the defect was in the appendix. gates/results/GATE_19_AUDIT.json is untouched.",
       "found_by": "External review of the version 3.2 package, 2026-09-16. The corrected rule order was taken from the committed grammar artifact and checked against research/gate19/auditor.py::classify_item rather than from the review, which proposed an order placing the convention check after the admission rules. That order would have been a second mismatch: the implementation evaluates unobservable_join between visible_literal and visible_split.",
       "class": "Declaration drift, as in V09 and V10. No measured value moved."
+    },
+    {
+      "id": "V15",
+      "subject": "Section 7.1 stated the direction of the grammar-enrichment bound backwards",
+      "finding": "Version 3.3 repaired the generality of this claim and left its direction wrong. The paragraph reads that the criterion errs toward calling items defective and that a monotonic extension of G_R - one adding admission rules only - could only lower the reported rate, and then concludes that monotonicity is the condition under which the rate is a lower bound. If a monotonic enrichment can only lower the unreachability rate, then the reported rate bounds the enriched rate from above: 16.1% is an upper bound over that class of grammars, not a lower one. The two halves of the same paragraph contradicted each other, and the error was in the half a reader would quote.",
+      "resolution": "The paragraph now states that a monotonic extension can only lower the reported rate, that this makes 16.1% an upper bound on the unreachability rate obtainable under any such enrichment, that it is not a bound in general, and that a revision narrowing or replacing an existing rule can move the rate in either direction. It also discloses that an earlier version stated the direction backwards. CHANGES_AND_AUDIT.md carried the same inversion in its own description of the version 3.3 fix and is corrected with it.",
+      "impact_on_measured_values": "None. The claim is about what a counterfactual grammar would do; 50/310 and 16.1% are measurements under the grammar actually declared and are unchanged.",
+      "found_by": "External review of the version 3.3 package, 2026-09-17.",
+      "class": "Reasoning defect in prose, not declaration drift. The first of its kind recorded in this file: V08 to V14 are all mismatches between a declaration and an implementation, whereas this one is a statement inconsistent with itself."
+    },
+    {
+      "id": "V16",
+      "subject": "Section 7.1 summary of the failed external audit contradicted section 5.4 and overclaimed its conclusion",
+      "finding": "Two defects in one sentence. (a) It read that the benchmark examined adds no required parameters, without the scope that section 5.4 states: 0 of 312 parameter items are required on the parameter_additions surface, but two required additions appear on a separate parameter_changes surface and two required fields appear among 11 removals. Unscoped, the summary contradicted the report two sections earlier in the same paper. (b) It called that benchmark interactive design one under which the pre-execution defect class we measure does not arise. Nothing in the survey supports that: the same paragraph states that no record could be converted into an auditable item, so no rate exists in either direction, and an interactive rights regime does not preclude a target that no rights regime makes derivable.",
+      "resolution": "The passage now scopes the required-parameter finding to the parameter_additions surface, names the two required additions and the two required removals explicitly with a pointer to section 5.4, and concludes only that the benchmark does not instantiate the specific hidden-required-field mechanism of our own surface and that its information rights differ materially from ours. It states plainly that this does not show reachability defects cannot arise under an interactive design, and that because no record became an auditable item no claim is made in either direction about that benchmark.",
+      "impact_on_measured_values": "None. No number changed; 0 of 312, the two parameter_changes additions and the two required removals are all as reported in section 5.4 and unedited.",
+      "found_by": "Defect (b) by external review of the version 3.3 package, 2026-09-17. Defect (a) was found while implementing the fix for (b), by reading section 5.4 against the sentence being corrected rather than correcting the sentence in isolation.",
+      "class": "Overclaim, plus an internal contradiction between a limitations summary and the result it summarises."
+    },
+    {
+      "id": "V17",
+      "subject": "The abstract and contribution 2 attached a 12-family count to a 310-item denominator that spans 11",
+      "finding": "The abstract read 50 of 310 argument-pair items unreachable across 12 drift families and contribution 2 read Across 12 families and 310 argument-pair items. The benchmark does have 12 drift families, which is claim C001 in the base ledger. The 310 argument-pair items do not span them: gates/results/GATE_19_AUDIT.json carries 11 family keys and item_count 310; GATE_19C_RESULT.md section C2 marks every pair column for no_equivalent as N/A with the note that it has no argument-pair items; section 3.1 of the manuscript already said 11 families, no_equivalent contributes none; and Figure 3 already drew no_equivalent as a family with no argument-pair surface. The abstract therefore disagreed with the frozen artifact, with its own figure, and with its own section 3.1.",
+      "resolution": "The abstract now reads 50 of 310 argument-pair items unreachable (16.1%), across the 11 of 12 drift families that have an argument-pair surface, and contribution 2 reads Across the 310 argument-pair items of the 11 families that have such a surface. The Appendix D provenance row for C001-C005 now reads 12 drift families, 11 of them pair-bearing, which carries the frozen value of C001 rather than replacing it.",
+      "impact_on_measured_values": "None. 310, 260, 50 and 16.1% are unchanged and no claim record changed. The value of C001 is still 12 drift families and is still true of the benchmark.",
+      "found_by": "External review of the version 3.3 package, 2026-09-17, which rated it a low-severity precision item. It is recorded here at higher severity: a number in the abstract disagreeing with the artifact it cites is the defect class this manuscript exists to document, and it survived four releases.",
+      "class": "Denominator misattribution, the same class as V03 and V13. V03 was our own conflation of three denominators; V13 was a third-party denominator dropped in transcription; this is a family count attached to the wrong surface."
+    },
+    {
+      "id": "V18",
+      "subject": "The mixed-unit power disclosure implied a formal relation between two observational units",
+      "finding": "Section 7.2 disclosed that the power calculation runs over argument-pair items while first-attempt execution scoring is case-level, then argued that the mismatch makes our cancellation decision more conservative, not less. The underlying argument is sound - the usable case-level surface is no larger than the item-level surface the calculation assumed, and is strictly smaller for tool_replacement at 0/15 against 15/35 - but the phrasing reads as a monotonicity result relating power across the two units, which was never derived and does not follow from the retention comparison alone.",
+      "resolution": "The passage now calls the pair-level calculation an optimistic planning screen and not a valid case-level power analysis, keeps the 0/15 against 15/35 comparison as the reason the smaller surface cannot pass a screen the larger one already failed, and states explicitly that this supports the cancellation decision without establishing a formal power relation across two different observational units. It ends by saying that a future case-level or paired design needs its own power analysis and that the MDE table is not one.",
+      "impact_on_measured_values": "None. The MDE table, the Wilson intervals and the CANCEL decision are unchanged.",
+      "found_by": "External review of the version 3.3 package, 2026-09-17.",
+      "class": "Precision of a disclosure that was already made. The limitation was disclosed in version 3; version 3.4 states its strength correctly."
     }
   ],
   "gate22_rule_ablation": {
@@ -474,5 +510,16 @@
     "note": "Version 3.3 changes literature positioning, three third-party citations, one third-party denominator, two overclaimed sentences in section 6, one appendix rewritten to the implemented rule order, and the conclusion's external-sample sentence. It adds no claim record and changes no claim record. No code, no gate artifact and no measured value changed.",
     "claims_unchanged": 9,
     "auditor_rerun": "Not required and not performed for this version: no input, rule, or artifact was touched. The reproduction harness of section 8 is unchanged and still verifies the same five stages."
+  },
+  "version_34_scope": {
+    "note": "Version 3.4 corrects one inverted bound direction, one sentence that overclaimed in two ways against section 5.4 of the same paper, one family count attached to the wrong denominator in the abstract and contribution 2, and one disclosure whose phrasing implied a result it had not derived. It adds one third-party citation (li2026genebench), withdraws any claim to introducing recoverability of a graded target as an evaluation concern, and sets PDF document metadata. It adds no claim record and changes no claim record. No code, no gate artifact and no measured value changed.",
+    "claims_unchanged": 9,
+    "auditor_rerun": "Not required for correctness, because no input, rule or artifact was touched. scripts/reproduce.py was nonetheless run at the version 3.4 commit before the manuscript tag was created, so the tag points at a state that was verified rather than assumed.",
+    "notes_added": [
+      "V15",
+      "V16",
+      "V17",
+      "V18"
+    ]
   }
 }

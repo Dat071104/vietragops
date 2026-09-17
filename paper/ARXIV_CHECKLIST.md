@@ -1,4 +1,4 @@
-# arXiv preparation checklist — manuscript version 3.3
+# arXiv preparation checklist — manuscript version 3.4
 
 Prepared 2026-09-16. **This package does not submit anything.** Submission is
 the owner's separate action.
@@ -16,7 +16,7 @@ the owner's separate action.
 | Cross-lists | `cs.CL` (LLM-agent and tool-use readership), `cs.AI` (agent evaluation). |
 | Alternative | `cs.CL` as primary if NLP review context is preferred. This changes the readership, not the paper's scope or claims. |
 | ACM/MSC class | Leave blank unless a target venue requires one. |
-| Comments field | `29 pages, 2 figures. Measurement and benchmark-validity case study. Manuscript artifact tag: gate22-paper-v33-20260916. Measurement evidence frozen at gate10-paper-v1-20260911.` |
+| Comments field | `30 pages, 2 figures. Measurement and benchmark-validity case study. Manuscript artifact tag: gate22-paper-v34-20260917. Measurement evidence frozen at gate10-paper-v1-20260911.` |
 | Artifact URL | `https://github.com/Dat071104/vietragops` |
 | Licence | **`CC BY 4.0`** — decided. Rationale and the one caveat are below. |
 
@@ -36,12 +36,17 @@ in this package belongs in the arXiv submission:
 - `CHANGES_AND_AUDIT.md`, `EVIDENCE_LEDGER_ADDENDUM.json`,
   `REFERENCES_VERIFIED.json`, `README.md`, and this checklist are provenance
   records for the authors and the repository, not part of the paper.
-- `build/main.pdf` is shipped in the version 3.3 package so the manuscript can
-  be read without a TeX installation. **It is not an upload candidate.** arXiv
-  compiles `main.tex` itself; submitting a PDF in place of the source gives a
-  submission arXiv will not process as LaTeX. Version 3.2 shipped no PDF for
-  exactly this reason, and version 3.3 keeps the rule while shipping the file
-  outside the source directory.
+- **No PDF is shipped with version 3.4, and none should be uploaded.** arXiv
+  compiles `main.tex` itself and asks that generated output not be included
+  alongside the source, so a `main.pdf` next to `main.tex` is both unnecessary
+  and an invitation to submit the wrong file. Version 2 shipped one and had to
+  warn against it; version 3.2 shipped none; version 3.3 shipped one under
+  `build/` with a warning; version 3.4 ships none again. The version 3.4
+  release archive is `main.tex` and nothing else, which makes the archive the
+  submission rather than a package containing it.
+- Do not upload `main.aux`, `main.log`, `main.out`, `main.toc` or any other
+  build by-product. arXiv strips or rejects them, and a local three-pass build
+  leaves all of them in the directory.
 - Do not upload raw gate artifacts, `_agent_ops/` files, or anything from the
   deployment.
 
@@ -98,22 +103,26 @@ Source: <https://info.arxiv.org/help/license/index.html>
 
 - [x] Author block set: Nguyen Thanh Dat, Ton Duc Thang University. No AI
       system listed as an author.
-- [x] Build verified: 29 pages, 0 overfull hboxes, 19 underfull, 0 LaTeX
+- [x] Build verified: 30 pages, 0 overfull hboxes, 19 underfull, 0 LaTeX
       warnings, 0 undefined references. Two benign `Infinite glue shrinkage`
       messages from longtable page splitting, which make `pdflatex` exit with
       status 1 while still producing a correct PDF; see README for the
       bisection that shows they are not content-caused. Read these counts from
-      `main.log`, not from stdout — they never appear on stdout. Version 3.3
-      added two pages of Related Work and a rewritten Appendix A; one of the
-      three longtables no longer splits, and one overfull hbox introduced by
-      the superseded-tag list was fixed with additional `\allowbreak` points
-      rather than left in.
-- [x] Bibliography: 18 entries, all verified against a primary record on
-      2026-09-12, 2026-09-14, or 2026-09-16. Verification levels recorded per
-      reference in `REFERENCES_VERIFIED.json`. One entry
+      `main.log`, not from stdout — they never appear on stdout. Version 3.4
+      added one page, between the Related Work paragraphs on GeneBench and the
+      Appendix E verification record; it introduced no overfull box.
+- [x] PDF document metadata set via `\hypersetup`: title, author, subject,
+      keywords. Previously blank. This affects the rendered file only; arXiv
+      takes its own metadata from the submission form, so the two must still be
+      kept consistent by hand.
+- [x] Bibliography: 19 entries, all verified against a primary record on
+      2026-09-12, 2026-09-14, 2026-09-16, or 2026-09-17. Verification levels
+      recorded per reference in `REFERENCES_VERIFIED.json`. One entry
       (`suh2026agentsuite`) rests on an ICML 2026 conference programme entry
-      rather than a publisher PDF or arXiv record; that is disclosed in its
-      own entry and in Appendix E.
+      rather than a publisher PDF or arXiv record; that is disclosed in its own
+      entry and in Appendix E. One entry (`li2026genebench`) is verified from
+      its full text, which is a stronger standard than the rest of the 2026
+      references received.
 - [ ] Confirm your university has no policy requiring notification before an
       affiliated preprint is posted. Most do not; it takes one email to check,
       and it is much easier to ask before than to amend after.
@@ -158,7 +167,10 @@ forgotten at submission time:
    `REFERENCES_VERIFIED.json`; it is a weaker standard than some version 2
    references received and is disclosed rather than smoothed over.
    `suh2026agentsuite` is weaker still — a conference programme entry, no
-   retrievable arXiv record, camera copy unread.
+   retrievable arXiv record, camera copy unread. The single version 3.4
+   addition (`li2026genebench`) is the exception: DOI resolved, bioRxiv API
+   record read, and the publisher-hosted PDF retrieved and its design-constraint
+   table read directly.
 
 2a. Version 3.3 withdrew pre-execution auditing as the paper's distinction,
    after an external review pointed at `luo2026identifiability` (structural
@@ -167,6 +179,15 @@ forgotten at submission time:
    item-level derivability question stated in §2.1. If a reviewer pushes on
    novelty, that narrower statement — not "first pre-execution audit" — is the
    one to defend.
+
+2b. Version 3.4 withdrew the last general form of the novelty claim, after a
+   pre-submission review pointed at GeneBench, whose design constraints require
+   that a graded target be recoverable from agent-visible data. Recoverability
+   as a principle is therefore not this paper's to claim. What is defensible is
+   the operationalisation: item-level, deterministic, under a declared
+   information-rights object and finite derivation grammar, with every typed
+   outcome committed as an artifact. If a reviewer pushes on novelty, defend
+   that and nothing wider.
 
 3. The external 20-pair sample supports representability, not specificity
    (§5.3). The strengthening it needs is a subset decidable without

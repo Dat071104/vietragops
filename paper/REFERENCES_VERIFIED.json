@@ -1,7 +1,7 @@
 {
   "schema": "gate10.references_verified.v2",
-  "verified_on": "2026-09-16",
-  "supersedes": "REFERENCES_VERIFIED.json as shipped with manuscript version 3.2 (15 references), which superseded the version 2 file (9 references)",
+  "verified_on": "2026-09-17",
+  "supersedes": "REFERENCES_VERIFIED.json as shipped with manuscript version 3.3 (18 references), which superseded the version 3.2 file (15 references), which superseded the version 2 file (9 references)",
   "verification_levels": {
     "metadata": "Title, authors, venue, year, and resolving URL/DOI checked against the primary publisher, proceedings, ACL Anthology, or arXiv record.",
     "content_claim": "The specific statement the manuscript makes about this work was checked against the work's own abstract or full text, read directly.",
@@ -265,6 +265,35 @@
       "relation_to_this_work": "The nearest prior work on the vocabulary this manuscript uses. It establishes structural identifiability auditing of an evaluation design before inference; this manuscript therefore claims no priority over pre-inference identifiability auditing. The units differ: Luo et al. ask whether a protocol separates policy classes with different estimands; this work asks whether one benchmark item's concrete expected target value is derivable from that item's granted information surface. Manuscript version 3.3 narrowed the contribution statement to the item-level question because of this work."
     },
     {
+      "key": "li2026genebench",
+      "group": "benchmark-validity auditing",
+      "added_in": "manuscript version 3.4",
+      "title": "GeneBench: Assessing AI Agents for Multi-Stage Inference Problems in Genomics and Quantitative Biology",
+      "authors": [
+        "Jeremy Li",
+        "Andrew Ho"
+      ],
+      "venue": "bioRxiv 2026.04.22.720113",
+      "year": 2026,
+      "submitted": "2026-04-23",
+      "status": "preprint",
+      "doi": "10.64898/2026.04.22.720113",
+      "url": "https://doi.org/10.64898/2026.04.22.720113",
+      "metadata": "verified",
+      "content_claim_level": "content_claim",
+      "content_claim_source": "full text",
+      "manuscript_claim": "States the principle this manuscript audits as a benchmark-construction requirement rather than as an audit. Its primary design constraints open with a block titled 'Ground truth and identifiability' requiring that agents be graded on the quantity recoverable from agent-visible data rather than on hidden data-generating parameters, and that the staged evidence plus a minimum viable prompt support one uniquely defensible answer. Enforcement is at construction time: data are simulated so the correct answer is recoverable from the staged files, and independent review of target identifiability is part of problem development.",
+      "supporting_quotes": [
+        "Agents are graded on recovering the quantity that is actually recoverable from agent-visible data, and not the hidden data-generating parameters.",
+        "The staged evidence along with a minimum viable prompt supports one uniquely defensible answer. If multiple approaches would ordinarily appear defensible, the data contain some empirical signature that rules out all but one.",
+        "The task becomes under-specified, and success depends on guessing the benchmark designer's preferred pipeline rather than reasoning from the evidence.",
+        "Data are then simulated so that the correct answer is recoverable from the staged files",
+        "Independent reviews for scientific validity, methodological soundness, and target identifiability are conducted in order to ensure that the evaluation is testing the intended capabilities rather than whether agents can guess the benchmark designer's preferred (but non-unique) workflow."
+      ],
+      "verification": "Verified 2026-09-17 by three independent routes. (1) The DOI was resolved: https://doi.org/10.64898/2026.04.22.720113 returned HTTP 302 to biorxiv.org/lookup/doi/10.64898/2026.04.22.720113. (2) The bioRxiv API record was retrieved from api.biorxiv.org/details/biorxiv/10.64898/2026.04.22.720113 and returned doi 10.64898/2026.04.22.720113, the title above, authors 'Li, J.; Ho, A.', date 2026-04-23, version 1, category genomics, published 'NA'. (3) The publisher-hosted PDF was retrieved from cdn.openai.com, its text extracted locally, and Table 1 ('Primary design constraints in GeneBench') and the problem-development paragraph read directly. Every supporting quote above is verbatim from that PDF. This is the only reference added in manuscript version 3, 3.3 or 3.4 whose content claim rests on a full text rather than on an abstract or a conference programme entry.",
+      "relation_to_this_work": "The closest statement in the literature of this manuscript's own premise, and the reason version 3.4 withdraws any claim to introducing recoverability of a graded target from method-visible information as an evaluation concern. The difference is position in time and mechanism of decision: GeneBench designs identifiability into problems while they are under construction and confirms it by independent review; this manuscript tests whether it is present in an oracle that already exists, by a deterministic per-item rule over fields, literals and construction steps under a declared information-rights object and a finite derivation grammar, with the typed outcome of every item committed as an artifact. Supplied by an external review of the version 3.3 package, not found by the author's own literature search."
+    },
+    {
       "key": "chen2025toolevo",
       "group": "agents that adapt to evolving tools",
       "title": "Learning Evolving Tools for Large Language Models",
@@ -511,15 +540,16 @@
     "external_benchmarks": "MCPEvol-Bench and DynamicMCPBench are cited for positioning only. Neither release was incorporated into the local scoreable dataset, and neither bulk dataset archive (3.4 GB and 2.58 GB respectively) was downloaded."
   },
   "residual_risk": [
-    "One of nine references (assidiqi2026referencefree) carries an unverified content level. The manuscript's positioning against it is correspondingly weak and is marked as such in Appendix E.",
+    "One of nineteen references (assidiqi2026referencefree) carries an unverified content level. The manuscript's positioning against it is correspondingly weak and is marked as such in Appendix E.",
     "Two references (chen2025toolevo, wu2026contda) were verified from abstracts rather than full text. The manuscript's claims about them are confined to statements the abstracts make directly.",
     "No reference in this manuscript is cited for a numeric result that the manuscript itself compares against. All third-party figures quoted are contextual.",
     "Version 3: the six benchmark-validity references added in this version were verified at abstract level only. Their titles, author lists, dates, categories and abstracts were read directly from arXiv; their full texts were not. They are cited for the claims their abstracts state and for positioning, not for methodological detail. This is a weaker standard than the full-text checks behind some version 2 references, and it is recorded here rather than left implicit.",
-    "Version 3.3: three references were added (tu2026benchguard, suh2026agentsuite, luo2026identifiability) after an external review found that the version 3 literature search had missed the pre-execution and identifiability framings, which is where the two closest works sit. All three were verified at abstract level; suh2026agentsuite was verified from its ICML 2026 conference programme entry rather than a publisher PDF or an arXiv record, which is the weakest metadata route used anywhere in this file, and is recorded as such in its own entry. The same review found that this file's supporting_quote for wang2026autoaudit was a paraphrase rather than a quotation, and that the paraphrase had dropped the denominator of the 25.7% figure; the quote is now verbatim from the abstract and the manuscript sentence is corrected."
+    "Version 3.3: three references were added (tu2026benchguard, suh2026agentsuite, luo2026identifiability) after an external review found that the version 3 literature search had missed the pre-execution and identifiability framings, which is where the two closest works sit. All three were verified at abstract level; suh2026agentsuite was verified from its ICML 2026 conference programme entry rather than a publisher PDF or an arXiv record, which is the weakest metadata route used anywhere in this file, and is recorded as such in its own entry. The same review found that this file's supporting_quote for wang2026autoaudit was a paraphrase rather than a quotation, and that the paraphrase had dropped the denominator of the 25.7% figure; the quote is now verbatim from the abstract and the manuscript sentence is corrected.",
+    "Version 3.4: one reference was added (li2026genebench) after an external review of the version 3.3 package found that the closest published statement of this manuscript's own premise sits inside a genomics and quantitative-biology benchmark, which neither the version 3 nor the version 3.3 literature search reached. Two consecutive releases have now had their closest related work supplied by a reader rather than by the author's search. That is a property of the search scope, and no later search has been run that would justify claiming the literature is now complete."
   ],
-  "reference_count": 18,
+  "reference_count": 19,
   "content_claim_level_counts": {
-    "content_claim": 17,
+    "content_claim": 18,
     "content_claim_unverified": 1
   }
 }

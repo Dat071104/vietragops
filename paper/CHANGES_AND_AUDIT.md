@@ -1,3 +1,301 @@
+# Version 3.4: the bound, the scope, and the closest related work
+
+Prepared 2026-09-17 against manuscript version 3.3 (repository tag
+`gate22-paper-v33-20260916`). The version 3.3 log follows below, unmodified
+apart from one correction marked in place inside defect F5, because that entry
+described its own fix in the wrong direction and leaving it standing would
+propagate the error.
+
+**No code, no gate artifact, and no measured value changed in this version.**
+The auditor was not re-run for correctness, because nothing it reads was
+touched; it was re-run anyway before the tag was created, so the tag points at
+a state that was verified rather than assumed.
+
+The pattern is now four for four, and version 3.4 makes its shape plainer than
+the earlier entries did. Version 2 asserted a rule set its implementation did
+not match. Version 3 asserted a reproduction its repository could not deliver.
+Version 3.3 asserted a distinction from the literature that the literature does
+not support. Version 3.4 asserts none of those, and instead corrects four
+statements that were checkable against artifacts and sections already in the
+package — including one sentence that version 3.3 had itself rewritten and
+left wrong. In every case the claim was checkable, nobody had checked it, and
+the error ran in the flattering direction.
+
+Two of the five items below were found by working outward from the review
+rather than by accepting it. G2 was reported as one defect and turned out to be
+two, the second of which contradicts Section 5.4 of the same paper. G3 was
+reported as a low-severity precision item and is recorded here at higher
+severity, because a number in the abstract that disagrees with the artifact it
+cites is the defect class this paper exists to document.
+
+---
+
+## Part 0a — Defects found in version 3.3
+
+### G1 — The grammar-enrichment bound was stated in the wrong direction (severity: high)
+
+**Defect.** Section 7.1 read: the criterion errs toward calling items
+defective, and a *monotonic* extension of `G_R` — one that only adds admission
+rules and tightens none — "could only lower the reported rate. A revision that
+narrowed an existing rule could raise it, so monotonicity is the condition
+under which the rate is a **lower** bound, not a property of enrichment in
+general."
+
+The first clause and the last contradict each other. If a monotonic enrichment
+can only lower the unreachability rate, then the reported rate bounds the
+enriched rate from above. Formally: for any monotonic enrichment `G_new` of
+`G_current`, `U(G_new) <= U(G_current)`, so 16.1% is an **upper** bound on the
+unreachability rate attainable under that class of grammars.
+
+**Why it survived.** Version 3.3 rewrote this exact sentence. Defect F5(a) of
+that pass correctly narrowed the claim from enrichment *in general* to
+*monotonic* enrichment, and did not re-check the direction of the bound while
+doing it. The F5 entry in the log below then described the fix in the same
+inverted terms. Narrowing the scope of a claim without re-reading its direction
+is the same inattention as quoting a paraphrase instead of a source, which is
+the root cause recorded for F1.
+
+**Fix.** The passage now says that a monotonic extension can only lower the
+reported rate, that this makes 16.1% an upper bound on the unreachability rate
+obtainable under any such enrichment, that it is not a bound in general, and
+that a revision narrowing or replacing an existing rule can move the rate in
+either direction. It discloses that an earlier version stated the direction
+backwards. Defect F5 below carries a correction note at the point of the error.
+
+**Impact on measured values.** None. 50/310 and 16.1% are measurements under
+the grammar actually declared; the corrected sentence is about what a
+counterfactual grammar would do. Note `V15`.
+
+### G2 — One limitations sentence overclaimed twice, and once against Section 5.4 (severity: high)
+
+**Defect.** Section 7.1 summarised the failed external audit as showing that
+"one published benchmark in this space adds no required parameters and
+evaluates interactively, a design under which the pre-execution defect class we
+measure does not arise."
+
+*(a) The scope was dropped.* Section 5.4 reports the finding carefully: across
+the 141 `PARAM` entries there are 312 parameter items on the
+`parameter_additions` surface, of which 0 are required. It then reports that
+**two** further required additions appear on a separate `parameter_changes`
+surface and **two** required fields appear among 11 removals. Unqualified, "adds
+no required parameters" contradicts the paper two sections earlier.
+
+*(b) The conclusion did not follow.* The same paragraph states that no record
+could be converted into an auditable item, so no rate exists in either
+direction. A feasibility failure cannot then support a claim that the defect
+class does not arise under that design. Interactivity changes the rights
+regime; it does not make derivable a target that no rights regime makes
+derivable, and the paper argues exactly that in Section 2.4.
+
+**How each was found.** (b) came from the pre-submission review. (a) came from
+reading Section 5.4 against the sentence while fixing (b), rather than editing
+the sentence in isolation. The review did not report it.
+
+**Fix.** The passage now scopes the required-parameter finding to the
+`parameter_additions` surface, names the two required additions and the two
+required removals in place with a pointer to Section 5.4, and concludes only
+that the benchmark does not instantiate the specific hidden-required-field
+mechanism of our own surface and that its information rights differ materially
+from ours. It states that this does not show reachability defects cannot arise
+under an interactive design, and that no claim is made in either direction
+because no record became an auditable item.
+
+**Impact on measured values.** None. 0 of 312, the two `parameter_changes`
+additions and the two required removals are as reported in Section 5.4 and are
+unedited. Note `V16`.
+
+### G3 — The abstract attached a 12-family count to a denominator spanning 11 (severity: high)
+
+**Defect.** The abstract read "50 of 310 argument-pair items unreachable across
+12 drift families (16.1%)" and contribution 2 read "Across 12 families and 310
+argument-pair items, 50 items (16.1%) are unreachable". The benchmark does have
+12 drift families; the 310 argument-pair items do not span them.
+
+Four records already said so:
+
+| Record | What it says |
+|---|---|
+| `gates/results/GATE_19_AUDIT.json` | `families` has 11 keys; `item_count` is 310 |
+| `gates/results/GATE_19C_RESULT.md` §C2 | 12 rows; every pair column for `no_equivalent` is `N/A`, with the note that it has no argument-pair items |
+| Manuscript §3.1 | "11 families; `no_equivalent` contributes none, because it has no argument-pair surface" |
+| Manuscript Figure 3 | draws `no_equivalent` as a family with no argument-pair surface |
+
+So the abstract disagreed with the frozen artifact it cites, with the figure on
+its own page 10, and with its own Section 3.1, across four releases.
+
+**Severity, restated.** The review rated this a low-severity precision item.
+That rating is defensible on reader impact and wrong on kind. This paper's
+standing rule is that every number traces to a committed artifact and was
+verified against it; an abstract number that disagrees with the cited artifact
+is a violation of the rule the paper is about. Recorded at high severity for
+that reason, not because the figure misleads by much.
+
+**Fix.** The abstract now reads "50 of 310 argument-pair items unreachable
+(16.1%), across the 11 of 12 drift families that have an argument-pair
+surface". Contribution 2 reads "Across the 310 argument-pair items of the 11
+families that have such a surface". The Appendix D provenance row for
+`C001`–`C005` now reads "12 drift families, 11 of them pair-bearing" — it
+carries the frozen value of `C001` rather than replacing it, because `C001` is
+"12 drift families" and that is still true of the benchmark.
+
+**Impact on measured values.** None. 310, 260, 50 and 16.1% are unchanged, and
+no claim record changed. Note `V17`.
+
+### G4 — A mixed-unit disclosure implied a result it had not derived (severity: low)
+
+**Defect.** Section 7.2 discloses that the power calculation runs over retained
+argument-pair item counts while first-attempt execution scoring is case-level,
+and then argued that "the mismatch makes our cancellation decision more
+conservative, not less". The argument behind that is sound — the usable
+case-level surface is no larger than the item-level surface the calculation
+assumed, and is strictly smaller for `tool_replacement` at 0/15 against 15/35
+— but the phrasing reads as a monotonicity result relating statistical power
+across two different observational units, which was never derived and does not
+follow from a retention comparison alone.
+
+**Fix.** The passage now calls the pair-level calculation an optimistic
+planning screen and not a valid case-level power analysis, keeps the 0/15
+against 15/35 comparison as the reason a smaller surface cannot pass a screen
+the larger one already failed, states that this supports the cancellation
+decision without establishing a formal cross-unit power relation, and ends by
+saying a future case-level or paired design needs its own power analysis and
+that the MDE table is not one.
+
+**Impact on measured values.** None. The MDE table, the Wilson intervals and
+the CANCEL decision are unchanged. Note `V18`.
+
+### G5 — The closest published statement of this paper's premise was not cited (severity: high)
+
+**Defect.** Version 3.3 added three references and recorded that the version 3
+search had missed the pre-execution and identifiability framings. It had also
+missed the closest statement of this paper's premise in the literature, which
+is not in an audit paper at all. GeneBench, a benchmark for AI agents on
+multi-stage inference problems in genomics and quantitative biology, opens its
+primary design constraints with a block titled *Ground truth and
+identifiability*. Verbatim from that table:
+
+> Agents are graded on recovering the quantity that is actually recoverable
+> from agent-visible data, and not the hidden data-generating parameters.
+
+> The staged evidence along with a minimum viable prompt supports one uniquely
+> defensible answer. If multiple approaches would ordinarily appear defensible,
+> the data contain some empirical signature that rules out all but one.
+
+and the failure mode if the second is violated:
+
+> The task becomes under-specified, and success depends on guessing the
+> benchmark designer's preferred pipeline rather than reasoning from the
+> evidence.
+
+That is this paper's premise. Enforcement is at construction time: data are
+simulated so the correct answer is recoverable from the staged files, and
+independent review of target identifiability is part of problem development.
+
+**What it costs.** Any claim that recoverability of a graded target from
+method-visible information is a new evaluation concern. Version 3.3 had already
+withdrawn *pre-execution auditing* and *protocol-level identifiability* as
+distinctions; this withdraws the principle itself. What survives is narrower and
+of a different kind: the position in time and the mechanism of decision.
+GeneBench designs identifiability into problems under construction and confirms
+it by independent review. This paper tests whether it is present in an oracle
+that already exists and was not built with the property in mind, by a
+deterministic per-item rule over fields, literals and construction steps, under
+a declared information-rights object and a finite derivation grammar, with the
+typed outcome of every item committed as an artifact.
+
+**What it does not cost.** The measurement, the auditor, the typed failure
+classes, the rights object, the grammar, the ablation, or the item-level
+evidence ledger. GeneBench states a requirement for benchmarks its authors are
+writing; it does not supply a procedure a third party can run on a benchmark
+already published, and it does not decide individual items mechanically.
+
+**Fix.** Two paragraphs at the end of Section 2.1, quoting both requirements
+and the failure mode verbatim and stating plainly that the principle is not
+ours. The priority disclaimer in Section 2.1 and the "what this paper does not
+claim" box both gain the recoverability clause. The Section 7.4 hostile
+question now names the design-time position alongside the transcript,
+construction and protocol ones. One `\bibitem`, one entry in
+`REFERENCES_VERIFIED.json`, and a verification paragraph in Appendix E.
+
+**Verification.** Three routes, all on 2026-09-17, and the only full-text check
+among the ten references added in versions 3, 3.3 and 3.4:
+
+1. `https://doi.org/10.64898/2026.04.22.720113` resolved — HTTP 302 to
+   `biorxiv.org/lookup/doi/10.64898/2026.04.22.720113`.
+2. The bioRxiv API record at
+   `api.biorxiv.org/details/biorxiv/10.64898/2026.04.22.720113` returned the
+   title above, authors `Li, J.; Ho, A.`, date `2026-04-23`, version `1`,
+   category `genomics`, published `NA`.
+3. The publisher-hosted PDF was retrieved, its text extracted locally, and
+   Table 1 and the problem-development paragraph read directly. Every quote
+   above is verbatim from that PDF, not from an abstract or a summary.
+
+**Impact on measured values.** None.
+
+---
+
+## Part 0b — What version 3.4 deliberately did not do
+
+**It did not rename the criterion.** The same reasoning as version 3.3.
+`oracle identifiability under declared information rights` is a field value
+inside committed artifacts; renaming it across them would introduce a new
+consistency risk and buy no honesty that narrowing the claim does not already
+buy. The claim is narrowed instead, in Section 2.1.
+
+**It did not upgrade `assidiqi2026referencefree`.** Still metadata-level. The
+full text was not retrieved for version 3.4 either, and asserting a full-text
+inspection in the appendix whose purpose is recording where verification
+stopped would be this paper's own documented defect. Carried forward as an
+owner action.
+
+**It did not re-open the literature search as a campaign.** One reference was
+added because a reader supplied it and it checked out. No claim is made that
+the literature is now complete, and Appendix E says so: two consecutive
+releases have had their closest related work supplied by a reader rather than
+by the author's search, which is a property of the search.
+
+**It did not ship a rendered PDF.** Version 3.3 shipped one under `build/` with
+a warning. Version 3.4 ships `main.tex` alone, because arXiv compiles the
+source itself and asks that generated output not be included beside it. The
+README records all four versions of this decision and the reason for each.
+
+---
+
+## Part 0c — Verification performed for version 3.4
+
+Every item below was run, and the result is what is stated:
+
+1. **GeneBench, three routes.** DOI resolution, bioRxiv API record, and
+   full-text PDF. Recorded in G5 above.
+2. **The family count, against four records.** `GATE_19_AUDIT.json` parsed:
+   `len(families) == 11`, `item_count == 310`, and the 11 per-family item
+   counts sum to 310. `GATE_19C_RESULT.md` §C2 read directly. Manuscript
+   §3.1 and Figure 3 read directly.
+3. **The frozen claim `C001`.** Read from
+   `gates/baselines/GATE_10_EVIDENCE_LEDGER.json`: value `12 drift families`,
+   status `observed`, locator `C2 all-family scoreable surface`. The Appendix D
+   row was written to carry that value rather than to replace it, and the
+   frozen ledger was not edited.
+4. **Section 5.4 against the Section 7.1 summary.** The two required
+   `parameter_changes` additions and the two required fields among 11 removals
+   are in Section 5.4 as reported; the Section 7.1 sentence omitted them. This
+   is how G2(a) was found.
+5. **Three-pass `pdflatex`.** 30 pages, 0 overfull hboxes, 19 underfull, 0
+   LaTeX warnings, 0 undefined references, 2 `Infinite glue shrinkage` messages
+   from the longtables ending at source lines 1775 and 1829. Counts read from
+   `main.log`, not from stdout.
+6. **PDF metadata.** `pdfinfo` on the built file: Title, Author, Subject and
+   Keywords now populated, previously blank.
+7. **`scripts/reproduce.py`.** Run at the version 3.4 commit before the tag was
+   created. Result recorded in the commit message and in the version 3.4
+   release notes.
+8. **Line-ending and manifest safety.** `git check-attr text` on every edited
+   file, and a check that no `paper/` path appears in
+   `gates/results/GATE_19_FROZEN_SOURCE_HASHES.json`. Neither the manuscript
+   nor any provenance file is among the 48 SHA-256-asserted paths.
+
+---
+
 # Version 3.3: the literature, audited
 
 Prepared 2026-09-16 against manuscript version 3.2 (repository tag
@@ -172,8 +470,15 @@ is unchanged. `gates/results/GATE_19_AUDIT.json` is untouched.
 
 **Defect (a).** "a richer `G_R` could only lower the reported rate". True of a
 *monotonic* extension — one that only adds admission rules. A revision that
-narrowed an existing rule could raise the rate. As written, the sentence claims
-the rate is a lower bound under enrichment in general, which is not so.
+narrowed an existing rule could raise the rate. As written, the sentence claimed
+a bound that holds under enrichment in general, which is not so.
+
+> **Corrected in version 3.4.** This entry, and the sentence version 3.3 wrote
+> in its place, both named the wrong direction. A rate that monotonic
+> enrichment can only lower is bounded from *above* by the reported value, so
+> 16.1% is an upper bound over monotonic enrichments, not a lower one. The 3.3
+> fix narrowed the scope of the claim and left its direction inverted. See
+> defect G1 in the version 3.4 log above, and note `V15`.
 
 **Defect (b).** "no grammar can derive a symbol it has never seen". False as
 stated: a grammar carrying a built-in convention literal can emit `::` without

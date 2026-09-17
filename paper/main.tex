@@ -27,6 +27,12 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning}
 \usepackage[hidelinks]{hyperref}
+\hypersetup{%
+  pdftitle={Unreachable Oracles: Auditing Ground-Truth Derivability in a Synthetic Tool-Drift Benchmark for LLM Agents},
+  pdfauthor={Nguyen Thanh Dat},
+  pdfsubject={Benchmark-validity auditing for LLM agent evaluation},
+  pdfkeywords={oracle reachability; benchmark validity; tool drift; LLM agents; ground-truth derivability}%
+}
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{5pt}
@@ -56,8 +62,8 @@ Auditing Ground-Truth Derivability in a Synthetic\\ Tool-Drift Benchmark for LLM
   \normalsize Ton Duc Thang University, Ho Chi Minh City, Vietnam%
 }
 
-\date{Version 3.3 --- September 16, 2026\\[2pt]
-\normalsize Manuscript pinned at repository tag \texttt{gate22-paper-v33-20260916}\\[1pt]
+\date{Version 3.4 --- September 17, 2026\\[2pt]
+\normalsize Manuscript pinned at repository tag \texttt{gate22-paper-v34-20260917}\\[1pt]
 \normalsize Measurement evidence frozen at \texttt{gate10-paper-v1-20260911}}
 
 \begin{document}
@@ -76,7 +82,8 @@ information granted before the method's first call --- and implement it as an
 offline auditor with three typed outcomes.
 
 Applied to a self-authored synthetic tool-drift sandbox, the audit finds 50 of
-310 argument-pair items unreachable across 12 drift families (16.1\%). The
+310 argument-pair items unreachable (16.1\%), across the 11 of 12 drift
+families that have an argument-pair surface. The
 defect is concentrated, not diffuse: \dfam{argument\_merge} is 0/30 because
 every target needs a \texttt{::} join that appears nowhere the method may look,
 \dfam{tool\_replacement} retains 15/35, and \dfam{argument\_split} is clean at
@@ -107,8 +114,9 @@ preregistered method result of Gate 08 was negative and is retained here as a
 disclosure, not quietly superseded. No new benchmark, and no priority claim
 over existing MCP-evolution benchmarks --- nor over benchmark-validity
 auditing, nor over auditing a benchmark before execution, nor over
-protocol-level identifiability auditing, all of which have a 2025--2026
-literature this work sits inside rather than opens
+protocol-level identifiability auditing, nor over the requirement that a graded
+target be recoverable from the information a method can see, all of which have
+a 2025--2026 literature this work sits inside rather than opens
 (Section~\ref{sec:validity}). No comparison against a state of the art,
 because no comparative campaign was run. No external validation: the 20-pair
 real-version sample is a representability check, not an independent estimate
@@ -201,8 +209,8 @@ The evidence in this manuscript supports four contributions and no more.
   both.
 
   \item \textbf{A measurement of unreachability in a synthetic drift
-  benchmark.} Across 12 families and 310 argument-pair items, 50 items
-  (16.1\%) are unreachable. The loss concentrates in two families:
+  benchmark.} Across the 310 argument-pair items of the 11 families that have
+  such a surface, 50 items (16.1\%) are unreachable. The loss concentrates in two families:
   \dfam{argument\_merge} at 0/30 and \dfam{tool\_replacement}
   at 15/35.\ledger{C001--C005, C007, C009, C017}
   The count is stable under
@@ -391,11 +399,40 @@ shared word is \emph{identifiability}, and the honest reading is that this
 paper instantiates it at item level for a tool-migration oracle rather than
 introducing it.
 
+One further work states the same principle as a benchmark-construction
+requirement rather than as an audit, and it is the closest statement of our own
+premise we have found. GeneBench's primary design constraints open with a block
+titled \emph{Ground truth and identifiability}, whose first requirement is that
+``[a]gents are graded on recovering the quantity that is actually recoverable
+from agent-visible data, and not the hidden data-generating parameters,'' and
+whose second requires that ``[t]he staged evidence along with a minimum viable
+prompt supports one uniquely defensible answer'' --- the stated failure mode
+otherwise being that ``success depends on guessing the benchmark designer's
+preferred pipeline rather than reasoning from the
+evidence''~\cite{li2026genebench}. Enforcement is at construction time: data
+are simulated so that the correct answer is recoverable from the staged files,
+and independent review of target identifiability is part of problem
+development. That settles novelty for the principle itself. Recoverability of a
+graded target from the information a method can see is not a concern this paper
+introduces, and we do not claim it.
+
+What differs is position in time and mechanism of decision. GeneBench designs
+identifiability in and confirms it by independent review; we test whether it is
+there, in an oracle that already exists and was not built with the property in
+mind, by a deterministic per-item rule over fields, literals, and construction
+steps against a declared information-rights object and a finite derivation
+grammar, with the typed outcome of every item committed as an artifact. A
+construction constraint protects the benchmark its own authors are writing. An
+audit is what a reader can run afterwards on a benchmark whose authors never
+stated such a constraint --- which describes the benchmark audited here, since
+we authored it before the criterion existed.
+
 Two consequences follow for how this paper should be read. First, we make no
 priority claim over benchmark-validity auditing, none over auditing a
-benchmark before it is executed, none over structural
-identifiability auditing, and no claim to be the first to find incorrect ground
-truths in an agent benchmark --- Wang et al.\ and Bhat et al.\ both report that
+benchmark before it is executed, none over structural identifiability auditing,
+none over the requirement that a graded target be recoverable from the
+information a method can see, and no claim to be the first to find incorrect
+ground truths in an agent benchmark --- Wang et al.\ and Bhat et al.\ both report that
 class. Second, what we offer within that established programme is specific: an
 item-level derivability criterion, a declared information-rights object and
 derivation grammar as committed artifacts, and a deterministic per-item
@@ -1262,13 +1299,16 @@ delimiter-bounded split over a fixed delimiter alphabet, and a hand-declared
 external derivation; it decides nothing about case folding, serialisation,
 arithmetic, hashing, or documented template concatenation. Under the
 fail-closed rule an item requiring any of those is classified unreachable, so
-the criterion errs toward calling items defective, and a \emph{monotonic}
-extension of $G_R$ --- one that only adds admission rules and tightens none ---
-could only lower the reported rate. A revision that narrowed an existing rule
-could raise it, so monotonicity is the condition under which the rate is a
-lower bound, not a property of enrichment in general. The 16.1\% figure should
-be read as a property of this benchmark under this rights set \emph{and} this
-grammar.
+the criterion errs toward calling items defective. A \emph{monotonic}
+extension of $G_R$ --- one that only adds admission rules and narrows none ---
+can therefore only lower the reported rate, which makes 16.1\% an \emph{upper}
+bound on the unreachability rate obtainable under any such enrichment. It is
+not a bound in general, and the direction is worth stating precisely because an
+earlier version of this section stated it backwards: a revision that narrowed
+an existing rule, or replaced one, can move the rate in either direction.
+Monotonicity is the condition under which the reported rate bounds the enriched
+one, not a property of enrichment as such. The 16.1\% figure should be read as
+a property of this benchmark under this rights set \emph{and} this grammar.
 
 We think the 50 items reported here would survive a monotonic enrichment. Forty
 of them fail on a separator that is absent from the visible surface by
@@ -1298,12 +1338,21 @@ We are equally careful about the failed external audit of
 Section~\ref{sec:pathA}. It does not show that the benchmark we examined shares
 this defect, and it does not show that it avoids it: no record could be
 converted into an auditable item, so no rate exists in either direction. What
-it does show is that one published benchmark in this space adds no required
-parameters and evaluates interactively, a design under which the
-pre-execution defect class we measure does not arise. One benchmark is not the
-field. A reader should take from
-this paper that benchmark authors can run this audit, not that other
-benchmarks share this defect.
+it does show is narrower than an earlier version of this section claimed. On
+the \texttt{parameter\_additions} surface that corresponds most closely to our
+own \dfam{added\_required\_field} family, that benchmark adds no required
+parameter at all; two required additions do appear on a separate
+\texttt{parameter\_changes} surface and two more among its removals
+(Section~\ref{sec:pathA}), which is exactly why the scope of this sentence
+matters. Its agent is also scored interactively against current schemas rather
+than before a first call. Those two facts say that this benchmark does not
+instantiate the specific hidden-required-field mechanism our own surface
+instantiates, and that its information rights differ materially from ours. They
+do not say that reachability defects cannot arise under an interactive design,
+and because no record became an auditable item we make no claim in either
+direction about whether other reachability defects occur in it. One benchmark
+is not the field. A reader should take from this paper that benchmark authors
+can run this audit, not that other benchmarks share this defect.
 
 \textbf{The criterion detects underivability only.} It says nothing about
 semantic wrongness, side effects, or behavioural equivalence. A derivable
@@ -1318,11 +1367,16 @@ pre-execution score and then marked unreachable.
 limitation and we state it plainly. The power calculation runs over retained
 argument-pair item counts, while first-attempt execution scoring is
 case-level. The two denominators are not interchangeable
-(Section~\ref{sec:units}). Because case-level retention is strictly lower than
-item-level retention on the affected families --- 0/15 against 15/35 for
-\dfam{tool\_replacement} --- the mismatch makes our cancellation decision more
-conservative, not less: the case-level surface is smaller than the surface the
-power calculation assumed. A future paired design would need its own analysis.
+(Section~\ref{sec:units}), so the pair-level calculation is an optimistic
+planning screen and not a valid case-level power analysis. What it cannot be is
+a rescue: case-level retention is strictly lower than item-level retention on
+the affected families --- 0/15 against 15/35 for \dfam{tool\_replacement} ---
+so the surface actually available is smaller than the surface the calculation
+assumed, and a screen that the larger surface already failed cannot be passed
+by the smaller one. That argument supports the cancellation decision. It does
+not establish a formal power relation across two different observational units,
+and we do not claim one. A future case-level or paired design needs its own
+power analysis, and Table~\ref{tab:power} is not one.
 
 \textbf{The intervals are wide and the anchors are historical.} The 15-item
 arms carry Wilson widths between 0.2039 and 0.4507. The anchors in
@@ -1395,11 +1449,15 @@ execution. What is left?} One item-level question, and nothing more
 (Section~\ref{sec:validity}). Transcript and evaluator audits ask whether the
 score an execution received was the right score. Construction audits ask
 whether a task is well posed. Protocol-level identifiability audits ask whether
-a measurement design separates the policies it means to compare. This one asks
-whether one expected target value --- its field, its literals, its construction
-steps --- is derivable from that item's own granted information surface under a
-declared finite grammar, and decides it mechanically per item. An item can be
-well posed, graded perfectly, and still be unanswerable. We claimed position in
+a measurement design separates the policies it means to compare. Design
+constraints can require the graded target to be recoverable from what the agent
+sees, and GeneBench states that requirement and enforces it while its problems
+are being built~\cite{li2026genebench}. This one asks whether one expected
+target value --- its field, its literals, its construction steps --- is
+derivable from that item's own granted information surface under a declared
+finite grammar, and decides it mechanically, per item, on an oracle that
+already exists. An item can be well posed, graded perfectly, and still be
+unanswerable. We claimed position in
 the pipeline in an earlier version; that claim was too broad and
 Section~\ref{sec:validity} now states the narrower one.
 
@@ -1461,21 +1519,25 @@ Section~\ref{sec:pathA} and the version~2 manuscript text. \\
 \texttt{gate22-paper-v32-20260916} & Adds the declared derivation grammar, the
 rule-ablation harness and its result, four auditor tests, and the reproduction
 repairs of this section. \\
-\texttt{gate22-paper-v33-20260916} & \textbf{Manuscript artifact tag for this
-version.} Literature and declaration corrections only: three added references, a
-corrected denominator, a narrowed Related Work claim, and an
-\hyperref[app:procedure]{Appendix~A} rewritten to the implemented rule order.
-No code, no artifact, and no measured value changed. \\
+\texttt{gate22-paper-v33-20260916} & Adds three references, corrects a quoted
+third-party denominator, narrows the Related Work claim, and rewrites
+\hyperref[app:procedure]{Appendix~A} to the implemented rule order. \\
+\texttt{gate22-paper-v34-20260917} & \textbf{Manuscript artifact tag for this
+version.} Corrections only: an inverted bound direction in
+Section~\ref{sec:limits}, two sentences that claimed more than the evidence
+carries, a family count that disagreed with the frozen audit artifact, and one
+added reference. No code, no artifact, and no measured value changed. \\
 \bottomrule
 \end{tabular}
 \end{center}
 
 \medskip
 The citable identifier for this version of the manuscript is
-\texttt{gate22-paper-v33-20260916}. Three further tags,
+\texttt{gate22-paper-v34-20260917}. Four further tags,
 \texttt{gate22-\allowbreak paper-\allowbreak v3-\allowbreak 20260914},
-\texttt{gate22-\allowbreak paper-\allowbreak v31-\allowbreak 20260916}
-and \texttt{gate22-\allowbreak paper-\allowbreak v32-\allowbreak 20260916},
+\texttt{gate22-\allowbreak paper-\allowbreak v31-\allowbreak 20260916},
+\texttt{gate22-\allowbreak paper-\allowbreak v32-\allowbreak 20260916}
+and \texttt{gate22-\allowbreak paper-\allowbreak v33-\allowbreak 20260916},
 mark superseded pre-submission states. They are retained rather than moved: a tag that has been published is a
 record of what was claimed at that moment, and rewriting one to make a later
 claim true is the move this paper argues against. Later commits may refine the
@@ -1797,7 +1859,7 @@ Keys & Claim & Primary source \\
 \endhead
 \bottomrule
 \endfoot
-C001--C005 & 12 families; 310 pair items; 260 reachable; 50 unreachable; 16.1\% & \artifact{GATE_19C_RESULT.md} \S\,C2; cross-checked against \artifact{GATE_19_AUDIT.json} \\
+C001--C005 & 12 drift families, 11 of them pair-bearing; 310 pair items; 260 reachable; 50 unreachable; 16.1\% & \artifact{GATE_19C_RESULT.md} \S\,C2; cross-checked against \artifact{GATE_19_AUDIT.json} \\
 C006--C017 & Per-family reachable/unreachable counts & \artifact{GATE_19C_RESULT.md} \S\,C2 family table \\
 C018 & Strict complete-call retention 0/15 for \dfam{added\_required\_field} and \dfam{tool\_replacement} & \artifact{GATE_19C_RESULT.md} \S\,C2 \\
 C019 & 0/20 unreachable across 20 real MCP version pairs & \artifact{GATE_19_EXTERNAL_AUDIT.json} status counts \\
@@ -1846,7 +1908,7 @@ discipline.
 \section{Reference Verification Record}
 \label{app:refs}
 
-Each cited work was checked against a primary record. Sixteen of eighteen were
+Each cited work was checked against a primary record. Seventeen of nineteen were
 verified for both bibliographic metadata and the specific content claim made
 about them in Section~\ref{sec:related}, by reading the publisher, proceedings,
 conference programme, ACL Anthology, or arXiv abstract directly. Two carry a
@@ -1904,6 +1966,31 @@ six references above; it did not reach the pre-execution and identifiability
 framings, which is where the two closest works sit. Section~\ref{sec:validity}
 now narrows the contribution accordingly, and the narrowing was prompted by an
 external review of the version~3.2 package rather than by us.
+
+The reference added in version~3.4 (\cite{li2026genebench}) was verified on
+17 September 2026 at a level none of the version~3 or version~3.3 additions
+reached, and the record says so rather than levelling it down to match them:
+its content claim rests on the full text, not on an abstract. The bibliographic
+record --- title, author list, posting date, version, and category --- was read
+from the bioRxiv API entry for DOI \texttt{10.64898/\allowbreak
+2026.04.22.720113}, and the DOI itself was resolved and observed to redirect to
+the bioRxiv record. The publisher-hosted PDF was then retrieved and its
+design-constraint table read directly. Both requirements quoted in
+Section~\ref{sec:validity}, and the failure mode quoted with them, are verbatim
+from that table; the construction-time enforcement described alongside them is
+verbatim from the same paper's account of problem development. No journal
+publication is recorded at that DOI, and the work is cited as the preprint it
+is.
+
+Why it was absent from version~3.3 is the same class of miss twice over.
+Version~3.3's search was scoped to agent-benchmark auditing and to
+\emph{identifiability} as that word is used in the LLM-evaluation literature.
+This work states the principle inside a genomics and quantitative-biology
+benchmark, which that scope did not reach. It was found by an external review
+of the version~3.3 package, as the three version~3.3 additions were found by an
+external review of version~3.2. Two consecutive releases have now had their
+closest related work supplied by a reader rather than by the author's own
+search, which is a fact about the search.
 
 The machine-readable record, including per-reference verification notes and
 the third-party license record, ships with this source as
@@ -2012,6 +2099,13 @@ Junhao Luo, Ning Huang, Ziqi Sha, Wenxuan Tang, and Wei Deng.
 LLM Reasoning Evaluation.''
 arXiv:2608.13326 [cs.CL], 13 August 2026.
 \url{https://arxiv.org/abs/2608.13326}
+
+\bibitem{li2026genebench}
+Jeremy Li and Andrew Ho.
+``GeneBench: Assessing AI Agents for Multi-Stage Inference Problems in Genomics
+and Quantitative Biology.''
+bioRxiv 2026.04.22.720113, 23 April 2026.
+\url{https://doi.org/10.64898/2026.04.22.720113}
 
 \bibitem{chen2025toolevo}
 Guoxin Chen, Zhong Zhang, Xin Cong, Fangda Guo, Yesai Wu, Yankai Lin,
